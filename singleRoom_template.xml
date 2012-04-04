@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+
+<Model
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    UniqueId="18b76430-d783-48a1-8536-71373e03fc79"
+    FileVer="1"
+    Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727"
+    CreateTime="2011-12-15T13:45:15.3864975+09:00"
+    Name="単室モデル"
+    Description="基準値計算用単室モデル"
+    Type="事務所等"
+    Region="IVb"
+    Area="100">
+
+    <Rooms>
+        <Room ID="RE01" Name="単室" Type="事務室" Count="1" Area="100" FloorHeight="2.8" Height="3.5" Depth="10" />
+    </Rooms>
+
+    <AirConditioningSystem>
+        <AirConditioningRoom ID="RA01" RoomIDs="RE01" EnvelopeID="RA01ext">
+            <AirHandlingUnitRef ID="AHUE" Load="Room" />
+            <AirHandlingUnitRef ID="AHUE" Load="OutsideAir" />
+        </AirConditioningRoom>
+
+        <Envelope ID="RA01ext">
+             <Wall WallConfigure="AIJ_A" WallArea="100" WindowType="SNGL72" WindowArea="100" Direction="STH" />
+        </Envelope>
+
+        <HeatSourceSet ID="RC" Mode="Cooling" ThermalStorage="False" QuantityControl="True">
+            <HeatSource Order="1" Type="直焚吸収冷温水器（ニ重効用）" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="675" CTFanPower="3.75" CTPumpPower="7.5" />
+        </HeatSourceSet>
+
+        <HeatSourceSet ID="RH" Mode="Heating" ThermalStorage="False" QuantityControl="True">
+            <HeatSource Order="1" Type="直焚吸収冷温水器（ニ重効用）" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="0" CTFanPower="0" CTPumpPower="0" />
+        </HeatSourceSet>
+
+        <SecondaryPump ID="PSC" Mode="Cooling" Count="1" RatedFlow="90" RatedPower="0" FlowControl="CWV" QuantityControl="True" />
+        <SecondaryPump ID="PSH" Mode="Heating" Count="1" RatedFlow="90" RatedPower="0" FlowControl="CWV" QuantityControl="False" />
+
+        <AirHandlingUnit
+            ID="AHUE"
+            Name="単室空調機"
+            Type="空調機"
+            CoolingCapacity="523"
+            HeatingCapacity="523"
+            SupplyAirVolume="80000"
+            SupplyFanPower="37.5"
+            ReturnFanPower="37.5"
+            OutsideAirFanPower="22"
+            FlowControl="CAV"
+            MinDamperOpening="100"
+            OutsideAirCutControl="True"
+            FreeCoolingControl="False"
+            HeatExchanger="False"
+            HeatExchangerEfficiency="0.2"
+            HeatExchangerPower="0.15">
+            <HeatSourceSetRef CoolingID="RC" HeatingID="RH"/>
+            <SecondaryPumpRef CoolingID="PSC" HeatingID="PSH"/>
+        </AirHandlingUnit>
+
+    </AirConditioningSystem>
+
+</Model>

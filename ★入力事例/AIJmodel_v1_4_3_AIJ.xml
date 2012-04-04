@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" UniqueId="1bb0e1af-135d-4310-93b7-1bcb59a9439f" FileVer="1" Signature="Name=WebUI, Version=1.0.0.0, RuntimeVersion=v4.0.30319" CreateTime="2012-01-31T14:03:26.3854281+09:00" Name="標準問題・事務所" Description="建築学会標準モデル" Type="事務所等" Region="IVb" Area="9000">
+
+  <Rooms>
+    <Room ID="R0" Name="基準階事務室A（東側）" Type="事務室" Area="3020.58" FloorHeight="2.8" Height="3.5" Depth="10" Count="10" />
+    <Room ID="R4" Name="基準階事務室E（西側）" Type="事務室" Area="3020.58" FloorHeight="2.8" Height="3.5" Depth="10" Count="10" />
+  </Rooms>
+
+  <AirConditioningSystem>
+
+    <AirConditioningRoom ID="AR00" Name="グループA" RoomIDs="R0" EnvelopeID="E0">
+      <AirHandlingUnitRef ID="AHU0" Load="Room" />
+      <AirHandlingUnitRef ID="AHU0" Load="OutsideAir" />
+    </AirConditioningRoom>
+
+    <AirConditioningRoom ID="AR01" Name="グループB" RoomIDs="R4" EnvelopeID="E1">
+      <AirHandlingUnitRef ID="AHU1" Load="Room" />
+      <AirHandlingUnitRef ID="AHU1" Load="OutsideAir" />
+    </AirConditioningRoom>
+
+    <HeatSourceSet ID="HSS0" Name="熱源A" Mode="Cooling" ThermalStorage="False" QuantityControl="True">
+      <HeatSource Order="First" Type="Rtype11" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="675" CTFanPower="3.75" CTPumpPower="7.5" />
+      <HeatSource Order="Second" Type="Rtype11" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="675" CTFanPower="3.75" CTPumpPower="7.5" />
+    </HeatSourceSet>
+
+    <HeatSourceSet ID="HSS1" Name="熱源B" Mode="Heating" ThermalStorage="False" QuantityControl="True">
+      <HeatSource Order="First" Type="Rtype11" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="0" CTFanPower="0" CTPumpPower="0" />
+      <HeatSource Order="Second" Type="Rtype11" Capacity="530" MainPower="45" SubPower="10.8" PrimaryPumpPower="7.4" CTCapacity="0" CTFanPower="0" CTPumpPower="0" />
+    </HeatSourceSet>
+
+    <SecondaryPump ID="SP0" Name="二次ポンプ名称A" Mode="Cooling" Count="1" RatedFlow="90" RatedPower="15" FlowControl="VWV" QuantityControl="True" />
+    <SecondaryPump ID="SP1" Name="二次ポンプ名称B" Mode="Cooling" Count="1" RatedFlow="90" RatedPower="15" FlowControl="VWV" QuantityControl="False" />
+    <SecondaryPump ID="SP2" Name="二次ポンプ名称C" Mode="Heating" Count="1" RatedFlow="90" RatedPower="15" FlowControl="VWV" QuantityControl="True" />
+    <SecondaryPump ID="SP3" Name="二次ポンプ名称D" Mode="Heating" Count="1" RatedFlow="90" RatedPower="15" FlowControl="VWV" QuantityControl="True" />
+
+    <AirHandlingUnit ID="AHU0" Name="基準階東側" Type="AHU" CoolingCapacity="523" HeatingCapacity="523" SupplyAirVolume="80000" SupplyFanPower="37.5" ReturnFanPower="37.5" OutsideAirFanPower="0" MinDamperOpening="0.2" OutsideAirCutControl="True" FreeCoolingControl="False" FlowControl="VAV" HeatExchanger="False" HeatExchangerEfficiency="0" HeatExchangerPower="0">
+      <HeatSourceSetRef CoolingID="HSS0" HeatingID="HSS1" />
+      <SecondaryPumpRef CoolingID="SP0" HeatingID="SP2" />
+    </AirHandlingUnit>
+    <AirHandlingUnit ID="AHU1" Name="基準階西側" Type="AHU" CoolingCapacity="523" HeatingCapacity="523" SupplyAirVolume="80000" SupplyFanPower="37.5" ReturnFanPower="37.5" OutsideAirFanPower="0" MinDamperOpening="0.2" OutsideAirCutControl="True" FreeCoolingControl="False" FlowControl="VAV" HeatExchanger="False" HeatExchangerEfficiency="0" HeatExchangerPower="0">
+      <HeatSourceSetRef CoolingID="HSS0" HeatingID="HSS1" />
+      <SecondaryPumpRef CoolingID="SP1" HeatingID="SP3" />
+    </AirHandlingUnit>
+
+    <Envelope ID="E0" Name="AAAA">
+      <Wall WallConfigure="AIJ_A" WallArea="190.02" WindowType="SNGL72_0" WindowArea="12.96" Blind="None" Direction="STH" Eaves="None" />
+      <Wall WallConfigure="AIJ_B" WallArea="120.3" WindowType="SNGL72_0" WindowArea="0" Blind="None" Direction="STH" Eaves="None" />
+      <Wall WallConfigure="AIJ_A" WallArea="380.04" WindowType="SNGL72_0" WindowArea="25.92" Blind="None" Direction="WST" Eaves="None" />
+      <Wall WallConfigure="AIJ_B" WallArea="240.6" WindowType="SNGL72_0" WindowArea="0" Blind="None" Direction="WST" Eaves="None" />
+      <Wall WallConfigure="AIJ_A" WallArea="190.02" WindowType="SNGL72_0" WindowArea="12.96" Blind="None" Direction="NTH" Eaves="None" />
+    </Envelope>
+
+    <Envelope ID="E1" Name="BBBB">
+      <Wall WallConfigure="AIJ_A" WallArea="190.02" WindowType="SNGL72_0" WindowArea="12.96" Blind="None" Direction="STH" Eaves="None" />
+      <Wall WallConfigure="AIJ_B" WallArea="120.3" WindowType="SNGL72_0" WindowArea="0" Blind="None" Direction="STH" Eaves="None" />
+      <Wall WallConfigure="AIJ_A" WallArea="380.04" WindowType="SNGL72_0" WindowArea="25.92" Blind="None" Direction="EST" Eaves="None" />
+      <Wall WallConfigure="AIJ_B" WallArea="240.6" WindowType="SNGL72_0" WindowArea="0" Blind="None" Direction="EST" Eaves="None" />
+      <Wall WallConfigure="AIJ_A" WallArea="190.02" WindowType="SNGL72_0" WindowArea="12.96" Blind="None" Direction="NTH" Eaves="None" />
+    </Envelope>
+
+  </AirConditioningSystem>
+
+  <LightingSystem>
+    <LightingRoom ID="LR1" RoomIDs="RF4E" Width="12.5" Depth="24.5" Height="4.5">
+      <LightingRef ID="LIT1" />
+    </LightingRoom>
+    <LightingRoom ID="LR2" RoomIDs="RF4W" Width="12.5" Depth="24.5" Height="4.5">
+      <LightingRef ID="LIT2" />
+      <LightingRef ID="LIT3" />
+    </LightingRoom>
+    <LightingUnit ID="LIT1" Power="32" Count="40" ControlFlags="C11,C12,C131" />
+    <LightingUnit ID="LIT2" Power="32" Count="13" ControlFlags="C11,C12" />
+    <LightingUnit ID="LIT3" Power="32" Count="72" ControlFlags="C52" />
+  </LightingSystem>
+
+  <Elevators>
+    <Elevator Name="EV1" Count="1" LoadLimit="1234.67" Velocity="0.34" ControlType="可変電圧可変周波数制御方式（電力回生制御ありギアレス巻上機）" />
+    <Elevator Name="EV2" Count="1" LoadLimit="1234.67" Velocity="0.34" ControlType="可変電圧可変周波数制御方式（電力回生制御あり）" />
+  </Elevators>
+
+</Model>

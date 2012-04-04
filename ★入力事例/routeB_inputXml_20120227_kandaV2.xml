@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Area="100" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVb" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" Type="事務所等" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room Area="302.058" Count="1" Depth="10" Floor="XXX" FloorHeight="2.8" Height="3.5" ID="ROOM1" Info="XXX" Name="1F_基準階事務室A（東側）" Type="事務室"/>
+      <Room Area="302.058" Count="1" Depth="10" Floor="XXX" FloorHeight="2.8" Height="3.5" ID="ROOM2" Info="XXX" Name="1F_基準階事務室A（西側）" Type="事務室"/>
+      <Room Area="302.058" Count="1" Depth="10" Floor="XXX" FloorHeight="2.8" Height="3.5" ID="ROOM3" Info="XXX" Name="2F_基準階事務室A（東側）" Type="事務室"/>
+      <Room Area="302.058" Count="1" Depth="10" Floor="XXX" FloorHeight="2.8" Height="3.5" ID="ROOM4" Info="XXX" Name="2F_基準階事務室A（西側）" Type="事務室"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningRoom EnvelopeID="1F_基準階事務室A（東側）" ID="Z001" RoomIDs="ROOM1">
+         <AirHandlingUnitRef ID="AHU0" Load="Room"/>
+         <AirHandlingUnitRef ID="AHU0" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="1F_基準階事務室A（西側）" ID="Z002" RoomIDs="ROOM2">
+         <AirHandlingUnitRef ID="AHU1" Load="Room"/>
+         <AirHandlingUnitRef ID="AHU1" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="2F_基準階事務室A（東側）" ID="Z003" RoomIDs="ROOM3">
+         <AirHandlingUnitRef ID="AHU0" Load="Room"/>
+         <AirHandlingUnitRef ID="AHU0" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="2F_基準階事務室A（西側）" ID="Z004" RoomIDs="ROOM4">
+         <AirHandlingUnitRef ID="AHU1" Load="Room"/>
+         <AirHandlingUnitRef ID="AHU1" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <Envelope ID="1F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="1F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="2F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="2F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="3F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="3F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="4F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="4F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="5F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="5F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="6F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="6F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="7F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="7F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="8F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="8F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="9F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="9F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="10F_基準階事務室A（東側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <Envelope ID="10F_基準階事務室A（西側）">
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="S" Eaves="Any" WallArea="120.3" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="380.04" WallConfigure="AIJ_A" WindowArea="25.92" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="E" Eaves="Any" WallArea="240.6" WallConfigure="AIJ_B" WindowArea="0" WindowType="SNGL72_0"/>
+         <Wall Blind="None" Direction="N" Eaves="Any" WallArea="190.02" WallConfigure="AIJ_A" WindowArea="12.96" WindowType="SNGL72_0"/>
+      </Envelope>
+      <HeatSourceSet ID="HSS0_C" Mode="Cooling" QuantityControl="True" ThermalStorage="False">
+         <HeatSource CTCapacity="675" CTFanPower="3.75" CTPumpPower="7.5" Capacity="530" Count="1" MainPower="45" Order="First" PrimaryPumpPower="7.4" SubPower="10.8" Type="Rtype11"/>
+         <HeatSource CTCapacity="675" CTFanPower="3.75" CTPumpPower="7.5" Capacity="530" Count="1" MainPower="45" Order="Second" PrimaryPumpPower="7.4" SubPower="10.8" Type="Rtype11"/>
+      </HeatSourceSet>
+      <HeatSourceSet ID="HSS0_H" Mode="Heating" QuantityControl="True" ThermalStorage="False">
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="530" Count="1" MainPower="45" Order="First" PrimaryPumpPower="7.4" SubPower="10.8" Type="Rtype11"/>
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="530" Count="1" MainPower="45" Order="Second" PrimaryPumpPower="7.4" SubPower="10.8" Type="Rtype11"/>
+      </HeatSourceSet>
+      <SecondaryPump Count="1" FlowControl="VWV" ID="SP1_C" Mode="Cooling" Name="SP1" QuantityControl="True" RatedFlow="90" RatedPower="15" deltaTemp="5"/>
+      <SecondaryPump Count="1" FlowControl="VWV" ID="SP1_H" Mode="Heating" Name="SP1" QuantityControl="True" RatedFlow="90" RatedPower="15" deltaTemp="5"/>
+      <SecondaryPump Count="1" FlowControl="VWV" ID="SP2_C" Mode="Cooling" Name="SP2" QuantityControl="True" RatedFlow="90" RatedPower="15" deltaTemp="5"/>
+      <SecondaryPump Count="1" FlowControl="VWV" ID="SP2_H" Mode="Heating" Name="SP2" QuantityControl="True" RatedFlow="90" RatedPower="15" deltaTemp="5"/>
+      <AirHandlingUnit CoolingCapacity="523" Count="1" ExitFanPower="0" FlowControl="VAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0" HeatingCapacity="523" ID="AHU0" MinDamperOpening="0.2" Name="AHU0_基準階東側" OutsideAirCutControl="False" OutsideAirFanPower="0" ReturnFanPower="37.5" SupplyAirVolume="80000" SupplyFanPower="37.5" Type="AHU">
+         <HeatSourceSetRef CoolingID="HSS0_C" HeatingID="HSS0_H"/>
+         <SecondaryPumpRef CoolingID="SP1_C" HeatingID="SP1_H"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="523" Count="1" ExitFanPower="0" FlowControl="VAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0" HeatingCapacity="523" ID="AHU1" MinDamperOpening="0.2" Name="AHU1_基準階東側" OutsideAirCutControl="False" OutsideAirFanPower="0" ReturnFanPower="37.5" SupplyAirVolume="80000" SupplyFanPower="37.5" Type="AHU">
+         <HeatSourceSetRef CoolingID="HSS0_C" HeatingID="HSS0_H"/>
+         <SecondaryPumpRef CoolingID="SP2_C" HeatingID="SP2_H"/>
+      </AirHandlingUnit>
+   </AirConditioningSystem>
+</model>

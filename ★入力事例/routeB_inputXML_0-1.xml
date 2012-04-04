@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Area="100" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVb" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" Type="事務所等" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room Area="21.125" Count="1" Depth="10" Floor="XXX" FloorHeight="3.8" Height="3.1" ID="ROOM1" Info="XXX" Name="1F_打合せスペース" Type="会議室"/>
+      <Room Area="48.8" Count="1" Depth="10" Floor="XXX" FloorHeight="3.8" Height="3.1" ID="ROOM2" Info="XXX" Name="1F_ホール" Type="ロビー"/>
+      <Room Area="442.32" Count="1" Depth="10" Floor="XXX" FloorHeight="3.8" Height="2.8" ID="ROOM3" Info="XXX" Name="1F_事務室" Type="事務室"/>
+      <Room Area="12.6" Count="1" Depth="10" Floor="XXX" FloorHeight="3.6" Height="2.6" ID="ROOM4" Info="XXX" Name="2F_ホール" Type="ロビー"/>
+      <Room Area="442.32" Count="1" Depth="10" Floor="XXX" FloorHeight="3.6" Height="2.6" ID="ROOM5" Info="XXX" Name="2F_事務室" Type="事務室"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningRoom EnvelopeID="1F_打合せスペース" ID="Z001" RoomIDs="ROOM1">
+         <AirHandlingUnitRef ID="PA12" Load="Room"/>
+         <AirHandlingUnitRef ID="PA12" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="1F_ホール" ID="Z002" RoomIDs="ROOM2">
+         <AirHandlingUnitRef ID="PA12" Load="Room"/>
+         <AirHandlingUnitRef ID="PA12" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="1F_事務室" ID="Z003" RoomIDs="ROOM3">
+         <AirHandlingUnitRef ID="PA11" Load="Room"/>
+         <AirHandlingUnitRef ID="PA11" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="2F_ホール" ID="Z004" RoomIDs="ROOM4">
+         <AirHandlingUnitRef ID="PA22" Load="Room"/>
+         <AirHandlingUnitRef ID="PA22" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <AirConditioningRoom EnvelopeID="2F_事務室" ID="Z005" RoomIDs="ROOM5">
+         <AirHandlingUnitRef ID="PA21" Load="Room"/>
+         <AirHandlingUnitRef ID="PA21" Load="OutsideAir"/>
+      </AirConditioningRoom>
+      <Envelope ID="1F_打合せスペース">
+         <Wall Blind="Bright" Direction="N" Eaves="Any" WallArea="11.04" WallConfigure="OW1J" WindowArea="1.5" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="W" Eaves="Any" WallArea="13.6" WallConfigure="OW1J" WindowArea="11.1" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="Any" WallArea="21.125" WallConfigure="IF4J" WindowArea="0" WindowType="None"/>
+      </Envelope>
+      <Envelope ID="1F_ホール">
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="6.03" WallConfigure="OW1J" WindowArea="25.7" WindowType="WNDW1_0"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="Any" WallArea="48.8" WallConfigure="IF4J" WindowArea="0" WindowType="None"/>
+      </Envelope>
+      <Envelope ID="1F_事務室">
+         <Wall Blind="Bright" Direction="N" Eaves="Any" WallArea="50.4" WallConfigure="OW1J" WindowArea="40.8" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="E" Eaves="Any" WallArea="65.51" WallConfigure="OW1J" WindowArea="4.6" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="Any" WallArea="50.4" WallConfigure="OW1J" WindowArea="40.8" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="Any" WallArea="442.32" WallConfigure="IF4J" WindowArea="0" WindowType="None"/>
+      </Envelope>
+      <Envelope ID="2F_ホール">
+         <Wall Blind="None" Direction="W" Eaves="Any" WallArea="10.08" WallConfigure="OW1J" WindowArea="0" WindowType="None"/>
+      </Envelope>
+      <Envelope ID="2F_事務室">
+         <Wall Blind="Bright" Direction="N" Eaves="Any" WallArea="50.4" WallConfigure="OW1J" WindowArea="36" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="E" Eaves="Any" WallArea="62.32" WallConfigure="OW1J" WindowArea="4.1" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="Any" WallArea="50.4" WallConfigure="OW1J" WindowArea="36" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="Any" WallArea="442.32" WallConfigure="RF1J" WindowArea="0" WindowType="None"/>
+      </Envelope>
+      <HeatSourceSet ID="PA1_C" Mode="Cooling" QuantityControl="False" ThermalStorage="False">
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="112" Count="1" MainPower="32" Order="First" PrimaryPumpPower="0" SubPower="3.75" Type="Rtype18"/>
+      </HeatSourceSet>
+      <HeatSourceSet ID="PA2_C" Mode="Cooling" QuantityControl="False" ThermalStorage="False">
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="73" Count="1" MainPower="16.9" Order="First" PrimaryPumpPower="0" SubPower="2.25" Type="Rtype18"/>
+      </HeatSourceSet>
+      <HeatSourceSet ID="PA1_H" Mode="Heating" QuantityControl="False" ThermalStorage="False">
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="125" Count="1" MainPower="32" Order="First" PrimaryPumpPower="0" SubPower="3.75" Type="Rtype18"/>
+      </HeatSourceSet>
+      <HeatSourceSet ID="PA2_H" Mode="Heating" QuantityControl="False" ThermalStorage="False">
+         <HeatSource CTCapacity="0" CTFanPower="0" CTPumpPower="0" Capacity="82.5" Count="1" MainPower="16.9" Order="First" PrimaryPumpPower="0" SubPower="2.25" Type="Rtype18"/>
+      </HeatSourceSet>
+      <AirHandlingUnit CoolingCapacity="5.6" Count="12" ExitFanPower="0" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0" HeatingCapacity="6.3" ID="PA11" MinDamperOpening="1" Name="PAC-1-1_1階事務室" OutsideAirCutControl="False" OutsideAirFanPower="0.056" ReturnFanPower="0" SupplyAirVolume="960" SupplyFanPower="0.056" Type="UNIT">
+         <HeatSourceSetRef CoolingID="PA1_C" HeatingID="PA1_H"/>
+         <SecondaryPumpRef CoolingID="NaN" HeatingID="NaN"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="14" Count="3" ExitFanPower="0" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerEfficiency="0" HeatExchangerPower="0" HeatingCapacity="16" ID="PA12" MinDamperOpening="1" Name="PAC-1-2_1階打合せSP+ﾎｰﾙ" OutsideAirCutControl="False" OutsideAirFanPower="0" ReturnFanPower="0" SupplyAirVolume="2070" SupplyFanPower="0.12" Type="UNIT">
+         <HeatSourceSetRef CoolingID="PA1_C" HeatingID="PA1_H"/>
+         <SecondaryPumpRef CoolingID="NaN" HeatingID="NaN"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5.6" Count="12" ExitFanPower="0" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0" HeatingCapacity="6.3" ID="PA21" MinDamperOpening="1" Name="PAC-2-1_2階事務室" OutsideAirCutControl="False" OutsideAirFanPower="0.056" ReturnFanPower="0" SupplyAirVolume="960" SupplyFanPower="0.056" Type="UNIT">
+         <HeatSourceSetRef CoolingID="PA2_C" HeatingID="PA2_H"/>
+         <SecondaryPumpRef CoolingID="NaN" HeatingID="NaN"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="2.8" Count="1" ExitFanPower="0" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerEfficiency="0" HeatExchangerPower="0" HeatingCapacity="3.2" ID="PA22" MinDamperOpening="1" Name="PAC-2-2_2階ﾎｰﾙ" OutsideAirCutControl="False" OutsideAirFanPower="0" ReturnFanPower="0" SupplyAirVolume="780" SupplyFanPower="0.056" Type="UNIT">
+         <HeatSourceSetRef CoolingID="PA2_C" HeatingID="PA2_H"/>
+         <SecondaryPumpRef CoolingID="NaN" HeatingID="NaN"/>
+      </AirHandlingUnit>
+   </AirConditioningSystem>
+</model>
