@@ -9,7 +9,7 @@ addpath('subfunction')
 tic
 
 
-for iRESION = 1:8
+for iRESION = [1,8]
     
     % ケースファイル読み込み
     if iRESION == 1 || iRESION == 2
@@ -247,6 +247,7 @@ for iRESION = 1:8
                     
                     OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.Order       = 'First';
                     OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.Type        = caseSet(14);
+                    OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.Count       = '1';
                     OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.Capacity    = num2str(caseSet{15}*Sf);
                     OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.MainPower   = num2str(caseSet{16}*Sf);
                     OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(1).ATTRIBUTE.SubPower    = num2str(caseSet{17}*Sf);
@@ -262,6 +263,7 @@ for iRESION = 1:8
                     if strcmp(caseSet{21},'NaN') == 0
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.Order       = 'Second';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.Type        = caseSet(21);
+                        OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.Count       = '1';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.Capacity    = num2str(caseSet{22}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.MainPower   = num2str(caseSet{23}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(2).ATTRIBUTE.SubPower    = num2str(caseSet{24}*Sf);
@@ -278,6 +280,7 @@ for iRESION = 1:8
                     if strcmp(caseSet{28},'NaN') == 0
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.Order       = 'Third';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.Type        = caseSet(28);
+                        OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.Count       = '1';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.Capacity    = num2str(caseSet{29}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.MainPower   = num2str(caseSet{30}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(1).HeatSource(3).ATTRIBUTE.SubPower    = num2str(caseSet{31}*Sf);
@@ -312,6 +315,7 @@ for iRESION = 1:8
                     
                     OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.Order       = 'First';
                     OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.Type        = caseSet(37);
+                    OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.Count       = '1';
                     OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.Capacity    = num2str(caseSet{38}*Sf);
                     OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.MainPower   = num2str(caseSet{39}*Sf);
                     OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(1).ATTRIBUTE.SubPower    = num2str(caseSet{40}*Sf);
@@ -327,6 +331,7 @@ for iRESION = 1:8
                     if strcmp(caseSet{44},'NaN') == 0
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.Order       = 'Second';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.Type        = caseSet(44);
+                        OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.Count       = '1';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.Capacity    = num2str(caseSet{45}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.MainPower   = num2str(caseSet{46}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(2).ATTRIBUTE.SubPower    = num2str(caseSet{47}*Sf);
@@ -343,6 +348,7 @@ for iRESION = 1:8
                     if strcmp(caseSet{51},'NaN') == 0
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.Order       = 'Third';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.Type        = caseSet(51);
+                        OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.Count       = '1';
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.Capacity    = num2str(caseSet{52}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.MainPower   = num2str(caseSet{53}*Sf);
                         OUTPUT.AirConditioningSystem.HeatSourceSet(2).HeatSource(3).ATTRIBUTE.SubPower    = num2str(caseSet{54}*Sf);
@@ -411,6 +417,7 @@ for iRESION = 1:8
                     end
                     OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.CoolingCapacity    = num2str(caseSet{69}*Sf);
                     OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.HeatingCapacity    = num2str(caseSet{70}*Sf);
+                    OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.Count              = '1';
                     OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.SupplyAirVolume    = num2str(caseSet{71}*Sf);
                     OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.SupplyFanPower     = num2str(caseSet{69}*Sf/caseSet{72});
                     OUTPUT.AirConditioningSystem.AirHandlingUnit(1).ATTRIBUTE.ReturnFanPower     = '0';
@@ -456,6 +463,7 @@ for iRESION = 1:8
                         end
                         OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.CoolingCapacity    = num2str(caseSet{78}*Sf);
                         OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.HeatingCapacity    = num2str(caseSet{79}*Sf);
+                        OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.Count              = '1';
                         OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.SupplyAirVolume    = num2str(caseSet{80}*Sf);
                         OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.SupplyFanPower     = num2str(caseSet{78}*Sf/caseSet{81});
                         OUTPUT.AirConditioningSystem.AirHandlingUnit(2).ATTRIBUTE.ReturnFanPower     = '0';
@@ -553,20 +561,20 @@ for iRESION = 1:8
                     
                     if iBLDG == 3
                         if iMODEL == 1 && iDIRECTION == 1
-                            y = ECS_routeB_run_v10('test.xml','OFF');
-%                             delete test.xml
+                            y = ECS_routeB_AC_run_v11('test.xml','OFF');
+                            delete test.xml
                             tmpresENERGY = [tmpresENERGY,y(1)];
                             tmpresQcool  = [tmpresQcool, y(2)];
                             tmpresQheat  = [tmpresQheat, y(3)];
-                            tmpresEffi   = [tmpresEffi, y(14)];
+                            tmpresEffi   = [tmpresEffi, y(16)];
                         end
                     else
-                        y = ECS_routeB_run_v10('test.xml','OFF');
-%                         delete test.xml
+                        y = ECS_routeB_AC_run_v11('test.xml','OFF');
+                        delete test.xml
                         tmpresENERGY = [tmpresENERGY,y(1)];
                         tmpresQcool  = [tmpresQcool, y(2)];
                         tmpresQheat  = [tmpresQheat, y(3)];
-                        tmpresEffi   = [tmpresEffi, y(14)];
+                        tmpresEffi   = [tmpresEffi, y(16)];
                     end
                     
                 end

@@ -27,8 +27,6 @@ end
 
 % 地域
 climateAREA = model.ATTRIBUTE.Region;
-% 建物用途
-% buildingType = model.ATTRIBUTE.BuildingType;
 
 % データベースファイル
 filename_calendar             = './database/CALENDAR.csv';   % カレンダー
@@ -57,35 +55,35 @@ ULLLIST = [0.159,0.191,0.191,0.599;
 % 気象データの読み込み
 switch climateAREA
     case 'Ia'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
     case 'Ib'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
     case 'II'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_II.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_II.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
     case 'III'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_III.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_III.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
     case 'IVa'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8660.*OAdataAll(:,1) + 1.665;
     case 'IVb'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8516.*OAdataAll(:,1) + 2.473;
     case 'V'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_V.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_V.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.9223.*OAdataAll(:,1) + 2.097;
     case 'VI'
-        [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
+        [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         TWdata = 0.6921.*OAdataAll(:,1) + 7.167;
     otherwise
@@ -290,7 +288,6 @@ for iROOM = 1:length(roomArea)
         end
     end
     if Qsr_std(iROOM) == 0
-        iROOM
         error('給湯負荷が見つかりません')
     end
 end
@@ -391,14 +388,12 @@ y(2) = E_eqpSUMperAREA;
 %% 簡易出力
 % 出力するファイル名
 if isempty(strfind(inputfilename,'/'))
-    eval(['resfilenameS = ''calcRES_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameS = ''calcRES_HW_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
 else
     tmp = strfind(inputfilename,'/');
-    eval(['resfilenameS = ''calcRES',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameS = ''calcRES_HW_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
 csvwrite(resfilenameS,y);
-
-
 
 
 %% 詳細出力
@@ -416,13 +411,12 @@ if OutputOptionVar == 1
         RES2 = [RES2,Qsr_eqp_daily(:,iEQP),Qs_eqp_daily(:,iEQP),Qs_solargain(:,iEQP),Qh_eqp_daily(:,iEQP),Qp_eqp(:,iEQP),E_eqp(:,iEQP),NaN*ones(365,1)];
     end
     
-    
     % 出力するファイル名
     if isempty(strfind(inputfilename,'/'))
-        eval(['resfilenameD = ''calcRESdetail_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+        eval(['resfilenameD = ''calcRESdetail_HW_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
     else
         tmp = strfind(inputfilename,'/');
-        eval(['resfilenameD = ''calcRESdetail_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+        eval(['resfilenameD = ''calcRESdetail_HW_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
     end
     
     % 結果格納用変数
