@@ -153,15 +153,14 @@ end
 
 
 %% êßå‰ï‚ê≥åWêîÇÃåàíË
-
-% hosei_C1 = ones(1,numofUnit);
-% hosei_C2 = ones(1,numofUnit);
-% hosei_C3 = ones(1,numofUnit);
-% hosei_C4 = ones(1,numofUnit);
-% hosei_C1_name = cell(1,numofUnit);
-% hosei_C2_name = cell(1,numofUnit);
-% hosei_C3_name = cell(1,numofUnit);
-% hosei_C4_name = cell(1,numofUnit);
+hosei_C1 = ones(1,numofUnit);
+hosei_C2 = ones(1,numofUnit);
+hosei_C3 = ones(1,numofUnit);
+hosei_C4 = ones(1,numofUnit);
+hosei_C1_name = cell(1,numofUnit);
+hosei_C2_name = cell(1,numofUnit);
+hosei_C3_name = cell(1,numofUnit);
+hosei_C4_name = cell(1,numofUnit);
 
 for iUNIT = 1:numofUnit
     
@@ -262,7 +261,7 @@ if isempty(strfind(inputfilename,'/'))
     eval(['resfilenameS = ''calcRES_L_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
 else
     tmp = strfind(inputfilename,'/');
-    eval(['resfilenameS = ''calcRES_L',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameS = ''calcRES_L_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
 csvwrite(resfilenameS,y);
 
