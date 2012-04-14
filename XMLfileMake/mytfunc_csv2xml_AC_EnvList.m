@@ -29,7 +29,22 @@ end
 for iENV = 11:size(envListDataCell,1)
     
     % 外皮セットの情報
-    xmldata.AirConditioningSystem.Envelope(iENV-10).ATTRIBUTE.ID = strcat(envListDataCell(iENV,1),'_',envListDataCell(iENV,2));
+    xmldata.AirConditioningSystem.Envelope(iENV-10).ATTRIBUTE.ACZoneFloor = envListDataCell(iENV,1);
+    xmldata.AirConditioningSystem.Envelope(iENV-10).ATTRIBUTE.ACZoneName  = envListDataCell(iENV,2);
+    
+    check = 0;
+    for iDB = 1:length(xmldata.AirConditioningSystem.AirConditioningZone)
+        tmpFloor = xmldata.AirConditioningSystem.AirConditioningZone(iDB).ATTRIBUTE.ACZoneFloor;
+        tmpName  = xmldata.AirConditioningSystem.AirConditioningZone(iDB).ATTRIBUTE.ACZoneName;
+        tmpID    = xmldata.AirConditioningSystem.AirConditioningZone(iDB).ATTRIBUTE.ID;
+        if strcmp(tmpFloor,envListDataCell(iENV,1)) && strcmp(tmpName,envListDataCell(iENV,2))
+            check = 1;
+            xmldata.AirConditioningSystem.Envelope(iENV-10).ATTRIBUTE.ACZoneID  = tmpID;
+        end
+    end
+    if check == 0
+        error('空調ゾーンが見つかりません。')
+    end
     
     envCount = 0;
     
@@ -101,18 +116,17 @@ for iENV = 11:size(envListDataCell,1)
                 
             else
                 % 窓タイプ(デフォルト）
-                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowType    = 'None';
+                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowType    = 'Null';
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowArea    = '0';
-                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Blind         = 'None';
+                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Blind         = 'Null';
                 envListDataCell{iENV,5+8*(iENVELE-1)+7} = '0';
             end
             
             % 外壁タイプ
             xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WallConfigure = envListDataCell(iENV,5+8*(iENVELE-1)+3);
             
-            % 外壁面積（外皮面積ー窓面積）
-            xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WallArea...
-                = num2str( str2double(envListDataCell{iENV,5+8*(iENVELE-1)+5}) - str2double(envListDataCell{iENV,5+8*(iENVELE-1)+7}) );
+            % 外壁面積
+            xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WallArea = envListDataCell(iENV,5+8*(iENVELE-1)+5);
             
         end
     end

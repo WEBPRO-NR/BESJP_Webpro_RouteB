@@ -1,5 +1,5 @@
 % mytfunc_csv2xml_L.m
-%                                             by Masato Miyata 2012/04/02
+%                                             by Masato Miyata 2012/04/14
 %------------------------------------------------------------------------
 % 省エネ基準：照明設定ファイルを作成する。
 %------------------------------------------------------------------------
@@ -128,33 +128,56 @@ for iUNIT = 11:size(LightDataCell,1)
 end
 
 % XMLファイル生成
+roomNum = 0;
+
 for iUNIT = 1:size(LightPower,1)
-    
-    eval(['xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.ID = ''LUnit_',int2str(iUNIT),''';'])
-    
-    [RoomID,BldgType,RoomType,RoomArea,~,RoomHeight,RoomWidth,RoomDepth] = ...
-        mytfunc_roomIDsearch(xmldata,roomFloor{iUNIT},roomName{iUNIT});
-    
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomIDs    = RoomID;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomFloor  = roomFloor{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomName   = roomName{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.BldgType   = BldgType;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomType   = RoomType;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomArea   = RoomArea;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomHeight = RoomHeight;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomWidth  = RoomWidth;
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomDepth  = RoomDepth;
-    
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.RoomIndex       = LightRoomIndex{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.UnitType        = LightUnitType{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.UnitName        = LightUnitName{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.Power           = LightPower{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.Count           = LightCount{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C1  = LightControlFlag_C1{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C2  = LightControlFlag_C2{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C3  = LightControlFlag_C3{iUNIT};
-    xmldata.LightingSystems.LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C4  = LightControlFlag_C4{iUNIT};
-    
+   
+    if strcmp(roomName(iUNIT),'Null') == 0
+        roomNum = roomNum + 1;
+        unitNum = 1;
+        
+        % 室を検索
+        [RoomID,BldgType,RoomType,RoomArea,~,RoomHeight,RoomWidth,RoomDepth] = ...
+            mytfunc_roomIDsearch(xmldata,roomFloor{iUNIT},roomName{iUNIT});
+        
+        % 室の属性を格納
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomIDs    = RoomID;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomFloor  = roomFloor{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomName   = roomName{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.BldgType   = BldgType;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomType   = RoomType;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomArea   = RoomArea;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomHeight = RoomHeight;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomWidth  = RoomWidth;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomDepth  = RoomDepth;
+        xmldata.LightingSystems.LightingRoom(roomNum).ATTRIBUTE.RoomIndex  = LightRoomIndex{iUNIT};
+        
+        % ユニット情報
+        eval(['xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ID = ''LUnit_',int2str(iUNIT),''';'])
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.UnitType        = LightUnitType{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.UnitName        = LightUnitName{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.Power           = LightPower{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.Count           = LightCount{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C1  = LightControlFlag_C1{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C2  = LightControlFlag_C2{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C3  = LightControlFlag_C3{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C4  = LightControlFlag_C4{iUNIT};
+        
+    else
+        
+        unitNum = unitNum + 1;
+        % ユニット情報
+        eval(['xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ID = ''LUnit_',int2str(iUNIT),''';'])
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.UnitType        = LightUnitType{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.UnitName        = LightUnitName{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.Power           = LightPower{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.Count           = LightCount{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C1  = LightControlFlag_C1{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C2  = LightControlFlag_C2{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C3  = LightControlFlag_C3{iUNIT};
+        xmldata.LightingSystems.LightingRoom(roomNum).LightingUnit(unitNum).ATTRIBUTE.ControlFlag_C4  = LightControlFlag_C4{iUNIT};
+        
+    end
 end
 
 

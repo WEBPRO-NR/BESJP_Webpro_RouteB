@@ -94,6 +94,7 @@ if isempty(CONFIG.AirConditioningSystem.WCON) == 0 && isempty(CONFIG.AirConditio
     
 end
 
+
 % 給湯(機器)のファイルを読み込み
 if isempty(CONFIG.HotwaterSystems.Boiler) == 0
     xmldata = mytfunc_csv2xml_HW_UnitList(xmldata,CONFIG.HotwaterSystems.Boiler);
@@ -111,12 +112,7 @@ end
 
 % 換気(FAN)のファイルを読み込み
 if isempty(CONFIG.VentilationSystems.Fan) == 0
-    xmldata = mytfunc_csv2xml_Vfan_UnitList(xmldata,CONFIG.VentilationSystems.Fan);
-end
-
-% 換気(AC)のファイルを読み込み
-if isempty(CONFIG.VentilationSystems.AC) == 0
-    xmldata = mytfunc_csv2xml_Vac_UnitList(xmldata,CONFIG.VentilationSystems.AC);
+    xmldata = mytfunc_csv2xml_V(xmldata,CONFIG.VentilationSystems.Fan,CONFIG.VentilationSystems.AC);
 end
 
 % 昇降機のファイルを読み込み
@@ -124,10 +120,8 @@ if isempty(CONFIG.Elevators) == 0
     xmldata = mytfunc_csv2xml_EV(xmldata,CONFIG.Elevators);
 end
 
-
 % XMLファイル生成
 xml_write(outputfilename, xmldata, 'model');
-
 
 toc
 

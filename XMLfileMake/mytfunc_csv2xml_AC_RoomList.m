@@ -23,76 +23,101 @@ for i=1:length(roomDefData)
     end
 end
 
-% 情報の抜出(まずは単純に抜き出す。空白行は直上の情報をコピーする)
-ahuZoneName = {};
-ahuZoneType = {};
-ahuZoneFH   = [];
-ahuZoneRH   = [];
-ahuZoneArea = [];
-ahuZoneQroom = {};
-ahuZoneQoa   = {};
+% 空調ゾーンリストの作成
+ZoneList_Floor = {};
+ZoneList_Name  = {};
+ZoneList_AHUR  = {};
+ZoneList_AHUO  = {};
 
-roomFloor = {};
-roomName  = {};
-
-count = 0;
-for iRoom = 11:size(roomDefDataCell,1)
-    
-    % 空欄の場合は、直上をコピー(室の統合)
-    if isempty(roomDefDataCell{iRoom,8}) && isempty(roomDefDataCell{iRoom,9})
-        if iRoom == 11
-            error('空調室定義：一番最初の空調ゾーンが空白です')
+for iROOM = 11:size(roomDefDataCell,1)
+    if isempty(ZoneList_Name)
+        if isempty(roomDefDataCell{iROOM,8}) == 0
+            ZoneList_Floor = roomDefDataCell(iROOM,8);
         else
-            roomFloor{count,end+1} = roomDefDataCell{iRoom,1};
-            roomName{count,end+1}  = roomDefDataCell{iRoom,2};
+            ZoneList_Floor = 'Null';
+        end
+        ZoneList_Name  = roomDefDataCell(iROOM,9);
+        
+        if isempty(roomDefDataCell{iROOM,12}) == 0
+            ZoneList_AHUR  = roomDefDataCell(iROOM,12);
+        else
+            ZoneList_AHUR  = 'Null';
+        end
+        
+        if isempty(roomDefDataCell{iROOM,13}) == 0
+            ZoneList_AHUO  = roomDefDataCell(iROOM,13);
+        else
+            ZoneList_AHUO  = 'Null';
         end
     else
-        
-        count = count + 1;
-        
-        % 空調ゾーン名 (階数_室名)
-        eval(['tmpname = ''',roomDefDataCell{iRoom,8},'_',roomDefDataCell{iRoom,9},''';'])
-        ahuZoneName  = [ahuZoneName;tmpname];
-        
-        % 室負荷を処理する空調機
-        ahuZoneQroom = [ahuZoneQroom; roomDefDataCell{iRoom,12}];
-        % 外気負荷を処理する空調機
-        ahuZoneQoa   = [ahuZoneQoa; roomDefDataCell{iRoom,13}];
-        
-        roomFloor{count,1} = roomDefDataCell{iRoom,1};
-        roomName{count,1}  = roomDefDataCell{iRoom,2};
-        
-    end
-end
-
-% XMLファイル生成
-for iZone = 1:size(ahuZoneName,1)
-    
-    % ID
-    eval(['xmldata.AirConditioningSystem.AirConditioningRoom(iZone).ATTRIBUTE.ID  = ''Zone',int2str(iZone),''';'])
-    
-    tmpIDs = {};
-    for iROOM = 1:length(roomName(iZone,:))
-        if isempty(roomName{iZone,iROOM}) == 0
-            tmpID = mytfunc_roomsearch(xmldata,roomFloor{iZone,iROOM},roomName{iZone,iROOM});
-            if isempty(tmpIDs)
-                tmpIDs = tmpID;
+        check = 0;
+        for iDB = 1:length(ZoneList_Name)
+            if strcmp(ZoneList_Floor(iDB),roomDefDataCell(iROOM,8)) && ...
+                    strcmp(ZoneList_Name(iDB),roomDefDataCell(iROOM,9))
+                % 重複判定
+                check = 1;
+            end
+        end
+        if check == 0
+            % ゾーン名追加
+            if isempty(roomDefDataCell{iROOM,8}) == 0 
+                ZoneList_Floor = [ZoneList_Floor; roomDefDataCell(iROOM,8)];
             else
-                tmpIDs = strcat(tmpIDs,',',tmpID);
+                ZoneList_Floor = [ZoneList_Floor; 'Null'];
+            end
+            
+            ZoneList_Name  = [ZoneList_Name; roomDefDataCell(iROOM,9)];
+            
+            if isempty(roomDefDataCell{iROOM,12}) == 0
+                ZoneList_AHUR  = [ZoneList_AHUR; roomDefDataCell(iROOM,12)];
+            else
+                ZoneList_AHUR  = [ZoneList_AHUR; 'Null'];
+            end
+            
+            if isempty(roomDefDataCell{iROOM,13}) == 0
+                ZoneList_AHUO  = [ZoneList_AHUO; roomDefDataCell(iROOM,13)];
+            else
+                ZoneList_AHUO  = [ZoneList_AHUO; 'Null'];
             end
         end
     end
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).ATTRIBUTE.RoomIDs         = tmpIDs;
+end
+
+% XMLに格納
+for iZONE = 1:length(ZoneList_Name)
     
-    % 外皮ID（ゾーン名を入れる）
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).ATTRIBUTE.EnvelopeID  = ahuZoneName{iZone};
+    eval(['xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ID = ''ACZone_',int2str(iZONE),''';'])
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneFloor = ZoneList_Floor(iZONE);
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneName  = ZoneList_Name(iZONE);
     
     % 空調機参照（室内負荷処理用）
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).AirHandlingUnitRef(1).ATTRIBUTE.Load = 'Room';
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).AirHandlingUnitRef(1).ATTRIBUTE.ID = ahuZoneQroom(iZone);
-    % 空調機参照（外気処理用）
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).AirHandlingUnitRef(2).ATTRIBUTE.Load = 'OutsideAir';
-    xmldata.AirConditioningSystem.AirConditioningRoom(iZone).AirHandlingUnitRef(2).ATTRIBUTE.ID = ahuZoneQoa(iZone);
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(1).ATTRIBUTE.Load = 'Room';
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(1).ATTRIBUTE.ID = ZoneList_AHUR(iZONE);
     
+    % 空調機参照（外気処理用）
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(2).ATTRIBUTE.Load = 'OutsideAir';
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(2).ATTRIBUTE.ID = ZoneList_AHUO(iZONE);
+    
+    Rcount = 0;
+    for iDB = 11:size(roomDefDataCell,1)
+        if  strcmp(roomDefDataCell(iDB,8),ZoneList_Floor(iZONE)) && ...
+                strcmp(roomDefDataCell(iDB,9),ZoneList_Name(iZONE))
+            
+            % 室を検索
+            [RoomID,BldgType,RoomType,RoomArea,FloorHeight,RoomHeight,~,~] = ...
+                mytfunc_roomIDsearch(xmldata,roomDefDataCell(iDB,1),roomDefDataCell(iDB,2));
+            
+            Rcount = Rcount + 1;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.ID           = RoomID;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomFloor    = roomDefDataCell(iDB,1);
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomName     = roomDefDataCell(iDB,2);
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.BuildingType = BldgType;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomType     = RoomType;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.FloorHeight  = FloorHeight;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomHeight   = RoomHeight;
+            xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomArea     = RoomArea;
+
+        end        
+    end
 end
 

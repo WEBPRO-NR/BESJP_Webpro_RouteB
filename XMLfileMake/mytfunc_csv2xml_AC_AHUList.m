@@ -6,7 +6,6 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_AHUList(xmldata,filename)
 
-
 ahuListData = textread(filename,'%s','delimiter','\n','whitespace','');
 
 % 空調機定義ファイルの読み込み
@@ -31,22 +30,25 @@ for iAHU = 11:size(ahuListDataCell,1)
     % 空調機ID
     xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ID = ahuListDataCell(iAHU,1);
     
-    % 空調機名称（機器表の記号＋系統名）
-    if isempty(ahuListDataCell{iAHU,2}) == 0 && isempty(ahuListDataCell{iAHU,3}) == 0
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Name = strcat(ahuListDataCell(iAHU,2),'_',ahuListDataCell(iAHU,3));
-    elseif isempty(ahuListDataCell{iAHU,2}) == 0
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Name = strcat(ahuListDataCell(iAHU,2));
-    elseif isempty(ahuListDataCell{iAHU,3}) == 0
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Name = strcat(ahuListDataCell(iAHU,3));
+    % 機器表の記号
+    if isempty(ahuListDataCell{iAHU,2}) == 0 
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Name = ahuListDataCell(iAHU,2);
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Name = 'Null';
     end
     
+    % 系統名
+    if isempty(ahuListDataCell{iAHU,3}) == 0
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.System = ahuListDataCell(iAHU,3);
+    else
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.System = 'Null';
+    end
+        
     % 空調機台数
     if isempty(ahuListDataCell{iAHU,4}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Count = ahuListDataCell(iAHU,4);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Count = '1';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Count = 'Null';
     end
     
     % 空調機種類
@@ -60,67 +62,66 @@ for iAHU = 11:size(ahuListDataCell,1)
         elseif strcmp(ahuListDataCell(iAHU,5),'全熱交ユニット') || strcmp(ahuListDataCell(iAHU,5),'AEX') || strcmp(ahuListDataCell(iAHU,5),'ＡＥＸ')
             xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'AEX';
         else
-            ahuListDataCell{iAHU,5}
-            error('空調機タイプが不正です・')
+            error('空調機タイプ %s は不正です',ahuListDataCell{iAHU,5})
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'AHU';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'Null';
     end
     
     % 冷房能力
     if isempty(ahuListDataCell{iAHU,6}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.CoolingCapacity = ahuListDataCell(iAHU,6);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.CoolingCapacity = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.CoolingCapacity = 'Null';
     end
     
     % 暖房能力
     if isempty(ahuListDataCell{iAHU,7}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatingCapacity = ahuListDataCell(iAHU,7);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatingCapacity = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatingCapacity = 'Null';
     end
     
     % 給気風量
     if isempty(ahuListDataCell{iAHU,8}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyAirVolume = ahuListDataCell(iAHU,8);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyAirVolume = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyAirVolume = 'Null';
     end
     
     % 給気ファン消費電力
     if isempty(ahuListDataCell{iAHU,9}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyFanPower  = ahuListDataCell(iAHU,9);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyFanPower = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.SupplyFanPower = 'Null';
     end
     
     % 還気ファン消費電力
     if isempty(ahuListDataCell{iAHU,10}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ReturnFanPower  = ahuListDataCell(iAHU,10);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ReturnFanPower = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ReturnFanPower = 'Null';
     end
     
     % 外気ファン消費電力
     if isempty(ahuListDataCell{iAHU,11}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.OutsideAirFanPower  = ahuListDataCell(iAHU,11);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.OutsideAirFanPower = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.OutsideAirFanPower = 'Null';
     end
     
     % 排気ファン消費電力
     if isempty(ahuListDataCell{iAHU,12}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ExitFanPower = ahuListDataCell(iAHU,12);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ExitFanPower = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.ExitFanPower = 'Null';
     end
     
     % 風量制御
     if isempty(ahuListDataCell{iAHU,13}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = ahuListDataCell(iAHU,13);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'CAV';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'Null';
     end
     
     % VAV最小開度 [-]
@@ -135,7 +136,7 @@ for iAHU = 11:size(ahuListDataCell,1)
             error('VAV最小開度は％で指定してください。')
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.MinDamperOpening = '1';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.MinDamperOpening = 'Null';
     end
     
     % 外気カット制御
@@ -148,7 +149,7 @@ for iAHU = 11:size(ahuListDataCell,1)
             error('外気カット制御の設定が不正です。「有」か「無」で指定してください。')
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.OutsideAirCutControl = 'False';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.OutsideAirCutControl = 'Null';
     end
     
     % 外気冷房制御
@@ -161,7 +162,7 @@ for iAHU = 11:size(ahuListDataCell,1)
             error('外気冷房の設定が不正です。「有」か「無」で指定してください。')
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FreeCoolingControl = 'False';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FreeCoolingControl = 'Null';
     end
     
     % 全熱交制御
@@ -174,14 +175,14 @@ for iAHU = 11:size(ahuListDataCell,1)
             error('全熱交換機の設定が不正です。「有」か「無」で指定してください。')
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchanger = 'False';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchanger = 'Null';
     end
     
     % 全熱交換風量
     if isempty(ahuListDataCell{iAHU,18}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerVolume = ahuListDataCell(iAHU,18);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerVolume = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerVolume = 'Null';
     end
     
     % 全熱交換機効率
@@ -195,27 +196,27 @@ for iAHU = 11:size(ahuListDataCell,1)
             error('全熱交換効率は％で指定してください。')
         end
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerEfficiency = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerEfficiency = 'Null';
     end
     
     % 全熱交バイパス
     if isempty(ahuListDataCell{iAHU,18}) == 0
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'True';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = ahuListDataCell(iAHU,18);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'False';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'Null';
     end
     
     % 全熱交換機ロータ消費電力
     if isempty(ahuListDataCell{iAHU,21}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerPower = ahuListDataCell(iAHU,21);
     else
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerPower = '0';
+        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerPower = 'Null';
     end
     
     % ポンプ接続（冷）
     if isempty(ahuListDataCell{iAHU,22}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingID = ...
-            strcat(ahuListDataCell(iAHU,22),'_C');
+            strcat(ahuListDataCell(iAHU,22));
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingID = 'Null';
     end
@@ -223,7 +224,7 @@ for iAHU = 11:size(ahuListDataCell,1)
     % ポンプ接続（温）
     if isempty(ahuListDataCell{iAHU,23}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingID = ...
-            strcat(ahuListDataCell(iAHU,23),'_H');
+            strcat(ahuListDataCell(iAHU,23));
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingID = 'Null';
     end
@@ -231,7 +232,7 @@ for iAHU = 11:size(ahuListDataCell,1)
     % 熱源接続（冷）
     if isempty(ahuListDataCell{iAHU,24}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingID = ...
-            strcat(ahuListDataCell(iAHU,24),'_C');
+            strcat(ahuListDataCell(iAHU,24));
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingID = 'Null';
     end
@@ -239,7 +240,7 @@ for iAHU = 11:size(ahuListDataCell,1)
     % 熱源接続（温）
     if isempty(ahuListDataCell{iAHU,25}) == 0
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingID = ...
-            strcat(ahuListDataCell(iAHU,25),'_H');
+            strcat(ahuListDataCell(iAHU,25));
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingID = 'Null';
     end
