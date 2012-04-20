@@ -200,8 +200,14 @@ for iAHU = 11:size(ahuListDataCell,1)
     end
     
     % 全熱交バイパス
-    if isempty(ahuListDataCell{iAHU,18}) == 0
-        xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = ahuListDataCell(iAHU,18);
+    if isempty(ahuListDataCell{iAHU,20}) == 0
+        if strcmp(ahuListDataCell(iAHU,20),'有')
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'True';
+        elseif strcmp(ahuListDataCell(iAHU,20),'無')
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'False';
+        else
+            error('全熱交換機のバイパスの有無は「有」か「無」で指定してください。')
+        end
     else
         xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.HeatExchangerBypass = 'Null';
     end

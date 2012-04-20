@@ -77,14 +77,15 @@ for iENV = 11:size(envListDataCell,1)
             elseif strcmp(envListDataCell(iENV,5+8*(iENVELE-1)+1),'地中')
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Direction   = 'Underground';
             else
+                envListDataCell(iENV,5+8*(iENVELE-1)+1)
                 error('方位が不正です。')
             end
             
             % 庇
             if strcmp(envListDataCell(iENV,5+8*(iENVELE-1)+2),'■')
-                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Eaves   = 'None';
-            else
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Eaves   = 'Any';
+            else
+                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Eaves   = 'None';
             end
             
             % 窓種類
@@ -118,7 +119,7 @@ for iENV = 11:size(envListDataCell,1)
                 % 窓タイプ(デフォルト）
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowType    = 'Null';
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowArea    = '0';
-                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Blind         = 'Null';
+                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Blind         = 'None';
                 envListDataCell{iENV,5+8*(iENVELE-1)+7} = '0';
             end
             

@@ -88,9 +88,9 @@ for iREFSET = 1:length(RefListName)
     end
     
     if strcmp(RefListQuantityConrol_Cooling(iREFSET,1),'—L')
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol_Cooling = 'True';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl_Cooling = 'True';
     else
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol_Cooling = 'False';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl_Cooling = 'False';
     end
     
     if strcmp(RefListThermalStorage_Heating(iREFSET,1),'—L')
@@ -100,9 +100,9 @@ for iREFSET = 1:length(RefListName)
     end
     
     if strcmp(RefListQuantityConrol_Heating(iREFSET,1),'—L')
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol_Heating = 'True';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl_Heating = 'True';
     else
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol_Heating = 'False';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl_Heating = 'False';
     end
     
     iCOUNT = 0;

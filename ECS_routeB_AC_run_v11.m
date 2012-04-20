@@ -9,7 +9,8 @@
 % function y = ECS_routeB_AC_run_v11(INPUTFILENAME,OutputOption)
 
 clear
-INPUTFILENAME = 'OfficeVI_case23S.xml';
+clc
+INPUTFILENAME = 'output.xml';
 OutputOption = 'ON';
 
 
@@ -21,7 +22,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
 
 % 計算モード（1:newHASPによる時刻別計算、2:newHASPによる日別計算、3:簡略法による日別計算）
 MODE = 2;

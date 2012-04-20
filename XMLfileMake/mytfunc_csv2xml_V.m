@@ -301,12 +301,12 @@ for iROOM = 1:size(RoomList,1)
         mytfunc_roomIDsearch(xmldata,RoomList{iROOM,1},RoomList{iROOM,2});
     
     % 室の属性を格納
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomIDs    = RoomID;
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomFloor  = RoomList{iROOM,1};
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomName   = RoomList{iROOM,2};
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.BldgType   = BldgType;
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomType   = RoomType;
-    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomArea   = RoomArea;
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomIDs      = RoomID;
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomFloor    = RoomList{iROOM,1};
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomName     = RoomList{iROOM,2};
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.BuildingType = BldgType;
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomType     = RoomType;
+    xmldata.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomArea     = RoomArea;
     
     % ユニット数をカウント
     if iscell(UnitList{iROOM}) == 1

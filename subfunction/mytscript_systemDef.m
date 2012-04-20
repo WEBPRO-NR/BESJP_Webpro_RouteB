@@ -15,48 +15,11 @@ end
 %----------------------------------
 % 空調室のパラメータ
 for iROOM = 1:numOfRoooms
-    
-    roomElementContents = [];
-    % 室要素接続
-    if isempty(strfind(roomElements{iROOM},','))  % 一要素だけの場合
-        roomElementContents{1} = roomElements{iROOM};
-    else
-        conma = strfind(roomElements{iROOM},',');
-        for iSTR = 1:length(conma)+1
-            if iSTR == 1
-                roomElementContents{iSTR} = roomElements{iROOM}(1:conma(iSTR)-1);
-            elseif iSTR == length(conma)+1
-                roomElementContents{iSTR} = roomElements{iROOM}(conma(iSTR-1)+1:end);
-            else
-                roomElementContents{iSTR} = roomElements{iROOM}(conma(iSTR-1)+1:conma(iSTR)-1);
-            end
-        end
-    end
-    
-    % 室要素の行列番号探索
-    roomElementContentsNum = ones(1,length(roomElementContents));
-    for iROOMEL = 1:length(roomElementContents)
-        for iELEMENTS = 1:length(roomElementName)
-            if strcmp(roomElementContents{iROOMEL},roomElementName{iELEMENTS})
-                roomElementContentsNum(iROOMEL) = iELEMENTS;
-            end
-        end
-    end
-    
-    roomArea(iROOM) = 0;
-    for iROOMEL = roomElementContentsNum
-        roomArea(iROOM)   = roomArea(iROOM) + roomElementArea(iROOMEL);   % 室面積（要素の和）
-        
-        roomType{iROOM}   = roomElementType{iROOMEL};   % 室用途（全要素同じでなければいけない）
-        roomCount(iROOM)   = roomElementCount(iROOMEL);  % 室数（全要素同じでなければいけない）
-        roomFloorHeight(iROOM) = roomElementFloorHeight(iROOMEL); % 階高（全要素同じでなければいけない）
-        roomHeight(iROOM) = roomElementHeight(iROOMEL); % 室高（全要素同じでなければいけない）
-    end
-    
+
     % 建物用途と室用途リストを検索
     roomTime_start_p1_1 = [];
     for iDB = 2:size(perDB_RoomType,1)
-        if strcmp(perDB_RoomType(iDB,4),BuildingType) &&...
+        if strcmp(perDB_RoomType(iDB,2),buildingType{iROOM}) &&...
                 strcmp(perDB_RoomType(iDB,5),roomType{iROOM})
             
             % 各室の空調開始・終了時刻
@@ -70,39 +33,21 @@ for iROOM = 1:numOfRoooms
             roomTime_stop_p2_2   = str2double(cell2mat(perDB_RoomType(iDB,21))); % パターン2_空調終了時刻(2)
             
             % カレンダー番号
-            if strcmp(cell2mat(perDB_RoomType(iDB,7)),'A')
+            if strcmp(cell2mat(perDB_RoomType(iDB,7)),'A') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'1')
                 roomClarendarNum(iROOM) = 1;
-            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'B')
+            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'B') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'2')
                 roomClarendarNum(iROOM) = 2;
-            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'C')
+            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'C') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'3')
                 roomClarendarNum(iROOM) = 3;
-            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'D')
+            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'D') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'4')
                 roomClarendarNum(iROOM) = 4;
-            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'E')
+            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'E') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'5')
                 roomClarendarNum(iROOM) = 5;
-            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'F')
+            elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'F') || strcmp(cell2mat(perDB_RoomType(iDB,7)),'6')
                 roomClarendarNum(iROOM) = 6;
             else
-                
-                % 旧データベース対応
-                if strcmp(cell2mat(perDB_RoomType(iDB,7)),'1')
-                    roomClarendarNum(iROOM) = 1;
-                elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'2')
-                    roomClarendarNum(iROOM) = 2;
-                elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'3')
-                    roomClarendarNum(iROOM) = 3;
-                elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'4')
-                    roomClarendarNum(iROOM) = 4;
-                elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'5')
-                    roomClarendarNum(iROOM) = 5;
-                elseif strcmp(cell2mat(perDB_RoomType(iDB,7)),'6')
-                    roomClarendarNum(iROOM) = 6;
-                else
-                    
-                    perDB_RoomType(iDB,7)
-                    error('カレンダーナンバーが不正です')
-                    
-                end
+                perDB_RoomType(iDB,7)
+                error('カレンダーナンバーが不正です')
             end
             
             % 外気導入量 [m3/h/m2]
@@ -110,6 +55,7 @@ for iROOM = 1:numOfRoooms
         end
     end
     if isempty(roomTime_start_p1_1)
+        buildingType{iROOM}
         roomType{iROOM}
         error('室用途が見つかりません')
     end
@@ -158,30 +104,210 @@ for iROOM = 1:numOfRoooms
     end
     
     % 外気取り入れ量 [m3/h] → [kg/s]  <室数をかける>
-    roomVoa(iROOM) = roomVoa_m3hm2(iROOM).*1.293./3600.*roomArea(iROOM).*roomCount(iROOM);
+    roomVoa(iROOM) = roomVoa_m3hm2(iROOM).*1.293./3600.*roomArea(iROOM);
     
 end
 
 % 空調面積
-roomAreaTotal = sum(roomArea .* roomCount);
+roomAreaTotal = sum(roomArea);
+
 
 %----------------------------------
 % 空調機のパラメータ
 
+% 空調機リストの作成
+ahuID = {};
+for iAHU = 1:numOfAHUsTemp
+    if iAHU == 1
+        ahuID = [ahuID; ahueleID(iAHU)];
+    else
+        check = 0;
+        for iDB = 1:length(ahuID)
+            if strcmp(ahuID(iDB),ahueleID(iAHU))
+                check = 1;
+            end
+        end
+        if check == 0
+            ahuID = [ahuID; ahueleID(iAHU)];
+        end
+    end
+end
+
+numOfAHUs = length(ahuID);
+ahuName  = cell(1,numOfAHUs);
+ahuQcmax = zeros(1,numOfAHUs);
+ahuQhmax = zeros(1,numOfAHUs);
+ahuVsa   = zeros(1,numOfAHUs);
+ahuEfan  = zeros(1,numOfAHUs);
+ahuFanVAV = zeros(1,numOfAHUs);
+ahuFanVAVmin = ones(1,numOfAHUs);
+ahuOAcut  = zeros(1,numOfAHUs);
+ahuOAcool = zeros(1,numOfAHUs);
+ahuTypeNum = zeros(1,numOfAHUs);
+ahuaexE    = zeros(1,numOfAHUs);
+ahuaexV    = zeros(1,numOfAHUs);
+AEXbypass  = zeros(1,numOfAHUs);
+ahuaexeff  = zeros(1,numOfAHUs);
+ahuaex     = zeros(1,numOfAHUs);
+ahuRef_cooling  = cell(1,numOfAHUs);
+ahuRef_heating  = cell(1,numOfAHUs);
+ahuPump_cooling = cell(1,numOfAHUs);
+ahuPump_heating = cell(1,numOfAHUs);
+
 for iAHU = 1:numOfAHUs
     
-    % ファン消費電力 [kW]
-    ahuEfan(iAHU) = ahuEfsa(iAHU) + ahuEfra(iAHU) + ahuEfoa(iAHU);
+    % 一致するユニットを探索
+    for iAHUELE = 1:numOfAHUsTemp
+        if strcmp(ahuID(iAHU),ahueleID(iAHUELE))
+            
+            switch ahueleType{iAHUELE}
+                case {'AHU','FCU','UNIT'}
+                    
+                    % AHUtype
+                    if isempty(ahueleType{iAHUELE})
+                        switch ahueleType{iAHUELE}
+                            case 'AHU'
+                                ahuTypeNum(iAHU) = 1;
+                            case 'FCU'
+                                ahuTypeNum(iAHU) = 2;
+                            case 'UNIT'
+                                ahuTypeNum(iAHU) = 3;
+                            otherwise
+                                error('XMLファイルが不正です')
+                        end
+                    end
+                    
+                    % ファン消費電力 [kW]
+                    ahuEfan(iAHU) = ahuEfan(iAHU) + ahueleEfsa(iAHUELE) + ahueleEfra(iAHUELE) + ahueleEfoa(iAHUELE) + ahueleEfex(iAHUELE);
+                    
+                    % 
+                    ahuQcmax(iAHU) = ahuQcmax(iAHU) + ahueleQcmax(iAHUELE);
+                    ahuQhmax(iAHU) = ahuQhmax(iAHU) + ahueleQhmax(iAHUELE);
+                    ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHUELE);
+                    
+                    % VAV制御
+                    if isempty(ahueleFlowControl{iAHUELE})
+                        switch ahueleFlowControl{iAHUELE}
+                            case 'CAV'
+                                ahuFanVAV(iAHU)    = 0;
+                                ahuFanVAVmin(iAHU) = 1;
+                            case 'VAV'
+                                ahuFanVAV(iAHU) = 1;
+                                if ahueleMinDamperOpening(iAHUELE) >= 0 && ahueleMinDamperOpening(iAHUELE) <= 1
+                                    ahuFanVAVmin(iAHU) = ahueleMinDamperOpening(iAHUELE);  % VAV最小風量比 [-]
+                                else
+                                    error('VAV最小開度の設定が不正です')
+                                end
+                            otherwise
+                                error('XMLファイルが不正です')
+                        end
+                    end
+                    
+                    % 外気カット
+                    if isempty(ahueleOACutCtrl{iAHUELE})
+                        switch ahueleOACutCtrl{iAHUELE}
+                            case 'False'
+                                ahuOAcut(iAHU) = 0;
+                            case 'True'
+                                ahuOAcut(iAHU) = 1;
+                            otherwise
+                                error('XMLファイルが不正です')
+                        end
+                    end
+                    
+                    % 外気冷房
+                    if isempty(ahueleFreeCoolingCtrl{iAHUELE})
+                        switch ahueleFreeCoolingCtrl{iAHUELE}
+                            case 'False'
+                                ahuOAcool(iAHU) = 0;
+                            case 'True'
+                                ahuOAcool(iAHU) = 1;
+                            otherwise
+                                error('XMLファイルが不正です')
+                        end
+                    end
+                    
+                    % 全熱交換器
+                    if strcmp(ahueleHeatExchangeCtrl{iAHUELE},'True')
+                        
+                        ahuaex(iAHU) = 1;
+                        
+                        if ahueleHeatExchangeEff(iAHUELE) >= 0 && ahueleHeatExchangeEff(iAHUELE) <= 1
+                            if ahuaexeff(iAHU) == 0
+                                ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
+                            else
+                                ahuaexeff(iAHU) = mean([ahuaexeff(iAHU),ahueleHeatExchangeEff(iAHUELE)]);   % 全熱交換機効率
+                            end
+                        else
+                            error('全熱交換効率の設定が不正です。')
+                        end
+                        
+                        if strcmp(ahueleHeatExchangeBypass{iAHUELE},'True')
+                            AEXbypass(iAHU) = 1;
+                        end
+                        
+                        ahuaexE(iAHU)   = ahuaexE(iAHU) + ahueleHeatExchangePower(iAHUELE);  % 全熱交換機の動力
+                        ahuaexV(iAHU)   = ahuaexV(iAHU) + ahueleHeatExchangeVolume(iAHUELE); % 全熱交換機の風量
+                        
+                    end
+                    
+                    if isempty(ahuRef_cooling{iAHU})
+                        ahuRef_cooling{iAHU}  = ahueleRef_cooling{iAHUELE};
+                    end
+                    if isempty(ahuRef_heating{iAHU})
+                        ahuRef_heating{iAHU}  = ahueleRef_heating{iAHUELE};
+                    end
+                    if isempty(ahuPump_cooling{iAHU})
+                        ahuPump_cooling{iAHU} = ahuelePump_cooling{iAHUELE};
+                    end
+                    if isempty(ahuPump_heating{iAHU})
+                        ahuPump_heating{iAHU} = ahuelePump_heating{iAHUELE};
+                    end
+                    
+                case {'AEX'}
+                   
+                    % ファン消費電力 [kW]
+                    ahuEfan(iAHU) = ahuEfan(iAHU) + ahueleEfsa(iAHUELE) + ahueleEfra(iAHUELE) + ahueleEfoa(iAHUELE) + ahueleEfex(iAHUELE);
+                    
+                    % 全熱交換器
+                    if strcmp(ahueleHeatExchangeCtrl{iAHUELE},'True')
+                        
+                        ahuaex(iAHU) = 1;
+                        
+                        if ahueleHeatExchangeEff(iAHUELE) >= 0 && ahueleHeatExchangeEff(iAHUELE) <= 1
+                            if ahuaexeff(iAHU) == 0
+                                ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
+                            else
+                                ahuaexeff(iAHU) = mean([ahuaexeff(iAHU),ahueleHeatExchangeEff(iAHUELE)]);   % 全熱交換機効率
+                            end
+                        else
+                            error('全熱交換効率の設定が不正です。')
+                        end
+                        
+                        if strcmp(ahueleHeatExchangeBypass{iAHUELE},'True')
+                            AEXbypass(iAHU) = 1;
+                        end
+                        
+                        ahuaexE(iAHU)   = ahuaexE(iAHU) + ahueleHeatExchangePower(iAHUELE);  % 全熱交換機の動力
+                        ahuaexV(iAHU)   = ahuaexV(iAHU) + ahueleHeatExchangeVolume(iAHUELE); % 全熱交換機の風量
+                        
+                    end
+                    
+                    
+            end
+            
+        end
+    end
     
     % 接続室
     tmpQroomSet = {};
     tmpQoaSet   = {};
     tmpVoa      = 0;
     for iROOM = 1:length(roomName)
-        if strcmp(ahuName(iAHU),roomAHU_Qroom(iROOM))
+        if strcmp(ahuID(iAHU),roomAHU_Qroom(iROOM))
             tmpQroomSet = [tmpQroomSet,roomName(iROOM)];  % 室負荷処理用
         end
-        if strcmp(ahuName(iAHU),roomAHU_Qoa(iROOM))
+        if strcmp(ahuID(iAHU),roomAHU_Qoa(iROOM))
             tmpQoaSet = [tmpQoaSet,roomName(iROOM)];      % 外気負荷処理用
             tmpVoa    = tmpVoa + roomVoa(iROOM);          % 外気取入量 [kg/s]
         end
@@ -191,85 +317,12 @@ for iAHU = 1:numOfAHUs
     ahuQallSet{iAHU,:}  = [ahuQroomSet{iAHU,:},ahuQoaSet{iAHU,:}];
     ahuVoa(iAHU)        = tmpVoa;
     
-    % AHUtype
-    switch ahuType{iAHU}
-        case 'AHU'
-            ahuTypeNum(iAHU) = 1;
-        case 'FCU'
-            ahuTypeNum(iAHU) = 2;
-        case 'UNIT'
-            ahuTypeNum(iAHU) = 3;
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
-    % VAV制御
-    switch ahuFlowControl{iAHU}
-        case 'CAV'
-            ahuFanVAV(iAHU) = 0;
-            ahuFanVAVmin(iAHU) = 1;
-        case 'VAV'
-            ahuFanVAV(iAHU) = 1;
-            if ahuMinDamperOpening(iAHU) >= 0 && ahuMinDamperOpening(iAHU) <= 1
-                ahuFanVAVmin(iAHU) = ahuMinDamperOpening(iAHU);  % VAV最小風量比 [-]
-            else
-                error('VAV最小開度の設定が不正です')
-            end
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
-    % 外気カット
-    switch ahuOACutCtrl{iAHU}
-        case 'False'
-            ahuOAcut(iAHU) = 0;
-        case 'True'
-            ahuOAcut(iAHU) = 1;
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
-    % 外気冷房
-    switch ahuFreeCoolingCtrl{iAHU}
-        case 'False'
-            ahuOAcool(iAHU) = 0;
-        case 'True'
-            ahuOAcool(iAHU) = 1;
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
-    % 全熱交換器
-    switch ahuHeatExchangeCtrl{iAHU}
-        case 'False'
-            ahuaex(iAHU)    = 0;
-            ahuaexeff(iAHU) = 0;
-            ahuaexE(iAHU)   = 0;
-            AEXbypass(iAHU) = 0;
-            ahuaexV(iAHU)      = 0;
-        case 'True'
-            ahuaex(iAHU) = 1;
-            if ahuHeatExchangeEff(iAHU) >= 0 && ahuHeatExchangeEff(iAHU) <= 1
-                ahuaexeff(iAHU) = ahuHeatExchangeEff(iAHU);   % 全熱交換機効率
-            else
-                error('全熱交換効率の設定が不正です。')
-            end
-            ahuaexE(iAHU)   = ahuHeatExchangePower(iAHU); % 全熱交換機の動力
-            
-            % 課題
-            AEXbypass(iAHU) = 1;
-            ahuaexV(iAHU)      = 10000;
-            
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
     
     % ビルマル対応（仮想二次ポンプを自動追加）
-    if isnan(ahuPump_cooling{iAHU}) == 1 % 冷水ポンプ
+    if strcmp(ahuPump_cooling{iAHU},'Null_C') % 冷水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
-        ahuPump_cooling{iAHU} = strcat(ahuRef_cooling{iAHU},'C_VirtualPump');
+        ahuPump_cooling{iAHU} = strcat(ahuRef_cooling{iAHU},'_VirtualPump');
         
         % ポンプリストになければ新規追加
         multipumpFlag = 0;
@@ -283,19 +336,22 @@ for iAHU = 1:numOfAHUs
             numOfPumps = numOfPumps + 1;
             iPUMP = numOfPumps;
             pumpName{iPUMP}     = ahuPump_cooling{iAHU}; % ポンプ名称
+            pumpSystem{iPUMP}   = '';
             pumpMode{iPUMP}     = 'Cooling';             % ポンプ運転モード
             pumpCount(iPUMP)    = 0;                     % ポンプ台数
             pumpFlow(iPUMP)     = 0;                     % ポンプ流量
             pumpPower(iPUMP)    = 0;                     % ポンプ定格電力
             pumpFlowCtrl{iPUMP} = 'CWV';                 % ポンプ流量制御
             pumpQuantityCtrl{iPUMP} = 'False';            % 台数制御
+            pumpdelT(iPUMP)     = 0;
+            pumpMinValveOpening(iPUMP) = 1;
         end
     end
     
-    if isnan(ahuPump_heating{iAHU}) ==1 % 温水ポンプ
+    if strcmp(ahuPump_heating{iAHU},'Null_H') % 温水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
-        ahuPump_heating{iAHU} = strcat(ahuRef_heating{iAHU},'H_VirtualPump');
+        ahuPump_heating{iAHU} = strcat(ahuRef_heating{iAHU},'_VirtualPump');
         
         % ポンプリストになければ新規追加
         multipumpFlag = 0;
@@ -309,15 +365,18 @@ for iAHU = 1:numOfAHUs
             numOfPumps = numOfPumps + 1;
             iPUMP = numOfPumps;
             pumpName{iPUMP}     = ahuPump_heating{iAHU}; % ポンプ名称
+            pumpSystem{iPUMP}   = '';
             pumpMode{iPUMP}     = 'Heating';             % ポンプ運転モード
             pumpCount(iPUMP)    = 0;                     % ポンプ台数
             pumpFlow(iPUMP)     = 0;                     % ポンプ流量
             pumpPower(iPUMP)    = 0;                     % ポンプ定格電力
             pumpFlowCtrl{iPUMP} = 'CWV';                 % ポンプ流量制御
-            pumpQuantityCtrl{iPUMP} = 'False';            % 台数制御
+            pumpQuantityCtrl{iPUMP} = 'False';           % 台数制御
+            pumpdelT(iPUMP)     = 0;
+            pumpMinValveOpening(iPUMP) = 1;
         end
     end
-    
+
 end
 
 
@@ -326,8 +385,9 @@ end
 
 for iPUMP = 1:numOfPumps
     
-    Td_PUMP(iPUMP) = 5;
-    pumpVWVmin(iPUMP) = 0.3;
+    Td_PUMP(iPUMP) = pumpdelT(iPUMP);
+    
+    pumpVWVmin(iPUMP) = pumpMinValveOpening(iPUMP);
     
     % ポンプ運転モード
     switch pumpMode{iPUMP}
@@ -364,11 +424,11 @@ for iPUMP = 1:numOfPumps
     for iAHU = 1:numOfAHUs
         if PUMPtype(iPUMP) == 1
             if strcmp(pumpName{iPUMP},ahuPump_cooling(iAHU)) % 冷水ポンプ
-                tmpAHUSet = [tmpAHUSet,ahuName(iAHU)];
+                tmpAHUSet = [tmpAHUSet,ahuID(iAHU)];
             end
         elseif PUMPtype(iPUMP) == 2
             if strcmp(pumpName{iPUMP},ahuPump_heating(iAHU)) % 温水ポンプ
-                tmpAHUSet = [tmpAHUSet,ahuName(iAHU)];
+                tmpAHUSet = [tmpAHUSet,ahuID(iAHU)];
             end
         end
     end
@@ -389,10 +449,10 @@ for iREF = 1:numOfRefs
     switch refsetMode{iREF}
         case 'Cooling'
             REFtype(iREF) = 1;
-            TC(iREF) = 7; % 送水温度 [℃]
+            TC(iREF) = refsetSupplyTemp(iREF); % 送水温度 [℃]
         case 'Heating'
             REFtype(iREF) = 2;
-            TC(iREF) = 40; % 送水温度 [℃]
+            TC(iREF) = refsetSupplyTemp(iREF); % 送水温度 [℃]
         otherwise
             error('XMLファイルが不正です')
     end
@@ -422,6 +482,7 @@ for iREF = 1:numOfRefs
     for iAHU = 1:numOfAHUs
         if REFtype(iREF) == 1
             if strcmp(refsetID(iREF),ahuRef_cooling(iAHU))
+                
                 tmpPUMPSet = [tmpPUMPSet,ahuPump_cooling(iAHU)];
             end
         elseif REFtype(iREF) == 2
