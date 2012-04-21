@@ -99,6 +99,7 @@ for iROOM = 1:numOfRoom
         ControlFlag_C2{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C2;
         ControlFlag_C3{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C3;
         ControlFlag_C4{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C4;
+        ControlFlag_C5{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C5;
         
         % ユニットタイプ
         UnitType{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.UnitType;
@@ -214,21 +215,21 @@ for iROOM = 1:numOfRoom
         if strcmp(ControlFlag_C3(iROOM,iUNIT),'None')
             hosei_C3(iROOM,iUNIT) = 1.0;
             hosei_C3_name{iROOM,iUNIT} = ' ';
-        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'True')
+        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'Timer')
+            hosei_C3(iROOM,iUNIT) = 0.90;
+            hosei_C3_name{iROOM,iUNIT} = 'タイマー';
+        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'Sensor')
             hosei_C3(iROOM,iUNIT) = 0.85;
-            hosei_C3_name{iROOM,iUNIT} = '有';
+            hosei_C3_name{iROOM,iUNIT} = 'センサー';
         else
             ControlFlag_C3(iROOM,iUNIT)
             error('初期照度補正制御の方式が不正です')
         end
         
-        % 明るさ感知制御
+        % 昼光利用制御
         if strcmp(ControlFlag_C4(iROOM,iUNIT),'None')
             hosei_C4(iROOM,iUNIT) = 1.0;
             hosei_C4_name{iROOM,iUNIT} = ' ';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'dimmer')
-            hosei_C4(iROOM,iUNIT) = 0.8;
-            hosei_C4_name{iROOM,iUNIT} = '点滅';
         elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithBlind')
             hosei_C4(iROOM,iUNIT) = 0.9;
             hosei_C4_name{iROOM,iUNIT} = '昼片VB無';
@@ -242,11 +243,21 @@ for iROOM = 1:numOfRoom
             hosei_C4(iROOM,iUNIT) = 0.8;
             hosei_C4_name{iROOM,iUNIT} = '昼両VB有';
         else
+            error('昼光利用制御の方式が不正です')
+        end
+        
+        if strcmp(ControlFlag_C5(iROOM,iUNIT),'None')
+            hosei_C5(iROOM,iUNIT) = 1;
+            hosei_C5_name{iROOM,iUNIT} = '　';
+        elseif strcmp(ControlFlag_C5(iROOM,iUNIT),'dimmer')
+            hosei_C5(iROOM,iUNIT) = 0.8;
+            hosei_C5_name{iROOM,iUNIT} = '点滅';
+        else
             error('明るさ感知制御の方式が不正です')
         end
         
         hosei_ALL(iROOM,iUNIT) = hosei_C1(iROOM,iUNIT)*hosei_C2(iROOM,iUNIT)*...
-            hosei_C3(iROOM,iUNIT)*hosei_C4(iROOM,iUNIT);
+            hosei_C3(iROOM,iUNIT)*hosei_C4(iROOM,iUNIT)*hosei_C5(iROOM,iUNIT);
         
     end
 end
@@ -254,10 +265,10 @@ end
 %% エネルギー消費量計算
 
 % 評価値 Edesign [MJ/年]
-Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4) ./1000000;
+Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5) ./1000000;
 Edesign_noRI_MJ  = 9760.*Edesign_noRI_MWh;
 Edesign_MWh      = repmat(timeL,1,max(numofUnit)).*repmat(hosei_RI,1,max(numofUnit))...
-    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4) ./1000000;
+    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5) ./1000000;
 Edesign_MJ       = 9760.*Edesign_MWh;
 
 % 評価値 Edesign_m2 [MJ/m2年]
@@ -324,6 +335,7 @@ if OutputOptionVar == 1
                     hosei_C2_name(iROOM,iUNIT),',',...
                     hosei_C3_name(iROOM,iUNIT),',',...
                     hosei_C4_name(iROOM,iUNIT),',',...
+                    hosei_C5_name(iROOM,iUNIT),',',...
                     num2str(hosei_ALL(iROOM,iUNIT)),',',...
                     num2str(timeL(iROOM)),',',...
                     num2str(Edesign_MJ(iROOM,iUNIT)),',',...
@@ -352,6 +364,7 @@ if OutputOptionVar == 1
                     hosei_C2_name(iROOM,iUNIT),',',...
                     hosei_C3_name(iROOM,iUNIT),',',...
                     hosei_C4_name(iROOM,iUNIT),',',...
+                    hosei_C5_name(iROOM,iUNIT),',',...
                     num2str(hosei_ALL(iROOM,iUNIT)),',',...
                     ',',...
                     num2str(Edesign_MJ(iROOM,iUNIT)),',',...

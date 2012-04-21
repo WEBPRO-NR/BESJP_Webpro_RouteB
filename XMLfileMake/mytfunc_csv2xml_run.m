@@ -112,7 +112,8 @@ end
 
 % 換気(FAN)のファイルを読み込み
 if isempty(CONFIG.VentilationSystems.Fan) == 0
-    xmldata = mytfunc_csv2xml_V(xmldata,CONFIG.VentilationSystems.Fan,CONFIG.VentilationSystems.AC);
+    xmldata = mytfunc_csv2xml_V(xmldata,CONFIG.VentilationSystems.Room,...
+        CONFIG.VentilationSystems.Fan,CONFIG.VentilationSystems.AC);
 end
 
 % 昇降機のファイルを読み込み

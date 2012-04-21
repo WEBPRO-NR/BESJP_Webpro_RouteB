@@ -17,12 +17,12 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_V_run(inputfilename,OutputOption)
+% function y = ECS_routeB_V_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% inputfilename = 'output.xml';
-% OutputOption = 'ON';
+clear
+clc
+inputfilename = 'output.xml';
+OutputOption = 'ON';
 
 
 %% 設定
@@ -95,13 +95,7 @@ for iROOM = 1:numOfRoom
             else
                 FanPowerFAN(iROOM,iVFAN) = 0;
             end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.Count,'Null') == 0
-                CountFAN(iROOM,iVFAN) = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.Count;
-            else
-                CountFAN(iROOM,iVFAN) = 0;
-            end
-            
+                        
             ControlFlag_C1{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C1;
             ControlFlag_C2{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C2;
             ControlFlag_C3{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C3;
@@ -142,13 +136,7 @@ for iROOM = 1:numOfRoom
             else
                 PumpPowerAC(iROOM,iVAC) = 0;
             end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.Count,'Null') == 0
-                CountAC(iROOM,iVAC) = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.Count;
-            else
-                CountAC(iROOM,iVAC) = 0;
-            end
-            
+           
         end
     end
     
@@ -158,7 +146,6 @@ for iROOM = 1:numOfRoom
         COPAC(iROOM,1)       = 0;
         FanPowerAC(iROOM,1)  = 0;
         PumpPowerAC(iROOM,1) = 0;
-        CountAC(iROOM,1)     = 0;
     end
     
 end

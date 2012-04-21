@@ -22,6 +22,7 @@
     </HotwaterSystems>
 
     <VentilationSystems>
+	<Room>../InputFiles/省エネ基準ルートB_換気_室_template.csv</Room>
 	<Fan>../InputFiles/省エネ基準ルートB_換気_送風機_template.csv</Fan>
 	<AC>../InputFiles/省エネ基準ルートB_換気_冷暖房_template.csv</AC>	
     </VentilationSystems>
