@@ -30,7 +30,7 @@ rfc = mytfunc_oneLinecCell(rfc,E1st_total);
 rfc = [rfc;'室負荷,'];
 
 for iROOM = 1:numOfRoooms
-    rfc = [rfc;strcat(roomName{iROOM},',',BuildingType,',',roomType{iROOM})];
+    rfc = [rfc;strcat(roomName{iROOM},',',buildingType{iROOM},',',roomType{iROOM})];
     rfc = mytfunc_oneLinecCell(rfc,NaN.*ones(1,365) );
     rfc = mytfunc_oneLinecCell(rfc,QroomDc(:,iROOM)' );
     rfc = mytfunc_oneLinecCell(rfc,QroomDh(:,iROOM)' );
@@ -86,9 +86,9 @@ for iAHU = 1:numOfAHUs
     
     % 外気処理制御の仕様
     rfc = [rfc;strcat(ahuOACutCtrl{iAHU},',',ahuFreeCoolingCtrl{iAHU},',',...
-        ahuHeatExchangeCtrl{iAHU},',',num2str(ahuHeatExchangePower(iAHU)),',',...
-        num2str(ahuVsa(iAHU)),',',...
-        num2str(ahuHeatExchangeEff(iAHU)))];
+        ahuHeatExchangeCtrl{iAHU},',',num2str(ahuaexE(iAHU)),',',...
+        num2str(ahuaexV(iAHU)),',',...
+        num2str(ahuaexeff(iAHU)))];
     
     rfc = mytfunc_oneLinecCell(rfc,season);             % 季節区分
     rfc = mytfunc_oneLinecCell(rfc,OAdataAll(:,1)');    % 外気温
@@ -127,8 +127,8 @@ rfc = [rfc;'空調機E,'];
 for iAHU = 1:numOfAHUs
     
     rfc = [rfc; strcat(ahuName{iAHU},',',ahuType{iAHU},',',num2str(ahuQcmax(iAHU)),',',...
-        num2str(ahuQhmax(iAHU)),',',num2str(ahuEfsa(iAHU)),',',num2str(ahuEfra(iAHU)),',',...
-        num2str(ahuEfoa(iAHU)),',',ahuFlowControl{iAHU},',',num2str(ahuMinDamperOpening(iAHU)))];
+        num2str(ahuQhmax(iAHU)),',',num2str(ahuEfan(iAHU)),',',num2str(0),',',...
+        num2str(0),',',ahuFlowControl{iAHU},',',num2str(ahuFanVAVmin(iAHU)))];
     
     rfc = mytfunc_oneLinecCell(rfc,[MxAHUc(iAHU,:),sum(MxAHUc(iAHU,:))]);
     rfc = mytfunc_oneLinecCell(rfc,ahuEfan(iAHU).*AHUvavfac(iAHU,:));

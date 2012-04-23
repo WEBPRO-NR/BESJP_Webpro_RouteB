@@ -4,7 +4,7 @@
 % newHASPによる負荷計算を行う．
 %-----------------------------------------------------------------------------------------------------------
 % 入力
-%   roomName：室名リスト
+%   roomID：室名リスト
 %   climateDatabase： 気象データファイル名
 %   roomClarendarNum: カレンダ番号（室毎）
 %   roomArea：室床面積 [m2]
@@ -14,17 +14,17 @@
 %   QroomHour：時刻別室負荷　　　[MJ/h]
 %-----------------------------------------------------------------------------------------------------------
 
-function [QroomDc,QroomDh,QroomHour] = mytfunc_newHASPrun(roomName,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar)
+function [QroomDc,QroomDh,QroomHour] = mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar)
 
 % 負荷計算結果格納用変数
-QroomDc   = zeros(365,length(roomName));    % 日積算冷房負荷 [MJ/day]
-QroomDh   = zeros(365,length(roomName));    % 日積算暖房負荷 [MJ/day]
-QroomHour = zeros(8760,length(roomName));   % 時刻別室負荷 [MJ/h]
+QroomDc   = zeros(365,length(roomID));    % 日積算冷房負荷 [MJ/day]
+QroomDh   = zeros(365,length(roomID));    % 日積算暖房負荷 [MJ/day]
+QroomHour = zeros(8760,length(roomID));   % 時刻別室負荷 [MJ/h]
 
-for iROOM = 1:length(roomName)
+for iROOM = 1:length(roomID)
     
     % 設定ファイル（NHKsetting.txt）の生成
-    eval(['NHKsetting{1} = ''newHASPinput_',roomName{iROOM},'.txt'';'])
+    eval(['NHKsetting{1} = ''newHASPinput_',roomID{iROOM},'.txt'';'])
     eval(['NHKsetting{2} = ''./weathdat/C',num2str(roomClarendarNum(iROOM)),'_',cell2mat(climateDatabase),''';'])
     NHKsetting{3} = 'out20.dat';
     NHKsetting{4} = 'newhasp\wndwtabl.dat';
@@ -43,9 +43,22 @@ for iROOM = 1:length(roomName)
     % 1)年，2)月，3)日，4)曜日，5)時，6)分
     % 7)室温，8)冷房負荷(顕熱)[W/m2]，9)室除去熱量(顕熱)[W/m2]，10)装置除去熱量(顕熱)[W/m2]，11)フラグ
     % 12)湿度[g/kgDA]，13)冷房負荷(潜熱)[W/m2]，14)室除去熱量(潜熱)[W/m2]，15)装置除去熱量(潜熱)[W/m2]，16)フラグ，17)MRT'
-    %     eval(['newHASPresult = xlsread(''',roomName{iROOM},'.csv'');'])
+    %     eval(['newHASPresult = xlsread(''',roomID{iROOM},'.csv'');'])
     
-    eval(['newHASPresultALL = textread(''',roomName{iROOM},'.csv'',''%s'',''delimiter'',''\n'',''whitespace'','''');'])
+    % 結果ファイル名（室IDが4文字以下であればアンダーバーが入る）
+    if length(roomID{iROOM}) == 1
+        resFileName = strcat(roomID(iROOM),'___');
+    elseif length(roomID{iROOM}) == 2
+        resFileName = strcat(roomID(iROOM),'__');
+    elseif length(roomID{iROOM}) == 3
+        resFileName = strcat(roomID(iROOM),'_');
+    elseif length(roomID{iROOM}) == 4
+        % 何もしない
+    else
+        error('roomIDが不正です')
+    end
+    
+    eval(['newHASPresultALL = textread(''',cell2mat(resFileName),'.csv'',''%s'',''delimiter'',''\n'',''whitespace'','''');'])
     
     newHASPresult = zeros(8760,2);
     for i=2:length(newHASPresultALL)
@@ -55,8 +68,8 @@ for iROOM = 1:length(roomName)
     end
     
     if OutputOptionVar == 0
-        eval(['delete ',roomName{iROOM},'.csv'])
-        eval(['delete newHASPinput_',roomName{iROOM},'.txt'])
+        eval(['delete ',cell2mat(resFileName),'.csv'])
+        eval(['delete newHASPinput_',roomID{iROOM},'.txt'])
         delete NHKsetting.txt
     end
     

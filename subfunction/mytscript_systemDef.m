@@ -135,6 +135,7 @@ end
 
 numOfAHUs = length(ahuID);
 ahuName  = cell(1,numOfAHUs);
+ahuType  = cell(1,numOfAHUs);
 ahuQcmax = zeros(1,numOfAHUs);
 ahuQhmax = zeros(1,numOfAHUs);
 ahuVsa   = zeros(1,numOfAHUs);
@@ -153,6 +154,10 @@ ahuRef_cooling  = cell(1,numOfAHUs);
 ahuRef_heating  = cell(1,numOfAHUs);
 ahuPump_cooling = cell(1,numOfAHUs);
 ahuPump_heating = cell(1,numOfAHUs);
+ahuFreeCoolingCtrl = cell(1,numOfAHUs);
+ahuHeatExchangeCtrl = cell(1,numOfAHUs);
+ahuOACutCtrl = cell(1,numOfAHUs);
+ahuFlowControl = cell(1,numOfAHUs);
 
 for iAHU = 1:numOfAHUs
     
@@ -167,10 +172,13 @@ for iAHU = 1:numOfAHUs
                     if isempty(ahueleType{iAHUELE})
                         switch ahueleType{iAHUELE}
                             case 'AHU'
+                                ahuType(iAHU)    = '空調機';
                                 ahuTypeNum(iAHU) = 1;
                             case 'FCU'
+                                ahuType(iAHU)    = 'FCU';
                                 ahuTypeNum(iAHU) = 2;
                             case 'UNIT'
+                                ahuType(iAHU)    = 'UNIT';
                                 ahuTypeNum(iAHU) = 3;
                             otherwise
                                 error('XMLファイルが不正です')
@@ -189,9 +197,11 @@ for iAHU = 1:numOfAHUs
                     if isempty(ahueleFlowControl{iAHUELE})
                         switch ahueleFlowControl{iAHUELE}
                             case 'CAV'
+                                ahuFlowControl{iAHU} = '定風量';
                                 ahuFanVAV(iAHU)    = 0;
                                 ahuFanVAVmin(iAHU) = 1;
                             case 'VAV'
+                                ahuFlowControl{iAHU} = '変風量';
                                 ahuFanVAV(iAHU) = 1;
                                 if ahueleMinDamperOpening(iAHUELE) >= 0 && ahueleMinDamperOpening(iAHUELE) <= 1
                                     ahuFanVAVmin(iAHU) = ahueleMinDamperOpening(iAHUELE);  % VAV最小風量比 [-]
@@ -203,12 +213,15 @@ for iAHU = 1:numOfAHUs
                         end
                     end
                     
+                    
                     % 外気カット
                     if isempty(ahueleOACutCtrl{iAHUELE})
                         switch ahueleOACutCtrl{iAHUELE}
                             case 'False'
+                                ahuOACutCtrl{iAHU} = '無';
                                 ahuOAcut(iAHU) = 0;
                             case 'True'
+                                ahuOACutCtrl{iAHU} = '有';
                                 ahuOAcut(iAHU) = 1;
                             otherwise
                                 error('XMLファイルが不正です')
@@ -219,8 +232,10 @@ for iAHU = 1:numOfAHUs
                     if isempty(ahueleFreeCoolingCtrl{iAHUELE})
                         switch ahueleFreeCoolingCtrl{iAHUELE}
                             case 'False'
+                                ahuFreeCoolingCtrl{iAHU} = '無';
                                 ahuOAcool(iAHU) = 0;
                             case 'True'
+                                ahuFreeCoolingCtrl{iAHU} = '有';
                                 ahuOAcool(iAHU) = 1;
                             otherwise
                                 error('XMLファイルが不正です')
@@ -230,6 +245,7 @@ for iAHU = 1:numOfAHUs
                     % 全熱交換器
                     if strcmp(ahueleHeatExchangeCtrl{iAHUELE},'True')
                         
+                        ahuHeatExchangeCtrl{iAHU} = '有';
                         ahuaex(iAHU) = 1;
                         
                         if ahueleHeatExchangeEff(iAHUELE) >= 0 && ahueleHeatExchangeEff(iAHUELE) <= 1
@@ -248,7 +264,8 @@ for iAHU = 1:numOfAHUs
                         
                         ahuaexE(iAHU)   = ahuaexE(iAHU) + ahueleHeatExchangePower(iAHUELE);  % 全熱交換機の動力
                         ahuaexV(iAHU)   = ahuaexV(iAHU) + ahueleHeatExchangeVolume(iAHUELE); % 全熱交換機の風量
-                        
+                    else
+                        ahuHeatExchangeCtrl{iAHU} = '無';
                     end
                     
                     if isempty(ahuRef_cooling{iAHU})

@@ -161,7 +161,7 @@ switch MODE
         
         % 負荷計算実行(newHASP)
         [QroomDc,QroomDh,QroomHour] = ...
-            mytfunc_newHASPrun(roomName,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar);
+            mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar);
         
         % 気象データ読み込み
         [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weath.dat');
@@ -188,7 +188,7 @@ Tahu_h        = zeros(365,numOfAHUs);  % 日積算暖房運転時間 [h]
 
 % 日毎の空調運転時間(ahuDayMode: 1昼，2夜，0終日)
 [AHUsystemT,ahuTime_start,ahuTime_stop,ahuDayMode] = ...
-    mytfunc_AHUOpeTIME(ahuName,roomName,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
+    mytfunc_AHUOpeTIME(ahuID,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
 
 switch MODE
     case {1}  % 毎時計算
@@ -203,7 +203,7 @@ switch MODE
         % 日積算室負荷を空調系統ごとに集計
         for iROOM=1:numOfRoooms
             for iAHU=1:numOfAHUs
-                switch roomName{iROOM}
+                switch roomID{iROOM}
                     case ahuQroomSet{iAHU,:}
                         QroomAHUc(:,iAHU)    = QroomAHUc(:,iAHU)    + QroomDc(:,iROOM).*roomCount(iROOM);   % 室数かける
                         QroomAHUh(:,iAHU)    = QroomAHUh(:,iAHU)    + QroomDh(:,iROOM).*roomCount(iROOM);   % 室数かける
@@ -258,7 +258,7 @@ switch MODE
             
             % 日積算室負荷を空調系統ごとに集計（QroomAHUc,QroomAHUhを求める）
             for iROOM=1:numOfRoooms
-                switch roomName{iROOM}
+                switch roomID{iROOM}
                     case ahuQroomSet{iAHU,:}
                         QroomAHUc(:,iAHU) = QroomAHUc(:,iAHU) + QroomDc(:,iROOM).*roomCount(iROOM);   % 室数かける
                         QroomAHUh(:,iAHU) = QroomAHUh(:,iAHU) + QroomDh(:,iROOM).*roomCount(iROOM);   % 室数かける
@@ -432,7 +432,7 @@ switch MODE
             
             % ポンプ負荷の積算
             for iAHU = 1:numOfAHUs
-                switch ahuName{iAHU}  % 属する空調機を見つける
+                switch ahuID{iAHU}  % 属する空調機を見つける
                     case PUMPahuSet{iPUMP}
                         
                         % ポンプ負荷[kW]
@@ -495,7 +495,7 @@ switch MODE
             
             % ポンプ負荷の積算
             for iAHU = 1:numOfAHUs
-                switch ahuName{iAHU}
+                switch ahuID{iAHU}
                     case PUMPahuSet{iPUMP}
                         
                         for dd = 1:365
@@ -561,7 +561,7 @@ switch MODE
             
             % ポンプ運転時間
             [Tps(:,iPUMP),pumpTime_Start(:,iPUMP),pumpTime_Stop(:,iPUMP)]...
-                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuName,PUMPahuSet{iPUMP},ahuTime_start,ahuTime_stop);
+                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuID,PUMPahuSet{iPUMP},ahuTime_start,ahuTime_stop);
             
         end
 end

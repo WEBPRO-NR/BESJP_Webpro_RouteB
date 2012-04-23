@@ -86,7 +86,7 @@ end
 % XML‚ÉŠi”[
 for iZONE = 1:length(ZoneList_Name)
     
-    eval(['xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ID = ''Z00',int2str(iZONE),''';'])
+    eval(['xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ID = ''Z',int2str(iZONE),''';'])
     xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneFloor = ZoneList_Floor(iZONE);
     xmldata.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneName  = ZoneList_Name(iZONE);
     
