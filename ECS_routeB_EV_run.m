@@ -130,6 +130,7 @@ y(5) = sum(Estandard_MWh);
 y(6) = NaN;
 y(7) = sum(Estandard_MJ);
 y(8) = NaN;
+y(9) = y(3)/y(7);
 
 
 %% ä»à’èoóÕ
@@ -170,9 +171,13 @@ if OutputOptionVar == 1
             BldgType(iUNIT),',',...
             RoomType(iUNIT),',',...
             num2str(timeEV(iUNIT)),',',...
-            );
-
-        rfc = {rfc; tmprfc};
+            num2str(Edesign_MWh(iUNIT)),',',...
+            num2str(Edesign_MJ(iUNIT)),',',...
+            num2str(Estandard_MWh(iUNIT)),',',...
+            num2str(Estandard_MJ(iUNIT)),',',...
+            num2str(y(3)/y(7)));
+        
+        rfc = [rfc; tmprfc];
     end
     
     
