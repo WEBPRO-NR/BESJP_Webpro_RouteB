@@ -26,6 +26,8 @@ end
 % 情報の抜出
 roomFloor     = {};
 roomName      = {};
+BldgType      = {};
+RoomType      = {};
 EVName        = {};
 EVCount       = {};
 EVLoadLimit   = {};
@@ -49,27 +51,30 @@ for iUNIT = 11:size(EVDataCell,1)
     EVVelocity = [EVVelocity;EVDataCell{iUNIT,4}];
     
     % 速度制御方式
-    if isempty(EVDataCell{iUNIT,5}) == 0
+    if strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり、ギアレス）')
         EVControlType = [EVControlType;'EV_CT1'];
-    elseif isempty(EVDataCell{iUNIT,6}) == 0
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり）')
         EVControlType = [EVControlType;'EV_CT2'];
-    elseif isempty(EVDataCell{iUNIT,7}) == 0
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス）')
         EVControlType = [EVControlType;'EV_CT3'];
-    elseif isempty(EVDataCell{iUNIT,8}) == 0
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし）')
         EVControlType = [EVControlType;'EV_CT4'];
-    elseif isempty(EVDataCell{iUNIT,9}) == 0
+    elseif strcmp(EVDataCell(iUNIT,5),'交流帰還制御方式')
         EVControlType = [EVControlType;'EV_CT5'];
     else
         error('エレベータ：速度制御方式が不正です。')
     end
         
-    if isempty(EVDataCell{iUNIT,10})
+    if isempty(EVDataCell{iUNIT,6})
         roomFloor  = [roomFloor;'Null'];
     else
-        roomFloor  = [roomFloor;EVDataCell{iUNIT,10}];
+        roomFloor  = [roomFloor;EVDataCell{iUNIT,6}];
     end
-    roomName = [roomName; EVDataCell{iUNIT,11}];
-        
+    
+    roomName = [roomName; EVDataCell{iUNIT,7}];
+%     BldgType = [BldgType; EVDataCell{iUNIT,8}];
+%     RoomType = [RoomType; EVDataCell{iUNIT,9}];
+    
 end
 
 % XMLファイル生成
