@@ -1,15 +1,30 @@
 % ECS_routeB_EV_run_v1.m
 %                                          by Masato Miyata 2011/04/05
 %----------------------------------------------------------------------
-% 昇降機計算プログラム
+% 省エネ基準：昇降機計算プログラム
 %----------------------------------------------------------------------
-function y = ECS_routeB_EV_run_v1(inputfilename,OutputOption)
+% 入力
+%  inputfilename : XMLファイル名称
+%  OutputOption  : 出力制御（ON: 詳細出力、OFF: 簡易出力）
+% 出力
+%  y(1) : 評価値 [MWh/年]
+%  y(2) : 評価値 [MWh/m2/年]
+%  y(3) : 評価値 [MJ/年]
+%  y(4) : 評価値 [MJ/m2/年]
+%  y(5) : 基準値 [MWh/年]
+%  y(6) : 基準値 [MWh/m2/年]
+%  y(7) : 基準値 [MJ/年]
+%  y(8) : 基準値 [MJ/m2/年]
+%  y(9) : BEI (=評価値/基準値） [-]
+%----------------------------------------------------------------------
+% function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% tic
-% inputfilename = 'output.xml';
-% OutputOption = 'ON';
+clear
+clc
+tic
+inputfilename = 'output.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 %% 設定
 model = xml_read(inputfilename);
@@ -102,11 +117,19 @@ for iUNIT = 1:numofUnit
 end
 
 % エネルギー消費量計算 [MJ/年]
-Edesign   = 9760.* LoadLimit.* Velocity.* kControlT.* Count.* timeEV ./860 ./1000;
-Estandard = 9760.* LoadLimit.* Velocity.* (1/40).* Count.* timeEV ./860 ./1000;
+Edesign_MWh   = LoadLimit.* Velocity.* kControlT.* Count.* timeEV ./860 ./1000;
+Estandard_MWh = LoadLimit.* Velocity.* (1/40).* Count.* timeEV ./860 ./1000;
+Edesign_MJ   = 9760.* Edesign_MWh;
+Estandard_MJ = 9760.* Estandard_MWh;
  
-y(1) = sum(Edesign);
-y(2) = Estandard;
+y(1) = sum(Edesign_MWh);
+y(2) = NaN;
+y(3) = sum(Edesign_MJ);
+y(4) = NaN;
+y(5) = sum(Estandard_MWh);
+y(6) = NaN;
+y(7) = sum(Estandard_MJ);
+y(8) = NaN;
 
 
 %% 簡易出力
@@ -131,11 +154,27 @@ if OutputOptionVar == 1
         tmp = strfind(inputfilename,'/');
         eval(['resfilenameD = ''calcRESdetail_EV_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
     end
-    
-    % 結果格納用変数
+   
     rfc = {};
-    rfc = mytfunc_oneLinecCell(rfc,Edesign);
-    rfc = mytfunc_oneLinecCell(rfc,Estandard);
+    
+    for iUNIT = 1:numofUnit
+        tmprfc = {};
+        tmprfc = strcat(Name(iUNIT),',',...
+            num2str(Count(iUNIT)),',',...
+            num2str(LoadLimit(iUNIT)),',',...
+            num2str(Velocity(iUNIT)),',',...
+            kControlT_name{iUNIT},',',...
+            num2str(kControlT(iUNIT)),',',...
+            RoomFloor(iUNIT),',',...
+            RoomName(iUNIT),',',...
+            BldgType(iUNIT),',',...
+            RoomType(iUNIT),',',...
+            num2str(timeEV(iUNIT)),',',...
+            );
+
+        rfc = {rfc; tmprfc};
+    end
+    
     
     % 出力
     fid = fopen(resfilenameD,'w+');

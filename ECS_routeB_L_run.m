@@ -22,6 +22,7 @@ function y = ECS_routeB_L_run(inputfilename,OutputOption)
 % clear
 % clc
 % inputfilename = 'output.xml';
+% addpath('./subfunction/')
 % OutputOption = 'ON';
 
 
