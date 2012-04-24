@@ -52,15 +52,15 @@ for iUNIT = 11:size(EVDataCell,1)
     
     % 速度制御方式
     if strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり、ギアレス）')
-        EVControlType = [EVControlType;'EV_CT1'];
+        EVControlType = [EVControlType;'VVVF_Regene_GearLess'];
     elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり）')
-        EVControlType = [EVControlType;'EV_CT2'];
+        EVControlType = [EVControlType;'VVVF_Regene'];
     elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス）')
-        EVControlType = [EVControlType;'EV_CT3'];
+        EVControlType = [EVControlType;'VVVF_GearLess'];
     elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし）')
-        EVControlType = [EVControlType;'EV_CT4'];
+        EVControlType = [EVControlType;'VVVF'];
     elseif strcmp(EVDataCell(iUNIT,5),'交流帰還制御方式')
-        EVControlType = [EVControlType;'EV_CT5'];
+        EVControlType = [EVControlType;'AC_FeedbackControl'];
     else
         error('エレベータ：速度制御方式が不正です。')
     end

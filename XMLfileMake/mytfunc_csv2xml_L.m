@@ -156,7 +156,7 @@ end
 RoomList = {};
 UnitList = {};
 
-for iUNIT = 1:size(roomName)
+for iUNIT = 1:size(roomName,1)
     
     if strcmp(roomName(iUNIT),'Null') == 0
         

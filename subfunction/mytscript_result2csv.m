@@ -169,44 +169,36 @@ for iREF = 1:numOfRefs
         else
             
             tmpname = '';
-            if strcmp(refset_Type{iREF,iREFSUB},'Rtype1')
-                tmpname = 'ターボ冷凍機（標準，ベーン制御）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype2')
-                tmpname = 'ターボ冷凍機（高効率，ベーン制御）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype3')
-                tmpname = 'ターボ冷凍機（高効率，インバータ制御）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype4')
+            if strcmp(refset_Type{iREF,iREFSUB},'AirSourceHP')
                 tmpname = '空冷ヒートポンプ（スクリュー，スライド弁）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype5')
-                tmpname = '空冷ヒートポンプ（スクリュー，インバータ）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'空冷ヒートポンプ（スクロール，圧縮機台数制御）')
-                tmpname = '空冷ヒートポンプ（スクロール，圧縮機台数制御）Rtype6';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype7')
-                tmpname = '水冷チラー（スクリュー，スライド弁）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype8')
-                tmpname = '水冷チラー（スクリュー，インバータ）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype9')
-                tmpname = '水冷チラー（スクロール，圧縮機台数制御）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype10')
-                tmpname = '直焚吸収冷温水器（三重効用）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype11')
-                tmpname = '直焚吸収冷温水器（ニ重効用）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype12')
-                tmpname = '直焚吸収冷温水器（高期間効率）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype13')
-                tmpname = '蒸気焚き吸収式冷温水器（二重効用）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype14')
-                tmpname = '温水焚き吸収式冷温水器（一重効用）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype15')
-                tmpname = '排熱投入型吸収式冷温水器（二重効用）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype16')
-                tmpname = 'ボイラ（小型貫流ボイラ）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype17')
-                tmpname = 'ボイラ（真空温水ヒータ）';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype18')
+            elseif strcmp(refset_Type{iREF,iREFSUB},'AirSourceHP_INV')
+                tmpname = '空冷ヒートポンプ（スクロール，圧縮機台数制御）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'EHP')
                 tmpname = '電気式ビル用マルチ';
-            elseif strcmp(refset_Type{iREF,iREFSUB},'Rtype19')
+            elseif strcmp(refset_Type{iREF,iREFSUB},'GHP')
                 tmpname = 'ガス式ビル用マルチ';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'WaterCoolingChiller')
+                tmpname = '水冷チラー（スクリュー，スライド弁）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'TurboREF')
+                tmpname = 'ターボ冷凍機（標準，ベーン制御）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'TurboREF_HighEffi')
+                tmpname = 'ターボ冷凍機（高効率，ベーン制御）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'TurboREF_INV')
+                tmpname = 'ターボ冷凍機（高効率，インバータ制御）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'TurboREF_Brine_Storage')
+                tmpname = 'ブラインターボ冷凍機（標準，蓄熱時）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'TurboREF_Brine')
+                tmpname = 'ブラインターボ冷凍機（標準，追掛時）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'AbsorptionWCB_DF')
+                tmpname = '直焚吸収冷温水機';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'AbsorptionChiller_S')
+                tmpname = '蒸気吸収冷凍機';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'AbsorptionChiller_HW')
+                tmpname = '温水焚吸収冷凍機';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'OnePassBoiler')
+                tmpname = 'ボイラ（小型貫流ボイラ）';
+            elseif strcmp(refset_Type{iREF,iREFSUB},'VacuumBoiler')
+                tmpname = 'ボイラ（真空温水ヒータ）';
             else
                 error('熱源種類が不正です。')
             end

@@ -36,45 +36,44 @@ equipSolarSystem = {};
 for iUNIT = 11:size(hwequipInfoCell,1)
     
     % 機器コード
-    equipID = [equipID; hwequipInfoCell{iUNIT,1}];
+    eval(['equipID = [equipID; ''HWUnit_',int2str(iUNIT-10),'''];'])
+
+    % 機器名称
+    if isempty(hwequipInfoCell{iUNIT,1})
+        equipName = [equipName; 'Null'];
+    else
+        equipName = [equipName; hwequipInfoCell{iUNIT,1}];
+    end
+    
     % 機器表の記号
     if isempty(hwequipInfoCell{iUNIT,2})
         equipInfo = [equipInfo; 'Null'];
     else
         equipInfo = [equipInfo; hwequipInfoCell{iUNIT,2}];
     end
-    % 機器名称
-    if isempty(hwequipInfoCell{iUNIT,3})
-        equipName = [equipName; 'Null'];
-    else
-        equipName = [equipName; hwequipInfoCell{iUNIT,3}];
-    end
-    
-    % 台数
-    equipCount = [equipCount; hwequipInfoCell{iUNIT,4}];
-    
+        
     % 加熱容量
-    equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,5}];
+    equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,3}];
     
     % 熱源効率
-    equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,6}];
+    equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,4}];
     
     % 保温仕様
-    if strcmp(hwequipInfoCell{iUNIT,7},'保温仕様１')
+    if strcmp(hwequipInfoCell{iUNIT,5},'保温仕様１')
         equipInsulation = [equipInsulation; 'Level1'];
-    elseif strcmp(hwequipInfoCell{iUNIT,7},'保温仕様２')
+    elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様２')
         equipInsulation = [equipInsulation; 'Level2'];
-    elseif strcmp(hwequipInfoCell{iUNIT,7},'保温仕様３')
+    elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様３')
         equipInsulation = [equipInsulation; 'Level3'];
     else
         equipInsulation = [equipInsulation; 'Level0'];
     end
     
     % 接続口径
-    equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,8}];
+    equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,6}];
     
     % 太陽熱利用
-    if strcmp(hwequipInfoCell(iUNIT,9),'有')
+    if strcmp(hwequipInfoCell(iUNIT,7),'有')
         equipSolarSystem = [equipSolarSystem; 'True'];
     else
         equipSolarSystem = [equipSolarSystem; 'None'];
@@ -88,7 +87,6 @@ for iUNIT = 1:size(equipID,1)
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.ID          = equipID{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Info        = equipInfo{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Name        = equipName{iUNIT};
-    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Count       = equipCount{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Capacity    = equipCapacity{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Efficiency  = equipEfficiency{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Insulation  = equipInsulation{iUNIT};

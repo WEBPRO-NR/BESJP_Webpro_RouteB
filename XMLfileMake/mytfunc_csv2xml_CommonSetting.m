@@ -112,36 +112,36 @@ for iRoom = 11:size(commonDataCell,1)
         roomArea = [roomArea;commonDataCell{iRoom,9}];
     end
     
-    % îıçl
-    if isempty(commonDataCell{iRoom,10})
-        roomInfo = [roomInfo;'Null'];
-    else
-        roomInfo = [roomInfo;commonDataCell{iRoom,10}];
-    end
-    
     % åvéZëŒè€
-    if isempty(commonDataCell{iRoom,12})
+    if isempty(commonDataCell{iRoom,10})
         roomcalcAC = [roomcalcAC;'False'];
     else
         roomcalcAC = [roomcalcAC;'True'];
     end
-    
-    if isempty(commonDataCell{iRoom,13})
-        roomcalcL = [roomcalcL;'False'];
-    else
-        roomcalcL = [roomcalcL;'True'];
-    end
-    
-    if isempty(commonDataCell{iRoom,14})
+        
+    if isempty(commonDataCell{iRoom,11})
         roomcalcV = [roomcalcV;'False'];
     else
         roomcalcV = [roomcalcV;'True'];
     end
     
-    if isempty(commonDataCell{iRoom,15})
+    if isempty(commonDataCell{iRoom,12})
+        roomcalcL = [roomcalcL;'False'];
+    else
+        roomcalcL = [roomcalcL;'True'];
+    end
+    
+    if isempty(commonDataCell{iRoom,13})
         roomcalcHW = [roomcalcHW;'False'];
     else
         roomcalcHW = [roomcalcHW;'True'];
+    end
+    
+    % îıçl
+    if isempty(commonDataCell{iRoom,14})
+        roomInfo = [roomInfo;'Null'];
+    else
+        roomInfo = [roomInfo;commonDataCell{iRoom,10}];
     end
     
 end

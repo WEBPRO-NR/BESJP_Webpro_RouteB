@@ -43,23 +43,29 @@ for iWIND = 1:size(WINDList,1)
         confG{3*(iWIND-1)+iBLIND,1} = strcat(windListDataCell{10+iWIND,1},'_',int2str(iBLIND-1));
         
         % 窓種類
-        if isempty(windListDataCell{10+iWIND,2}) == 0
+        if strcmp(windListDataCell{10+iWIND,2},'単板ガラス')
             confG{3*(iWIND-1)+iBLIND,2} = 'SNGL';
-        elseif isempty(windListDataCell{10+iWIND,3}) == 0
+        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層6mm）')
             confG{3*(iWIND-1)+iBLIND,2} = 'DL06';
-        elseif isempty(windListDataCell{10+iWIND,4}) == 0
+        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm）')
             confG{3*(iWIND-1)+iBLIND,2} = 'DL12';
         else
             error('ガラスの種類が不正です')
         end
         
         % 品種番号
-        confG{3*(iWIND-1)+iBLIND,3} = windListDataCell{10+iWIND,6};
+        confG{3*(iWIND-1)+iBLIND,3} = windListDataCell{10+iWIND,4};
         % ブラインド
         confG{3*(iWIND-1)+iBLIND,4} = int2str(iBLIND-1);
         
     end
     
 end
+
+lastnum = size(confG,1);
+confG{lastnum+1,1} = 'Null';
+confG{lastnum+1,2} = 'SNGL';
+confG{lastnum+1,3} = '1';
+confG{lastnum+1,4} = '0';
 
 end

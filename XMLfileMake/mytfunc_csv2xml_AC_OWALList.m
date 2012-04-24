@@ -40,18 +40,22 @@ for iOWALList = 1:size(OWALList,1)
     % WCON–¼
     confW{iOWALList,2} = strcat('W',int2str(iOWALList));
     
-    for iELE = 1:11
+    for iELE = 2:10
+        
         num = 10+11*(iOWALList-1)+iELE;
+        
         if num < size(owalListDataCell,1)
-            if isempty(owalListDataCell{num,5}) == 0
-                confW{iOWALList,2*(iELE-1)+2+1} = owalListDataCell{num,5};
-                if isempty(owalListDataCell{num,8}) == 0
-                    confW{iOWALList,2*(iELE-1)+2+2} = owalListDataCell{num,8};
+            if isempty(owalListDataCell{num,4}) == 0
+                
+                confW{iOWALList,2*(iELE-2)+2+1} = owalListDataCell{num,4};
+                if isempty(owalListDataCell{num,7}) == 0
+                    confW{iOWALList,2*(iELE-2)+2+2} = owalListDataCell{num,7};
                 else
-                    confW{iOWALList,2*(iELE-1)+2+2} = '0';
+                    confW{iOWALList,2*(iELE-2)+2+2} = '0';
                 end
+                
             end
-        end
+        end 
     end
 end
 

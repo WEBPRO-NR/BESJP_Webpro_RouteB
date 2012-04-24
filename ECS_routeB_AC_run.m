@@ -11,7 +11,7 @@
 clear
 clc
 INPUTFILENAME = 'output.xml';
-OutputOption = 'ON';
+OutputOption = 'OFF';
 
 
 switch OutputOption
@@ -27,7 +27,7 @@ end
 MODE = 2;
 % 熱源方式（2:二管式、4:四管式）
 PIPE = 2;
-
+% 負荷分割数（5か10）
 DivNUM = 5;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
@@ -52,7 +52,6 @@ filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
 
 mytscript_readDBfiles;     % CSVファイル読み込み
 mytscript_readXMLSetting;  % XMLファイル読み込み
-mytscript_systemDef;       % データベースから情報を取り出す
 
 
 %% システム特性
@@ -70,6 +69,8 @@ elseif DivNUM == 10
     kfVAVeffi = [0.1:0.1:1.0,1.0].^2;
     kpVWVeffi = [0.1:0.1:1.0,1.0].^2;
     
+else
+    error('分割数 %s は指定できません', int2str(DivNUM))
 end
 
 aveL = zeros(size(mxL));
@@ -147,6 +148,11 @@ for iWIN = 1:length(WIN)
     Hroom(WIN(iWIN),1) = 38.81;  % 冬期（２２℃，４０％ＲＨ）
     ModeOpe(WIN(iWIN),1) = SeasonMODE(3);
 end
+
+
+% 機器データの加工
+mytscript_systemDef;
+
 
 
 %%-----------------------------------------------------------------------------------------------------------
@@ -629,6 +635,7 @@ E_pump = sum(sum(MxPUMPE));
 % 積算運転時間(システム毎)
 TcPUMP = sum(MxPUMP,2);
 
+
 %%-----------------------------------------------------------------------------------------------------------
 %% 熱源系統の計算
 
@@ -774,55 +781,20 @@ for iREF = 1:numOfRefs
     
     % 各熱源の計算
     for iREFSUB = 1:refsetRnum(iREF)   % 熱源台数分だけ繰り返す
-        
-        % 空冷か水冷か
-        if refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 1 % 水冷式熱源の冷房(冷却水温度)
-            x = TctwC;
-        elseif refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 2 % 水冷式熱源の暖房（燃焼系含む：外気乾球温度）
-            x = ToadbH;
-        elseif refHeatSourceType(iREF,iREFSUB) ==2 && REFtype(iREF) == 1 % 空冷式熱源の冷房(乾球温度)
-            x = ToadbC;  % 乾球温度
-        elseif refHeatSourceType(iREF,iREFSUB) ==2 && REFtype(iREF) == 2 % 空冷式熱源の暖房(湿球温度)
-            x = ToawbH;  % 湿球温度
-        end
-        
+                
         % 最大能力、最大入力の設定
-        for iX = 1:length(x)
-            
-            % 最大能力比
-            if x(iX) < RerPerC_q_min(iREF,iREFSUB)  % 下限値
-                xq(iX) = RerPerC_q_min(iREF,iREFSUB);
-            elseif x(iX) > RerPerC_q_max(iREF,iREFSUB)  % 上限値
-                xq(iX) = RerPerC_q_max(iREF,iREFSUB);
-            else
-                xq(iX) = x(iX);
-            end
+        for iX = 1:length(ToadbC)
             
             % 各外気温区分における最大能力 [kW]
-            Qrefr_mod(iREF,iREFSUB,iX) = ...
-                refset_Capacity(iREF,iREFSUB).*(RerPerC_q_coeffi(iREF,iREFSUB,1).*xq(iX)^4 +...
-                RerPerC_q_coeffi(iREF,iREFSUB,2).* xq(iX)^3 + RerPerC_q_coeffi(iREF,iREFSUB,3).*xq(iX)^2 +...
-                RerPerC_q_coeffi(iREF,iREFSUB,4).*xq(iX) + RerPerC_q_coeffi(iREF,iREFSUB,5));
-            
-            % 最大入力比
-            if x(iX) < RerPerC_p_min(iREF,iREFSUB)  % 下限値
-                xp(iX) = RerPerC_p_min(iREF,iREFSUB);
-            elseif x(iX) > RerPerC_p_max(iREF,iREFSUB)  % 上限値
-                xp(iX) = RerPerC_p_max(iREF,iREFSUB);
-            else
-                xp(iX) = x(iX);
-            end
-            
+            Qrefr_mod(iREF,iREFSUB,iX) = refset_Capacity(iREF,iREFSUB) .* xQratio(iREF,iREFSUB,iX);
+
             % 各外気温区分における最大入力 [kW]  (1次エネルギー換算値であることに注意）
-            Erefr_mod(iREF,iREFSUB,iX) = ...
-                refset_MainPowerELE(iREF,iREFSUB).*(RerPerC_p_coeffi(iREF,iREFSUB,1).*xp(iX)^4 +...
-                RerPerC_p_coeffi(iREF,iREFSUB,2).*xp(iX)^3 + RerPerC_p_coeffi(iREF,iREFSUB,3).*xp(iX)^2 +...
-                RerPerC_p_coeffi(iREF,iREFSUB,4).*xp(iX) + RerPerC_p_coeffi(iREF,iREFSUB,5));
+            Erefr_mod(iREF,iREFSUB,iX) = refset_MainPowerELE(iREF,iREFSUB) .* xPratio(iREF,iREFSUB,iX);
             
         end
         
-        xqsave(iREF,:) = xq;
-        xpsave(iREF,:) = xp;
+        xqsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
+        xpsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
         
     end
     
@@ -873,7 +845,9 @@ for iREF = 1:numOfRefs
         end
     end
     
+    
     % 部分負荷率
+    
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
             
@@ -888,29 +862,34 @@ for iREF = 1:numOfRefs
                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa));
             end
             
-            % 最小負荷率（複数台ある場合は、最大の最低負荷率とする）
-            if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB)
-                MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB);
-            elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB) || iL == length(mxL)
-                MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB);
+            % どの部分負荷特性を使うか（インバータターボなど、冷却水温度によって特性が異なる場合がある）
+            if isnan(xXratioMX(iREF,iREFSUB)) == 0
+                if xTALL(iREF,iREFSUB,ioa) <= xXratioMX(iREF,iREFSUB)
+                    xCurveNum = 1;
+                else
+                    xCurveNum = 2;
+                end
+            else
+                xCurveNum = 1;
             end
             
-        end
-    end
-    
-    % エネルギー消費量
-    for ioa = 1:length(ToadbC)
-        for iL = 1:length(mxL)
-            
-            % 部分負荷率
-            tmpL = MxREFxL(ioa,iL,iREF);
-            
+            % 上下限
+            if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB,xCurveNum)
+                MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB,xCurveNum);
+            elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB,xCurveNum) || iL == length(mxL)
+                MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB,xCurveNum);
+            end
+
             % 部分負荷特性（各負荷率・各温度帯について）
+            tmpL = MxREFxL(ioa,iL,iREF);
             for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
                 
-                coeff_x(iREFSUB) = RerPerC_x_coeffi(iREF,iREFSUB,1).*tmpL.^4 + ...
-                    RerPerC_x_coeffi(iREF,iREFSUB,2).*tmpL.^3 + RerPerC_x_coeffi(iREF,iREFSUB,3).*tmpL.^2 +...
-                    RerPerC_x_coeffi(iREF,iREFSUB,4).*tmpL + RerPerC_x_coeffi(iREF,iREFSUB,5);
+                coeff_x(iREFSUB) = ...
+                    RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,1).*tmpL.^4 + ...
+                    RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,2).*tmpL.^3 + ...
+                    RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,3).*tmpL.^2 + ...
+                    RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,4).*tmpL + ...
+                    RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,5);
                 
                 if iL == length(mxL)
                     coeff_x(iREFSUB) = coeff_x(iREFSUB).* 1.2;  % 過負荷時のペナルティ（要検討）
@@ -935,26 +914,29 @@ for iREF = 1:numOfRefs
             % エネルギー消費量 [kW] (1次エネルギー換算後の値であることに注意）
             if MxREFnum(ioa,iL,iREF) == 1
                 
-                MxREFperE(ioa,iL,iREF) = RefTEIGEN(iREF,1).*Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,1) = RefTEIGEN(iREF,1).*Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+                MxREFperE(ioa,iL,iREF)      = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
                 
             elseif MxREFnum(ioa,iL,iREF) == 2
                 
-                MxREFperE(ioa,iL,iREF) = RefTEIGEN(iREF,1).*Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-                    RefTEIGEN(iREF,2).*Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+                MxREFperE(ioa,iL,iREF) = ...
+                    Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
+                    Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
                 
-                MxREFSUBperE(ioa,iL,iREF,1) = RefTEIGEN(iREF,1).*Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,2) = RefTEIGEN(iREF,2).*Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+                MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
                 
                 
             elseif MxREFnum(ioa,iL,iREF) == 3
-                MxREFperE(ioa,iL,iREF) = RefTEIGEN(iREF,1).*Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-                    RefTEIGEN(iREF,2) .* Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2) + ...
-                    RefTEIGEN(iREF,3) .* Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
                 
-                MxREFSUBperE(ioa,iL,iREF,1) = RefTEIGEN(iREF,1) .* Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,2) = RefTEIGEN(iREF,2) .* Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-                MxREFSUBperE(ioa,iL,iREF,3) = RefTEIGEN(iREF,3) .* Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
+                MxREFperE(ioa,iL,iREF) = ...
+                    Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
+                    Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2) + ...
+                    Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
+                
+                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+                MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+                MxREFSUBperE(ioa,iL,iREF,3) = Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
                 
             end
             

@@ -21,6 +21,7 @@
 
 clear
 clc
+addpath('./subfunction')
 inputfilename = 'output.xml';
 OutputOption = 'ON';
 
@@ -259,9 +260,9 @@ Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
 
-Edesign_AC_kW     = (2.71 .* PumpPowerAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
+Edesign_AC_kW     = (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
 Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
-    (2.71 .* PumpPowerAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+    (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
 Edesign_AC_MJ     = 9760.*Edesing_AC_Mwh;
 Edesign_AC_MWh_m2 = sum(nansum(Edesing_AC_Mwh))/sum(RoomArea);
 Edesign_AC_MJ_m2  = sum(nansum(Edesign_AC_MJ))/sum(RoomArea);

@@ -23,6 +23,22 @@ for i=1:length(roomDefData)
     end
 end
 
+% 室名が空白であれば直前の室名情報をコピーする。
+for iROOM = 11:size(roomDefDataCell,1)
+    if isempty(roomDefDataCell{iROOM,10})
+        if iROOM == 11
+            error('一つめの室名が空白です。')
+        else
+            roomDefDataCell(iROOM, 9) = roomDefDataCell(iROOM-1,9);
+            roomDefDataCell(iROOM,10) = roomDefDataCell(iROOM-1,10);
+            roomDefDataCell(iROOM,11) = roomDefDataCell(iROOM-1,11);
+            roomDefDataCell(iROOM,12) = roomDefDataCell(iROOM-1,12);
+        end
+    end
+end
+
+    
+
 % 空調ゾーンリストの作成
 ZoneList_Floor = {};
 ZoneList_Name  = {};
@@ -30,52 +46,59 @@ ZoneList_AHUR  = {};
 ZoneList_AHUO  = {};
 
 for iROOM = 11:size(roomDefDataCell,1)
+    
     if isempty(ZoneList_Name)
-        if isempty(roomDefDataCell{iROOM,8}) == 0
-            ZoneList_Floor = roomDefDataCell(iROOM,8);
+        
+        if isempty(roomDefDataCell{iROOM,9}) == 0
+            ZoneList_Floor = roomDefDataCell(iROOM,9);
         else
             ZoneList_Floor = 'Null';
         end
-        ZoneList_Name  = roomDefDataCell(iROOM,9);
         
-        if isempty(roomDefDataCell{iROOM,12}) == 0
-            ZoneList_AHUR  = roomDefDataCell(iROOM,12);
+        ZoneList_Name  = roomDefDataCell(iROOM,10);
+        
+        if isempty(roomDefDataCell{iROOM,11}) == 0
+            ZoneList_AHUR  = roomDefDataCell(iROOM,11);
         else
             ZoneList_AHUR  = 'Null';
         end
         
-        if isempty(roomDefDataCell{iROOM,13}) == 0
-            ZoneList_AHUO  = roomDefDataCell(iROOM,13);
+        if isempty(roomDefDataCell{iROOM,12}) == 0
+            ZoneList_AHUO  = roomDefDataCell(iROOM,12);
         else
             ZoneList_AHUO  = 'Null';
         end
+        
     else
+        
         check = 0;
+        
         for iDB = 1:length(ZoneList_Name)
-            if strcmp(ZoneList_Floor(iDB),roomDefDataCell(iROOM,8)) && ...
-                    strcmp(ZoneList_Name(iDB),roomDefDataCell(iROOM,9))
+            if strcmp(ZoneList_Floor(iDB),roomDefDataCell(iROOM,9)) && ...
+                    strcmp(ZoneList_Name(iDB),roomDefDataCell(iROOM,10))
                 % 重複判定
                 check = 1;
             end
         end
+        
         if check == 0
             % ゾーン名追加
-            if isempty(roomDefDataCell{iROOM,8}) == 0 
-                ZoneList_Floor = [ZoneList_Floor; roomDefDataCell(iROOM,8)];
+            if isempty(roomDefDataCell{iROOM,9}) == 0 
+                ZoneList_Floor = [ZoneList_Floor; roomDefDataCell(iROOM,9)];
             else
                 ZoneList_Floor = [ZoneList_Floor; 'Null'];
             end
             
-            ZoneList_Name  = [ZoneList_Name; roomDefDataCell(iROOM,9)];
+            ZoneList_Name  = [ZoneList_Name; roomDefDataCell(iROOM,10)];
             
-            if isempty(roomDefDataCell{iROOM,12}) == 0
-                ZoneList_AHUR  = [ZoneList_AHUR; roomDefDataCell(iROOM,12)];
+            if isempty(roomDefDataCell{iROOM,11}) == 0
+                ZoneList_AHUR  = [ZoneList_AHUR; roomDefDataCell(iROOM,11)];
             else
                 ZoneList_AHUR  = [ZoneList_AHUR; 'Null'];
             end
             
-            if isempty(roomDefDataCell{iROOM,13}) == 0
-                ZoneList_AHUO  = [ZoneList_AHUO; roomDefDataCell(iROOM,13)];
+            if isempty(roomDefDataCell{iROOM,12}) == 0
+                ZoneList_AHUO  = [ZoneList_AHUO; roomDefDataCell(iROOM,12)];
             else
                 ZoneList_AHUO  = [ZoneList_AHUO; 'Null'];
             end
@@ -100,8 +123,8 @@ for iZONE = 1:length(ZoneList_Name)
     
     Rcount = 0;
     for iDB = 11:size(roomDefDataCell,1)
-        if  strcmp(roomDefDataCell(iDB,8),ZoneList_Floor(iZONE)) && ...
-                strcmp(roomDefDataCell(iDB,9),ZoneList_Name(iZONE))
+        if  strcmp(roomDefDataCell(iDB,9),ZoneList_Floor(iZONE)) && ...
+                strcmp(roomDefDataCell(iDB,10),ZoneList_Name(iZONE))
             
             % 室を検索
             [RoomID,BldgType,RoomType,RoomArea,FloorHeight,RoomHeight,~,~] = ...

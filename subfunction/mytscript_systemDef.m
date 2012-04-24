@@ -15,7 +15,7 @@ end
 %----------------------------------
 % 空調室のパラメータ
 for iROOM = 1:numOfRoooms
-
+    
     % 建物用途と室用途リストを検索
     roomTime_start_p1_1 = [];
     for iDB = 2:size(perDB_RoomType,1)
@@ -188,7 +188,7 @@ for iAHU = 1:numOfAHUs
                     % ファン消費電力 [kW]
                     ahuEfan(iAHU) = ahuEfan(iAHU) + ahueleEfsa(iAHUELE) + ahueleEfra(iAHUELE) + ahueleEfoa(iAHUELE) + ahueleEfex(iAHUELE);
                     
-                    % 
+                    %
                     ahuQcmax(iAHU) = ahuQcmax(iAHU) + ahueleQcmax(iAHUELE);
                     ahuQhmax(iAHU) = ahuQhmax(iAHU) + ahueleQhmax(iAHUELE);
                     ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHUELE);
@@ -282,7 +282,7 @@ for iAHU = 1:numOfAHUs
                     end
                     
                 case {'AEX'}
-                   
+                    
                     % ファン消費電力 [kW]
                     ahuEfan(iAHU) = ahuEfan(iAHU) + ahueleEfsa(iAHUELE) + ahueleEfra(iAHUELE) + ahueleEfoa(iAHUELE) + ahueleEfex(iAHUELE);
                     
@@ -393,7 +393,7 @@ for iAHU = 1:numOfAHUs
             pumpMinValveOpening(iPUMP) = 1;
         end
     end
-
+    
 end
 
 
@@ -457,6 +457,8 @@ end
 %----------------------------------
 % 熱源のパラメータ
 
+xXratioMX = ones(numOfRefs,3).*NaN;
+    
 for iREF = 1:numOfRefs
     
     % 定格最大能力（全台数合計）
@@ -517,146 +519,184 @@ for iREF = 1:numOfRefs
         tmprefset = refset_Type{iREF,iREFSUB};
         
         refmatch = 0;
+        
+        % データベースを検索
         if isempty(tmprefset) == 0
+            
+            % 該当する箇所をすべて抜き出す
+            refParaSetALL = {};
             for iDB = 2:size(perDB_refList,1)
                 if strcmp(perDB_refList(iDB,1),tmprefset)
-                    % 燃料種類＋一次エネルギー換算
-                    switch perDB_refList{iDB,3}
-                        case '電力'
-                            refInputType(iREF,iREFSUB) = 1;
-                            refset_MainPowerELE(iREF,iREFSUB) = (9760/3600)*refset_MainPower(iREF,iREFSUB);
-                        case 'ガス'
-                            refInputType(iREF,iREFSUB) = 2;
-                            refset_MainPowerELE(iREF,iREFSUB) = (45000/3600)*refset_MainPower(iREF,iREFSUB);
-                        case '重油'
-                            refInputType(iREF,iREFSUB) = 3;
-                            refset_MainPowerELE(iREF,iREFSUB) = (41000/3600)*refset_MainPower(iREF,iREFSUB);
-                        case '灯油'
-                            refInputType(iREF,iREFSUB) = 4;
-                            refset_MainPowerELE(iREF,iREFSUB) = (37000/3600)*refset_MainPower(iREF,iREFSUB);
-                        case '液化石油ガス'
-                            refInputType(iREF,iREFSUB) = 5;
-                            refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);
-                        case '地冷：蒸気'
-                            refInputType(iREF,iREFSUB) = 6;
-                            refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
-                        case '地冷：温水'
-                            refInputType(iREF,iREFSUB) = 7;
-                            refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
-                        case '地冷：冷水'
-                            refInputType(iREF,iREFSUB) = 8;
-                            refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
-                        otherwise
-                            error('熱源：燃料種類の設定が不正です')
+                    refParaSetALL = [refParaSetALL;perDB_refList(iDB,:)];
+                end
+            end
+            if isempty(refParaSetALL)
+                error('熱源 %s の特性が見つかりません',tmprefset)
+            end
+            
+            % 燃料種類＋一次エネルギー換算
+            switch refParaSetALL{1,3}
+                case '電力'
+                    refInputType(iREF,iREFSUB) = 1;
+                    refset_MainPowerELE(iREF,iREFSUB) = (9760/3600)*refset_MainPower(iREF,iREFSUB);
+                case 'ガス'
+                    refInputType(iREF,iREFSUB) = 2;
+                    refset_MainPowerELE(iREF,iREFSUB) = (45000/3600)*refset_MainPower(iREF,iREFSUB);
+                case '重油'
+                    refInputType(iREF,iREFSUB) = 3;
+                    refset_MainPowerELE(iREF,iREFSUB) = (41000/3600)*refset_MainPower(iREF,iREFSUB);
+                case '灯油'
+                    refInputType(iREF,iREFSUB) = 4;
+                    refset_MainPowerELE(iREF,iREFSUB) = (37000/3600)*refset_MainPower(iREF,iREFSUB);
+                case '液化石油ガス'
+                    refInputType(iREF,iREFSUB) = 5;
+                    refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);
+                case '地冷：蒸気'
+                    refInputType(iREF,iREFSUB) = 6;
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                case '地冷：温水'
+                    refInputType(iREF,iREFSUB) = 7;
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                case '地冷：冷水'
+                    refInputType(iREF,iREFSUB) = 8;
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                otherwise
+                    error('熱源 %s の燃料種別が不正です',tmprefset)
+            end
+            
+            % 冷却方式
+            switch refParaSetALL{1,4}
+                case '水冷'
+                    refHeatSourceType(iREF,iREFSUB) = 1;
+                case '空冷'
+                    refHeatSourceType(iREF,iREFSUB) = 2;
+                case '燃焼'
+                    refHeatSourceType(iREF,iREFSUB) = 1;
+            end
+            
+            % 能力比、入力比の変数
+            if refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 1   % 水冷／冷房
+                xT = TctwC;   % 冷却水温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 2   % 水冷／暖房
+                xT = ToadbH;  % 乾球温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 2 && REFtype(iREF) == 1   % 空冷／冷房
+                xT = ToadbC;  % 乾球温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 2 && REFtype(iREF) == 2   % 空冷／暖房
+                xT = ToawbH;  % 湿球温度
+            else
+                error('モードが不正です')
+            end
+            
+            xTALL(iREF,iREFSUB,:) = xT;
+            
+            % 能力比と入力比
+            for iPQXW = 1:4
+                
+                if iPQXW == 1
+                    PQname = '能力比';
+                    Vname  = 'xQratio';
+                elseif iPQXW == 2
+                    PQname = '入力比';
+                    Vname  = 'xPratio';
+                elseif iPQXW == 3
+                    PQname = '部分負荷特性';
+                elseif iPQXW == 4
+                    PQname = '送水温度特性';
+                end
+                
+                % データベースから該当箇所を抜き出し：）
+                paraQ = {};
+                for iDB = 1:size(refParaSetALL,1)
+                    if strcmp(refParaSetALL(iDB,5),refsetMode{iREF}) && strcmp(refParaSetALL(iDB,6),PQname)
+                        paraQ = [paraQ;  refParaSetALL(iDB,:)];
                     end
-                    
-                    % 冷却方式
-                    switch perDB_refList{iDB,4}
-                        case '水冷'
-                            refHeatSourceType(iREF,iREFSUB) = 1;
-                        case '空冷'
-                            refHeatSourceType(iREF,iREFSUB) = 2;
-                    end
-                                        
-                    % 特性曲線
-                    tN = '';
-                    for i=1:4
-                        if i == 1 && REFtype(iREF) == 1
-                            tN = 'Cq';  % 能力比特性（冷）
-                        elseif i == 1 && REFtype(iREF) == 2
-                            tN = 'Hp';  % 能力比特性（温）
-                        elseif i == 2 && REFtype(iREF) == 1
-                            tN = 'Cp';  % 入力比特性（冷）
-                        elseif i == 2 && REFtype(iREF) == 2
-                            tN = 'Hq';  % 入力比特性（温）
-                        elseif i == 3 && REFtype(iREF) == 1
-                            tN = 'Cx';  % 部分負荷特性（冷）
-                        elseif i == 3 && REFtype(iREF) == 2
-                            tN = 'Hx';  % 部分負荷特性（温）
-                        elseif i == 4 && REFtype(iREF) == 1
-                            tN = 'Cw';  % 送水温度特性（冷）
-                        elseif i == 4 && REFtype(iREF) == 2
-                            tN = 'Hw';  % 送水温度特性（温）
-                        end
-
-                        % 特性曲線タイプの読み込み
-                        if REFtype(iREF) == 1
-                            eval(['refPerC_',tN,'{iREF,iREFSUB} = perDB_refList(iDB,4+i);'])
-                        elseif REFtype(iREF) == 2
-                            eval(['refPerC_',tN,'{iREF,iREFSUB} = perDB_refList(iDB,8+i);'])
-                        end
-                            
-                            
-                        % 性能曲線の係数の読み込み
-                        eval(['tmpPerC = refPerC_',tN,'{iREF,iREFSUB};'])
-                        tmpcoeff = [];
-                        for iDB2 = 1:size(perDB_refCurve,1)
-                            if strcmp(perDB_refCurve(iDB2,2),tmpPerC)
-                                tmpcoeff(1,1) = str2double(perDB_refCurve(iDB2,6));  % 4乗の係数
-                                tmpcoeff(1,2) = str2double(perDB_refCurve(iDB2,7));  % 3乗の係数
-                                tmpcoeff(1,3) = str2double(perDB_refCurve(iDB2,8));  % 2乗の係数
-                                tmpcoeff(1,4) = str2double(perDB_refCurve(iDB2,9));  % 1乗の係数
-                                tmpcoeff(1,5) = str2double(perDB_refCurve(iDB2,10)); % 切片
-                                tmpcoeff(1,6) = str2double(perDB_refCurve(iDB2,4));  % xの最小値
-                                tmpcoeff(1,7) = str2double(perDB_refCurve(iDB2,5));  % xの最大値
+                end
+                
+                % 値の抜き出し
+                tmpdata   = [];
+                tmpdataMX = [];
+                if isempty(paraQ) == 0
+                    for iDBQ = 1:size(paraQ,1)
+                        for iLIST = 2:size(perDB_refCurve,1)
+                            if strcmp(paraQ(iDBQ,9),perDB_refCurve(iLIST,2))
+                                % 最小値、最大値、基整促係数、パラメータ（x4,x3,x2,x1,a）
+                                tmpdata = [tmpdata;str2double(paraQ(iDBQ,[7,8,10])),str2double(perDB_refCurve(iLIST,4:8))];
+                                
+                                if iPQXW == 3
+                                    if isempty(tmpdataMX)
+                                        tmpdataMX = str2double(paraQ(iDBQ,12));
+                                    end
+                                end
                             end
                         end
-                        if isempty(tmpcoeff)
-                            error('熱源特性が見つかりません')
-                        end
-                        
-                        % 保存
-                        if i == 1
-                            RerPerC_q_coeffi(iREF,iREFSUB,:) = tmpcoeff(1:5);
-                            RerPerC_q_min(iREF,iREFSUB) = tmpcoeff(6);
-                            RerPerC_q_max(iREF,iREFSUB) = tmpcoeff(7);
-                        elseif i == 2
-                            RerPerC_p_coeffi(iREF,iREFSUB,:) = tmpcoeff(1:5);
-                            RerPerC_p_min(iREF,iREFSUB) = tmpcoeff(6);
-                            RerPerC_p_max(iREF,iREFSUB) = tmpcoeff(7);
-                        elseif i == 3
-                            RerPerC_x_coeffi(iREF,iREFSUB,:) = tmpcoeff(1:5);
-                            RerPerC_x_min(iREF,iREFSUB) = tmpcoeff(6);
-                            RerPerC_x_max(iREF,iREFSUB) = tmpcoeff(7);
-                        elseif i == 4
-                            RerPerC_w_coeffi(iREF,iREFSUB,:) = tmpcoeff(1:5);
-                            RerPerC_w_min(iREF,iREFSUB) = tmpcoeff(6);
-                            RerPerC_w_max(iREF,iREFSUB) = tmpcoeff(7);
-                        end
-                        
+                    end
+                end
+                
+                % 係数（基整促係数込み）
+                if iPQXW == 1 || iPQXW == 2
+                    for i = 1:6
+                        eval(['',Vname,'(iREF,iREFSUB,i) = mytfunc_REFparaSET(tmpdata,xT(i));'])
                     end
                     
-                    refmatch = 1; % 処理済みの証拠
+                elseif iPQXW == 3
+                    if isempty(tmpdata) == 0
+                        for iX = 1:size(tmpdata,1)
+                            RerPerC_x_min(iREF,iREFSUB,iX)    = tmpdata(iX,1);
+                            RerPerC_x_max(iREF,iREFSUB,iX)    = tmpdata(iX,2);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,1)  = tmpdata(iX,4);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,2)  = tmpdata(iX,5);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,3)  = tmpdata(iX,6);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,4)  = tmpdata(iX,7);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,5)  = tmpdata(iX,8);
+                        end
+                    else
+                        RerPerC_x_min(iREF,iREFSUB,1)    = 0;
+                        RerPerC_x_max(iREF,iREFSUB,1)    = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,1)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,2)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,3)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,4)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,5)  = 1;
+                    end
+                    if isempty(tmpdataMX) == 0
+                        xXratioMX(iREF,iREFSUB) = tmpdataMX;
+                    end
+                    
+                elseif iPQXW == 4
+                    if isempty(tmpdata) == 0
+                        RerPerC_w_min(iREF,iREFSUB)    = tmpdata(1,1);
+                        RerPerC_w_max(iREF,iREFSUB)    = tmpdata(1,2);
+                        RerPerC_w_coeffi(iREF,iREFSUB,1)  = tmpdata(1,4);
+                        RerPerC_w_coeffi(iREF,iREFSUB,2)  = tmpdata(1,5);
+                        RerPerC_w_coeffi(iREF,iREFSUB,3)  = tmpdata(1,6);
+                        RerPerC_w_coeffi(iREF,iREFSUB,4)  = tmpdata(1,7);
+                        RerPerC_w_coeffi(iREF,iREFSUB,5)  = tmpdata(1,8);
+                    else
+                        RerPerC_w_min(iREF,iREFSUB)       = 0;
+                        RerPerC_w_max(iREF,iREFSUB)       = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,1)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,2)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,3)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,4)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,5)  = 1;
+                    end
                     
                 end
+                
             end
         end
         
-        % 基整促係数(default 1.2)
-        RefTEIGEN(iREF,iREFSUB) = 1.2;
+        refmatch = 1; % 処理済みの証拠
         
-        if strcmp(tmprefset,'Rtype10') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype11') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype12') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype13') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype14') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype15') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype16') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        elseif strcmp(tmprefset,'Rtype17') && REFtype(iREF) == 2
-            RefTEIGEN(iREF,iREFSUB) = 1.0;
-        end
-        
-        if refmatch == 0
-            error('熱源名称が不正です');
-        end
     end
+    
+    if refmatch == 0
+        error('熱源名称が不正です');
+    end
+    
 end
+
+
+
 
 
