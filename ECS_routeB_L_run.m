@@ -17,13 +17,13 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_L_run(inputfilename,OutputOption)
+% function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% inputfilename = 'output.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+inputfilename = 'output.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 
 %% 設定
@@ -397,5 +397,3 @@ if OutputOptionVar == 1
     
 end
 
-
-toc

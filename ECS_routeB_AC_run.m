@@ -1,4 +1,4 @@
-% ECS_routeB_AC_run_v11.m
+% ECS_routeB_AC_run.m
 %                                                 by Masato Miyata 2012/03/29
 %-----------------------------------------------------------------------------
 % 新省エネ基準ルートＢ（空調）
@@ -6,12 +6,14 @@
 % INPUTFILENAME : 入力ファイル名（XMLファイル名）
 % OutputOption  : OFF 出力無し、ON 出力あり
 %-----------------------------------------------------------------------------
-% function y = ECS_routeB_AC_run_v11(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
 clear
 clc
+tic
 INPUTFILENAME = 'output.xml';
-OutputOption = 'OFF';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 
 switch OutputOption

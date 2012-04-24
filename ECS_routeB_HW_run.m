@@ -1,18 +1,28 @@
-% ECS_routeB_HW_run_v2.m
-%                                          by Masato Miyata 2011/04/04
+% ECS_routeB_HW_run.m
+%                                          by Masato Miyata 2011/04/25
 %----------------------------------------------------------------------
-% 給湯計算プログラム
+% 省エネ基準：給湯計算プログラム
 %----------------------------------------------------------------------
-function y = ECS_routeB_HW_run_v2(inputfilename,OutputOption)
+% 入力
+%  inputfilename : XMLファイル名称
+%  OutputOption  : 出力制御（ON: 詳細出力、OFF: 簡易出力）
+% 出力
+%  y(1) : 評価値 [MJ/年]
+%  y(2) : 評価値 [MJ/m2/年]
+%  y(3) : 基準値 [MJ/年]
+%  y(4) : 基準値 [MJ/m2/年]
+%  y(5) : BEI (=評価値/基準値） [-]
+%----------------------------------------------------------------------
+% function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% inputfilename = 'output.xml';
-% OutputOption = 'OFF';
+clear
+clc
+inputfilename = 'output.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 
 %% 設定
-
 model = xml_read(inputfilename);
 
 switch OutputOption
@@ -23,7 +33,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
 
 % 地域
 climateAREA = model.ATTRIBUTE.Region;
@@ -58,34 +67,42 @@ switch climateAREA
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
+        stdLineNum = 9;
     case 'Ib'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
+        stdLineNum = 10;
     case 'II'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_II.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
+        stdLineNum = 11;
     case 'III'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_III.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
+        stdLineNum = 12;
     case 'IVa'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8660.*OAdataAll(:,1) + 1.665;
+        stdLineNum = 13;
     case 'IVb'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8516.*OAdataAll(:,1) + 2.473;
+        stdLineNum = 14;
     case 'V'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_V.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.9223.*OAdataAll(:,1) + 2.097;
+        stdLineNum = 15;
     case 'VI'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         TWdata = 0.6921.*OAdataAll(:,1) + 7.167;
+        stdLineNum = 16;
     otherwise
         error('地域コードが不正です')
 end
@@ -108,8 +125,12 @@ end
 for iROOM = 1:length(model.HotwaterSystems.HotwarterRoom)
     
     % 室ID
-    roomName{iROOM} = strcat(model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomFloor,'_',...
-        model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomName);
+    roomID{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.ID;
+    
+    % 階
+    roomFloor{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomFloor;
+    % 室名
+    roomName{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomName;
     % 建物用途
     bldgType{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.BuildingType;
     % 室用途
@@ -118,6 +139,7 @@ for iROOM = 1:length(model.HotwaterSystems.HotwarterRoom)
     roomArea(iROOM) = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomArea;
     % 節水器具の有無
     roomWsave{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving;
+    
     % ボイラー接続
     tmpHWequip = {};
     for iREF = 1:length(model.HotwaterSystems.HotwarterRoom(iROOM).BoilerRef)
@@ -127,14 +149,16 @@ for iROOM = 1:length(model.HotwaterSystems.HotwarterRoom)
     
 end
 
+
 for iEQP = 1:length(model.HotwaterSystems.Boiler)
     
     % 機器コード
     equipID{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.ID;
     % 機器コード
     equipName{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Name;
-    % 台数
-    equipNum(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Count;
+    % 機器情報
+    equipInfo{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Info;
+    
     % 加熱容量 [kW/台]
     equipPower(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Capacity;
     % 熱源効率 [-]
@@ -293,7 +317,6 @@ for iROOM = 1:length(roomArea)
 end
 
 
-
 %% 各室熱源の容量比を求める。
 
 for iROOM = 1:length(roomArea)
@@ -305,7 +328,7 @@ for iROOM = 1:length(roomArea)
         % 機器リストを探査し、加熱容量を足す。
         check = 0;
         for iEQP = 1:length(equipID)
-            if strcmp(roomEquipSet{iROOM}(iEQPLIST),equipID(iEQP))
+            if strcmp(roomEquipSet{iROOM}(iEQPLIST),equipName(iEQP))
                 equipPowerEach = [equipPowerEach, equipPower(iEQP)];
                 equipPowerSum(iROOM) = equipPowerSum(iROOM) + equipPower(iEQP);
                 check = 1;
@@ -342,7 +365,7 @@ for iEQP = 1:length(equipID)
     tmpconnectPower = {};
     for iROOM = 1:length(roomArea)
         for iEQPLIST = 1:length(roomEquipSet{iROOM})
-            if strcmp(equipID(iEQP),roomEquipSet{iROOM}(iEQPLIST))
+            if strcmp(equipName(iEQP),roomEquipSet{iROOM}(iEQPLIST))
                 % 標準日積算給湯量 [L/day]
                 Qsr_eqp_daily(:,iEQP) = Qsr_eqp_daily(:,iEQP) + Qsr_daily(:,iROOM).*roomPowerRatio(iROOM,iEQPLIST);
                 % 日積算給湯量 [L/day]
@@ -377,12 +400,19 @@ for iEQP = 1:length(equipID)
     
 end
 
-% 給湯原単位 [MJ/m2年]
-E_eqpSUM = sum(E_eqp)/1000;
+% 評価値（給湯原単位） [MJ/m2年]
+E_eqpSUM        = sum(E_eqp)/1000;
 E_eqpSUMperAREA = sum(sum(E_eqp))/sum(roomArea)/1000;
+
+
+% 基準値
+standardValue = mytfunc_calcStandardValue(bldgType,roomType,roomArea,stdLineNum);
 
 y(1) = sum(E_eqpSUM);
 y(2) = E_eqpSUMperAREA;
+y(3) = standardValue;
+y(4) = standardValue/sum(roomArea);
+y(5) = y(2)/y(4);
 
 
 %% 簡易出力
@@ -444,7 +474,7 @@ if OutputOptionVar == 1
     
     for iEQP = 1:length(equipID)
         
-        rfc = [rfc; strcat(equipID{iEQP},',',equipName{iEQP})];
+        rfc = [rfc; strcat(equipName{iEQP},',',equipInfo{iEQP})];
         
         % 室接続
         roomlist = [];
@@ -476,7 +506,7 @@ if OutputOptionVar == 1
             tmpequipSolar = '無';
         end
         
-        rfc = [rfc; strcat(num2str(equipNum(iEQP)),',',num2str(equipPower(iEQP)),',',num2str(equipEffi(iEQP)),...
+        rfc = [rfc; strcat(num2str(equipPower(iEQP)),',',num2str(equipEffi(iEQP)),...
             ',',num2str(equipPipeSize(iEQP)),',SUS,',tmpequipInsulation,',',tmpequipSolar)];
         rfc = mytfunc_oneLinecCell(rfc,Troom');
         rfc = mytfunc_oneLinecCell(rfc,OAdataAll(:,1)');

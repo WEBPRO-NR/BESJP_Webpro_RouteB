@@ -78,19 +78,19 @@ for iUNIT = 1:numofUnit
     LoadLimit(iUNIT)   = model.Elevators.Elevator(iUNIT).ATTRIBUTE.LoadLimit;
     Velocity(iUNIT)    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Velocity;
         
-    if strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'EV_CT1')
+    if strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'VVVF_Regene_GearLess')
         kControlT(iUNIT) = 1/50;
         kControlT_name{iUNIT} = '可変電圧可変周波数制御方式（電力回生制御ありギアレス巻上機）';
-    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'EV_CT2')
+    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'VVVF_Regene')
         kControlT(iUNIT) = 1/45;
         kControlT_name{iUNIT} = '可変電圧可変周波数制御方式（電力回生制御あり）';
-    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'EV_CT3')
+    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'VVVF_GearLess')
         kControlT(iUNIT) = 1/45;
         kControlT_name{iUNIT} = '可変電圧可変周波数制御方式（電力回生制御なしギアレス巻上機）';
-    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'EV_CT4')
+    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'VVVF')
         kControlT(iUNIT) = 1/40;
         kControlT_name{iUNIT} = '可変電圧可変周波数制御方式（電力回生制御なし）';
-    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'EV_CT5')
+    elseif strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'AC_FeedbackControl')
         kControlT(iUNIT) = 1/20;
         kControlT_name{iUNIT} = '交流帰還制御方式';
     end
