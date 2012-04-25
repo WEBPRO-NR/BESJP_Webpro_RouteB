@@ -1,20 +1,39 @@
 % ECS_routeB_AC_run.m
-%                                                 by Masato Miyata 2012/03/29
-%-----------------------------------------------------------------------------
-% 新省エネ基準ルートＢ（空調）
-%-----------------------------------------------------------------------------
-% INPUTFILENAME : 入力ファイル名（XMLファイル名）
-% OutputOption  : OFF 出力無し、ON 出力あり
-%-----------------------------------------------------------------------------
+%                                           by Masato Miyata 2012/04/25
+%----------------------------------------------------------------------
+% 省エネ基準：空調計算プログラム
+%----------------------------------------------------------------------
+% 入力
+%  inputfilename : XMLファイル名称
+%  OutputOption  : 出力制御（ON: 詳細出力、OFF: 簡易出力）
+% 出力
+%  y(1)  : 一次エネルギー消費量　評価値 [MJ/m2年]
+%  y(2)  : 年間冷房負荷[MJ/m2・年]
+%  y(3)  : 年間暖房負荷[MJ/m2・年]
+%  y(4)  : 消費電力　全熱交換機 [MJ/m2]
+%  y(5)  : 消費電力　空調ファン [MJ/m2]
+%  y(6)  : 消費電力　二次ポンプ [MJ/m2]
+%  y(7)  : 消費電力　熱源主機 [MJ/m2]
+%  y(8)  : 消費電力　熱源補機 [MJ/m2]
+%  y(9)  : 消費電力　一次ポンプ [MJ/m2]
+%  y(10) : 消費電力　冷却塔ファン [MJ/m2]
+%  y(11) : 消費電力　冷却水ポンプ [MJ/m2]
+%  y(12) : 未処理負荷(冷) [MJ/m2]
+%  y(13) : 未処理負荷(温) [MJ/m2]
+%  y(14) : 熱源過負荷(冷) [MJ/m2]
+%  y(15) : 熱源過負荷(温) [MJ/m2]
+%  y(16) : CEC/AC* [-]
+%  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
+%  y(18) : BEI (=評価値/基準値） [-]
+%----------------------------------------------------------------------
 % function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
 clear
 clc
 tic
-INPUTFILENAME = 'output.xml';
+INPUTFILENAME = 'input.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
-
 
 switch OutputOption
     case 'ON'
@@ -33,7 +52,7 @@ PIPE = 2;
 DivNUM = 5;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
-SeasonMODE = [1,1,1];
+SeasonMODE = [1,1,-1];
 
 % ファン・ポンプの発熱比率
 k_heatup = 0.84;
@@ -268,8 +287,8 @@ switch MODE
             for iROOM=1:numOfRoooms
                 switch roomID{iROOM}
                     case ahuQroomSet{iAHU,:}
-                        QroomAHUc(:,iAHU) = QroomAHUc(:,iAHU) + QroomDc(:,iROOM).*roomCount(iROOM);   % 室数かける
-                        QroomAHUh(:,iAHU) = QroomAHUh(:,iAHU) + QroomDh(:,iROOM).*roomCount(iROOM);   % 室数かける
+                        QroomAHUc(:,iAHU) = QroomAHUc(:,iAHU) + QroomDc(:,iROOM);   % 室数かける
+                        QroomAHUh(:,iAHU) = QroomAHUh(:,iAHU) + QroomDh(:,iROOM);   % 室数かける
                 end
             end
             
@@ -783,21 +802,20 @@ for iREF = 1:numOfRefs
     
     % 各熱源の計算
     for iREFSUB = 1:refsetRnum(iREF)   % 熱源台数分だけ繰り返す
-                
+        
         % 最大能力、最大入力の設定
         for iX = 1:length(ToadbC)
             
             % 各外気温区分における最大能力 [kW]
             Qrefr_mod(iREF,iREFSUB,iX) = refset_Capacity(iREF,iREFSUB) .* xQratio(iREF,iREFSUB,iX);
-
+            
             % 各外気温区分における最大入力 [kW]  (1次エネルギー換算値であることに注意）
             Erefr_mod(iREF,iREFSUB,iX) = refset_MainPowerELE(iREF,iREFSUB) .* xPratio(iREF,iREFSUB,iX);
             
+            xqsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
+            xpsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
+            
         end
-        
-        xqsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
-        xpsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
-        
     end
     
     
@@ -1086,12 +1104,37 @@ end
 Qcpeak = max(tmpQcpeak)./roomAreaTotal .*1000;
 Qhpeak = max(tmpQhpeak)./roomAreaTotal .*1000;
 
+
+%% 基準値計算
+
+switch climateAREA
+    case 'Ia'
+        stdLineNum = 1;
+    case 'Ib'
+        stdLineNum = 2;
+    case 'II'
+        stdLineNum = 3;
+    case 'III'
+        stdLineNum = 4;
+    case 'IVa'
+        stdLineNum = 5;
+    case 'IVb'
+        stdLineNum = 6;
+    case 'V'
+        stdLineNum = 7;
+    case 'VI'
+        stdLineNum = 8;
+end
+
+standardValue = mytfunc_calcStandardValue(buildingType,roomType,roomArea,stdLineNum)/sum(roomArea);
+
+
 %----------------------------
 % 計算結果取りまとめ
 
 y(1)  = E1st_total(end,end);  % 一次エネルギー消費量合計 [MJ/m2]
-y(2)  = Qctotal/roomAreaTotal; % [MJ/m2・年]
-y(3)  = Qhtotal/roomAreaTotal; % [MJ/m2・年]
+y(2)  = Qctotal/roomAreaTotal; % 年間冷房負荷[MJ/m2・年]
+y(3)  = Qhtotal/roomAreaTotal; % 年間暖房負荷[MJ/m2・年]
 y(4)  = E1st_total(1,end)/roomAreaTotal;  % 全熱交換機 [MJ/m2]
 y(5)  = E1st_total(2,end)/roomAreaTotal;  % 空調ファン [MJ/m2]
 y(6)  = E1st_total(3,end)/roomAreaTotal;  % 二次ポンプ [MJ/m2]
@@ -1120,6 +1163,9 @@ switch MODE
         y(16) = y(1)./( ((sum(sum(Qahu_CEC))))./roomAreaTotal -y(12) -y(13) );
 end
 
+y(17) = standardValue;
+y(18) = y(1)/y(17);
+
 %%-----------------------------------------------------------------------------------------------------------
 %% 詳細出力
 if OutputOptionVar == 1 && MODE == 2
@@ -1139,7 +1185,10 @@ csvwrite(resfilenameS,y);
 
 
 disp('---------')
-eval(['disp(''一次エネルギー消費量： ', num2str(y(1)) ,'  MJ/m2・年'')'])
+eval(['disp(''一次エネルギー消費量 評価値： ', num2str(y(1)) ,'  MJ/m2・年'')'])
+eval(['disp(''一次エネルギー消費量 基準値： ', num2str(y(17)) ,'  MJ/m2・年'')'])
+eval(['disp(''BEI/AC       ： ', num2str(y(18)) ,''')'])
+disp('---------')
 eval(['disp(''年間冷房負荷： ', num2str(y(2)) ,'  MJ/m2・年'')'])
 eval(['disp(''年間暖房負荷： ', num2str(y(3)) ,'  MJ/m2・年'')'])
 disp('---------')
@@ -1159,7 +1208,4 @@ eval(['disp(''未処理負荷(温)： ', num2str(y(13)) ,'  MJ/m2・年'')'])
 eval(['disp(''熱源過負荷(冷)： ', num2str(y(14)) ,'  MJ/m2・年'')'])
 eval(['disp(''熱源過負荷(温)： ', num2str(y(15)) ,'  MJ/m2・年'')'])
 eval(['disp(''CEC/AC*      ： ', num2str(y(16)) ,''')'])
-
-
-
 

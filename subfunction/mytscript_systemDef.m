@@ -1,5 +1,5 @@
 % mytfunc_systemDef.m
-%                                                  2011/01/01 by Masato Miyata
+%                                                  2011/04/25 by Masato Miyata
 %------------------------------------------------------------------------------
 % 省エネ基準ルートB：XMLファイルの情報を基にデータベースから情報を抜き出す。
 %------------------------------------------------------------------------------
@@ -167,18 +167,18 @@ for iAHU = 1:numOfAHUs
             
             switch ahueleType{iAHUELE}
                 case {'AHU','FCU','UNIT'}
-                    
+                                        
                     % AHUtype
-                    if isempty(ahueleType{iAHUELE})
+                    if isempty(ahuType{iAHUELE})
                         switch ahueleType{iAHUELE}
                             case 'AHU'
-                                ahuType(iAHU)    = '空調機';
+                                ahuType{iAHU}    = '空調機';
                                 ahuTypeNum(iAHU) = 1;
                             case 'FCU'
-                                ahuType(iAHU)    = 'FCU';
+                                ahuType{iAHU}    = 'FCU';
                                 ahuTypeNum(iAHU) = 2;
                             case 'UNIT'
-                                ahuType(iAHU)    = 'UNIT';
+                                ahuType{iAHU}    = 'UNIT';
                                 ahuTypeNum(iAHU) = 3;
                             otherwise
                                 error('XMLファイルが不正です')
@@ -188,13 +188,13 @@ for iAHU = 1:numOfAHUs
                     % ファン消費電力 [kW]
                     ahuEfan(iAHU) = ahuEfan(iAHU) + ahueleEfsa(iAHUELE) + ahueleEfra(iAHUELE) + ahueleEfoa(iAHUELE) + ahueleEfex(iAHUELE);
                     
-                    %
+                    % 冷房能力、暖房能力、給気風量を足す
                     ahuQcmax(iAHU) = ahuQcmax(iAHU) + ahueleQcmax(iAHUELE);
                     ahuQhmax(iAHU) = ahuQhmax(iAHU) + ahueleQhmax(iAHUELE);
                     ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHUELE);
                     
                     % VAV制御
-                    if isempty(ahueleFlowControl{iAHUELE})
+                    if isempty(ahuFlowControl{iAHUELE})
                         switch ahueleFlowControl{iAHUELE}
                             case 'CAV'
                                 ahuFlowControl{iAHU} = '定風量';
@@ -215,7 +215,7 @@ for iAHU = 1:numOfAHUs
                     
                     
                     % 外気カット
-                    if isempty(ahueleOACutCtrl{iAHUELE})
+                    if isempty(ahuOACutCtrl{iAHUELE})
                         switch ahueleOACutCtrl{iAHUELE}
                             case 'False'
                                 ahuOACutCtrl{iAHU} = '無';
@@ -229,7 +229,7 @@ for iAHU = 1:numOfAHUs
                     end
                     
                     % 外気冷房
-                    if isempty(ahueleFreeCoolingCtrl{iAHUELE})
+                    if isempty(ahuFreeCoolingCtrl{iAHUELE})
                         switch ahueleFreeCoolingCtrl{iAHUELE}
                             case 'False'
                                 ahuFreeCoolingCtrl{iAHU} = '無';
@@ -252,7 +252,10 @@ for iAHU = 1:numOfAHUs
                             if ahuaexeff(iAHU) == 0
                                 ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
                             else
-                                ahuaexeff(iAHU) = mean([ahuaexeff(iAHU),ahueleHeatExchangeEff(iAHUELE)]);   % 全熱交換機効率
+                                % 複数台ある場合の効率は、一番悪いものを使う。
+                                if ahuaexeff(iAHU) > ahueleHeatExchangeEff(iAHUELE)
+                                    ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
+                                end
                             end
                         else
                             error('全熱交換効率の設定が不正です。')
@@ -295,7 +298,10 @@ for iAHU = 1:numOfAHUs
                             if ahuaexeff(iAHU) == 0
                                 ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
                             else
-                                ahuaexeff(iAHU) = mean([ahuaexeff(iAHU),ahueleHeatExchangeEff(iAHUELE)]);   % 全熱交換機効率
+                                % 複数台ある場合の効率は、一番悪いものを使う。
+                                if ahuaexeff(iAHU) > ahueleHeatExchangeEff(iAHUELE)
+                                    ahuaexeff(iAHU) = ahueleHeatExchangeEff(iAHUELE);
+                                end
                             end
                         else
                             error('全熱交換効率の設定が不正です。')
@@ -309,8 +315,6 @@ for iAHU = 1:numOfAHUs
                         ahuaexV(iAHU)   = ahuaexV(iAHU) + ahueleHeatExchangeVolume(iAHUELE); % 全熱交換機の風量
                         
                     end
-                    
-                    
             end
             
         end
@@ -322,10 +326,10 @@ for iAHU = 1:numOfAHUs
     tmpVoa      = 0;
     for iROOM = 1:length(roomName)
         if strcmp(ahuID(iAHU),roomAHU_Qroom(iROOM))
-            tmpQroomSet = [tmpQroomSet,roomName(iROOM)];  % 室負荷処理用
+            tmpQroomSet = [tmpQroomSet,roomID(iROOM)];  % 室負荷処理用
         end
         if strcmp(ahuID(iAHU),roomAHU_Qoa(iROOM))
-            tmpQoaSet = [tmpQoaSet,roomName(iROOM)];      % 外気負荷処理用
+            tmpQoaSet = [tmpQoaSet,roomID(iROOM)];      % 外気負荷処理用
             tmpVoa    = tmpVoa + roomVoa(iROOM);          % 外気取入量 [kg/s]
         end
     end

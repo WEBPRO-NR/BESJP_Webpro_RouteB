@@ -30,8 +30,8 @@ roomHeight      = zeros(1,numOfRoooms);
 for iZONE = 1:numOfRoooms
     
     roomID{iZONE}       = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ID;        % 空調室ID
-%     roomFloor{iZONE}    = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.RoomFloor; % 階
-%     roomName{iZONE}     = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.RoomName;  % 名称
+    roomFloor{iZONE}    = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneFloor; % 階
+    roomName{iZONE}     = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ACZoneName;  % 名称
     
     EnvelopeRef{iZONE}  = INPUT.AirConditioningSystem.AirConditioningZone(iZONE).ATTRIBUTE.ID;  % 外皮ID
     
@@ -183,7 +183,7 @@ if isfield(INPUT.AirConditioningSystem,'SecondaryPump')
         pumpPower(2*iPUMP-1)        = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.RatedPower,0);      % ポンプ定格電力
         pumpFlowCtrl{2*iPUMP-1}     = INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.FlowControl;     % ポンプ流量制御
         pumpQuantityCtrl{2*iPUMP-1} = INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.QuantityControl; % ポンプ台数制御
-        pumpdelT(2*iPUMP-1)         = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.deltaTemp_Cooling,5);     % ポンプ台数制御
+        pumpdelT(2*iPUMP-1)         = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.deltaTemp_Cooling,5);     % ポンプ設計温度差（冷房）
         pumpMinValveOpening(2*iPUMP-1)  = 0.3;
         
         % 温水ポンプ
@@ -195,7 +195,7 @@ if isfield(INPUT.AirConditioningSystem,'SecondaryPump')
         pumpPower(2*iPUMP)          = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.RatedPower,0);      % ポンプ定格電力
         pumpFlowCtrl{2*iPUMP}       = INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.FlowControl;     % ポンプ流量制御
         pumpQuantityCtrl{2*iPUMP}   = INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.QuantityControl; % ポンプ台数制御
-        pumpdelT(2*iPUMP)           = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.deltaTemp_Heating,5);     % ポンプ台数制御
+        pumpdelT(2*iPUMP)           = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPump(iPUMP).ATTRIBUTE.deltaTemp_Heating,5);     % ポンプ設計温度差（暖房）
         pumpMinValveOpening(2*iPUMP) = 0.3;
                 
     end
@@ -254,7 +254,7 @@ for iREF = 1:numOfRefs/2
     for iREFSUB = 1:refsetRnum(2*iREF-1)
         
         % 冷房
-        if strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling,'1番目')
+        if INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling == 1
             refset_Count(2*iREF-1,1)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Cooling,0);      % 台数
             refset_Type{2*iREF-1,1}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF-1,1)    = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Cooling,0);   % 定格能力
@@ -265,7 +265,7 @@ for iREF = 1:numOfRefs/2
             refset_CTFanPower(2*iREF-1,1)  = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTFanPower_Cooling,0);  % 冷却塔ファン電力
             refset_CTPumpPower(2*iREF-1,1) = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
             
-        elseif strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling,'2番目')
+        elseif INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling == 2
             refset_Count(2*iREF-1,2)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Cooling,0);      % 台数
             refset_Type{2*iREF-1,2}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF-1,2)    = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Cooling,0);   % 定格能力
@@ -276,7 +276,7 @@ for iREF = 1:numOfRefs/2
             refset_CTFanPower(2*iREF-1,2)  = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTFanPower_Cooling,0);  % 冷却塔ファン電力
             refset_CTPumpPower(2*iREF-1,2) = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
             
-        elseif strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling,'3番目')
+        elseif INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling == 3
             refset_Count(2*iREF-1,3)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Cooling,0);      % 台数
             refset_Type{2*iREF-1,3}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF-1,3)    = refset_Count(iREF,3) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Cooling,0);   % 定格能力
@@ -289,7 +289,7 @@ for iREF = 1:numOfRefs/2
         end
         
         % 暖房
-        if strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating,'1番目')
+        if INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating == 1
             refset_Count(2*iREF,1)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Heating,0);      % 台数
             refset_Type{2*iREF,1}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF,1)    = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Heating,0);   % 定格能力
@@ -297,7 +297,7 @@ for iREF = 1:numOfRefs/2
             refset_SubPower(2*iREF,1)    = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Heating,0);   % 定格補機電力
             refset_PrimaryPumpPower(2*iREF,1) = refset_Count(iREF,1) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
             
-        elseif strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating,'2番目')
+        elseif INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating == 2
             refset_Count(2*iREF,2)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Heating,0);      % 台数
             refset_Type{2*iREF,2}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF,2)    = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Heating,0);   % 定格能力
@@ -305,7 +305,7 @@ for iREF = 1:numOfRefs/2
             refset_SubPower(2*iREF,2)    = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Heating,0);   % 定格補機電力
             refset_PrimaryPumpPower(2*iREF,2) = refset_Count(iREF,2) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
             
-        elseif strcmp(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating,'3番目')
+        elseif INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating == 3
             refset_Count(2*iREF,3)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Heating,0);      % 台数
             refset_Type{2*iREF,3}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
             refset_Capacity(2*iREF,3)    = refset_Count(iREF,3) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Heating,0);   % 定格能力

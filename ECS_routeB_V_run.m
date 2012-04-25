@@ -22,7 +22,7 @@
 clear
 clc
 addpath('./subfunction')
-inputfilename = 'output.xml';
+inputfilename = 'input.xml';
 OutputOption = 'ON';
 
 

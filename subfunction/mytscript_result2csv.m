@@ -1,5 +1,5 @@
 % mytscript_result2csv.m
-%                                                  2012/01/04 by Masato Miyata
+%                                                  2012/04/25 by Masato Miyata
 %------------------------------------------------------------------------------
 % 省エネ基準ルートB：計算結果をcsvファイルに保存する。
 %------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ rfc = mytfunc_oneLinecCell(rfc,E1st_total);
 rfc = [rfc;'室負荷,'];
 
 for iROOM = 1:numOfRoooms
-    rfc = [rfc;strcat(roomName{iROOM},',',buildingType{iROOM},',',roomType{iROOM})];
+    rfc = [rfc;strcat(strcat(roomID{iROOM},' (',roomFloor{iROOM},'_',roomName{iROOM}),'),',buildingType{iROOM},',',roomType{iROOM})];
     rfc = mytfunc_oneLinecCell(rfc,NaN.*ones(1,365) );
     rfc = mytfunc_oneLinecCell(rfc,QroomDc(:,iROOM)' );
     rfc = mytfunc_oneLinecCell(rfc,QroomDh(:,iROOM)' );
@@ -59,7 +59,7 @@ rfc = [rfc;'空調負荷,'];
 for iAHU = 1:numOfAHUs
     
     % 空調機コード
-    rfc = [rfc;strcat(ahuName{iAHU},',',ahuType{iAHU})];
+    rfc = [rfc;strcat(ahuID{iAHU},',',ahuType{iAHU})];
     
     % 接続室情報（手間なので簡略化）
     tmp = 0; % カウンタ（5まで）
@@ -126,7 +126,7 @@ end
 rfc = [rfc;'空調機E,'];
 for iAHU = 1:numOfAHUs
     
-    rfc = [rfc; strcat(ahuName{iAHU},',',ahuType{iAHU},',',num2str(ahuQcmax(iAHU)),',',...
+    rfc = [rfc; strcat(ahuID{iAHU},',',ahuType{iAHU},',',num2str(ahuQcmax(iAHU)),',',...
         num2str(ahuQhmax(iAHU)),',',num2str(ahuEfan(iAHU)),',',num2str(0),',',...
         num2str(0),',',ahuFlowControl{iAHU},',',num2str(ahuFanVAVmin(iAHU)))];
     
