@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'input.xml';
+INPUTFILENAME = 'simpleRoom_Office_CASE12_事務室_IVb_BLDG1_MODEL1_DIREC1.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -522,67 +522,72 @@ switch MODE
             
             % ポンプ負荷の積算
             for iAHU = 1:numOfAHUs
-                switch ahuID{iAHU}
-                    case PUMPahuSet{iPUMP}
-                        
-                        for dd = 1:365
+                
+                if isempty(PUMPahuSet{iPUMP}) == 0
+                    
+                    switch ahuID{iAHU}
+                        case PUMPahuSet{iPUMP}
                             
-                            if PUMPtype(iPUMP) == 1 % 冷水ポンプ
+                            for dd = 1:365
                                 
-                                % ファン発熱量 Qpsahu_fan [MJ/day] の算出
-                                tmp = 0;
-                                if ahuTypeNum(iAHU) == 1  % 空調機であれば
+                                if PUMPtype(iPUMP) == 1 % 冷水ポンプ
+                                    
+                                    % ファン発熱量 Qpsahu_fan [MJ/day] の算出
+                                    tmp = 0;
+                                    if ahuTypeNum(iAHU) == 1  % 空調機であれば
+                                        if Qahu_c(dd,iAHU) > 0
+                                            tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        end
+                                        if Qahu_h(dd,iAHU) > 0
+                                            tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        end
+                                    end
+                                    
+                                    % 日積算ポンプ負荷 Qpsahu [MJ/day] の算出
                                     if Qahu_c(dd,iAHU) > 0
-                                        tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
-                                        Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        if Qahu_oac(dd,iAHU) > 0 % 外冷時はファン発熱量足さない　⇒　小さな負荷が出てしまう
+                                            if abs(Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU)) < 1  % 計算誤差まるめ
+                                                Qps(dd,iPUMP) = Qps(dd,iPUMP) + 0;
+                                            else
+                                                Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU);
+                                            end
+                                        else
+                                            Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
+                                        end
                                     end
                                     if Qahu_h(dd,iAHU) > 0
-                                        tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
-                                        Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_h(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
                                     end
-                                end
-                                
-                                % 日積算ポンプ負荷 Qpsahu [MJ/day] の算出
-                                if Qahu_c(dd,iAHU) > 0
-                                    if Qahu_oac(dd,iAHU) > 0 % 外冷時はファン発熱量足さない　⇒　小さな負荷が出てしまう
-                                        if abs(Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU)) < 1  % 計算誤差まるめ
-                                            Qps(dd,iPUMP) = Qps(dd,iPUMP) + 0;
-                                        else
-                                            Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU);
+                                    
+                                elseif PUMPtype(iPUMP) == 2 % 温水ポンプ
+                                    
+                                    % ファン発熱量 Qpsahu_fan [MJ/day] の算出
+                                    tmp = 0;
+                                    if ahuTypeNum(iAHU) == 1  % 空調機であれば
+                                        if Qahu_c(dd,iAHU) < 0
+                                            tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
                                         end
-                                    else
-                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
+                                        if Qahu_h(dd,iAHU) < 0
+                                            tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        end
                                     end
-                                end
-                                if Qahu_h(dd,iAHU) > 0
-                                    Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_h(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
-                                end
-                                
-                            elseif PUMPtype(iPUMP) == 2 % 温水ポンプ
-                                
-                                % ファン発熱量 Qpsahu_fan [MJ/day] の算出
-                                tmp = 0;
-                                if ahuTypeNum(iAHU) == 1  % 空調機であれば
+                                    
+                                    % 日積算ポンプ負荷 Qpsahu [MJ/day] の算出<符号逆転させる>
                                     if Qahu_c(dd,iAHU) < 0
-                                        tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
-                                        Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_c(dd,iAHU) + tmp);
                                     end
                                     if Qahu_h(dd,iAHU) < 0
-                                        tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
-                                        Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_h(dd,iAHU) + tmp);
                                     end
+                                    
                                 end
-                                
-                                % 日積算ポンプ負荷 Qpsahu [MJ/day] の算出<符号逆転させる>
-                                if Qahu_c(dd,iAHU) < 0
-                                    Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_c(dd,iAHU) + tmp);
-                                end
-                                if Qahu_h(dd,iAHU) < 0
-                                    Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_h(dd,iAHU) + tmp);
-                                end
-                                
                             end
-                        end
+                    end
+                    
                 end
             end
             

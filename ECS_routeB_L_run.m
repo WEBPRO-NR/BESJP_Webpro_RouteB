@@ -276,11 +276,15 @@ Edesign_MJ       = 9760.*Edesign_MWh;
 Edesign_MWh_m2 = sum(nansum(Edesign_MWh))/sum(RoomArea);
 Edesign_MJ_m2  = sum(nansum(Edesign_MJ))/sum(RoomArea);
 
-% 基準値 Estandard [MJ/年]
+% 基準値 Estandard [MJ/年]（基準値が固まるまでの暫定措置）
 Estandard_MWh = Es.*RoomArea.*timeL./1000000;
 Estandard_MJ  = 9760.*Estandard_MWh;
 Estandard_MWh_m2 = nansum(Estandard_MWh)/sum(RoomArea);
 Estandard_MJ_m2  = nansum(Estandard_MJ)/sum(RoomArea);
+
+% 基準値（ROOM_STANDARDVALUE.csv）より値を抜き出す（最終的にはこちらを採用）
+Estandard_MJ_CSV = mytfunc_calcStandardValue(BldgType,RoomType,RoomArea,17);
+
 
 % 出力
 y(1) = sum(nansum(Edesign_MWh));
