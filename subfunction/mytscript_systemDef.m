@@ -164,12 +164,12 @@ for iAHU = 1:numOfAHUs
     % 一致するユニットを探索
     for iAHUELE = 1:numOfAHUsTemp
         if strcmp(ahuID(iAHU),ahueleID(iAHUELE))
-            
+
             switch ahueleType{iAHUELE}
                 case {'AHU','FCU','UNIT'}
                                         
                     % AHUtype
-                    if isempty(ahuType{iAHUELE})
+                    if isempty(ahueleType{iAHUELE})
                         switch ahueleType{iAHUELE}
                             case 'AHU'
                                 ahuType{iAHU}    = '空調機';
@@ -194,7 +194,7 @@ for iAHU = 1:numOfAHUs
                     ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHUELE);
                     
                     % VAV制御
-                    if isempty(ahuFlowControl{iAHUELE})
+                    if isempty(ahueleFlowControl{iAHUELE})
                         switch ahueleFlowControl{iAHUELE}
                             case 'CAV'
                                 ahuFlowControl{iAHU} = '定風量';
@@ -215,7 +215,7 @@ for iAHU = 1:numOfAHUs
                     
                     
                     % 外気カット
-                    if isempty(ahuOACutCtrl{iAHUELE})
+                    if isempty(ahueleOACutCtrl{iAHUELE})
                         switch ahueleOACutCtrl{iAHUELE}
                             case 'False'
                                 ahuOACutCtrl{iAHU} = '無';
@@ -229,7 +229,7 @@ for iAHU = 1:numOfAHUs
                     end
                     
                     % 外気冷房
-                    if isempty(ahuFreeCoolingCtrl{iAHUELE})
+                    if isempty(ahueleFreeCoolingCtrl{iAHUELE})
                         switch ahueleFreeCoolingCtrl{iAHUELE}
                             case 'False'
                                 ahuFreeCoolingCtrl{iAHU} = '無';
@@ -538,7 +538,7 @@ for iREF = 1:numOfRefs
                 error('熱源 %s の特性が見つかりません',tmprefset)
             end
             
-            % 燃料種類＋一次エネルギー換算
+            % 燃料種類＋一次エネルギー換算 [kW]
             switch refParaSetALL{1,3}
                 case '電力'
                     refInputType(iREF,iREFSUB) = 1;
@@ -555,15 +555,15 @@ for iREF = 1:numOfRefs
                 case '液化石油ガス'
                     refInputType(iREF,iREFSUB) = 5;
                     refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);
-                case '地冷：蒸気'
+                case '蒸気'
                     refInputType(iREF,iREFSUB) = 6;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
-                case '地冷：温水'
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
+                case '温水'
                     refInputType(iREF,iREFSUB) = 7;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
-                case '地冷：冷水'
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
+                case '冷水'
                     refInputType(iREF,iREFSUB) = 8;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
                 otherwise
                     error('熱源 %s の燃料種別が不正です',tmprefset)
             end

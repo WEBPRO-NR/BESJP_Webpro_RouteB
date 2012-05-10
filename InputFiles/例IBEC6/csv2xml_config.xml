@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<csv2xmlConfig>
+
+    <Rooms>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_室リスト.csv</Rooms>
+
+    <AirConditioningSystem>
+	<Room>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_空調ゾーン.csv</Room>
+	<AHU>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_空調機.csv</AHU>
+	<Pump>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_二次ポンプ.csv</Pump>
+	<Ref>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_熱源.csv</Ref>
+	<Wall>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_外皮.csv</Wall>
+	<WCON>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_外壁構成.csv</WCON>
+	<WIND>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_空調_窓仕様.csv</WIND>
+    </AirConditioningSystem>
+
+    <LightingSystems>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_照明.csv</LightingSystems>
+    
+    <HotwaterSystems>
+	<Boiler>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_給湯_機器.csv</Boiler>
+	<Room>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_給湯_室.csv</Room>
+    </HotwaterSystems>
+
+    <VentilationSystems>
+	<Room>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_換気_室.csv</Room>
+	<Fan>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_換気_送風機.csv</Fan>
+	<AC>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_換気_冷房.csv</AC>	
+    </VentilationSystems>
+
+    <Elevators>../InputFiles/例IBEC6/例IBEC6_設計事例GreenOffice_昇降機.csv</Elevators>
+
+</csv2xmlConfig>

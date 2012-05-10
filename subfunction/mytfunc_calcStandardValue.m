@@ -35,6 +35,8 @@ for iROOM = 1:numOfRoom
         end
     end
     if check == 0
+        bldgType(iROOM)
+        roomType(iROOM)
         error('Žº—p“r‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ')
     end
 end

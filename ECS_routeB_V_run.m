@@ -22,7 +22,7 @@
 clear
 clc
 addpath('./subfunction')
-inputfilename = 'input.xml';
+inputfilename = './InputFiles/例IBEC2/sample_IBEC2.xml';
 OutputOption = 'ON';
 
 
@@ -174,6 +174,7 @@ for iROOM = 1:numOfRoom
             
             % 基準設定消費電力 [kW]
             if strcmp(perDB_RoomType(iDB,27),'-')
+                iROOM
                 error('室用途「 %s 」は換気対象室ではありません',strcat(BldgType{iROOM},':',RoomType{iROOM}))
             else
                 

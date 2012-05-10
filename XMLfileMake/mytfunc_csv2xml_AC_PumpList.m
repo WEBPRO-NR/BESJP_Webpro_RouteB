@@ -39,29 +39,29 @@ for iPUMP = 11:size(pumpListDataCell,1)
         end
         
         % ポンプ台数
-        if isempty(pumpListDataCell{iPUMP,3})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.Count = pumpListDataCell(iPUMP,3);
+        if isempty(pumpListDataCell{iPUMP,4})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.Count = pumpListDataCell(iPUMP,4);
         else
             error('2次ポンプの台数が不正です。')
         end
         
         % 冷水流量
-        if isempty(pumpListDataCell{iPUMP,4})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.RatedFlow = pumpListDataCell(iPUMP,4);
+        if isempty(pumpListDataCell{iPUMP,5})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.RatedFlow = pumpListDataCell(iPUMP,5);
         else
             error('2次ポンプの定格流量が不正です。')
         end
         
         % 定格消費電力
-        if isempty(pumpListDataCell{iPUMP,5})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.RatedPower = pumpListDataCell(iPUMP,5);
+        if isempty(pumpListDataCell{iPUMP,6})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.RatedPower = pumpListDataCell(iPUMP,6);
         else
             error('2次ポンプの定格消費電力が不正です。')
         end
         
         % 流量制御方式
-        if isempty(pumpListDataCell{iPUMP,6})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.FlowControl = pumpListDataCell(iPUMP,6);
+        if isempty(pumpListDataCell{iPUMP,7})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.FlowControl = pumpListDataCell(iPUMP,7);
         else
             xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.FlowControl = 'Null';
         end
@@ -70,13 +70,13 @@ for iPUMP = 11:size(pumpListDataCell,1)
         xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.QuantityControl = 'True';
         
         % 設計温度差
-        if isempty(pumpListDataCell{iPUMP,7})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Cooling = pumpListDataCell(iPUMP,7);
+        if isempty(pumpListDataCell{iPUMP,9})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Cooling = pumpListDataCell(iPUMP,9);
         else
             xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Cooling = 'Null';
         end
-        if isempty(pumpListDataCell{iPUMP,8})==0
-            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Heating = pumpListDataCell(iPUMP,8);
+        if isempty(pumpListDataCell{iPUMP,10})==0
+            xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Heating = pumpListDataCell(iPUMP,10);
         else
             xmldata.AirConditioningSystem.SecondaryPump(iPUMP-10).ATTRIBUTE.deltaTemp_Heating = 'Null';
         end

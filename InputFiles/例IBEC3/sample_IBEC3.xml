@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BuildingType="Office" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVb" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" TotalArea="100" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_1" Info="Null" RoomArea="21.32" RoomDepth="6.18" RoomFloor="1F" RoomHeight="3.6" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_2" Info="Null" RoomArea="13.14" RoomDepth="4.38" RoomFloor="1F" RoomHeight="2.7" RoomName="ｲﾝﾀｰﾈｯﾄｺｰﾅｰ" RoomType="ロビー（終日）" RoomWidth="3" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_3" Info="Null" RoomArea="29.5" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.7" RoomName="ﾛﾋﾞｰ･ﾌﾛﾝﾄ" RoomType="ロビー（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_4" Info="Null" RoomArea="22.68" RoomDepth="4.93" RoomFloor="1F" RoomHeight="2.7" RoomName="軽食ｺｰﾅｰ" RoomType="ラウンジ（終日）" RoomWidth="4.6" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_5" Info="Null" RoomArea="15.43" RoomDepth="6.05" RoomFloor="1F" RoomHeight="2.7" RoomName="ﾊﾟﾝﾄﾘｰ" RoomType="ラウンジ（終日）" RoomWidth="2.55" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_6" Info="Null" RoomArea="11.1" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="事務室" RoomType="事務室（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_7" Info="Null" RoomArea="2.88" RoomDepth="2.4" RoomFloor="1F" RoomHeight="2.4" RoomName="通路" RoomType="廊下（終日）" RoomWidth="1.2" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_8" Info="Null" RoomArea="10.69" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomName="休憩室" RoomType="更衣室" RoomWidth="3.75" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_9" Info="Null" RoomArea="2.5" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomName="WC" RoomType="トイレ（終日）" RoomWidth="1.85" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_10" Info="Null" RoomArea="2.45" RoomDepth="1.9" RoomFloor="1F" RoomHeight="3.6" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.29" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_11" Info="Null" RoomArea="15.1" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="2.25" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_12" Info="Null" RoomArea="6.41" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.25" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_13" Info="Null" RoomArea="20.96" RoomDepth="6.6" RoomFloor="1F" RoomHeight="3.6" RoomName="機械室" RoomType="電気・機械室（標準）" RoomWidth="3.18" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_14" Info="Null" RoomArea="23.4" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.5" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_15" Info="Null" RoomArea="19.8" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_16" Info="Null" RoomArea="2.78" RoomDepth="1.5" RoomFloor="1F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_17" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_18" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_19" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_20" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_21" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_22" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_23" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_24" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_25" Info="Null" RoomArea="2" RoomDepth="Null" RoomFloor="1F" RoomHeight="3.6" RoomName="PS(中央1)" RoomType="電気・機械室（標準）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_26" Info="Null" RoomArea="1.47" RoomDepth="0.7" RoomFloor="1F" RoomHeight="3.6" RoomName="PS(中央2)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_27" Info="Null" RoomArea="0.86" RoomDepth="0.7" RoomFloor="1F" RoomHeight="3.6" RoomName="PS(N)" RoomType="電気・機械室（標準）" RoomWidth="1.23" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_28" Info="Null" RoomArea="21.32" RoomDepth="6.18" RoomFloor="2F" RoomHeight="3.2" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_29" Info="Null" RoomArea="4.75" RoomDepth="2.84" RoomFloor="2F" RoomHeight="2.4" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_30" Info="Null" RoomArea="19.8" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_31" Info="Null" RoomArea="2.78" RoomDepth="1.5" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_32" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_33" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_34" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_35" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_36" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_37" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_38" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_39" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_40" Info="Null" RoomArea="2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="PS(中央1)" RoomType="電気・機械室（標準）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_41" Info="Null" RoomArea="1.47" RoomDepth="0.7" RoomFloor="2F" RoomHeight="2.4" RoomName="PS(中央2)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_42" Info="Null" RoomArea="0.86" RoomDepth="0.7" RoomFloor="2F" RoomHeight="2.4" RoomName="PS(N)" RoomType="電気・機械室（標準）" RoomWidth="1.23" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_43" Info="Null" RoomArea="22.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_44" Info="Null" RoomArea="25.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_45" Info="Null" RoomArea="14.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_46" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_47" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_48" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_49" Info="Null" RoomArea="5.25" RoomDepth="2.5" RoomFloor="2F" RoomHeight="2.4" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_50" Info="Null" RoomArea="10.3" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_51" Info="Null" RoomArea="2.51" RoomDepth="1.93" RoomFloor="2F" RoomHeight="2.4" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_52" Info="Null" RoomArea="20.4" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_53" Info="Null" RoomArea="2.71" RoomDepth="1.87" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_54" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_55" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_56" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_57" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_58" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_59" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_60" Info="Null" RoomArea="0.8" RoomDepth="0.55" RoomFloor="2F" RoomHeight="3.15" RoomName="PS(S)" RoomType="電気・機械室（標準）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_61" Info="Null" RoomArea="1.16" RoomDepth="0.55" RoomFloor="2F" RoomHeight="3.15" RoomName="PS(中央5)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_62" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="2F" RoomHeight="3.15" RoomName="PS(中央4)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_63" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="2F" RoomHeight="3.15" RoomName="PS(中央3)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_64" Info="Null" RoomArea="21.32" RoomDepth="6.18" RoomFloor="3F" RoomHeight="3.2" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_65" Info="Null" RoomArea="4.75" RoomDepth="2.84" RoomFloor="3F" RoomHeight="2.4" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_66" Info="Null" RoomArea="19.8" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_67" Info="Null" RoomArea="2.78" RoomDepth="1.5" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_68" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_69" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_70" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_71" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_72" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_73" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_74" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_75" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_76" Info="Null" RoomArea="2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="PS(中央1)" RoomType="電気・機械室（標準）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_77" Info="Null" RoomArea="1.47" RoomDepth="0.7" RoomFloor="3F" RoomHeight="2.4" RoomName="PS(中央2)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_78" Info="Null" RoomArea="0.86" RoomDepth="0.7" RoomFloor="3F" RoomHeight="2.4" RoomName="PS(N)" RoomType="電気・機械室（標準）" RoomWidth="1.23" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_79" Info="Null" RoomArea="22.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_80" Info="Null" RoomArea="25.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_81" Info="Null" RoomArea="14.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_82" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_83" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_84" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_85" Info="Null" RoomArea="5.25" RoomDepth="2.5" RoomFloor="3F" RoomHeight="2.4" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_86" Info="Null" RoomArea="10.3" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_87" Info="Null" RoomArea="2.51" RoomDepth="1.93" RoomFloor="3F" RoomHeight="2.4" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_88" Info="Null" RoomArea="20.4" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_89" Info="Null" RoomArea="2.71" RoomDepth="1.87" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_90" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_91" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_92" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_93" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_94" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_95" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_96" Info="Null" RoomArea="0.8" RoomDepth="0.55" RoomFloor="3F" RoomHeight="3.15" RoomName="PS(S)" RoomType="電気・機械室（標準）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_97" Info="Null" RoomArea="1.16" RoomDepth="0.55" RoomFloor="3F" RoomHeight="3.15" RoomName="PS(中央5)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_98" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="3F" RoomHeight="3.15" RoomName="PS(中央4)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_99" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="3F" RoomHeight="3.15" RoomName="PS(中央3)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_100" Info="Null" RoomArea="21.32" RoomDepth="6.18" RoomFloor="4F" RoomHeight="3.2" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_101" Info="Null" RoomArea="4.75" RoomDepth="2.84" RoomFloor="4F" RoomHeight="2.4" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_102" Info="Null" RoomArea="19.8" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_103" Info="Null" RoomArea="2.78" RoomDepth="1.5" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_104" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_105" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_106" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_107" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_108" Info="Null" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_109" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_110" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_111" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_112" Info="Null" RoomArea="2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="PS(中央1)" RoomType="電気・機械室（標準）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_113" Info="Null" RoomArea="1.47" RoomDepth="0.7" RoomFloor="4F" RoomHeight="2.4" RoomName="PS(中央2)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_114" Info="Null" RoomArea="0.86" RoomDepth="0.7" RoomFloor="4F" RoomHeight="2.4" RoomName="PS(N)" RoomType="電気・機械室（標準）" RoomWidth="1.23" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_115" Info="Null" RoomArea="22.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_116" Info="Null" RoomArea="25.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_117" Info="Null" RoomArea="14.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_118" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_119" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_120" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_121" Info="Null" RoomArea="5.25" RoomDepth="2.5" RoomFloor="4F" RoomHeight="2.4" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_122" Info="Null" RoomArea="10.3" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_123" Info="Null" RoomArea="2.51" RoomDepth="1.93" RoomFloor="4F" RoomHeight="2.4" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_124" Info="Null" RoomArea="20.4" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_125" Info="Null" RoomArea="2.71" RoomDepth="1.87" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_126" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_127" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_128" Info="Null" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_129" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_130" Info="Null" RoomArea="14" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_131" Info="Null" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_132" Info="Null" RoomArea="0.8" RoomDepth="0.55" RoomFloor="4F" RoomHeight="3.15" RoomName="PS(S)" RoomType="電気・機械室（標準）" RoomWidth="1.45" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_133" Info="Null" RoomArea="1.16" RoomDepth="0.55" RoomFloor="4F" RoomHeight="3.15" RoomName="PS(中央5)" RoomType="電気・機械室（標準）" RoomWidth="2.1" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_134" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="4F" RoomHeight="3.15" RoomName="PS(中央4)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+      <Room BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_135" Info="Null" RoomArea="0.63" RoomDepth="0.55" RoomFloor="4F" RoomHeight="3.15" RoomName="PS(中央3)" RoomType="電気・機械室（標準）" RoomWidth="1.15" calcAC="False" calcHW="False" calcL="False" calcV="False"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ｲﾝﾀｰﾈｯﾄｺｰﾅｰ" ID="Z1">
+         <AirHandlingUnitRef ID="PA11" Load="Room"/>
+         <AirHandlingUnitRef ID="PA11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_2" RoomArea="13.14" RoomFloor="1F" RoomHeight="2.7" RoomName="ｲﾝﾀｰﾈｯﾄｺｰﾅｰ" RoomType="ロビー（終日）"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ﾛﾋﾞｰ･ﾌﾛﾝﾄ" ID="Z2">
+         <AirHandlingUnitRef ID="PA12" Load="Room"/>
+         <AirHandlingUnitRef ID="PA12" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_3" RoomArea="29.5" RoomFloor="1F" RoomHeight="2.7" RoomName="ﾛﾋﾞｰ･ﾌﾛﾝﾄ" RoomType="ロビー（終日）"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="軽食ｺｰﾅｰ" ID="Z3">
+         <AirHandlingUnitRef ID="PA13" Load="Room"/>
+         <AirHandlingUnitRef ID="PA13" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_4" RoomArea="22.68" RoomFloor="1F" RoomHeight="2.7" RoomName="軽食ｺｰﾅｰ" RoomType="ラウンジ（終日）"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ﾊﾟﾝﾄﾘｰ" ID="Z4">
+         <AirHandlingUnitRef ID="PA11" Load="Room"/>
+         <AirHandlingUnitRef ID="PA11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_5" RoomArea="15.43" RoomFloor="1F" RoomHeight="2.7" RoomName="ﾊﾟﾝﾄﾘｰ" RoomType="ラウンジ（終日）"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="事務室" ID="Z5">
+         <AirHandlingUnitRef ID="PA14" Load="Room"/>
+         <AirHandlingUnitRef ID="PA14" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_6" RoomArea="11.1" RoomFloor="1F" RoomHeight="2.4" RoomName="事務室" RoomType="事務室（終日）"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="休憩室" ID="Z6">
+         <AirHandlingUnitRef ID="PA15" Load="Room"/>
+         <AirHandlingUnitRef ID="PA15" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_8" RoomArea="10.69" RoomFloor="1F" RoomHeight="2.4" RoomName="休憩室" RoomType="更衣室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ﾂｲﾝ(W)" ID="Z7">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_15" RoomArea="19.8" RoomFloor="1F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ｼﾝｸﾞﾙ(W)3室" ID="Z8">
+         <AirHandlingUnitRef ID="PA41" Load="Room"/>
+         <AirHandlingUnitRef ID="PA41" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_17" RoomArea="12.9" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_19" RoomArea="12.9" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_21" RoomArea="12.9" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="ｼﾝｸﾞﾙ(NW)" ID="Z9">
+         <AirHandlingUnitRef ID="PA91" Load="Room"/>
+         <AirHandlingUnitRef ID="PA91" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.6" ID="ROOM_23" RoomArea="14" RoomFloor="1F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ﾂｲﾝ(W)" ID="Z10">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_30" RoomArea="19.8" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(W)3室" ID="Z11">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_32" RoomArea="12.9" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_34" RoomArea="12.9" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_36" RoomArea="12.9" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(NW)" ID="Z12">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_38" RoomArea="14" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(NE)" ID="Z13">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_45" RoomArea="14.2" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(E1)" ID="Z14">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_47" RoomArea="13" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ﾂｲﾝ(E)" ID="Z15">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_52" RoomArea="20.4" RoomFloor="2F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(E2)" ID="Z16">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_54" RoomArea="13" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(E3)" ID="Z17">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_56" RoomArea="13" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="ｼﾝｸﾞﾙ(SE)" ID="Z18">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_58" RoomArea="14" RoomFloor="2F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ﾂｲﾝ(W)" ID="Z19">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_66" RoomArea="19.8" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(W)3室" ID="Z20">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_68" RoomArea="12.9" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_70" RoomArea="12.9" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_72" RoomArea="12.9" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(NW)" ID="Z21">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_74" RoomArea="14" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(NE)" ID="Z22">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_81" RoomArea="14.2" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(E1)" ID="Z23">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_83" RoomArea="13" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ﾂｲﾝ(E)" ID="Z24">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_88" RoomArea="20.4" RoomFloor="3F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(E2)" ID="Z25">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_90" RoomArea="13" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(E3)" ID="Z26">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_92" RoomArea="13" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="ｼﾝｸﾞﾙ(SE)" ID="Z27">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_94" RoomArea="14" RoomFloor="3F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ﾂｲﾝ(W)" ID="Z28">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_102" RoomArea="19.8" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(W)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(W)3室" ID="Z29">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_104" RoomArea="12.9" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_106" RoomArea="12.9" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_108" RoomArea="12.9" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(NW)" ID="Z30">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_110" RoomArea="14" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(NE)" ID="Z31">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_117" RoomArea="14.2" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(E1)" ID="Z32">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_119" RoomArea="13" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ﾂｲﾝ(E)" ID="Z33">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_124" RoomArea="20.4" RoomFloor="4F" RoomHeight="2.4" RoomName="ﾂｲﾝ(E)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(E2)" ID="Z34">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_126" RoomArea="13" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(E3)" ID="Z35">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_128" RoomArea="13" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="ｼﾝｸﾞﾙ(SE)" ID="Z36">
+         <AirHandlingUnitRef ID="AC11" Load="Room"/>
+         <AirHandlingUnitRef ID="AC11" Load="OutsideAir"/>
+         <RoomRef BuildingType="Hotel" FloorHeight="3.15" ID="ROOM_130" RoomArea="14" RoomFloor="4F" RoomHeight="2.4" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室"/>
+      </AirConditioningZone>
+      <AirHandlingUnit CoolingCapacity="3.6" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="4" ID="PA11" MinDamperOpening="Null" Name="PAC-1-1" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="780" SupplyFanPower="0.06" System="1階ｲﾝﾀｰﾈｯﾄｺｰﾅｰ+ﾊﾟﾝﾄﾘｰ" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="PA1" HeatingID="PA1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="4.5" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5" ID="PA12" MinDamperOpening="Null" Name="PAC-1-2" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="900" SupplyFanPower="0.06" System="1階 ﾛﾋﾞｰ･ﾌﾛﾝﾄ" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="PA1" HeatingID="PA1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="7.1" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="8" ID="PA13" MinDamperOpening="Null" Name="PAC-1-3" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="1320" SupplyFanPower="0.06" System="1階 軽食ｺｰﾅｰ" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="PA1" HeatingID="PA1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="2.8" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="3.2" ID="PA14" MinDamperOpening="Null" Name="PAC-1-4" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="780" SupplyFanPower="0.06" System="1階 事務室" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="PA1" HeatingID="PA1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="2.8" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="3.2" ID="PA15" MinDamperOpening="Null" Name="PAC-1-5" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="780" SupplyFanPower="0.06" System="1階 休憩室" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="PA1" HeatingID="PA1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="2.8" Count="38" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="4.2" ID="AC11" MinDamperOpening="Null" Name="AC-1" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="780" SupplyFanPower="0.06" System="各階 客室" Type="UNIT">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="AC1" HeatingID="AC1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="PA11" MinDamperOpening="Null" Name="HEU1" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="1階ｲﾝﾀｰﾈｯﾄｺｰﾅｰ+ﾊﾟﾝﾄﾘｰ" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="PA12" MinDamperOpening="Null" Name="HEU2" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="1階 ﾛﾋﾞｰ･ﾌﾛﾝﾄ" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="PA13" MinDamperOpening="Null" Name="HEU3" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="1階 軽食ｺｰﾅｰ" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="PA14" MinDamperOpening="Null" Name="HEU4" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="1階 事務室" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="PA15" MinDamperOpening="Null" Name="HEU5" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="1階 軽食ｺｰﾅｰ" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="38" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.67" HeatExchangerPower="Null" HeatExchangerVolume="100" HeatingCapacity="Null" ID="AC11" MinDamperOpening="Null" Name="HEU6" OutsideAirCutControl="False" OutsideAirFanPower="0.1" ReturnFanPower="Null" SupplyAirVolume="100" SupplyFanPower="Null" System="各階 客室" Type="AEX">
+         <SecondaryPumpRef CoolingID="Null" HeatingID="Null"/>
+         <HeatSourceSetRef CoolingID="Null" HeatingID="Null"/>
+      </AirHandlingUnit>
+      <HeatSourceSet Name="PA1" QuantityControl_Cooling="False" QuantityControl_Heating="False" SupplyMode="Each" ThermalStorage_Cooling="False" ThermalStorage_Heating="False">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="22.40" Capacity_Heating="25.00" Count_Cooling="1" Count_Heating="1" MainPower_Cooling="4.50" MainPower_Heating="4.50" Name="PAC-1" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="0.75" SubPower_Heating="0.75" Type="EHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet Name="AC1" QuantityControl_Cooling="False" QuantityControl_Heating="False" SupplyMode="Each" ThermalStorage_Cooling="False" ThermalStorage_Heating="False">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="2.80" Capacity_Heating="4.20" Count_Cooling="38" Count_Heating="38" MainPower_Cooling="0.75" MainPower_Heating="0.75" Name="AC-1" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="0.08" SubPower_Heating="0.08" Type="EHP"/>
+      </HeatSourceSet>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z1" ACZoneName="ｲﾝﾀｰﾈｯﾄｺｰﾅｰ">
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="10.8" WallConfigure="OW2H" WindowArea="7.0" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="13.1" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z2" ACZoneName="ﾛﾋﾞｰ･ﾌﾛﾝﾄ">
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="14.2" WallConfigure="OW2H" WindowArea="4.9" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="29.5" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z3" ACZoneName="軽食ｺｰﾅｰ">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="17.9" WallConfigure="OW2H" WindowArea="2.8" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="16.6" WallConfigure="OW2H" WindowArea="11.5" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="22.7" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z4" ACZoneName="ﾊﾟﾝﾄﾘｰ">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="21.6" WallConfigure="OW2H" WindowArea="2.8" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="15.4" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z5" ACZoneName="事務室">
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="11.1" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z6" ACZoneName="休憩室">
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="10.7" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z7" ACZoneName="ﾂｲﾝ(W)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="13.0" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="19.8" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z8" ACZoneName="ｼﾝｸﾞﾙ(W)3室">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="25.9" WallConfigure="OW2H" WindowArea="4.2" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="38.7" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z9" ACZoneName="ｼﾝｸﾞﾙ(NW)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="9.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="15.4" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="None" Direction="Underground" Eaves="None" WallArea="14.0" WallConfigure="IF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z10" ACZoneName="ﾂｲﾝ(W)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z11" ACZoneName="ｼﾝｸﾞﾙ(W)3室">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="22.7" WallConfigure="OW2H" WindowArea="4.2" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z12" ACZoneName="ｼﾝｸﾞﾙ(NW)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="13.5" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z13" ACZoneName="ｼﾝｸﾞﾙ(NE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="20.8" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z14" ACZoneName="ｼﾝｸﾞﾙ(E1)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z15" ACZoneName="ﾂｲﾝ(E)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z16" ACZoneName="ｼﾝｸﾞﾙ(E2)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z17" ACZoneName="ｼﾝｸﾞﾙ(E3)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z18" ACZoneName="ｼﾝｸﾞﾙ(SE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="13.9" WallConfigure="OW2H" WindowArea="0.7" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z19" ACZoneName="ﾂｲﾝ(W)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z20" ACZoneName="ｼﾝｸﾞﾙ(W)3室">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="22.7" WallConfigure="OW2H" WindowArea="4.2" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z21" ACZoneName="ｼﾝｸﾞﾙ(NW)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="13.5" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z22" ACZoneName="ｼﾝｸﾞﾙ(NE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="20.8" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z23" ACZoneName="ｼﾝｸﾞﾙ(E1)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z24" ACZoneName="ﾂｲﾝ(E)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z25" ACZoneName="ｼﾝｸﾞﾙ(E2)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z26" ACZoneName="ｼﾝｸﾞﾙ(E3)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z27" ACZoneName="ｼﾝｸﾞﾙ(SE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="13.9" WallConfigure="OW2H" WindowArea="0.7" WindowType="WNDW1_1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z28" ACZoneName="ﾂｲﾝ(W)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="19.8" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z29" ACZoneName="ｼﾝｸﾞﾙ(W)3室">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="22.7" WallConfigure="OW2H" WindowArea="4.2" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="38.7" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z30" ACZoneName="ｼﾝｸﾞﾙ(NW)">
+         <Wall Blind="Bright" Direction="W" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="13.5" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="14.0" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z31" ACZoneName="ｼﾝｸﾞﾙ(NE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="N" Eaves="None" WallArea="20.8" WallConfigure="OW2H" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="14.2" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z32" ACZoneName="ｼﾝｸﾞﾙ(E1)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="13.0" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z33" ACZoneName="ﾂｲﾝ(E)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="11.3" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="20.4" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z34" ACZoneName="ｼﾝｸﾞﾙ(E2)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="13.0" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z35" ACZoneName="ｼﾝｸﾞﾙ(E3)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="7.6" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="13.0" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z36" ACZoneName="ｼﾝｸﾞﾙ(SE)">
+         <Wall Blind="Bright" Direction="E" Eaves="None" WallArea="8.1" WallConfigure="OW2H" WindowArea="1.4" WindowType="WNDW1_1"/>
+         <Wall Blind="Bright" Direction="S" Eaves="None" WallArea="13.9" WallConfigure="OW2H" WindowArea="0.7" WindowType="WNDW1_1"/>
+         <Wall Blind="None" Direction="Horizontal" Eaves="None" WallArea="14.0" WallConfigure="RF5H" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+   </AirConditioningSystem>
+   <LightingSystems>
+      <LightingRoom BldgType="Hotel" RoomArea="21.32" RoomDepth="6.18" RoomFloor="1F" RoomHeight="3.6" RoomIDs="ROOM_1" RoomIndex="Null" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_1" Power="95" UnitName="Null" UnitType="階段通路誘導灯"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13.14" RoomDepth="4.38" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_2" RoomIndex="Null" RoomName="ｲﾝﾀｰﾈｯﾄｺｰﾅｰ" RoomType="ロビー（終日）" RoomWidth="3">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="6" ID="LUnit_2" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="29.5" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_3" RoomIndex="1.3" RoomName="ﾛﾋﾞｰ･ﾌﾛﾝﾄ" RoomType="ロビー（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="15" ID="LUnit_3" Power="95" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="22.68" RoomDepth="4.93" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_4" RoomIndex="Null" RoomName="軽食ｺｰﾅｰ" RoomType="ラウンジ（終日）" RoomWidth="4.6">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="15" ID="LUnit_4" Power="95" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="15.43" RoomDepth="6.05" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_5" RoomIndex="Null" RoomName="ﾊﾟﾝﾄﾘｰ" RoomType="ラウンジ（終日）" RoomWidth="2.55">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_5" Power="95" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="11.1" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_6" RoomIndex="0.9" RoomName="事務室" RoomType="事務室（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="4" ID="LUnit_6" Power="95" UnitName="Null" UnitType="埋込下面ｱｸﾘﾙ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.88" RoomDepth="2.4" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_7" RoomIndex="Null" RoomName="通路" RoomType="廊下（終日）" RoomWidth="1.2">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_7" Power="35" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="10.69" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_8" RoomIndex="Null" RoomName="休憩室" RoomType="更衣室" RoomWidth="3.75">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_8" Power="35" UnitName="Null" UnitType="埋込下面ｱｸﾘﾙ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.5" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_9" RoomIndex="Null" RoomName="WC" RoomType="トイレ（終日）" RoomWidth="1.85">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_9" Power="40" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.45" RoomDepth="1.9" RoomFloor="1F" RoomHeight="3.6" RoomIDs="ROOM_10" RoomIndex="Null" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.29">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_10" Power="22" UnitName="Null" UnitType="反射傘付"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="15.1" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_11" RoomIndex="Null" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="2.25">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_11" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="6.41" RoomDepth="2.85" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_12" RoomIndex="Null" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.25">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_12" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="20.96" RoomDepth="6.6" RoomFloor="1F" RoomHeight="3.6" RoomIDs="ROOM_13" RoomIndex="Null" RoomName="機械室" RoomType="電気・機械室（標準）" RoomWidth="3.18">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_13" Power="95" UnitName="Null" UnitType="反射傘付"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="23.4" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.5" RoomIDs="ROOM_14" RoomIndex="0.6" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_14" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="19.8" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_15" RoomIndex="0.8" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_15" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.78" RoomDepth="1.5" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_16" RoomIndex="Null" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_16" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_17" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_17" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_18" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_18" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_19" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_19" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_20" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_20" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_21" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_21" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_22" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_22" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_23" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_23" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="1F" RoomHeight="2.4" RoomIDs="ROOM_24" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_24" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="21.32" RoomDepth="6.18" RoomFloor="2F" RoomHeight="3.2" RoomIDs="ROOM_28" RoomIndex="Null" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_25" Power="95" UnitName="Null" UnitType="階段通路誘導灯"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="4.75" RoomDepth="2.84" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_29" RoomIndex="Null" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_26" Power="35" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="19.8" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_30" RoomIndex="0.8" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_27" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.78" RoomDepth="1.5" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_31" RoomIndex="Null" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_28" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_32" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_29" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_33" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_30" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_34" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_31" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_35" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_32" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_36" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_33" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_37" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_34" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_38" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_35" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_39" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_36" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="22.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_43" RoomIndex="0.8" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_37" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="25.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_44" RoomIndex="0.7" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_38" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14.2" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_45" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_39" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_46" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_40" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_47" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_41" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_48" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_42" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="5.25" RoomDepth="2.5" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_49" RoomIndex="Null" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_43" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="10.3" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_50" RoomIndex="0.6" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_44" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.51" RoomDepth="1.93" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_51" RoomIndex="Null" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_45" Power="22" UnitName="Null" UnitType="反射傘付"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="20.4" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_52" RoomIndex="0.8" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_46" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.71" RoomDepth="1.87" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_53" RoomIndex="Null" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_47" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_54" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_48" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_55" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_49" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_56" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_50" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_57" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_51" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_58" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_52" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="2F" RoomHeight="2.4" RoomIDs="ROOM_59" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_53" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="21.32" RoomDepth="6.18" RoomFloor="3F" RoomHeight="3.2" RoomIDs="ROOM_64" RoomIndex="Null" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_54" Power="95" UnitName="Null" UnitType="階段通路誘導灯"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="4.75" RoomDepth="2.84" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_65" RoomIndex="Null" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_55" Power="35" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="19.8" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_66" RoomIndex="0.8" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_56" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.78" RoomDepth="1.5" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_67" RoomIndex="Null" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_57" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_68" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_58" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_69" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_59" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_70" RoomIndex="0.6" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_60" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_71" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_61" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_72" RoomIndex="0.565194532" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_62" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_73" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_63" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_74" RoomIndex="0.616631431" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_64" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_75" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_65" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="22.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_79" RoomIndex="0.831834532" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_66" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="25.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_80" RoomIndex="0.650154799" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_67" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14.2" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_81" RoomIndex="0.627097686" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_68" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_82" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_69" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_83" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_70" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_84" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_71" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="5.25" RoomDepth="2.5" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_85" RoomIndex="Null" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_72" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="10.3" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_86" RoomIndex="0.587899543" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_73" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.51" RoomDepth="1.93" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_87" RoomIndex="Null" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_74" Power="22" UnitName="Null" UnitType="反射傘付"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="20.4" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_88" RoomIndex="0.798122066" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_75" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.71" RoomDepth="1.87" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_89" RoomIndex="Null" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_76" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_90" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_77" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_91" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_78" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_92" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_79" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_93" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_80" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_94" RoomIndex="0.618265324" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_81" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="3F" RoomHeight="2.4" RoomIDs="ROOM_95" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_82" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="21.32" RoomDepth="6.18" RoomFloor="4F" RoomHeight="3.2" RoomIDs="ROOM_100" RoomIndex="Null" RoomName="階段室" RoomType="廊下（終日）" RoomWidth="3.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_83" Power="95" UnitName="Null" UnitType="階段通路誘導灯"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="4.75" RoomDepth="2.84" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_101" RoomIndex="Null" RoomName="収納" RoomType="湯沸室等" RoomWidth="1.68">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_84" Power="35" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="19.8" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_102" RoomIndex="0.772833724" RoomName="ﾂｲﾝ(W)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_85" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.78" RoomDepth="1.5" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_103" RoomIndex="Null" RoomName="ﾂｲﾝ(W)UB" RoomType="客室(洗面）" RoomWidth="1.85">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_86" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_104" RoomIndex="0.565194532" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_87" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_105" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_88" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_106" RoomIndex="0.565194532" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_89" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_107" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_90" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="12.9" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_108" RoomIndex="0.565194532" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_91" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_109" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(W3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_92" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_110" RoomIndex="0.616631431" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_93" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_111" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NW)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_94" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="22.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_115" RoomIndex="0.831834532" RoomName="EVﾎｰﾙ" RoomType="ロビー（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_95" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="25.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_116" RoomIndex="0.650154799" RoomName="廊下" RoomType="廊下（終日）" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="10" ID="LUnit_96" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14.2" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_117" RoomIndex="0.627097686" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_97" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_118" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(NE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_98" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_119" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_99" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_120" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E1)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_100" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="5.25" RoomDepth="2.5" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_121" RoomIndex="Null" RoomName="自販機" RoomType="廊下（終日）" RoomWidth="2.1">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="2" ID="LUnit_101" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="10.3" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_122" RoomIndex="0.587899543" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_102" Power="45" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.51" RoomDepth="1.93" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_123" RoomIndex="Null" RoomName="PS(E)" RoomType="電気・機械室（標準）" RoomWidth="1.3">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_103" Power="22" UnitName="Null" UnitType="反射傘付"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="20.4" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_124" RoomIndex="0.798122066" RoomName="ﾂｲﾝ(E)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="5" ID="LUnit_104" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.71" RoomDepth="1.87" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_125" RoomIndex="Null" RoomName="ﾂｲﾝ(E)UB" RoomType="客室(洗面）" RoomWidth="1.45">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_105" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_126" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_106" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_127" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E2)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_107" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="13" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_128" RoomIndex="0.571077139" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_108" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_129" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(E3)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_109" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="14" RoomDepth="Null" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_130" RoomIndex="0.618265324" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="3" ID="LUnit_110" Power="60" UnitName="Null" UnitType="ﾀﾞｳﾝﾗｲﾄ"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Hotel" RoomArea="2.23" RoomDepth="1.35" RoomFloor="4F" RoomHeight="2.4" RoomIDs="ROOM_131" RoomIndex="Null" RoomName="ｼﾝｸﾞﾙ(SE)UB" RoomType="客室(洗面）" RoomWidth="1.65">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" ControlFlag_C4="None" ControlFlag_C5="None" Count="1" ID="LUnit_111" Power="40" UnitName="Null" UnitType="ﾌﾞﾗｹｯﾄ"/>
+      </LightingRoom>
+   </LightingSystems>
+   <HotwaterSystems>
+      <Boiler Capacity="2" Efficiency="0.8" ID="HWUnit_1" Info="BHW1-1、2" Insulation="Level1" Name="BHW" PipeSize="30" SolarSystem="None"/>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_1" RoomArea="22.68" RoomFloor="1F" RoomIDs="ROOM_4" RoomName="軽食ｺｰﾅｰ" RoomType="ラウンジ（終日）" WaterSaving="None">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_2" RoomArea="19.8" RoomFloor="1F" RoomIDs="ROOM_15" RoomName="ﾂｲﾝ(W)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_3" RoomArea="12.9" RoomFloor="1F" RoomIDs="ROOM_17" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_4" RoomArea="12.9" RoomFloor="1F" RoomIDs="ROOM_19" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_5" RoomArea="12.9" RoomFloor="1F" RoomIDs="ROOM_21" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_6" RoomArea="14" RoomFloor="1F" RoomIDs="ROOM_23" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_7" RoomArea="19.8" RoomFloor="2F" RoomIDs="ROOM_30" RoomName="ﾂｲﾝ(W)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_8" RoomArea="12.9" RoomFloor="2F" RoomIDs="ROOM_32" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_9" RoomArea="12.9" RoomFloor="2F" RoomIDs="ROOM_34" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_10" RoomArea="12.9" RoomFloor="2F" RoomIDs="ROOM_36" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_11" RoomArea="14" RoomFloor="2F" RoomIDs="ROOM_38" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_12" RoomArea="14.2" RoomFloor="2F" RoomIDs="ROOM_45" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_13" RoomArea="13" RoomFloor="2F" RoomIDs="ROOM_47" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_14" RoomArea="20.4" RoomFloor="2F" RoomIDs="ROOM_52" RoomName="ﾂｲﾝ(E)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_15" RoomArea="13" RoomFloor="2F" RoomIDs="ROOM_54" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_16" RoomArea="13" RoomFloor="2F" RoomIDs="ROOM_56" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_17" RoomArea="14" RoomFloor="2F" RoomIDs="ROOM_58" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_18" RoomArea="19.8" RoomFloor="3F" RoomIDs="ROOM_66" RoomName="ﾂｲﾝ(W)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_19" RoomArea="12.9" RoomFloor="3F" RoomIDs="ROOM_68" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_20" RoomArea="12.9" RoomFloor="3F" RoomIDs="ROOM_70" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_21" RoomArea="12.9" RoomFloor="3F" RoomIDs="ROOM_72" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_22" RoomArea="14" RoomFloor="3F" RoomIDs="ROOM_74" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_23" RoomArea="14.2" RoomFloor="3F" RoomIDs="ROOM_81" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_24" RoomArea="13" RoomFloor="3F" RoomIDs="ROOM_83" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_25" RoomArea="20.4" RoomFloor="3F" RoomIDs="ROOM_88" RoomName="ﾂｲﾝ(E)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_26" RoomArea="13" RoomFloor="3F" RoomIDs="ROOM_90" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_27" RoomArea="13" RoomFloor="3F" RoomIDs="ROOM_92" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_28" RoomArea="14" RoomFloor="3F" RoomIDs="ROOM_94" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_29" RoomArea="19.8" RoomFloor="4F" RoomIDs="ROOM_102" RoomName="ﾂｲﾝ(W)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_30" RoomArea="12.9" RoomFloor="4F" RoomIDs="ROOM_104" RoomName="ｼﾝｸﾞﾙ(W1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_31" RoomArea="12.9" RoomFloor="4F" RoomIDs="ROOM_106" RoomName="ｼﾝｸﾞﾙ(W2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_32" RoomArea="12.9" RoomFloor="4F" RoomIDs="ROOM_108" RoomName="ｼﾝｸﾞﾙ(W3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_33" RoomArea="14" RoomFloor="4F" RoomIDs="ROOM_110" RoomName="ｼﾝｸﾞﾙ(NW)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_34" RoomArea="14.2" RoomFloor="4F" RoomIDs="ROOM_117" RoomName="ｼﾝｸﾞﾙ(NE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_35" RoomArea="13" RoomFloor="4F" RoomIDs="ROOM_119" RoomName="ｼﾝｸﾞﾙ(E1)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_36" RoomArea="20.4" RoomFloor="4F" RoomIDs="ROOM_124" RoomName="ﾂｲﾝ(E)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_37" RoomArea="13" RoomFloor="4F" RoomIDs="ROOM_126" RoomName="ｼﾝｸﾞﾙ(E2)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_38" RoomArea="13" RoomFloor="4F" RoomIDs="ROOM_128" RoomName="ｼﾝｸﾞﾙ(E3)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+      <HotwarterRoom BuildingType="Hotel" ID="HWroom_39" RoomArea="14" RoomFloor="4F" RoomIDs="ROOM_130" RoomName="ｼﾝｸﾞﾙ(SE)" RoomType="客室" WaterSaving="MixingTap">
+         <BoilerRef ID="BHW"/>
+      </HotwarterRoom>
+   </HotwaterSystems>
+   <VentilationSystems>
+      <VentilationRoom BuildingType="Hotel" RoomArea="20.96" RoomFloor="1F" RoomIDs="ROOM_13" RoomName="機械室" RoomType="電気・機械室（標準）">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.15" FanVolume="650" ID="VfanUnit_1" UnitName="FS-1" UnitType="Supply"/>
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.15" FanVolume="650" ID="VfanUnit_4" UnitName="FE-1" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Hotel" RoomArea="15.1" RoomFloor="1F" RoomIDs="ROOM_11" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_3" UnitName="FS-3" UnitType="Supply"/>
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_6" UnitName="FE-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Hotel" RoomArea="10.3" RoomFloor="2F" RoomIDs="ROOM_50" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_3" UnitName="FS-3" UnitType="Supply"/>
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_6" UnitName="FE-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Hotel" RoomArea="10.3" RoomFloor="3F" RoomIDs="ROOM_86" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_3" UnitName="FS-3" UnitType="Supply"/>
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_6" UnitName="FE-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Hotel" RoomArea="10.3" RoomFloor="4F" RoomIDs="ROOM_122" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_3" UnitName="FS-3" UnitType="Supply"/>
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.20" FanVolume="500" ID="VfanUnit_6" UnitName="FE-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Hotel" RoomArea="2.5" RoomFloor="1F" RoomIDs="ROOM_9" RoomName="WC" RoomType="トイレ（終日）">
+         <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.05" FanVolume="60" ID="VfanUnit_7" UnitName="FE-4" UnitType="Exist"/>
+      </VentilationRoom>
+   </VentilationSystems>
+   <Elevators>
+      <Elevator BldgType="Hotel" ControlType="VVVF_GearLess" Count="1" ID="EV_1" LoadLimit="900" Name="ホテル4階建モデル常用EV1台" RoomFloor="4F" RoomIDs="ROOM_124" RoomName="ﾂｲﾝ(E)" RoomType="客室" Velocity="90"/>
+      <Elevator BldgType="Hotel" ControlType="VVVF" Count="1" ID="EV_2" LoadLimit="1150" Name="ホテル4階建モデル荷物用EV1台" RoomFloor="4F" RoomIDs="ROOM_122" RoomName="ﾘﾈﾝ室" RoomType="湯沸室等" Velocity="60"/>
+   </Elevators>
+</model>

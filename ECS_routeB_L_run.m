@@ -21,7 +21,7 @@
 
 clear
 clc
-inputfilename = 'input.xml';
+inputfilename = './InputFiles/ó·IBEC2/sample_IBEC2.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 

@@ -51,7 +51,7 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
     roomName  = [roomName; hwRoomInfoCell(iUNIT,2)];
     
     % 節湯器具の有無
-    if isempty(hwRoomInfoCell(iUNIT,6)) == 0
+    if isempty(hwRoomInfoCell{iUNIT,6}) == 0
         equipWaterSaving = [equipWaterSaving; 'MixingTap'];
     else
         equipWaterSaving = [equipWaterSaving; 'None'];
@@ -70,7 +70,6 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
 %     end
 %     equipList(iUNIT-10,:) =  tmpHWequip;
 end
-
 
 % 室を軸に並び替え
 RoomList = {};
@@ -102,7 +101,6 @@ for iUNIT = 1:size(roomName,1)
     end
 end
 
-
 % XMLファイル生成
 
 numOfRoom = size(RoomList,1);
@@ -120,7 +118,7 @@ for iROOM = 1:numOfRoom
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.BuildingType = BldgType;
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomType     = RoomType;
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomArea     = RoomArea;
-    xmldata.HotwaterSystems.HotwarterRoom(iUNIT).ATTRIBUTE.WaterSaving  = RoomList(iROOM,3);
+    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving  = RoomList(iROOM,3);
     
     % ユニット情報
     if iscell(UnitList{iROOM}) == 1

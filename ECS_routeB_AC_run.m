@@ -24,14 +24,14 @@
 %  y(15) : 熱源過負荷(温) [MJ/m2]
 %  y(16) : CEC/AC* [-]
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
-%  y(18) : BEI (=評価値/基準値） [-]
+%  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
 % function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
 clear
 clc
 tic
-INPUTFILENAME = 'simpleRoom_Office_CASE12_事務室_IVb_BLDG1_MODEL1_DIREC1.xml';
+INPUTFILENAME = './InputFiles/例IBEC2/sample_IBEC2.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -1027,11 +1027,11 @@ for iREF = 1:numOfRefs
         elseif refInputType(iREF,iREFSUB) == 5
             E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(50000/1000);
         elseif refInputType(iREF,iREFSUB) == 6
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36/1000);
+            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
         elseif refInputType(iREF,iREFSUB) == 7
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36/1000);
+            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
         elseif refInputType(iREF,iREFSUB) == 8
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36/1000);
+            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
         end
         
     end

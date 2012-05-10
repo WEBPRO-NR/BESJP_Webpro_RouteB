@@ -31,5 +31,7 @@ for iDB = 1:roomNum
 end
 
 if isempty(RoomType)
-    eval(['error(''mytfunc_roomIDsearch：室　',roomFloor,' : ', roomName ,'　が見つかりません'')'])
+    roomFloor
+    roomName
+    error('室：%s　がみつかりません',strcat(roomFloor,'_',roomName));
 end
