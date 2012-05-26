@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = './InputFiles/例IBEC2/sample_IBEC2.xml';
+INPUTFILENAME = './InputFiles/例IBEC3/sample_IBEC3.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -232,9 +232,9 @@ switch MODE
             for iAHU=1:numOfAHUs
                 switch roomID{iROOM}
                     case ahuQroomSet{iAHU,:}
-                        QroomAHUc(:,iAHU)    = QroomAHUc(:,iAHU)    + QroomDc(:,iROOM).*roomCount(iROOM);   % 室数かける
-                        QroomAHUh(:,iAHU)    = QroomAHUh(:,iAHU)    + QroomDh(:,iROOM).*roomCount(iROOM);   % 室数かける
-                        QroomAHUhour(:,iAHU) = QroomAHUhour(:,iAHU) + QroomHour(:,iROOM).*roomCount(iROOM); % 室数かける
+                        QroomAHUc(:,iAHU)    = QroomAHUc(:,iAHU)    + QroomDc(:,iROOM);   % 室数かける
+                        QroomAHUh(:,iAHU)    = QroomAHUh(:,iAHU)    + QroomDh(:,iROOM);   % 室数かける
+                        QroomAHUhour(:,iAHU) = QroomAHUhour(:,iAHU) + QroomHour(:,iROOM); % 室数かける
                 end
             end
         end
@@ -533,15 +533,16 @@ switch MODE
                                 if PUMPtype(iPUMP) == 1 % 冷水ポンプ
                                     
                                     % ファン発熱量 Qpsahu_fan [MJ/day] の算出
-                                    tmp = 0;
+                                    tmpC = 0;
+                                    tmpH = 0;
                                     if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                         if Qahu_c(dd,iAHU) > 0
-                                            tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
-                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                            tmpC = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpC;
                                         end
                                         if Qahu_h(dd,iAHU) > 0
-                                            tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
-                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                            tmpH = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpH;
                                         end
                                     end
                                     
@@ -554,34 +555,35 @@ switch MODE
                                                 Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU);
                                             end
                                         else
-                                            Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
+                                            Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_c(dd,iAHU) - Qahu_oac(dd,iAHU) + tmpC + tmpH;
                                         end
                                     end
                                     if Qahu_h(dd,iAHU) > 0
-                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_h(dd,iAHU) - Qahu_oac(dd,iAHU) + tmp;
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + Qahu_h(dd,iAHU) - Qahu_oac(dd,iAHU) + tmpC + tmpH;
                                     end
                                     
                                 elseif PUMPtype(iPUMP) == 2 % 温水ポンプ
                                     
                                     % ファン発熱量 Qpsahu_fan [MJ/day] の算出
-                                    tmp = 0;
+                                    tmpC = 0;
+                                    tmpH = 0;
                                     if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                         if Qahu_c(dd,iAHU) < 0
-                                            tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
-                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                            tmpC = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpC;
                                         end
                                         if Qahu_h(dd,iAHU) < 0
-                                            tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
-                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmp;
+                                            tmpH = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
+                                            Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpH;
                                         end
                                     end
                                     
                                     % 日積算ポンプ負荷 Qpsahu [MJ/day] の算出<符号逆転させる>
                                     if Qahu_c(dd,iAHU) < 0
-                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_c(dd,iAHU) + tmp);
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_c(dd,iAHU) + tmpC + tmpH);
                                     end
                                     if Qahu_h(dd,iAHU) < 0
-                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_h(dd,iAHU) + tmp);
+                                        Qps(dd,iPUMP) = Qps(dd,iPUMP) + (-1).*(Qahu_h(dd,iAHU) + tmpC + tmpH);
                                     end
                                     
                                 end
@@ -836,36 +838,47 @@ for iREF = 1:numOfRefs
                 % 処理負荷 [kW]
                 tmpQ  = QrefrMax(iREF)*aveL(iL);
                 
-                if refsetRnum(iREF) == 1
-                    if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 1;
-                    else
-                        MxREFnum(ioa,iL,iREF) = 1;
+                % 運転台数 MxREFnum
+                for rr = 1:refsetRnum(iREF)
+                    % 1台～rr台までの最大能力合計値
+                    tmpQmax = sum(Qrefr_mod(iREF,1:rr,ioa));
+                    
+                    if tmpQ < tmpQmax
+                        break
                     end
-                    
-                elseif refsetRnum(iREF) == 2
-                    
-                    if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 1;
-                    elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 2;
-                    else
-                        MxREFnum(ioa,iL,iREF) = 2;
-                    end
-                    
-                elseif refsetRnum(iREF) == 3
-                    
-                    if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 1;
-                    elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 2;
-                    elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa) > tmpQ)
-                        MxREFnum(ioa,iL,iREF) = 3;
-                    else
-                        MxREFnum(ioa,iL,iREF) = 3;
-                    end
-                    
                 end
+                MxREFnum(ioa,iL,iREF) = rr;
+                
+                
+%                 if refsetRnum(iREF) == 1
+%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 1;
+%                     else
+%                         MxREFnum(ioa,iL,iREF) = 1;
+%                     end
+%                 elseif refsetRnum(iREF) == 2
+%                     
+%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 1;
+%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 2;
+%                     else
+%                         MxREFnum(ioa,iL,iREF) = 2;
+%                     end
+%                     
+%                 elseif refsetRnum(iREF) == 3
+%                     
+%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 1;
+%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 2;
+%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa) > tmpQ)
+%                         MxREFnum(ioa,iL,iREF) = 3;
+%                     else
+%                         MxREFnum(ioa,iL,iREF) = 3;
+%                     end
+%                 end
+                
             end
         end
     end
@@ -879,13 +892,17 @@ for iREF = 1:numOfRefs
             % 処理負荷 [kW]
             tmpQ  = QrefrMax(iREF)*aveL(iL);
             
-            if MxREFnum(ioa,iL,iREF) == 1
-                MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa));
-            elseif MxREFnum(ioa,iL,iREF) == 2
-                MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa));
-            elseif MxREFnum(ioa,iL,iREF) == 3
-                MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa));
-            end
+            % 負荷率
+            MxREFxL(ioa,iL,iREF) = tmpQ ./ sum(Qrefr_mod(iREF,1:MxREFnum(ioa,iL,iREF),ioa));
+            
+            
+%             if MxREFnum(ioa,iL,iREF) == 1
+%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa));
+%             elseif MxREFnum(ioa,iL,iREF) == 2
+%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa));
+%             elseif MxREFnum(ioa,iL,iREF) == 3
+%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa));
+%             end
             
             % どの部分負荷特性を使うか（インバータターボなど、冷却水温度によって特性が異なる場合がある）
             if isnan(xXratioMX(iREF,iREFSUB)) == 0
@@ -920,50 +937,55 @@ for iREF = 1:numOfRefs
                     coeff_x(iREFSUB) = coeff_x(iREFSUB).* 1.2;  % 過負荷時のペナルティ（要検討）
                 end
                 
+                % 送水温度特性
+                if TC(iREF) < RerPerC_w_min(iREF,iREFSUB)
+                    TCtmp = RerPerC_w_min(iREF,iREFSUB);
+                elseif TC(iREF) > RerPerC_w_max(iREF,iREFSUB)
+                    TCtmp = RerPerC_w_max(iREF,iREFSUB);
+                else
+                    TCtmp = TC(iREF);
+                end
+                
+                coeff_tw(iREFSUB) = RerPerC_w_coeffi(iREF,iREFSUB,1).*TCtmp.^4 + ...
+                    RerPerC_w_coeffi(iREF,iREFSUB,2).*TCtmp.^3 + RerPerC_w_coeffi(iREF,iREFSUB,3).*TCtmp.^2 +...
+                    RerPerC_w_coeffi(iREF,iREFSUB,4).*TCtmp + RerPerC_w_coeffi(iREF,iREFSUB,5);
+                
             end
             
-            % 送水温度特性
-            if TC(iREF) < RerPerC_w_min(iREF,iREFSUB)
-                TCtmp = RerPerC_w_min(iREF,iREFSUB);
-            elseif TC(iREF) > RerPerC_w_max(iREF,iREFSUB)
-                TCtmp = RerPerC_w_max(iREF,iREFSUB);
-            else
-                TCtmp = TC(iREF);
-            end
-            
-            coeff_tw(iREFSUB) = RerPerC_w_coeffi(iREF,iREFSUB,1).*TCtmp.^4 + ...
-                RerPerC_w_coeffi(iREF,iREFSUB,2).*TCtmp.^3 + RerPerC_w_coeffi(iREF,iREFSUB,3).*TCtmp.^2 +...
-                RerPerC_w_coeffi(iREF,iREFSUB,4).*TCtmp + RerPerC_w_coeffi(iREF,iREFSUB,5);
-            
-            
+      
             % エネルギー消費量 [kW] (1次エネルギー換算後の値であることに注意）
-            if MxREFnum(ioa,iL,iREF) == 1
-                
-                MxREFperE(ioa,iL,iREF)      = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                
-            elseif MxREFnum(ioa,iL,iREF) == 2
-                
-                MxREFperE(ioa,iL,iREF) = ...
-                    Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-                    Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-                
-                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-                
-                
-            elseif MxREFnum(ioa,iL,iREF) == 3
-                
-                MxREFperE(ioa,iL,iREF) = ...
-                    Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-                    Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2) + ...
-                    Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
-                
-                MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-                MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-                MxREFSUBperE(ioa,iL,iREF,3) = Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
-                
+            for rr = 1:MxREFnum(ioa,iL,iREF)
+                MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
+                MxREFperE(ioa,iL,iREF) = MxREFperE(ioa,iL,iREF) + MxREFSUBperE(ioa,iL,iREF,rr);
             end
+            
+            
+%             if MxREFnum(ioa,iL,iREF) == 1
+%                 
+%                 MxREFperE(ioa,iL,iREF)      = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+%                 
+%             elseif MxREFnum(ioa,iL,iREF) == 2
+%                 
+%                 MxREFperE(ioa,iL,iREF) = ...
+%                     Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
+%                     Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+%                 
+%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+%                 MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+%                    
+%             elseif MxREFnum(ioa,iL,iREF) == 3
+%                 
+%                 MxREFperE(ioa,iL,iREF) = ...
+%                     Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
+%                     Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2) + ...
+%                     Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
+%                 
+%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
+%                 MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
+%                 MxREFSUBperE(ioa,iL,iREF,3) = Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
+%                 
+%             end
             
         end
     end
@@ -972,26 +994,36 @@ for iREF = 1:numOfRefs
     % 補機群のエネルギー消費量
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
-            if MxREFnum(ioa,iL,iREF) == 1
-                ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1);          % 補機電力
-                EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1);  % 一次ポンプ
-                EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1);        % 冷却塔ファン
-                EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1);       % 冷却水ポンプ
-            elseif MxREFnum(ioa,iL,iREF) == 2
-                ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + refset_SubPower(iREF,2);
-                EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + refset_PrimaryPumpPower(iREF,2);
-                EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + refset_CTFanPower(iREF,2);
-                EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + refset_CTPumpPower(iREF,2);
-            elseif MxREFnum(ioa,iL,iREF) == 3
-                ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + ...
-                    refset_SubPower(iREF,2) + refset_SubPower(iREF,3);
-                EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + ...
-                    refset_PrimaryPumpPower(iREF,2) + refset_PrimaryPumpPower(iREF,3);
-                EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + ...
-                    refset_CTFanPower(iREF,2) + refset_CTFanPower(iREF,3);
-                EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + ...
-                    refset_CTPumpPower(iREF,2) + refset_CTPumpPower(iREF,3);
-            end
+           
+            ErefaprALL(ioa,iL,iREF)  = sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));          % 補機電力
+            EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ
+            EctfanrALL(ioa,iL,iREF)  = sum( refset_CTFanPower(iREF,1:MxREFnum(ioa,iL,iREF)));        % 冷却塔ファン
+            EctpumprALL(ioa,iL,iREF) = sum( refset_CTPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));       % 冷却水ポンプ
+                
+%             if MxREFnum(ioa,iL,iREF) == 1
+%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1);          % 補機電力
+%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1);  % 一次ポンプ
+%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1);        % 冷却塔ファン
+%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1);       % 冷却水ポンプ
+%                 
+%             elseif MxREFnum(ioa,iL,iREF) == 2
+%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + refset_SubPower(iREF,2);
+%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + refset_PrimaryPumpPower(iREF,2);
+%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + refset_CTFanPower(iREF,2);
+%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + refset_CTPumpPower(iREF,2);
+%                 
+%             elseif MxREFnum(ioa,iL,iREF) == 3
+%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + ...
+%                     refset_SubPower(iREF,2) + refset_SubPower(iREF,3);
+%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + ...
+%                     refset_PrimaryPumpPower(iREF,2) + refset_PrimaryPumpPower(iREF,3);
+%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + ...
+%                     refset_CTFanPower(iREF,2) + refset_CTFanPower(iREF,3);
+%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + ...
+%                     refset_CTPumpPower(iREF,2) + refset_CTPumpPower(iREF,3);
+%             end
+            
+            
         end
     end
     
@@ -1109,6 +1141,23 @@ end
 Qcpeak = max(tmpQcpeak)./roomAreaTotal .*1000;
 Qhpeak = max(tmpQhpeak)./roomAreaTotal .*1000;
 
+% コンセント電力 [kW]
+E_OAapp = zeros(8760,numOfRoooms);
+P_Light = zeros(8760,numOfRoooms);
+for iROOM = 1:numOfRoooms
+    for dd = 1:365
+        for hh = 1:24
+            % コンセント電力 [kW]
+            E_OAapp(24*(dd-1)+hh,iROOM) = ...
+                (roomEnergyOAappUnit(iROOM) .* roomScheduleOAapp(iROOM,roomDailyOpePattern(dd,iROOM),hh)).*roomArea(iROOM)./1000;
+            P_Light(24*(dd-1)+hh,iROOM) = roomScheduleLight(iROOM,roomDailyOpePattern(dd,iROOM),hh);
+        end
+    end
+end
+% コンセント電力 [MJ/年]
+E_OAapp_1st = sum(E_OAapp,2)*9760./1000;
+P_Light_ave = mean(P_Light,2);
+
 
 %% 基準値計算
 
@@ -1171,6 +1220,10 @@ end
 y(17) = standardValue;
 y(18) = y(1)/y(17);
 
+% コンセント電力（一次エネルギー換算） [MJ/m2/年]
+y(19) = sum(E_OAapp_1st)./roomAreaTotal;
+y(20) = roomAreaTotal;
+
 %%-----------------------------------------------------------------------------------------------------------
 %% 詳細出力
 if OutputOptionVar == 1 && MODE == 2
@@ -1186,7 +1239,6 @@ else
     eval(['resfilenameS = ''calcRES',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
 csvwrite(resfilenameS,y);
-
 
 
 disp('---------')

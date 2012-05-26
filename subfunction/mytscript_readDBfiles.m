@@ -18,7 +18,7 @@ DB_refList = textread(filename_refList,'%s','delimiter','\n','whitespace','');
 DB_refCurve = textread(filename_performanceCurve,'%s','delimiter','\n','whitespace','');
 
 %----------------------------------
-% カレンダーファイルの読み込み
+% 地域ごとの季節区分の読み込み
 for i=1:length(DB_climateArea)
     conma = strfind(DB_climateArea{i},',');
     for j = 1:length(conma)
@@ -50,6 +50,22 @@ for i=1:length(DB_calendar)
 end
 
 %----------------------------------
+% 標準室使用条件の読み込み
+for i=1:length(DB_RoomOpeCondition)
+    conma = strfind(DB_RoomOpeCondition{i},',');
+    for j = 1:length(conma)
+        if j == 1
+            perDB_RoomOpeCondition{i,j} = DB_RoomOpeCondition{i}(1:conma(j)-1);
+        elseif j == length(conma)
+            perDB_RoomOpeCondition{i,j}   = DB_RoomOpeCondition{i}(conma(j-1)+1:conma(j)-1);
+            perDB_RoomOpeCondition{i,j+1} = DB_RoomOpeCondition{i}(conma(j)+1:end);
+        else
+            perDB_RoomOpeCondition{i,j} = DB_RoomOpeCondition{i}(conma(j-1)+1:conma(j)-1);
+        end
+    end
+end
+
+%----------------------------------
 % 室用途リストの読み込み
 for i=1:length(DB_RoomType)
     conma = strfind(DB_RoomType{i},',');
@@ -64,6 +80,8 @@ for i=1:length(DB_RoomType)
         end
     end
 end
+
+
 
 %----------------------------------
 % 熱源リストの読み込み

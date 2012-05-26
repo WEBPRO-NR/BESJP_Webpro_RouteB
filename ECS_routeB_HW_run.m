@@ -13,13 +13,13 @@
 %  y(4) : 基準値 [MJ/m2/年]
 %  y(5) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_HW_run(inputfilename,OutputOption)
+function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
-clear
-clc
-inputfilename = './InputFiles/例IBEC2/sample_IBEC2.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% inputfilename = './InputFiles/例IBEC改修1/IBEC改修1.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 
 %% 設定
@@ -241,6 +241,8 @@ for iROOM = 1:length(roomArea)
             elseif strcmp(perDB_RoomType{iDB,31},'[L/㎡日]')
                 Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
             else
+                bldgType{iROOM}
+                roomType{iROOM}
                 error('給湯負荷が見つかりません')
             end
             

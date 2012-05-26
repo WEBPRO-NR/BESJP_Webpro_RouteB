@@ -76,6 +76,13 @@ for iROOM = 1:length(roomID)
     % 室除去熱量（全熱，毎時）[W/m2]→[MJ/h]
     newHASP_Qhour = (newHASPresult(:,1) + newHASPresult(:,2))*roomArea(iROOM).*3600./1000000;
     
+    % NaNチェック(newHASPの計算結果が****となる場合がある)
+    for i=1:length(newHASP_Qhour)
+        if isnan(newHASP_Qhour(i))
+            newHASP_Qhour(i) = 0;
+        end
+    end
+    
     % 日積算化（冷房負荷と暖房負荷に分離）
     newHASP_Qday = zeros(365,2);  % 初期化
     for i=1:365

@@ -52,6 +52,50 @@ for iROOM = 1:numOfRoooms
             
             % 外気導入量 [m3/h/m2]
             roomVoa_m3hm2(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,13)));
+            
+            % 内部発熱量 [W/m2]
+            roomEnergyOAappUnit(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,11)));
+            
+            % WSCパターン
+            if strcmp(perDB_RoomType(iDB,8),'WSC1')
+                roomWSC(iROOM) = 1;
+            elseif strcmp(perDB_RoomType(iDB,8),'WSC2')
+                roomWSC(iROOM) = 2;
+            else
+                error('WSCパターンが不正です。')
+            end
+            
+            % 検索キー
+            roomKey{iROOM} = perDB_RoomType(iDB,1);
+            % 内部発熱量の時刻変動
+            for iDB2 = 2:size(perDB_RoomOpeCondition,1)
+                if strcmp(perDB_RoomOpeCondition(iDB2,1),roomKey{iROOM}) &&...
+                        strcmp(perDB_RoomOpeCondition(iDB2,4),'4')
+                    if strcmp(perDB_RoomOpeCondition(iDB2,5),'1')
+                        roomScheduleOAapp(iROOM,1,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'2')
+                        roomScheduleOAapp(iROOM,2,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'3')
+                        roomScheduleOAapp(iROOM,3,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    else
+                        error('室使用パターンが不正です')
+                    end
+                end
+                if strcmp(perDB_RoomOpeCondition(iDB2,1),roomKey{iROOM}) &&...
+                        strcmp(perDB_RoomOpeCondition(iDB2,4),'2')
+                    if strcmp(perDB_RoomOpeCondition(iDB2,5),'1')
+                        roomScheduleLight(iROOM,1,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'2')
+                        roomScheduleLight(iROOM,2,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'3')
+                        roomScheduleLight(iROOM,3,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    else
+                        error('室使用パターンが不正です')
+                    end
+                end
+                
+            end
+
         end
     end
     if isempty(roomTime_start_p1_1)
@@ -94,12 +138,21 @@ for iROOM = 1:numOfRoooms
         if strcmp(perDB_calendar{1+dd,roomClarendarNum(iROOM)+2},'1')  % 運転パターン１
             roomTime_start(dd,iROOM) = roomTime_start_p1;
             roomTime_stop(dd,iROOM)   = roomTime_stop_p1;
+            roomDailyOpePattern(dd,iROOM) = 1;
         elseif strcmp(perDB_calendar{1+dd,roomClarendarNum(iROOM)+2},'2')  % 運転パターン２
             roomTime_start(dd,iROOM) = roomTime_start_p2;
             roomTime_stop(dd,iROOM)   = roomTime_stop_p2;
+            roomDailyOpePattern(dd,iROOM) = 2;
         elseif strcmp(perDB_calendar{1+dd,roomClarendarNum(iROOM)+2},'3')  % 運転パターン３
-            roomTime_start(dd,iROOM) = 0;
-            roomTime_stop(dd,iROOM)   = 0;
+            
+            if roomWSC(iROOM) == 1
+                roomTime_start(dd,iROOM)  = 0;
+                roomTime_stop(dd,iROOM)   = 0;
+            elseif roomWSC(iROOM) == 2
+                roomTime_start(dd,iROOM)  = roomTime_start_p2;
+                roomTime_stop(dd,iROOM)   = roomTime_stop_p2;
+            end
+            roomDailyOpePattern(dd,iROOM) = 3;
         end
     end
     
@@ -169,7 +222,7 @@ for iAHU = 1:numOfAHUs
                 case {'AHU','FCU','UNIT'}
                                         
                     % AHUtype
-                    if isempty(ahueleType{iAHUELE})
+                    if isempty(ahueleType{iAHUELE}) == 0
                         switch ahueleType{iAHUELE}
                             case 'AHU'
                                 ahuType{iAHU}    = '空調機';
@@ -194,7 +247,7 @@ for iAHU = 1:numOfAHUs
                     ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHUELE);
                     
                     % VAV制御
-                    if isempty(ahueleFlowControl{iAHUELE})
+                    if isempty(ahueleFlowControl{iAHUELE}) == 0
                         switch ahueleFlowControl{iAHUELE}
                             case 'CAV'
                                 ahuFlowControl{iAHU} = '定風量';
@@ -211,11 +264,13 @@ for iAHU = 1:numOfAHUs
                             otherwise
                                 error('XMLファイルが不正です')
                         end
+                    else
+                        ahuFlowControl{iAHU} = '定風量';
                     end
                     
                     
                     % 外気カット
-                    if isempty(ahueleOACutCtrl{iAHUELE})
+                    if isempty(ahueleOACutCtrl{iAHUELE}) == 0
                         switch ahueleOACutCtrl{iAHUELE}
                             case 'False'
                                 ahuOACutCtrl{iAHU} = '無';
@@ -226,10 +281,12 @@ for iAHU = 1:numOfAHUs
                             otherwise
                                 error('XMLファイルが不正です')
                         end
+                    else
+                         ahuOACutCtrl{iAHU} = '無';   
                     end
                     
                     % 外気冷房
-                    if isempty(ahueleFreeCoolingCtrl{iAHUELE})
+                    if isempty(ahueleFreeCoolingCtrl{iAHUELE}) == 0
                         switch ahueleFreeCoolingCtrl{iAHUELE}
                             case 'False'
                                 ahuFreeCoolingCtrl{iAHU} = '無';
@@ -240,6 +297,8 @@ for iAHU = 1:numOfAHUs
                             otherwise
                                 error('XMLファイルが不正です')
                         end
+                    else
+                        ahuFreeCoolingCtrl{iAHU} = '無';
                     end
                     
                     % 全熱交換器
@@ -271,16 +330,16 @@ for iAHU = 1:numOfAHUs
                         ahuHeatExchangeCtrl{iAHU} = '無';
                     end
                     
-                    if isempty(ahuRef_cooling{iAHU})
+                    if isempty(ahueleRef_cooling{iAHU}) == 0
                         ahuRef_cooling{iAHU}  = ahueleRef_cooling{iAHUELE};
                     end
-                    if isempty(ahuRef_heating{iAHU})
+                    if isempty(ahueleRef_heating{iAHU}) == 0
                         ahuRef_heating{iAHU}  = ahueleRef_heating{iAHUELE};
                     end
-                    if isempty(ahuPump_cooling{iAHU})
+                    if isempty(ahuelePump_cooling{iAHU}) == 0
                         ahuPump_cooling{iAHU} = ahuelePump_cooling{iAHUELE};
                     end
-                    if isempty(ahuPump_heating{iAHU})
+                    if isempty(ahuelePump_heating{iAHU}) == 0
                         ahuPump_heating{iAHU} = ahuelePump_heating{iAHUELE};
                     end
                     
@@ -688,14 +747,15 @@ for iREF = 1:numOfRefs
                 end
                 
             end
+            
+            refmatch = 1; % 処理済みの証拠
+            
         end
         
-        refmatch = 1; % 処理済みの証拠
+        if isempty(tmprefset)== 0 && refmatch == 0
+            error('熱源名称が不正です');
+        end
         
-    end
-    
-    if refmatch == 0
-        error('熱源名称が不正です');
     end
     
 end

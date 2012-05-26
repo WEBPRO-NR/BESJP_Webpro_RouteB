@@ -17,13 +17,14 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_L_run(inputfilename,OutputOption)
+function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
-clear
-clc
-inputfilename = './InputFiles/例IBEC2/sample_IBEC2.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% 
+% inputfilename = './InputFiles/例IBEC改修1/IBEC改修1.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 
 %% 設定

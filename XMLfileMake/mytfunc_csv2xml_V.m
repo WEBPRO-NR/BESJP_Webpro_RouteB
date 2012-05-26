@@ -129,7 +129,7 @@ UnitList = {};
 UnitTypeList = {};
 
 for iUNIT = 1:length(roomName)
-    
+
     if isempty(RoomList) == 1
         RoomList     = [RoomList; roomFloor(iUNIT),roomName(iUNIT)];
         UnitTypeList = [UnitTypeList; unitType(iUNIT)];

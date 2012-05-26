@@ -17,14 +17,15 @@
 %  y(8) : Šî€’l [MJ/m2/”N]
 %  y(9) : BEI (=•]‰¿’l/Šî€’lj [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_EV_run(inputfilename,OutputOption)
+function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 
-clear
-clc
-tic
-inputfilename = './InputFiles/—áIBEC2/sample_IBEC2.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% tic
+% 
+% inputfilename = './InputFiles/‰üC/01_10000‡u‰üCCase01/Repair_Case01.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 %% İ’è
 model = xml_read(inputfilename);

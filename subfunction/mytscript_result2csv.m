@@ -200,7 +200,11 @@ for iREF = 1:numOfRefs
             elseif strcmp(refset_Type{iREF,iREFSUB},'VacuumBoiler')
                 tmpname = 'ボイラ（真空温水ヒータ）';
             else
-                error('熱源種類が不正です。')
+                if isempty(refset_Type{iREF,iREFSUB})
+                    tmpname = '熱源無し';
+                else
+                    error('熱源種類が不正です。')
+                end
             end
             
             
@@ -226,7 +230,7 @@ for iREF = 1:numOfRefs
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),NaN,NaN,MxREFnum(ioa,:,iREF)]);
         elseif refsetRnum(iREF) == 2
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),Qrefr_mod(iREF,2,ioa),NaN,MxREFnum(ioa,:,iREF)]);
-        elseif refsetRnum(iREF) == 3
+        elseif refsetRnum(iREF) >= 3
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),Qrefr_mod(iREF,2,ioa),Qrefr_mod(iREF,3,ioa),MxREFnum(ioa,:,iREF)]);
         end
     end
@@ -237,7 +241,7 @@ for iREF = 1:numOfRefs
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),NaN,NaN,MxREFxL(ioa,:,iREF)]);
         elseif refsetRnum(iREF) == 2
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),Qrefr_mod(iREF,2,ioa),NaN,MxREFxL(ioa,:,iREF)]);
-        elseif refsetRnum(iREF) == 3
+        elseif refsetRnum(iREF) >= 3
             rfc = mytfunc_oneLinecCell(rfc,[xqsave(iREF,ioa),Qrefr_mod(iREF,1,ioa),Qrefr_mod(iREF,2,ioa),Qrefr_mod(iREF,3,ioa),MxREFxL(ioa,:,iREF)]);
         end
     end
@@ -247,7 +251,7 @@ for iREF = 1:numOfRefs
             rfc = mytfunc_oneLinecCell(rfc,[xpsave(iREF,ioa),Erefr_mod(iREF,1,ioa),NaN,NaN,MxREFperE(ioa,:,iREF)]);
         elseif refsetRnum(iREF) == 2
             rfc = mytfunc_oneLinecCell(rfc,[xpsave(iREF,ioa),Erefr_mod(iREF,1,ioa),Erefr_mod(iREF,2,ioa),NaN,MxREFperE(ioa,:,iREF)]);
-        elseif refsetRnum(iREF) == 3
+        elseif refsetRnum(iREF) >= 3
             rfc = mytfunc_oneLinecCell(rfc,[xpsave(iREF,ioa),Erefr_mod(iREF,1,ioa),Erefr_mod(iREF,2,ioa),Erefr_mod(iREF,3,ioa),MxREFperE(ioa,:,iREF)]);
         end
     end

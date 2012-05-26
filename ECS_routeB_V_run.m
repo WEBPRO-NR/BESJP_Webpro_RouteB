@@ -17,13 +17,13 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_V_run(inputfilename,OutputOption)
-
-clear
-clc
-addpath('./subfunction')
-inputfilename = './InputFiles/例IBEC2/sample_IBEC2.xml';
-OutputOption = 'ON';
+function y = ECS_routeB_V_run(inputfilename,OutputOption)
+% 
+% clear
+% clc
+% addpath('./subfunction')
+% inputfilename = './InputFiles/例IBEC6/sample_IBEC6.xml';
+% OutputOption = 'ON';
 
 
 %% 設定
@@ -261,19 +261,31 @@ Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
 
-Edesign_AC_kW     = (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
+% COPを一次換算で入れた場合
+% Edesign_AC_kW     = (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
+% Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
+%     (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+
+% COPを二次換算で入れた場合
+Edesign_AC_kW     = (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
 Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
-    (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+    (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+
 Edesign_AC_MJ     = 9760.*Edesing_AC_Mwh;
 Edesign_AC_MWh_m2 = sum(nansum(Edesing_AC_Mwh))/sum(RoomArea);
 Edesign_AC_MJ_m2  = sum(nansum(Edesign_AC_MJ))/sum(RoomArea);
 
-% 基準年間エネルギー消費量原単位
+%----------------------------------------
+% 基準年間エネルギー消費量原単位 [kW/m2]
 Eme    = kv.*(10^-5.*Vroom.*Proom.*1.2./(36*0.4))./0.75; % 送風機軸動力[kW/m2]
-Es_MWh = Eme.*timeL./1000.*RoomArea;     % 基準年間電力消費量原単位[MWh/年]
+
+% 基準値（ROOM_STANDARDVALUE.csv）より値を抜き出す（最終的にはこちらを採用） [MJ]
+Estandard_MJ_CSV = mytfunc_calcStandardValue(BldgType,RoomType,RoomArea,18);
+
+Es_MWh    = Eme.*timeL./1000.*RoomArea;      % 基準年間電力消費量原単位[MWh/年]
 Es_MWh_m2 = sum(Es_MWh)/sum(RoomArea);
-Es_MJ  = 9760.*Es_MWh;                              % 基準年間エネルギー消費量原単位[MJ/年]
-Es_MJ_m2 = sum(Es_MJ)/sum(RoomArea);
+Es_MJ     = 9760.*Es_MWh;                    % 基準年間エネルギー消費量原単位[MJ/年]
+Es_MJ_m2  = sum(Es_MJ)/sum(RoomArea);
 
 % 出力
 y(1) = sum(nansum(Edesign_FAN_MWh)) + sum(nansum(Edesing_AC_Mwh));
