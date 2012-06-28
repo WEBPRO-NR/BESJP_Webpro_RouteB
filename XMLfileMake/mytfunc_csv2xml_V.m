@@ -90,7 +90,8 @@ for iUNIT = 11:size(roomDataCell,1)
         elseif strcmp(roomDataCell{iUNIT,6},'排気')
             unitType  = [unitType; 'Exist'];
         else
-            error('給気／排気の設定が不正です。')
+            unitType  = [unitType; 'Exist'];
+            disp('給気／排気の設定が不正です。')
         end
         
         unitName  = [unitName; roomDataCell{iUNIT,7}];
@@ -102,12 +103,13 @@ for iUNIT = 11:size(roomDataCell,1)
             if isempty(roomDataCell{iUNIT,6})
                 unitType  = [unitType; 'Null'];
             else
-                if strcmp(roomDataCell{iUNIT,6},'給気')
+                if strcmp(roomDataCell{iUNIT,6},'給気') || strcmp(roomDataCell{iUNIT,6},'冷房')
                     unitType  = [unitType; 'Supply'];
                 elseif strcmp(roomDataCell{iUNIT,6},'排気')
                     unitType  = [unitType; 'Exist'];
                 else
-                    error('給気／排気の設定が不正です。')
+                    unitType  = [unitType; 'Exist'];
+                    disp('給気／排気の設定が不正です。')
                 end
             end
             if isempty(roomDataCell{iUNIT,7})

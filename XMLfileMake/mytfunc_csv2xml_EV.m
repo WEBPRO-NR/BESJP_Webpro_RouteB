@@ -51,13 +51,17 @@ for iUNIT = 11:size(EVDataCell,1)
     EVVelocity = [EVVelocity;EVDataCell{iUNIT,4}];
     
     % 速度制御方式
-    if strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり、ギアレス）')
+    if strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり、ギアレス)') || ...
+          strcmp(EVDataCell(iUNIT,5),'VVVF（電力回生あり、ギアレス）')  
         EVControlType = [EVControlType;'VVVF_Regene_GearLess'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり）')
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり)') || ...
+            strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり）') 
         EVControlType = [EVControlType;'VVVF_Regene'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス）')
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス)') || ...
+            strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス）')
         EVControlType = [EVControlType;'VVVF_GearLess'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし）')
+    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし)') || ...
+          strcmp(EVDataCell(iUNIT,5),'VVVF（電力回生なし）')   
         EVControlType = [EVControlType;'VVVF'];
     elseif strcmp(EVDataCell(iUNIT,5),'交流帰還制御方式')
         EVControlType = [EVControlType;'AC_FeedbackControl'];

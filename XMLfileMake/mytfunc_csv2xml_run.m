@@ -3,7 +3,7 @@
 %--------------------------------------------------------------------
 % 省エネ基準：機器拾い表（csvファイル）を読みこみ、XMLファイルを吐き出す
 %--------------------------------------------------------------------
-function y = mytfunc_csv2xml_run(inputfilename,outputfilename)
+function y = mytfunc_csv2xml_run(inputfilename,outputfilename,Area)
 
 tic
 
@@ -12,7 +12,16 @@ CONFIG = xml_read('csv2xml_config.xml');
 
 % XMLテンプレートの読み込み
 if isempty(inputfilename)
-    inputfilename = 'routeB_XMLtemplate.xml';
+    switch Area
+        case 'Ia'
+            inputfilename = 'routeB_XMLtemplate_Ia.xml';
+        case 'Ib'
+            inputfilename = 'routeB_XMLtemplate_Ib.xml';
+        case 'IVb'
+            inputfilename = 'routeB_XMLtemplate_IVb.xml';
+        otherwise
+            error('地域の設定が不正です')
+    end
 end
 xmldata = xml_read(inputfilename);
 

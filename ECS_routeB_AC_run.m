@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-clear
-clc
-tic
-INPUTFILENAME = './InputFiles/例IBEC3/sample_IBEC3.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% tic
+% casenum = '1';
+% eval(['INPUTFILENAME = ''./InputFiles/都内某文系大学/ver20120622_IVb/Case',casenum,'/NSRI_School_IVb_Case',casenum,'.xml'';'])
+% addpath('./subfunction/')
+% OutputOption = 'OFF';
 
 switch OutputOption
     case 'ON'
@@ -53,6 +53,8 @@ DivNUM = 5;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
+% SeasonMODE = [1,1,1];
+% SeasonMODE = [-1,-1,-1];
 
 % ファン・ポンプの発熱比率
 k_heatup = 0.84;
@@ -182,6 +184,14 @@ mytscript_systemDef;
 switch MODE
     
     case {1,2}
+        
+        % 熱貫流率の計算
+        [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList] = mytfunc_calcK(0);
+        
+        % 熱貫流率×外皮面積
+        UAlist = zeros(numOfRoooms,1);
+        % 日射侵入率×外皮面積
+        MAlist = zeros(numOfRoooms,1);
         
         % newHASP設定ファイル(newHASPinput_室名.txt)自動生成
         mytscript_newHASPinputGen_run;
@@ -759,13 +769,17 @@ switch MODE
                 [Tref(:,iREF),refTime_Start(:,iREF),refTime_Stop(:,iREF)] =...
                     mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpTime_Start,pumpTime_Stop);
                 
-                % 瞬時負荷[kW]を出す。→　ピーク負荷を出すために必要。
-                Qref_kW(:,iREF) = Qref(:,iREF)./Tref(:,iREF).*1000./3600;
-                
-                % 過負荷判定
+                % 平均負荷[kW]と過負荷量を求める。
                 for dd = 1:365
+                    
+                    if Tref(dd,iREF) == 0
+                        Qref_kW(dd,iREF) = 0;
+                    else
+                        Qref_kW(dd,iREF) = Qref(dd,iREF)./Tref(dd,iREF).*1000./3600;
+                    end
+                    
+                    % 過負荷分を足す [MJ/day]
                     if Qref_kW(dd,iREF) > QrefrMax(iREF)
-                        % 過負荷分を足す [MJ/day]
                         Qref_OVER(dd,iREF) = Qref_kW(dd,iREF).*Tref(dd,iREF)*3600/1000;
                     end
                 end
@@ -1121,6 +1135,7 @@ switch MODE
         end
         
     case {2,3}
+        
         tmpQcpeak = zeros(365,1);
         tmpQhpeak = zeros(365,1);
         
@@ -1180,6 +1195,7 @@ switch climateAREA
         stdLineNum = 8;
 end
 
+% 基準値計算
 standardValue = mytfunc_calcStandardValue(buildingType,roomType,roomArea,stdLineNum)/sum(roomArea);
 
 
@@ -1224,6 +1240,44 @@ y(18) = y(1)/y(17);
 y(19) = sum(E_OAapp_1st)./roomAreaTotal;
 y(20) = roomAreaTotal;
 
+% 熱損失係数 [W/m2K]
+for iROOM = 1:numOfRoooms
+   UAlist(iROOM) = UAlist(iROOM) + 0.5*2.7*roomArea(iROOM)*(1.2*1.006/3600*1000);
+end
+
+y(21) = sum(UAlist)/roomAreaTotal;
+% 日射取得係数 [-]
+y(22) = sum(MAlist)/roomAreaTotal;
+
+
+% 熱源容量計算
+tmpREFQ_C = 0;
+tmpREFQ_H = 0;
+tmpREFS_C = 0;
+tmpREFS_H = 0;
+for iREF = 1:length(REFtype)
+    if REFtype(iREF) == 1
+        tmpREFQ_C = tmpREFQ_C + QrefrMax(iREF);
+        tmpREFS_C = tmpREFS_C + refS(iREF);
+    elseif REFtype(iREF) == 2
+        tmpREFQ_H = tmpREFQ_H + QrefrMax(iREF);
+        tmpREFS_H = tmpREFS_H + refS(iREF);
+    end
+end
+REFQperS_C = tmpREFQ_C/tmpREFS_C*1000;
+REFQperS_H = tmpREFQ_H/tmpREFS_H*1000;
+
+y(23) = REFQperS_C;
+y(24) = REFQperS_H;
+
+% ピーク負荷
+y(25) = Qcpeak;
+y(26) = Qhpeak;
+
+% 全負荷相当運転時間
+y(27) = y(2)/(y(23)/1000000*3600); % 冷房
+y(28) = y(3)/(y(24)/1000000*3600); % 暖房
+
 %%-----------------------------------------------------------------------------------------------------------
 %% 詳細出力
 if OutputOptionVar == 1 && MODE == 2
@@ -1233,21 +1287,23 @@ end
 %% 簡易出力
 % 出力するファイル名
 if isempty(strfind(INPUTFILENAME,'/'))
-    eval(['resfilenameS = ''calcRES_',INPUTFILENAME(1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameS = ''calcRES_AC_',INPUTFILENAME(1:end-4),'_',datestr(now,30),'.csv'';'])
 else
     tmp = strfind(INPUTFILENAME,'/');
-    eval(['resfilenameS = ''calcRES',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameS = ''calcRES_AC_',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
 csvwrite(resfilenameS,y);
-
 
 disp('---------')
 eval(['disp(''一次エネルギー消費量 評価値： ', num2str(y(1)) ,'  MJ/m2・年'')'])
 eval(['disp(''一次エネルギー消費量 基準値： ', num2str(y(17)) ,'  MJ/m2・年'')'])
-eval(['disp(''BEI/AC       ： ', num2str(y(18)) ,''')'])
 disp('---------')
-eval(['disp(''年間冷房負荷： ', num2str(y(2)) ,'  MJ/m2・年'')'])
-eval(['disp(''年間暖房負荷： ', num2str(y(3)) ,'  MJ/m2・年'')'])
+eval(['disp(''年間冷房負荷  ： ', num2str(y(2)) ,'  MJ/m2・年'')'])
+eval(['disp(''年間暖房負荷  ： ', num2str(y(3)) ,'  MJ/m2・年'')'])
+disp('---------')
+eval(['disp(''BEI/Q        ： ', num2str((y(2)+y(3))/(y(17)*0.8)) ,''')'])
+eval(['disp(''BEI/AC       ： ', num2str(y(18)) ,''')'])
+eval(['disp(''CEC/AC*      ： ', num2str(y(16)) ,''')'])
 disp('---------')
 eval(['disp(''全熱交換機Ｅ  ： ', num2str(y(4)) ,'  MJ/m2・年'')'])
 eval(['disp(''空調ファンＥ  ： ', num2str(y(5)) ,'  MJ/m2・年'')'])
@@ -1258,11 +1314,20 @@ eval(['disp(''一次ポンプＥ  ： ', num2str(y(9)) ,'  MJ/m2・年'')'])
 eval(['disp(''冷却塔ファンＥ： ', num2str(y(10)) ,'  MJ/m2・年'')'])
 eval(['disp(''冷却水ポンプＥ： ', num2str(y(11)) ,'  MJ/m2・年'')'])
 disp('---------')
-eval(['disp(''ピーク負荷(冷)： ', num2str(Qcpeak) ,'  W/m2'')'])
-eval(['disp(''ピーク負荷(温)： ', num2str(Qhpeak) ,'  W/m2'')'])
 eval(['disp(''未処理負荷(冷)： ', num2str(y(12)) ,'  MJ/m2・年'')'])
 eval(['disp(''未処理負荷(温)： ', num2str(y(13)) ,'  MJ/m2・年'')'])
 eval(['disp(''熱源過負荷(冷)： ', num2str(y(14)) ,'  MJ/m2・年'')'])
 eval(['disp(''熱源過負荷(温)： ', num2str(y(15)) ,'  MJ/m2・年'')'])
-eval(['disp(''CEC/AC*      ： ', num2str(y(16)) ,''')'])
+eval(['disp(''ピーク負荷(冷)： ', num2str(y(25)) ,'  W/m2'')'])
+eval(['disp(''ピーク負荷(温)： ', num2str(y(26)) ,'  W/m2'')'])
+eval(['disp(''全負荷相当運転時間(冷)： ', num2str(y(27)) ,'  時間'')'])
+eval(['disp(''全負荷相当運転時間(暖)： ', num2str(y(28)) ,'  時間'')'])
+disp('---------')
+eval(['disp(''熱損失係数*　 ： ', num2str(y(21)) ,'  W/m2・K'')'])
+eval(['disp(''日射取得係数* ： ', num2str(y(22)) ,'  '')'])
+eval(['disp(''熱源容量（冷）： ', num2str(y(23)) ,'  W/m2'')'])
+eval(['disp(''熱源容量（暖）： ', num2str(y(24)) ,'  W/m2'')'])
+disp('---------')
+
+
 

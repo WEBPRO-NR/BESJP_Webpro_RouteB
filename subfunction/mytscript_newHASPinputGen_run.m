@@ -29,7 +29,7 @@ for iRoom = 1:numOfRoooms
         case 'Restaurant'
             OUTPUT.ATTRIBUTE.Type   = 'à˘êHìXìô';
         case 'MeetingPlace'
-            OUTPUT.ATTRIBUTE.Type   = 'èWâÔèÍìô';
+            OUTPUT.ATTRIBUTE.Type   = 'èWâÔèäìô';
         case 'Factory'
             OUTPUT.ATTRIBUTE.Type   = 'çHèÍìô';
     end
@@ -61,6 +61,42 @@ for iRoom = 1:numOfRoooms
         end
         OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowArea    = WindowArea(iENV,iWALL);      % ëãñ êœ [m2]
         OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.Direction     = Direction{iENV,iWALL};       % ï˚à 
+        
+        
+        % ï˚à åWêî
+        if strcmp(Direction{iENV,iWALL},'N')
+            directionV = 0.24;
+        elseif strcmp(Direction{iENV,iWALL},'E') || strcmp(Direction{iENV,iWALL},'W')
+            directionV = 0.45;
+        elseif strcmp(Direction{iENV,iWALL},'S')
+            directionV = 0.39;
+        elseif strcmp(Direction{iENV,iWALL},'SE') || strcmp(Direction{iENV,iWALL},'SW')
+            directionV = 0.45;
+        elseif strcmp(Direction{iENV,iWALL},'NE') || strcmp(Direction{iENV,iWALL},'NW')
+            directionV = 0.34;
+        elseif strcmp(Direction{iENV,iWALL},'Horizontal')
+            directionV = 1;
+        elseif strcmp(Direction{iENV,iWALL},'Underground')
+            directionV = 0;
+        else
+            directionV = 0.5;
+        end
+
+        % ëçîMä—ó¨ó¶åvéZ(ï«) + ì˙éÀêNì¸ó¶åvéZÅiï«Åj
+        for iDB = 1:length(WallNameList)
+            if strcmp(WallNameList{iDB},WallConfigure{iENV,iWALL})
+                UAlist(iRoom) = UAlist(iRoom) + WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
+                MAlist(iRoom) = MAlist(iRoom) + directionV*0.04*0.8*WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
+            end
+        end
+        % ëçîMä—ó¨ó¶åvéZ(ëã) + ì˙éÀêNì¸ó¶åvéZÅiëãÅj
+        for iDB = 1:length(WindowNameList)
+            if strcmp(WindowNameList{iDB},WindowType{iENV,iWALL})
+                UAlist(iRoom) = UAlist(iRoom) + WindowUvalueList(iDB)*WindowArea(iENV,iWALL);
+                MAlist(iRoom) = MAlist(iRoom) + directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);             
+            end
+        end
+        
     end
     
     

@@ -18,11 +18,12 @@
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
 function y = ECS_routeB_V_run(inputfilename,OutputOption)
-% 
+
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = './InputFiles/例IBEC6/sample_IBEC6.xml';
+% inputfilename = './TAISEI_Photel.xml';
+% inputfilename = './InputFiles/都内某文系大学/ver20120622_IVb/Case1/NSRI_School_IVb_Case1.xml';
 % OutputOption = 'ON';
 
 
@@ -142,7 +143,7 @@ for iROOM = 1:numOfRoom
     end
     
     if numOfVac(iROOM) == 0
-        UnitNameAC{iROOM,1}  = ' ';
+        UnitNameAC{iROOM,1}  = [];
         CoolingCapacityAC(iROOM,1) = 0;
         COPAC(iROOM,1)       = 0;
         FanPowerAC(iROOM,1)  = 0;
@@ -252,28 +253,162 @@ for iROOM = 1:numOfRoom
     end
 end
 
+%% 機器リストの作成
+UnitListFAN = {};
+UnitListFANPower = [];
+for iUNITx = 1:size(UnitNameFAN,1)
+    for iUNITy = 1:size(UnitNameFAN,2)
+        if isempty(UnitNameFAN{iUNITx,iUNITy}) == 0
+            if iUNITx == 1 && iUNITy == 1
+                UnitListFAN = [UnitListFAN;UnitNameFAN(iUNITx,iUNITy)];  % 初期値
+                UnitListFANPower = [UnitListFANPower;FanPowerFAN(iUNITx,iUNITy).*hosei_ALL(iUNITx,iUNITy)];  % 初期値
+            else
+                
+                % 変数UnitListを検索
+                check = 0;
+                for iUNITdb = 1:length(UnitListFAN)
+                    if strcmp(UnitListFAN(iUNITdb),UnitNameFAN(iUNITx,iUNITy))
+                        check = 1;
+                    end
+                end
+                if check == 0
+                    UnitListFAN = [UnitListFAN;UnitNameFAN(iUNITx,iUNITy)];  % 追加
+                    UnitListFANPower = [UnitListFANPower;FanPowerFAN(iUNITx,iUNITy).*hosei_ALL(iUNITx,iUNITy)];  % 追加
+                end
+                
+            end
+        end
+    end
+end
+
+UnitListAC = {};
+UnitListAC_CoolingCapacity = [];
+UnitListAC_COP = [];
+UnitListAC_FanPower = [];
+UnitListAC_PumpPower = [];
+
+for iUNITx = 1:size(UnitNameAC,1)
+    for iUNITy = 1:size(UnitNameAC,2)
+        if isempty(UnitNameAC{iUNITx,iUNITy}) == 0
+            if iUNITx == 1 && iUNITy == 1
+                UnitListAC = [UnitListAC;UnitNameAC(iUNITx,iUNITy)];  % 初期値
+                UnitListAC_CoolingCapacity = [UnitListAC_CoolingCapacity;CoolingCapacityAC(iUNITx,iUNITy).*xL(iUNITx)];  % 初期値
+                UnitListAC_COP             = [UnitListAC_COP;COPAC(iUNITx,iUNITy)];  % 初期値
+                UnitListAC_FanPower        = [UnitListAC_FanPower;FanPowerAC(iUNITx,iUNITy)];  % 初期値
+                UnitListAC_PumpPower       = [UnitListAC_PumpPower;PumpPowerAC(iUNITx,iUNITy)];  % 初期値
+                
+            else
+                
+                % 変数UnitListを検索
+                check = 0;
+                for iUNITdb = 1:length(UnitListAC)
+                    if strcmp(UnitListAC(iUNITdb),UnitNameAC(iUNITx,iUNITy))
+                        check = 1;
+                    end
+                end
+                if check == 0
+                    UnitListAC = [UnitListAC;UnitNameAC(iUNITx,iUNITy)];  % 追加
+                    UnitListAC_CoolingCapacity = [UnitListAC_CoolingCapacity;CoolingCapacityAC(iUNITx,iUNITy).*xL(iUNITx)];  % 追加
+                    UnitListAC_COP             = [UnitListAC_COP;COPAC(iUNITx,iUNITy)];  % 追加
+                    UnitListAC_FanPower        = [UnitListAC_FanPower;FanPowerAC(iUNITx,iUNITy)];  % 追加
+                    UnitListAC_PumpPower       = [UnitListAC_PumpPower;PumpPowerAC(iUNITx,iUNITy)];  % 追加
+                end
+                
+            end
+        end
+    end
+end
+
+
+%% 機器別の運転時間の計算(最大値とする)
+opeTimeListFAN = zeros(length(UnitListFAN),1);
+AreaListFAN = zeros(length(UnitListFAN),1);
+
+for iUNIT = 1:length(UnitListFAN)
+    
+    % データベース検索
+    for iROOM = 1:size(UnitNameFAN,1)
+        for iUNITdb = 1:size(UnitNameFAN,2)
+            if strcmp(UnitListFAN(iUNIT),UnitNameFAN(iROOM,iUNITdb))
+                AreaListFAN(iUNIT,1) = AreaListFAN(iUNIT,1) + RoomArea(iROOM);
+                if opeTimeListFAN(iUNIT,1) < timeL(iROOM)
+                    opeTimeListFAN(iUNIT,1) = timeL(iROOM);
+                end
+            end
+        end
+    end
+
+end
+
+opeTimeListAC = zeros(length(UnitListAC),1);
+AreaListAC = zeros(length(UnitListAC),1);
+for iUNIT = 1:length(UnitListAC)
+    
+    % データベース検索
+    for iROOM = 1:size(UnitNameAC,1)
+        for iUNITdb = 1:size(UnitNameAC,2)
+            if strcmp(UnitListAC(iUNIT),UnitNameAC(iROOM,iUNITdb))
+                AreaListAC(iUNIT,1) = AreaListAC(iUNIT,1) + RoomArea(iROOM);
+                if opeTimeListAC(iUNIT,1) < timeL(iROOM)
+                    opeTimeListAC(iUNIT,1) = timeL(iROOM);
+                end
+            end
+        end
+    end
+
+end
+if isempty(opeTimeListAC)
+    opeTimeListAC = [];
+end
+
 
 %% エネルギー消費量計算
 
-% 評価値計算
-Edesign_FAN_MWh    = repmat(timeL,1,size(FanPowerFAN,2)) .* FanPowerFAN .* hosei_ALL ./(1000*0.75);
+% 機器ベースで計算
+Edesign_FAN_MWh    = opeTimeListFAN .* UnitListFANPower ./(1000*0.75);
+
+% 評価値計算 (室ベースで計算）
+% Edesign_FAN_MWh    = repmat(timeL,1,size(FanPowerFAN,2)) .* FanPowerFAN .* hosei_ALL ./(1000*0.75);
+
 Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
-
-% COPを一次換算で入れた場合
-% Edesign_AC_kW     = (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
+ 
+% % COPを一次換算で入れた場合
+Edesign_AC_kW_ROOM     = CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75;
 % Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
-%     (2.71 .* CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+%      (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
 
-% COPを二次換算で入れた場合
-Edesign_AC_kW     = (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 );
-Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
-    (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./COPAC + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
+Edesign_AC_kW  = UnitListAC_CoolingCapacity ./(2.71.*UnitListAC_COP) + (UnitListAC_FanPower + UnitListAC_PumpPower) ./0.75;
+Edesing_AC_Mwh = Edesign_AC_kW .* opeTimeListAC ./1000;
 
 Edesign_AC_MJ     = 9760.*Edesing_AC_Mwh;
 Edesign_AC_MWh_m2 = sum(nansum(Edesing_AC_Mwh))/sum(RoomArea);
 Edesign_AC_MJ_m2  = sum(nansum(Edesign_AC_MJ))/sum(RoomArea);
+
+% （部屋単位の評価値：面積で按分する）
+ratioP_FAN = zeros(size(UnitNameFAN));
+for iUNIT = 1:length(UnitListFAN)
+    for iROOM = 1:size(UnitNameFAN,1)
+        for iUNITdb = 1:size(UnitNameFAN,2)
+            if strcmp(UnitNameFAN(iROOM,iUNITdb),UnitListFAN(iUNIT))
+                ratioP_FAN(iROOM,iUNITdb) = Edesign_FAN_MJ(iUNIT).*RoomArea(iROOM)./AreaListFAN(iUNIT);                                   
+            end
+        end     
+    end
+end
+
+ratioP_AC = zeros(size(UnitNameAC));
+for iUNIT = 1:length(UnitListAC)
+    for iROOM = 1:size(UnitNameAC,1)
+        for iUNITdb = 1:size(UnitNameAC,2)
+            if strcmp(UnitNameAC(iROOM,iUNITdb),UnitListAC(iUNIT))
+                ratioP_AC(iROOM,iUNITdb) = Edesign_AC_MJ(iUNIT).*RoomArea(iROOM)./AreaListAC(iUNIT);                                   
+            end
+        end     
+    end
+end
+
 
 %----------------------------------------
 % 基準年間エネルギー消費量原単位 [kW/m2]
@@ -342,9 +477,9 @@ if OutputOptionVar == 1
                         hosei_C3_name(iROOM,iUNIT),',',...
                         num2str(hosei_ALL(iROOM,iUNIT)),',',...
                         num2str(timeL(iROOM)),',',...
-                        num2str(Edesign_FAN_MJ(iROOM,iUNIT)),',',...
+                        num2str(ratioP_FAN(iROOM,iUNIT)),',',...
                         num2str(Es_MJ(iROOM)),',',...
-                        num2str( (nansum(Edesign_FAN_MJ(iROOM,:)) + nansum(Edesign_AC_MJ(iROOM,:))) ./Es_MJ(iROOM)));
+                        num2str( (nansum(ratioP_FAN(iROOM,:)) + nansum(ratioP_AC(iROOM,:))) ./Es_MJ(iROOM)));
                     
                 else
                     tmpdata = strcat(',',...
@@ -368,7 +503,7 @@ if OutputOptionVar == 1
                         hosei_C3_name(iROOM,iUNIT),',',...
                         num2str(hosei_ALL(iROOM,iUNIT)),',',...
                         ',',...
-                        num2str(Edesign_FAN_MJ(iROOM,iUNIT)),',',...
+                        num2str(ratioP_FAN(iROOM,iUNIT)),',',...
                         ',',...
                         ' ');
                     
@@ -397,19 +532,19 @@ if OutputOptionVar == 1
                         num2str(COPAC(iROOM,iUNIT)),',',...
                         num2str(FanPowerAC(iROOM,iUNIT)),',',...
                         num2str(PumpPowerAC(iROOM,iUNIT)),',',...
-                        num2str(Edesign_AC_kW(iROOM,iUNIT)./RoomArea(iROOM)*1000),',',...
+                        num2str(Edesign_AC_kW_ROOM(iROOM,iUNIT)./RoomArea(iROOM)*1000),',',...
                         num2str(Eme(iROOM)*1000),',',...
                         ',',...
                         ',',...
                         ',',...
                         ',',...
                         num2str(timeL(iROOM)),',',...
-                        num2str(Edesign_AC_MJ(iROOM,iUNIT)),',',...
+                        num2str(ratioP_AC(iROOM,iUNIT)),',',...
                         num2str(Es_MJ(iROOM)),',',...
-                        num2str( (nansum(Edesign_FAN_MJ(iROOM,:)) + nansum(Edesign_AC_MJ(iROOM,:))) ./Es_MJ(iROOM)));
+                        num2str( (nansum(ratioP_FAN(iROOM,:)) + nansum(ratioP_AC(iROOM,:))) ./Es_MJ(iROOM)));
                     
                 else
-                    
+                                        
                     tmpdata = strcat(',',...
                         ',',...
                         ',',...
@@ -424,14 +559,14 @@ if OutputOptionVar == 1
                         num2str(COPAC(iROOM,iUNIT)),',',...
                         num2str(FanPowerAC(iROOM,iUNIT)),',',...
                         num2str(PumpPowerAC(iROOM,iUNIT)),',',...
-                        num2str(Edesign_AC_kW(iROOM,iUNIT)./RoomArea(iROOM)*1000),',',...
+                        num2str(Edesign_AC_kW_ROOM(iROOM,iUNIT)./RoomArea(iROOM)*1000),',',...
                         ',',...
                         ',',...
                         ',',...
                         ',',...
                         ',',...
                         ',',...
-                        num2str(Edesign_AC_MJ(iROOM,iUNIT)),',',...
+                        num2str(ratioP_AC(iROOM,iUNIT)),',',...
                         ',',...
                         ' ');
                     

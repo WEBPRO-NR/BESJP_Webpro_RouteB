@@ -17,7 +17,7 @@ function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
 % clc
-% inputfilename = './InputFiles/—áIBEC‰üC1/IBEC‰üC1.xml';
+% inputfilename = './TAISEI_Photel.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 

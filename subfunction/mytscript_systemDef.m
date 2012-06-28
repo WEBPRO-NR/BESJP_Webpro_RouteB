@@ -62,6 +62,8 @@ for iROOM = 1:numOfRoooms
             elseif strcmp(perDB_RoomType(iDB,8),'WSC2')
                 roomWSC(iROOM) = 2;
             else
+                iROOM
+                perDB_RoomType(iDB,8)
                 error('WSCパターンが不正です。')
             end
             
@@ -69,6 +71,8 @@ for iROOM = 1:numOfRoooms
             roomKey{iROOM} = perDB_RoomType(iDB,1);
             % 内部発熱量の時刻変動
             for iDB2 = 2:size(perDB_RoomOpeCondition,1)
+                
+                % 機器発熱密度比率
                 if strcmp(perDB_RoomOpeCondition(iDB2,1),roomKey{iROOM}) &&...
                         strcmp(perDB_RoomOpeCondition(iDB2,4),'4')
                     if strcmp(perDB_RoomOpeCondition(iDB2,5),'1')
@@ -81,6 +85,8 @@ for iROOM = 1:numOfRoooms
                         error('室使用パターンが不正です')
                     end
                 end
+                
+                % 照明発熱密度比率
                 if strcmp(perDB_RoomOpeCondition(iDB2,1),roomKey{iROOM}) &&...
                         strcmp(perDB_RoomOpeCondition(iDB2,4),'2')
                     if strcmp(perDB_RoomOpeCondition(iDB2,5),'1')
@@ -156,7 +162,7 @@ for iROOM = 1:numOfRoooms
         end
     end
     
-    % 外気取り入れ量 [m3/h] → [kg/s]  <室数をかける>
+    % 外気取り入れ量 [m3/h] → [kg/s]
     roomVoa(iROOM) = roomVoa_m3hm2(iROOM).*1.293./3600.*roomArea(iROOM);
     
 end
@@ -383,6 +389,7 @@ for iAHU = 1:numOfAHUs
     tmpQroomSet = {};
     tmpQoaSet   = {};
     tmpVoa      = 0;
+    tmpSahu     = 0;
     for iROOM = 1:length(roomName)
         if strcmp(ahuID(iAHU),roomAHU_Qroom(iROOM))
             tmpQroomSet = [tmpQroomSet,roomID(iROOM)];  % 室負荷処理用
@@ -390,14 +397,19 @@ for iAHU = 1:numOfAHUs
         if strcmp(ahuID(iAHU),roomAHU_Qoa(iROOM))
             tmpQoaSet = [tmpQoaSet,roomID(iROOM)];      % 外気負荷処理用
             tmpVoa    = tmpVoa + roomVoa(iROOM);          % 外気取入量 [kg/s]
+            tmpSahu   = tmpSahu + roomArea(iROOM);
         end
     end
     ahuQroomSet{iAHU,:} = tmpQroomSet;  % 室負荷処理対象
     ahuQoaSet{iAHU,:}   = tmpQoaSet;    % 外気負荷処理対象
     ahuQallSet{iAHU,:}  = [ahuQroomSet{iAHU,:},ahuQoaSet{iAHU,:}];
     ahuVoa(iAHU)        = tmpVoa;
+    ahuS(iAHU)          = tmpSahu;  % 空調系統ごとの空調対象面積 [m2]
+    ahuATF_C(iAHU)      = ahuQcmax(iAHU)/ahuEfan(iAHU); % 冷房時ATF(冷房能力／ファン動力）
+    ahuATF_H(iAHU)      = ahuQhmax(iAHU)/ahuEfan(iAHU); % 冷房時ATF(暖房能力／ファン動力）
+    ahuFratio(iAHU)     = ahuEfan(iAHU)/ahuS(iAHU)*1000;     % 単位床面積あたりのファン電力 [W/m2]
     
-    
+                                        
     % ビルマル対応（仮想二次ポンプを自動追加）
     if strcmp(ahuPump_cooling{iAHU},'Null_C') % 冷水ポンプ
         
@@ -501,18 +513,22 @@ for iPUMP = 1:numOfPumps
     
     % 接続空調機
     tmpAHUSet = {};
+    tmpSpump  = 0;
     for iAHU = 1:numOfAHUs
         if PUMPtype(iPUMP) == 1
             if strcmp(pumpName{iPUMP},ahuPump_cooling(iAHU)) % 冷水ポンプ
                 tmpAHUSet = [tmpAHUSet,ahuID(iAHU)];
+                tmpSpump  = tmpSpump + ahuS(iAHU);
             end
         elseif PUMPtype(iPUMP) == 2
             if strcmp(pumpName{iPUMP},ahuPump_heating(iAHU)) % 温水ポンプ
                 tmpAHUSet = [tmpAHUSet,ahuID(iAHU)];
+                tmpSpump  = tmpSpump + ahuS(iAHU);
             end
         end
     end
     PUMPahuSet{iPUMP,:} = tmpAHUSet;
+    pumpS(iPUMP)        = tmpSpump;    % ポンプ系統ごとの空調対象面積
     
 end
 
@@ -561,19 +577,23 @@ for iREF = 1:numOfRefs
     
     % 接続ポンプ
     tmpPUMPSet = {};
+    tmpSref    = 0;
     for iAHU = 1:numOfAHUs
         if REFtype(iREF) == 1
             if strcmp(refsetID(iREF),ahuRef_cooling(iAHU))
                 
                 tmpPUMPSet = [tmpPUMPSet,ahuPump_cooling(iAHU)];
+                tmpSref    = tmpSref + ahuS(iAHU);
             end
         elseif REFtype(iREF) == 2
             if strcmp(refsetID(iREF),ahuRef_heating(iAHU))
                 tmpPUMPSet = [tmpPUMPSet,ahuPump_heating(iAHU)];
+                tmpSref    = tmpSref + ahuS(iAHU);
             end
         end
     end
     REFpumpSet{iREF,:} = tmpPUMPSet;
+    refS(iREF)         = tmpSref;
     
     % 熱源特性
     for iREFSUB = 1:refsetRnum(iREF)

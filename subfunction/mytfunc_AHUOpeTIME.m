@@ -25,7 +25,7 @@ ahuTime_start = zeros(365,length(AHUsystemName));  % 空調開始時刻
 ahuTime_stop  = zeros(365,length(AHUsystemName));  % 空調終了時刻
 
 for sysa=1:length(AHUsystemName) % 空調系統ごと
-    
+       
     for dd = 1:365 % 日のループ
         
         tmpStart = [];
@@ -51,16 +51,28 @@ for sysa=1:length(AHUsystemName) % 空調系統ごと
         end
         
         % 和集合をとる．
-        ahuTime_start(dd,sysa) = min(tmpStart); % 一番早い時間が開始時刻
-        ahuTime_stop(dd,sysa)  = max(tmpStop);  % 一番遅い時間が終了時刻
+        if isempty(tmpStart)
+            ahuTime_start(dd,sysa) = 0;
+        else
+            ahuTime_start(dd,sysa) = min(tmpStart); % 一番早い時間が開始時刻
+        end
+        if isempty(tmpStop)
+            ahuTime_stop(dd,sysa) = 0;
+        else
+            ahuTime_stop(dd,sysa)  = max(tmpStop);  % 一番遅い時間が終了時刻
+        end
         
         % 空調時間
-        if max(tmpStop) >= min(tmpStart)
-            % 日を跨がない場合
-            AHUsystemT(dd,sysa) = max(tmpStop)-min(tmpStart);
+        if isempty(tmpStart) == 0 && isempty(tmpStop) == 0
+            if max(tmpStop) >= min(tmpStart)
+                % 日を跨がない場合
+                AHUsystemT(dd,sysa) = max(tmpStop)-min(tmpStart);
+            else
+                % 日を跨ぐ場合
+                AHUsystemT(dd,sysa) = min(tmpStart)+(24-max(tmpStop));
+            end
         else
-            % 日を跨ぐ場合
-            AHUsystemT(dd,sysa) = min(tmpStart)+(24-max(tmpStop));
+            AHUsystemT(dd,sysa) = 0;
         end
         
     end

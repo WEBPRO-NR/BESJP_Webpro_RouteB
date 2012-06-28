@@ -53,7 +53,8 @@ for iAHU = 11:size(ahuListDataCell,1)
     
     % ‹ó’²‹@í—Ş
     if isempty(ahuListDataCell{iAHU,5}) == 0
-        if strcmp(ahuListDataCell(iAHU,5),'‹ó’²‹@') || strcmp(ahuListDataCell(iAHU,5),'AHU') || strcmp(ahuListDataCell(iAHU,5),'‚`‚g‚t')
+        if strcmp(ahuListDataCell(iAHU,5),'‹ó’²‹@') || strcmp(ahuListDataCell(iAHU,5),'AHU') || ...
+                strcmp(ahuListDataCell(iAHU,5),'‚`‚g‚t') || strcmp(ahuListDataCell(iAHU,5),'‹ó‹C’²˜a‹@') || strcmp(ahuListDataCell(iAHU,5),'ŠO‹Cˆ—‹ó’²‹@') 
             xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'AHU';
         elseif strcmp(ahuListDataCell(iAHU,5),'FCU') || strcmp(ahuListDataCell(iAHU,5),'‚e‚b‚t')
             xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'FCU';

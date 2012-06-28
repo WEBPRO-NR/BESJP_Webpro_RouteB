@@ -118,19 +118,18 @@ for iREFSET = 1:length(RefListName)
             end
             
             if strcmp(refListDataCell(iDB,8),'空冷ヒートポンプ（スクリュー，スライド弁）')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP';
-            elseif strcmp(refListDataCell(iDB,8),'空冷ヒートポンプ（スクロール，圧縮機台数制御）')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_INV';
+                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Screw';
+            elseif strcmp(refListDataCell(iDB,8),'空冷ヒートポンプ（スクロール，圧縮機台数制御）') || ...
+                    strcmp(refListDataCell(iDB,8),'空冷ヒートポンプ（スクリュー，インバータ）')
+                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Scroll';
             elseif strcmp(refListDataCell(iDB,8),'電気式ビル用マルチ')
                 xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'EHP';
             elseif strcmp(refListDataCell(iDB,8),'ガス式ビル用マルチ')
                 xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GHP';
             elseif strcmp(refListDataCell(iDB,8),'水冷チラー（スクリュー，スライド弁）')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller';
+                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw';
             elseif strcmp(refListDataCell(iDB,8),'ターボ冷凍機（標準，ベーン制御）')
                 xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF';
-            elseif strcmp(refListDataCell(iDB,8),'ターボ冷凍機（高効率，ベーン制御）')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_HighEffi';
             elseif strcmp(refListDataCell(iDB,8),'ターボ冷凍機（高効率，インバータ制御）')
                 xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_INV';
             elseif strcmp(refListDataCell(iDB,8),'ブラインターボ冷凍機（標準，蓄熱時）')
@@ -148,7 +147,7 @@ for iREFSET = 1:length(RefListName)
             elseif strcmp(refListDataCell(iDB,8),'ボイラ（真空温水ヒータ）')
                 xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'VacuumBoiler';
             else
-                refListDataCell(iREF,8)
+                refListDataCell(iDB,8)
                 error('熱源種類が不正です。')
             end
             

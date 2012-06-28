@@ -79,7 +79,8 @@ Eaves         = cell(1,numOfENVs);
 for iENV = 1:numOfENVs
     envelopeID{iENV} = INPUT.AirConditioningSystem.Envelope(iENV).ATTRIBUTE.ACZoneID;
     numOfWalls(iENV) = length(INPUT.AirConditioningSystem.Envelope(iENV).Wall);
-    for iWALL = 1:numOfWalls(iENV)
+   
+    for iWALL = 1:numOfWalls(iENV) 
         WallConfigure{iENV,iWALL} = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallConfigure;  % äOï«éÌóﬁ
         WallArea(iENV,iWALL)      = mytfunc_null2value(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallArea,0);  % äOîÁñ êœ [m2]
         WindowType{iENV,iWALL}    = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowType;     % ëãéÌóﬁ

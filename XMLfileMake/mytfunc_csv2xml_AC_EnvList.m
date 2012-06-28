@@ -78,6 +78,8 @@ for iENV = 11:size(envListDataCell,1)
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Direction   = 'Horizontal';
             elseif strcmp(envListDataCell(iENV,2+8*(iENVELE-1)+1),'地中')
                 xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Direction   = 'Underground';
+            elseif strcmp(envListDataCell(iENV,2+8*(iENVELE-1)+1),'日陰')
+                xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Direction   = 'Underground';
             else
                 envListDataCell(iENV,2+8*(iENVELE-1)+1)
                 error('方位が不正です。')
@@ -94,7 +96,7 @@ for iENV = 11:size(envListDataCell,1)
             if isempty(envListDataCell{iENV,2+8*(iENVELE-1)+6}) == 0
                 
                 % 窓種類(ブラインド種類で場合分け)
-                if strcmp(envListDataCell{iENV,2+8*(iENVELE-1)+8},'無')
+                if isempty(envListDataCell{iENV,2+8*(iENVELE-1)+8}) ||  strcmp(envListDataCell{iENV,2+8*(iENVELE-1)+8},'無')
                     xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.Blind  = 'None';
                     xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowType ...
                         = strcat(envListDataCell(iENV,2+8*(iENVELE-1)+6),'_0');
@@ -111,6 +113,7 @@ for iENV = 11:size(envListDataCell,1)
                     xmldata.AirConditioningSystem.Envelope(iENV-10).Wall(envCount).ATTRIBUTE.WindowType ...
                         = strcat(envListDataCell(iENV,2+8*(iENVELE-1)+6),'_3');
                 else
+                    envListDataCell{iENV,2+8*(iENVELE-1)+8}
                     error('ブラインドの種類が不正です。')
                 end
                 

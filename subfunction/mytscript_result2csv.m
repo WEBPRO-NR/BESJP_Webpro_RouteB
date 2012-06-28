@@ -6,10 +6,10 @@
 
 % 出力するファイル名
 if isempty(strfind(INPUTFILENAME,'/'))
-    eval(['resfilenameD = ''calcRESdetail_',INPUTFILENAME(1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameD = ''calcRESdetail_AC_',INPUTFILENAME(1:end-4),'_',datestr(now,30),'.csv'';'])
 else
     tmp = strfind(INPUTFILENAME,'/');
-    eval(['resfilenameD = ''calcRESdetail_',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    eval(['resfilenameD = ''calcRESdetail_AC_',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
 
 % 結果格納用変数
@@ -203,7 +203,7 @@ for iREF = 1:numOfRefs
                 if isempty(refset_Type{iREF,iREFSUB})
                     tmpname = '熱源無し';
                 else
-                    error('熱源種類が不正です。')
+                    tmpname = '熱源無し';
                 end
             end
             

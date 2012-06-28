@@ -26,7 +26,7 @@ else
     
     % —â–[•‰‰× [MJ/day]
     if Tahu_c > 0
-        if ahuOAcut == 1 && Tahu_c > 1
+        if ahuOAcut == 1 && Tahu_c > 1 && (Tahu_c >= Tahu_h)
             Qahu_c = QroomAHUc + qoaAHU.*(Tahu_c-1).*3600/1000; % ÏZ’l [MJ/day]
         else
             Qahu_c = QroomAHUc + qoaAHU.*Tahu_c.*3600/1000; % ÏZ’l [MJ/day]
@@ -37,7 +37,7 @@ else
     
     % ’g–[•‰‰× [MJ/day]
     if Tahu_h > 0
-        if ahuOAcut == 1 && Tahu_h > 1
+        if ahuOAcut == 1 && Tahu_h > 1 && (Tahu_c < Tahu_h)
             Qahu_h = QroomAHUh + qoaAHU.*(Tahu_h-1).*3600/1000; % ÏZ’l [MJ/day]
         else
             Qahu_h = QroomAHUh + qoaAHU.*Tahu_h.*3600/1000; % ÏZ’l [MJ/day]

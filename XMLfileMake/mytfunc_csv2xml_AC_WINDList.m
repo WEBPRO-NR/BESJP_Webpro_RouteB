@@ -45,11 +45,14 @@ for iWIND = 1:size(WINDList,1)
         % 窓種類
         if strcmp(windListDataCell{10+iWIND,2},'単板ガラス')
             confG{3*(iWIND-1)+iBLIND,2} = 'SNGL';
-        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層6mm）')
+        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層6mm）') || ...
+                strcmp(windListDataCell{10+iWIND,2},'複層ガラス(中空層6mm)')
             confG{3*(iWIND-1)+iBLIND,2} = 'DL06';
-        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm）')
+        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm）') || ...
+                strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm)') 
             confG{3*(iWIND-1)+iBLIND,2} = 'DL12';
         else
+            windListDataCell{10+iWIND,2}
             error('ガラスの種類が不正です')
         end
         

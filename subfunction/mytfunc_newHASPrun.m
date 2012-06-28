@@ -53,7 +53,7 @@ for iROOM = 1:length(roomID)
     elseif length(roomID{iROOM}) == 3
         resFileName = strcat(roomID(iROOM),'_');
     elseif length(roomID{iROOM}) == 4
-        % 何もしない
+        resFileName = roomID(iROOM);
     else
         error('roomIDが不正です')
     end
@@ -70,7 +70,7 @@ for iROOM = 1:length(roomID)
     if OutputOptionVar == 0
         eval(['delete ',cell2mat(resFileName),'.csv'])
         eval(['delete newHASPinput_',roomID{iROOM},'.txt'])
-        delete NHKsetting.txt
+        delete NHKsetting.txt err.txt out20.dat
     end
     
     % 室除去熱量（全熱，毎時）[W/m2]→[MJ/h]
@@ -80,6 +80,8 @@ for iROOM = 1:length(roomID)
     for i=1:length(newHASP_Qhour)
         if isnan(newHASP_Qhour(i))
             newHASP_Qhour(i) = 0;
+            roomID(iROOM)
+            disp('newHASPの計算結果に*****がある')
         end
     end
     

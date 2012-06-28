@@ -71,6 +71,7 @@ for iRoom = 11:size(commonDataCell,1)
         case 'Hê“™'
             roomBuildingType   = [roomBuildingType; 'Factory'];
         otherwise
+            commonDataCell{iRoom,3}
             error('Œš•¨—p“r‚ª•s³‚Å‚·')
     end
     

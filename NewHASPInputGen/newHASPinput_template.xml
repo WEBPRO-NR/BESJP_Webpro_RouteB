@@ -7,7 +7,6 @@
   </Rooms>
   <Envelopes>
     <Envelope ID="ENV001">
-      <Wall WallConfigure="一般・暑熱地域外壁_吹付け硬質ウレタン発砲板15mm" WallArea="100" WindowType="ダブル60" WindowArea="20" Direction="南向き(30)" />
     </Envelope>
   </Envelopes>
 </Model>

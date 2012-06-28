@@ -23,7 +23,7 @@ function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 % clc
 % tic
 % 
-% inputfilename = './InputFiles/‰üC/01_10000‡u‰üCCase01/Repair_Case01.xml';
+% inputfilename = './TAISEI_Photel.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
