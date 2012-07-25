@@ -11,14 +11,6 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_L(xmldata,filename)
 
-% clear
-% clc
-% filename = '../InputFiles/省エネ基準ルートB_照明_template.csv';
-% inputfilename = 'routeB_XMLtemplate.xml';
-% xmldata = xml_read(inputfilename);
-% xmldata = mytfunc_csv2xml_CommonSetting(xmldata,'../InputFiles/省エネ基準ルートB_共通_template.csv');
-
-
 % CSVファイルの読み込み
 LightData = textread(filename,'%s','delimiter','\n','whitespace','');
 
@@ -46,6 +38,8 @@ LightUnitType = {};
 LightUnitName = {};
 LightPower = {};
 LightCount = {};
+LightRoomDepth = {};
+LightRoomWidth = {};
 LightControlFlag_C1 = {};
 LightControlFlag_C2 = {};
 LightControlFlag_C3 = {};
@@ -69,85 +63,104 @@ for iUNIT = 11:size(LightDataCell,1)
         roomFloor = [roomFloor;LightDataCell{iUNIT,1}];
         roomName  = [roomName;LightDataCell{iUNIT,2}];
     end
-    
-    % 室指数
-    if isempty(LightDataCell{iUNIT,9})
-        LightRoomIndex  = [LightRoomIndex;'Null'];
+
+    % 間口
+    if isempty(LightDataCell{iUNIT,8})
+        LightRoomWidth   = [LightRoomWidth;'Null'];
     else
-        LightRoomIndex  = [LightRoomIndex;LightDataCell{iUNIT,9}];
+        LightRoomWidth   = [LightRoomWidth;LightDataCell{iUNIT,8}];
     end
     
-    % 照明器具形式
+    % 奥行き
+    if isempty(LightDataCell{iUNIT,9})
+        LightRoomDepth   = [LightRoomDepth;'Null'];
+    else
+        LightRoomDepth   = [LightRoomDepth;LightDataCell{iUNIT,9}];
+    end
+    
+    % 室指数
     if isempty(LightDataCell{iUNIT,10})
+        LightRoomIndex  = [LightRoomIndex;'Null'];
+    else
+        LightRoomIndex  = [LightRoomIndex;LightDataCell{iUNIT,10}];
+    end
+   
+    % 照明器具形式
+    if isempty(LightDataCell{iUNIT,11})
         LightUnitType   = [LightUnitType;'Null'];
     else
-        LightUnitType   = [LightUnitType;LightDataCell{iUNIT,10}];
+        LightUnitType   = [LightUnitType;LightDataCell{iUNIT,11}];
     end
     
     % 照明器具名称
-    if isempty(LightDataCell{iUNIT,11})
+    if isempty(LightDataCell{iUNIT,12})
         LightUnitName   = [LightUnitName;'Null'];
     else
-        LightUnitName   = [LightUnitName;LightDataCell(iUNIT,11)];
+        LightUnitName   = [LightUnitName;LightDataCell(iUNIT,12)];
     end
     
     % 消費電力
-    LightPower = [LightPower;str2double(LightDataCell(iUNIT,12))];
+    LightPower = [LightPower;str2double(LightDataCell(iUNIT,13))];
     
     % 台数
-    LightCount = [LightCount;str2double(LightDataCell(iUNIT,13))];
+    LightCount = [LightCount;str2double(LightDataCell(iUNIT,14))];
     
     % 在室検知制御
-    if strcmp(LightDataCell(iUNIT,14),'減光')
+    if strcmp(LightDataCell(iUNIT,15),'減光')
         LightControlFlag_C1 = [LightControlFlag_C1;'dimmer'];
-    elseif strcmp(LightDataCell(iUNIT,14),'一括点滅')
+    elseif strcmp(LightDataCell(iUNIT,15),'一括点滅')
         LightControlFlag_C1 = [LightControlFlag_C1;'onoff'];
-    elseif strcmp(LightDataCell(iUNIT,14),'6.4m角点滅')
+    elseif strcmp(LightDataCell(iUNIT,15),'6.4m角点滅')
         LightControlFlag_C1 = [LightControlFlag_C1;'sensing64'];
-    elseif strcmp(LightDataCell(iUNIT,14),'3.2m角点滅）')
+    elseif strcmp(LightDataCell(iUNIT,15),'3.2m角点滅）')
         LightControlFlag_C1 = [LightControlFlag_C1;'sensing32'];
-    elseif strcmp(LightDataCell(iUNIT,14),'器具毎点滅')
+    elseif strcmp(LightDataCell(iUNIT,15),'器具毎点滅')
         LightControlFlag_C1 = [LightControlFlag_C1;'eachunit'];
     else
         LightControlFlag_C1 = [LightControlFlag_C1;'None'];
     end
     
     % タイムスケジュール制御
-    if strcmp(LightDataCell(iUNIT,15),'減光')
+    if strcmp(LightDataCell(iUNIT,16),'減光')
         LightControlFlag_C2 = [LightControlFlag_C2;'dimmer'];
-    elseif strcmp(LightDataCell(iUNIT,15),'消灯')
+    elseif strcmp(LightDataCell(iUNIT,16),'消灯')
         LightControlFlag_C2 = [LightControlFlag_C2;'onoff'];
     else
         LightControlFlag_C2 = [LightControlFlag_C2;'None'];
     end
     
     % 初期照度補正
-    if strcmp(LightDataCell(iUNIT,16),'タイマー')
-        LightControlFlag_C3 = [LightControlFlag_C3;'Timer'];
-    elseif strcmp(LightDataCell(iUNIT,16),'明るさセンサー')
-        LightControlFlag_C3 = [LightControlFlag_C3;'Sensor'];
+    if strcmp(LightDataCell(iUNIT,17),'有')
+        LightControlFlag_C3 = [LightControlFlag_C3;'True'];
     else
-        LightControlFlag_C3 = [LightControlFlag_C3;'None'];
+        LightControlFlag_C3 = [LightControlFlag_C3;'False'];
     end
     
     % 昼光利用制御
-    if strcmp(LightDataCell(iUNIT,17),'片側採光、ブラインド自動制御なし')
+    if strcmp(LightDataCell(iUNIT,18),'片側採光、ブラインド自動制御なし')
         LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
-    elseif strcmp(LightDataCell(iUNIT,17),'片側採光、ブラインド自動制御あり')
+    elseif strcmp(LightDataCell(iUNIT,18),'片側採光、ブラインド自動制御あり')
         LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithoutBlind'];
-    elseif strcmp(LightDataCell(iUNIT,17),'両側採光、ブラインド自動制御なし')
+    elseif strcmp(LightDataCell(iUNIT,18),'両側採光、ブラインド自動制御なし')
         LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
-    elseif strcmp(LightDataCell(iUNIT,17),'両側採光、ブラインド自動制御あり')
+    elseif strcmp(LightDataCell(iUNIT,18),'両側採光、ブラインド自動制御あり')
         LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithoutBlind'];
     else
         LightControlFlag_C4 = [LightControlFlag_C4;'None'];
     end
     
     % 明るさ感知制御
-    if strcmp(LightDataCell(iUNIT,18),'オンオフ制御')
-        LightControlFlag_C5 = [LightControlFlag_C5;'dimmer'];
+    if strcmp(LightDataCell(iUNIT,19),'有')
+        LightControlFlag_C5 = [LightControlFlag_C5;'True'];
     else
-        LightControlFlag_C5 = [LightControlFlag_C5;'None'];
+        LightControlFlag_C5 = [LightControlFlag_C5;'False'];
+    end
+    
+        % 照度調整調光制御
+    if strcmp(LightDataCell(iUNIT,20),'有')
+        LightControlFlag_C6 = [LightControlFlag_C5;'True'];
+    else
+        LightControlFlag_C6 = [LightControlFlag_C5;'False'];
     end
     
 end
@@ -161,7 +174,8 @@ for iUNIT = 1:size(roomName,1)
     if strcmp(roomName(iUNIT),'Null') == 0
         
         if isempty(RoomList) == 1
-            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),LightRoomIndex(iUNIT)];
+            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),...
+                LightRoomIndex(iUNIT),LightRoomDepth(iUNIT),LightRoomWidth(iUNIT)];
             UnitList = [UnitList; UnitID(iUNIT)];
         else
             check = 0;
@@ -175,7 +189,8 @@ for iUNIT = 1:size(roomName,1)
             
             % 室が見つからなければ追加
             if check == 0
-                RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),LightRoomIndex(iUNIT)];
+                RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),...
+                    LightRoomIndex(iUNIT),LightRoomDepth(iUNIT),LightRoomWidth(iUNIT)];
                 UnitList = [UnitList; UnitID(iUNIT)];
             end
         end
@@ -194,7 +209,7 @@ for iROOM = 1:numOfRoom
     if strcmp(RoomList(iROOM,2),'Null') == 0
         
         % 室を検索
-        [RoomID,BldgType,RoomType,RoomArea,~,RoomHeight,RoomWidth,RoomDepth] = ...
+        [RoomID,BldgType,RoomType,RoomArea,~,RoomHeight] = ...
             mytfunc_roomIDsearch(xmldata,RoomList(iROOM,1),RoomList(iROOM,2));
         
         % 室の属性を格納
@@ -205,9 +220,9 @@ for iROOM = 1:numOfRoom
         xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomType   = RoomType;
         xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomArea   = RoomArea;
         xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomHeight = RoomHeight;
-        xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomWidth  = RoomWidth;
-        xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomDepth  = RoomDepth;
         xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomIndex  = RoomList(iROOM,3);
+        xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomWidth  = RoomList(iROOM,5);
+        xmldata.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomDepth  = RoomList(iROOM,4);
         
         % ユニット情報
         if iscell(UnitList{iROOM}) == 1
@@ -242,6 +257,7 @@ for iROOM = 1:numOfRoom
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C3  = LightControlFlag_C3{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C4  = LightControlFlag_C4{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C5  = LightControlFlag_C5{iDB};
+                    xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C6  = LightControlFlag_C6{iDB};
                     
                 end
             end

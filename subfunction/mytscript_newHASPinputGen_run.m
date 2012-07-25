@@ -5,7 +5,7 @@
 % 出力するファイル名は　newHASPinput_(室ID).txt　となる。
 %-----------------------------------------------------------------------------------
 
-for iRoom = 1:numOfRoooms
+for iROOM = 1:numOfRoooms
     
     % テンプレートの読み込み
     OUTPUT = xml_read('./NewHASPInputGen/newHASPinput_template.xml');
@@ -14,8 +14,7 @@ for iRoom = 1:numOfRoooms
     OUTPUT.ATTRIBUTE.Area   = BuildingArea;   % 延床面積 [m2]
     OUTPUT.ATTRIBUTE.Region = climateAREA;    % 地域
     
-    %     OUTPUT.ATTRIBUTE.Type   = buildingType{iRoom};   % 建物用途
-    switch buildingType{iRoom}
+    switch buildingType{iROOM}
         case 'Office'
             OUTPUT.ATTRIBUTE.Type   = '事務所等';
         case 'Hotel'
@@ -34,28 +33,28 @@ for iRoom = 1:numOfRoooms
             OUTPUT.ATTRIBUTE.Type   = '工場等';
     end
     
-    OUTPUT.Rooms.Room.ATTRIBUTE.ID          = roomID{iRoom};    % 室ID
-    OUTPUT.Rooms.Room.ATTRIBUTE.Type        = roomType{iRoom};    % 室用途
-    OUTPUT.Rooms.Room.ATTRIBUTE.Area        = roomArea(iRoom);    % 室面積 [m2]
-    OUTPUT.Rooms.Room.ATTRIBUTE.FloorHeight = roomFloorHeight(iRoom);  % 階高 [m]
-    OUTPUT.Rooms.Room.ATTRIBUTE.Height      = roomHeight(iRoom);  % 天井高 [m]
+    OUTPUT.Rooms.Room.ATTRIBUTE.ID          = roomID{iROOM};    % 室ID
+    OUTPUT.Rooms.Room.ATTRIBUTE.Type        = roomType{iROOM};    % 室用途
+    OUTPUT.Rooms.Room.ATTRIBUTE.Area        = roomArea(iROOM);    % 室面積 [m2]
+    OUTPUT.Rooms.Room.ATTRIBUTE.FloorHeight = roomFloorHeight(iROOM);  % 階高 [m]
+    OUTPUT.Rooms.Room.ATTRIBUTE.Height      = roomHeight(iROOM);  % 天井高 [m]
     
     % 外皮IDから外皮仕様を探す
     for iENV = 1:numOfENVs
-        if strcmp(EnvelopeRef{iRoom},envelopeID{iENV}) == 1
+        if strcmp(EnvelopeRef{iROOM},envelopeID{iENV}) == 1
             break
         end
     end
     
-    OUTPUT.Rooms.Room.EnvelopeRef.ATTRIBUTE.ID = EnvelopeRef{iRoom};  % 外皮仕様ID
-    OUTPUT.Envelopes.Envelope.ATTRIBUTE.ID     = EnvelopeRef{iRoom};  % 外皮仕様ID
+    OUTPUT.Rooms.Room.EnvelopeRef.ATTRIBUTE.ID = EnvelopeRef{iROOM};  % 外皮仕様ID
+    OUTPUT.Envelopes.Envelope.ATTRIBUTE.ID     = EnvelopeRef{iROOM};  % 外皮仕様ID
     
     % 外皮構成別に読み込む
     for iWALL = 1:numOfWalls(iENV)
         OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallConfigure = WallConfigure{iENV,iWALL};   % 外壁種類
         OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallArea      = WallArea(iENV,iWALL) - WindowArea(iENV,iWALL);  % 外皮面積 [m2]
         if strcmp(WindowType{iENV,iWALL},'Null')
-            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType    = 'WNDW1_1';      % 窓種類
+            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType    = 'Null';      % 窓種類
         else
             OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType    = WindowType{iENV,iWALL};      % 窓種類
         end
@@ -85,15 +84,15 @@ for iRoom = 1:numOfRoooms
         % 総熱貫流率計算(壁) + 日射侵入率計算（壁）
         for iDB = 1:length(WallNameList)
             if strcmp(WallNameList{iDB},WallConfigure{iENV,iWALL})
-                UAlist(iRoom) = UAlist(iRoom) + WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
-                MAlist(iRoom) = MAlist(iRoom) + directionV*0.04*0.8*WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
+                UAlist(iROOM) = UAlist(iROOM) + WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
+                MAlist(iROOM) = MAlist(iROOM) + directionV*0.04*0.8*WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
             end
         end
         % 総熱貫流率計算(窓) + 日射侵入率計算（窓）
         for iDB = 1:length(WindowNameList)
             if strcmp(WindowNameList{iDB},WindowType{iENV,iWALL})
-                UAlist(iRoom) = UAlist(iRoom) + WindowUvalueList(iDB)*WindowArea(iENV,iWALL);
-                MAlist(iRoom) = MAlist(iRoom) + directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);             
+                UAlist(iROOM) = UAlist(iROOM) + WindowUvalueList(iDB)*WindowArea(iENV,iWALL);
+                MAlist(iROOM) = MAlist(iROOM) + directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);             
             end
         end
         

@@ -25,19 +25,18 @@ end
 
 % 室名が空白であれば直前の室名情報をコピーする。
 for iROOM = 11:size(roomDefDataCell,1)
-    if isempty(roomDefDataCell{iROOM,10})
+    if isempty(roomDefDataCell{iROOM,9}) && isempty(roomDefDataCell{iROOM,2}) == 0
         if iROOM == 11
             error('一つめの室名が空白です。')
         else
-            roomDefDataCell(iROOM, 9) = roomDefDataCell(iROOM-1,9);
-            roomDefDataCell(iROOM,10) = roomDefDataCell(iROOM-1,10);
-            roomDefDataCell(iROOM,11) = roomDefDataCell(iROOM-1,11);
-            roomDefDataCell(iROOM,12) = roomDefDataCell(iROOM-1,12);
+            roomDefDataCell(iROOM, 8) = roomDefDataCell(iROOM-1,8);   % 空調ゾーン階
+            roomDefDataCell(iROOM, 9) = roomDefDataCell(iROOM-1,9);   % 空調ゾーン名
+            roomDefDataCell(iROOM,10) = roomDefDataCell(iROOM-1,10);  % 空調機群名称（室負荷）
+            roomDefDataCell(iROOM,11) = roomDefDataCell(iROOM-1,11);  % 空調機群名称（外気負荷）
         end
     end
 end
 
-    
 
 % 空調ゾーンリストの作成
 ZoneList_Floor = {};
@@ -47,64 +46,73 @@ ZoneList_AHUO  = {};
 
 for iROOM = 11:size(roomDefDataCell,1)
     
-    if isempty(ZoneList_Name)
+    if isempty(roomDefDataCell{iROOM,9}) && isempty(roomDefDataCell{iROOM,2})
         
-        if isempty(roomDefDataCell{iROOM,9}) == 0
-            ZoneList_Floor = roomDefDataCell(iROOM,9);
-        else
-            ZoneList_Floor = 'Null';
-        end
-        
-        ZoneList_Name  = roomDefDataCell(iROOM,10);
-        
-        if isempty(roomDefDataCell{iROOM,11}) == 0
-            ZoneList_AHUR  = roomDefDataCell(iROOM,11);
-        else
-            ZoneList_AHUR  = 'Null';
-        end
-        
-        if isempty(roomDefDataCell{iROOM,12}) == 0
-            ZoneList_AHUO  = roomDefDataCell(iROOM,12);
-        else
-            ZoneList_AHUO  = 'Null';
-        end
+        eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iROOM),'行目'')'])
         
     else
         
-        check = 0;
-        
-        for iDB = 1:length(ZoneList_Name)
-            if strcmp(ZoneList_Floor(iDB),roomDefDataCell(iROOM,9)) && ...
-                    strcmp(ZoneList_Name(iDB),roomDefDataCell(iROOM,10))
-                % 重複判定
-                check = 1;
-            end
-        end
-        
-        if check == 0
-            % ゾーン名追加
-            if isempty(roomDefDataCell{iROOM,9}) == 0 
-                ZoneList_Floor = [ZoneList_Floor; roomDefDataCell(iROOM,9)];
+        if isempty(ZoneList_Name)
+            
+            if isempty(roomDefDataCell{iROOM,8}) == 0
+                ZoneList_Floor = roomDefDataCell(iROOM,8);
             else
-                ZoneList_Floor = [ZoneList_Floor; 'Null'];
+                ZoneList_Floor = 'Null';
             end
             
-            ZoneList_Name  = [ZoneList_Name; roomDefDataCell(iROOM,10)];
+            ZoneList_Name  = roomDefDataCell(iROOM,9);
+            
+            if isempty(roomDefDataCell{iROOM,10}) == 0
+                ZoneList_AHUR  = roomDefDataCell(iROOM,10);
+            else
+                ZoneList_AHUR  = 'Null';
+            end
             
             if isempty(roomDefDataCell{iROOM,11}) == 0
-                ZoneList_AHUR  = [ZoneList_AHUR; roomDefDataCell(iROOM,11)];
+                ZoneList_AHUO  = roomDefDataCell(iROOM,11);
             else
-                ZoneList_AHUR  = [ZoneList_AHUR; 'Null'];
+                ZoneList_AHUO  = 'Null';
             end
             
-            if isempty(roomDefDataCell{iROOM,12}) == 0
-                ZoneList_AHUO  = [ZoneList_AHUO; roomDefDataCell(iROOM,12)];
-            else
-                ZoneList_AHUO  = [ZoneList_AHUO; 'Null'];
+        else
+            
+            check = 0;
+            
+            for iDB = 1:length(ZoneList_Name)
+                if strcmp(ZoneList_Floor(iDB),roomDefDataCell(iROOM,8)) && ...
+                        strcmp(ZoneList_Name(iDB),roomDefDataCell(iROOM,9))
+                    % 重複判定
+                    check = 1;
+                end
+            end
+            
+            if check == 0
+                % ゾーン名追加
+                if isempty(roomDefDataCell{iROOM,8}) == 0
+                    ZoneList_Floor = [ZoneList_Floor; roomDefDataCell(iROOM,8)];
+                else
+                    ZoneList_Floor = [ZoneList_Floor; 'Null'];
+                end
+                
+                ZoneList_Name  = [ZoneList_Name; roomDefDataCell(iROOM,9)];
+                
+                if isempty(roomDefDataCell{iROOM,10}) == 0
+                    ZoneList_AHUR  = [ZoneList_AHUR; roomDefDataCell(iROOM,10)];
+                else
+                    ZoneList_AHUR  = [ZoneList_AHUR; 'Null'];
+                end
+                
+                if isempty(roomDefDataCell{iROOM,11}) == 0
+                    ZoneList_AHUO  = [ZoneList_AHUO; roomDefDataCell(iROOM,11)];
+                else
+                    ZoneList_AHUO  = [ZoneList_AHUO; 'Null'];
+                end
             end
         end
+        
     end
 end
+
 
 % XMLに格納
 for iZONE = 1:length(ZoneList_Name)
@@ -123,11 +131,11 @@ for iZONE = 1:length(ZoneList_Name)
     
     Rcount = 0;
     for iDB = 11:size(roomDefDataCell,1)
-        if  strcmp(roomDefDataCell(iDB,9),ZoneList_Floor(iZONE)) && ...
-                strcmp(roomDefDataCell(iDB,10),ZoneList_Name(iZONE))
+        if  strcmp(roomDefDataCell(iDB,8),ZoneList_Floor(iZONE)) && ...
+                strcmp(roomDefDataCell(iDB,9),ZoneList_Name(iZONE))
             
             % 室を検索
-            [RoomID,BldgType,RoomType,RoomArea,FloorHeight,RoomHeight,~,~] = ...
+            [RoomID,BldgType,RoomType,RoomArea,FloorHeight,RoomHeight] = ...
                 mytfunc_roomIDsearch(xmldata,roomDefDataCell(iDB,1),roomDefDataCell(iDB,2));
             
             Rcount = Rcount + 1;
@@ -139,8 +147,8 @@ for iZONE = 1:length(ZoneList_Name)
             xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.FloorHeight  = FloorHeight;
             xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomHeight   = RoomHeight;
             xmldata.AirConditioningSystem.AirConditioningZone(iZONE).RoomRef(Rcount).ATTRIBUTE.RoomArea     = RoomArea;
-
-        end        
+            
+        end
     end
 end
 

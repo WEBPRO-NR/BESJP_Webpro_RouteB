@@ -6,7 +6,7 @@ tic
 addpath('./subfunction/')
 
 
-for i=[5,7,18,19,192,193,21,211,22,221,231]
+for i=1
     
     casenum = int2str(i);
     if i==192
@@ -22,26 +22,7 @@ for i=[5,7,18,19,192,193,21,211,22,221,231]
     end
     eval(['disp(''ƒP[ƒX',casenum,'@Às’†'')'])
     
-    %     eval(['inputfilename = ''./InputFiles/IBECƒ‚ƒfƒ‹/IBECƒ‚ƒfƒ‹6_CaseStudy120625_Ib/Case',casenum,'/IBEC6_Ib_Case',casenum,'.xml'';'])
-    %     eval(['copyfile ./InputFiles/IBECƒ‚ƒfƒ‹/IBECƒ‚ƒfƒ‹6_CaseStudy120625_Ib/Case',casenum,'/WCON.csv ./database '])
-    %     eval(['copyfile ./InputFiles/IBECƒ‚ƒfƒ‹/IBECƒ‚ƒfƒ‹6_CaseStudy120625_Ib/Case',casenum,'/WIND.csv ./database '])
-        
-    eval(['inputfilename = ''./InputFiles/––±Š10000‰üC/‰üCVer5/Ib’nˆæ/10000‡u‰üCCase',casenum,'/Repair_Ib_Case',casenum,'.xml'';'])
-    eval(['copyfile ./InputFiles/––±Š10000‰üC/‰üCVer5/Ib’nˆæ/10000‡u‰üCCase',casenum,'/WCON.csv ./database '])
-    eval(['copyfile ./InputFiles/––±Š10000‰üC/‰üCVer5/Ib’nˆæ/10000‡u‰üCCase',casenum,'/WIND.csv ./database '])
-    
-%     eval(['inputfilename = ''./InputFiles/“s“à–^•¶Œn‘åŠw/ver20120627_IVb/Case',casenum,'/NSRI_School_IVb_Case',casenum,'.xml'';'])
-%     eval(['copyfile ./InputFiles/“s“à–^•¶Œn‘åŠw/ver20120627_IVb/Case',casenum,'/WCON.csv ./database'])
-%     eval(['copyfile ./InputFiles/“s“à–^•¶Œn‘åŠw/ver20120627_IVb/Case',casenum,'/WIND.csv ./database'])
-%     %
-%         eval(['inputfilename = ''./InputFiles/–^•a‰@/ver3/Case',casenum,'/sohmecHospital_Case',casenum,'.xml'';'])
-%         eval(['copyfile ./InputFiles/–^•a‰@/ver3/Case',casenum,'/WCON.csv ./database'])
-%         eval(['copyfile ./InputFiles/–^•a‰@/ver3/Case',casenum,'/WIND.csv ./database'])
-    
-%         eval(['inputfilename = ''./InputFiles/Pƒzƒeƒ‹/ver',casenum,'/TAISEI_Photel.xml'';'])
-%         eval(['copyfile ./InputFiles/Pƒzƒeƒ‹/ver',casenum,'/WCON.csv ./database'])
-%         eval(['copyfile ./InputFiles/Pƒzƒeƒ‹/ver',casenum,'/WIND.csv ./database'])
-    
+    inputfilename =  './repair_ivb_new.xml';
     OutputOption  = 'ON';
     
     resAC = ECS_routeB_AC_run(inputfilename,OutputOption);
@@ -49,7 +30,7 @@ for i=[5,7,18,19,192,193,21,211,22,221,231]
     resL  = ECS_routeB_L_run(inputfilename,OutputOption);
     resHW = ECS_routeB_HW_run(inputfilename,OutputOption);
     resEV = ECS_routeB_EV_run(inputfilename,OutputOption);
-    
+        
     Sac = resAC(20);
     
     RES = [];

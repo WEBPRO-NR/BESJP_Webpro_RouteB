@@ -1,4 +1,4 @@
-function [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList] = ...
+function [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList] = ...
     mytfunc_calcK(dumy)
 
 
@@ -145,6 +145,9 @@ for iWIND = 2:size(perWIND,1)
     WindowUvalueList(iWIND-1) = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum};
     WindowMyuList(iWIND-1)    = 0.88 * (perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+1} + ...
         perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+2} );
+    
+    WindowSCCList(iWIND-1)    = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+1};
+    WindowSCRList(iWIND-1)    = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+2};
     
 end
 

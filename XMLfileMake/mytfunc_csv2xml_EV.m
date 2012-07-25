@@ -36,49 +36,51 @@ EVControlType = {};
 
 for iUNIT = 11:size(EVDataCell,1)
     
-    % 系統名称
-    if isempty(EVDataCell{iUNIT,1})
-        EVName  = [EVName;'Null'];
-    else
-        EVName  = [EVName;EVDataCell{iUNIT,1}];
-    end
-    
-    % 台数
-    EVCount = [EVCount;EVDataCell{iUNIT,2}];
-    % 積載量
-    EVLoadLimit = [EVLoadLimit;EVDataCell{iUNIT,3}];
-    % 速度
-    EVVelocity = [EVVelocity;EVDataCell{iUNIT,4}];
-    
-    % 速度制御方式
-    if strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり、ギアレス)') || ...
-          strcmp(EVDataCell(iUNIT,5),'VVVF（電力回生あり、ギアレス）')  
-        EVControlType = [EVControlType;'VVVF_Regene_GearLess'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり)') || ...
-            strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生あり）') 
-        EVControlType = [EVControlType;'VVVF_Regene'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス)') || ...
-            strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし、ギアレス）')
-        EVControlType = [EVControlType;'VVVF_GearLess'];
-    elseif strcmp(EVDataCell(iUNIT,5),'VVVF(電力回生なし)') || ...
-          strcmp(EVDataCell(iUNIT,5),'VVVF（電力回生なし）')   
-        EVControlType = [EVControlType;'VVVF'];
-    elseif strcmp(EVDataCell(iUNIT,5),'交流帰還制御方式')
-        EVControlType = [EVControlType;'AC_FeedbackControl'];
-    else
-        error('エレベータ：速度制御方式が不正です。')
-    end
+    if isempty(EVDataCell{iUNIT,2}) == 0
         
-    if isempty(EVDataCell{iUNIT,6})
-        roomFloor  = [roomFloor;'Null'];
-    else
-        roomFloor  = [roomFloor;EVDataCell{iUNIT,6}];
+        % 系統名称
+        if isempty(EVDataCell{iUNIT,9})
+            EVName  = [EVName;'Null'];
+        else
+            EVName  = [EVName;EVDataCell{iUNIT,9}];
+        end
+        
+        % 台数
+        EVCount = [EVCount;EVDataCell{iUNIT,6}];
+        % 積載量
+        EVLoadLimit = [EVLoadLimit;EVDataCell{iUNIT,7}];
+        % 速度
+        EVVelocity = [EVVelocity;EVDataCell{iUNIT,8}];
+        
+        % 速度制御方式
+        if strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり、ギアレス)') || ...
+                strcmp(EVDataCell(iUNIT,9),'VVVF（電力回生あり、ギアレス）')  ||...
+                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり、ギアレス）')
+            EVControlType = [EVControlType;'VVVF_Regene_GearLess'];
+        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり)') || ...
+                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり）')
+            EVControlType = [EVControlType;'VVVF_Regene'];
+        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし、ギアレス)') || ...
+                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし、ギアレス）')
+            EVControlType = [EVControlType;'VVVF_GearLess'];
+        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし)') || ...
+                strcmp(EVDataCell(iUNIT,9),'VVVF（電力回生なし）')
+            EVControlType = [EVControlType;'VVVF'];
+        elseif strcmp(EVDataCell(iUNIT,9),'交流帰還制御方式')
+            EVControlType = [EVControlType;'AC_FeedbackControl'];
+        else
+            error('エレベータ：速度制御方式 %s は不正です。',EVDataCell{iUNIT,9})
+        end
+        
+        if isempty(EVDataCell{iUNIT,1})
+            roomFloor  = [roomFloor;'Null'];
+        else
+            roomFloor  = [roomFloor;EVDataCell{iUNIT,1}];
+        end
+        
+        roomName = [roomName; EVDataCell{iUNIT,2}];
+        
     end
-    
-    roomName = [roomName; EVDataCell{iUNIT,7}];
-%     BldgType = [BldgType; EVDataCell{iUNIT,8}];
-%     RoomType = [RoomType; EVDataCell{iUNIT,9}];
-    
 end
 
 % XMLファイル生成
@@ -86,10 +88,10 @@ for iUNIT = 1:size(EVCount,1)
     
     eval(['xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.ID = ''EV_',int2str(iUNIT),''';'])
     
-    % 室IDリスト    
-    [RoomID,BldgType,RoomType,~,~,~,~,~] = ...
-    mytfunc_roomIDsearch(xmldata,roomFloor{iUNIT},roomName{iUNIT});
-
+    % 室IDリスト
+    [RoomID,BldgType,RoomType,~,~,~] = ...
+        mytfunc_roomIDsearch(xmldata,roomFloor{iUNIT},roomName{iUNIT});
+    
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomIDs      = RoomID;
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomFloor    = roomFloor{iUNIT};
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomName     = roomName{iUNIT};

@@ -2,31 +2,31 @@
 
 <csv2xmlConfig>
 
-    <Rooms>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_室リスト.csv</Rooms>
+    <Rooms>../InputFiles/repair_IVb_new_室リスト.csv</Rooms>
 
     <AirConditioningSystem>
-	<Room>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_空調ゾーン.csv</Room>
-	<AHU>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_空調機.csv</AHU>
-	<Pump>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_二次ポンプ.csv</Pump>
-	<Ref>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_熱源.csv</Ref>
-	<Wall>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_外皮.csv</Wall>
-	<WCON>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_外壁構成.csv</WCON>
-	<WIND>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_空調_窓仕様.csv</WIND>
+	<Room>../InputFiles/repair_IVb_new_空調_空調ゾーン.csv</Room>
+	<AHU>../InputFiles/repair_IVb_new_空調_空調機.csv</AHU>
+	<Pump>../InputFiles/repair_IVb_new_空調_二次ポンプ.csv</Pump>
+	<Ref>../InputFiles/repair_IVb_new_空調_熱源.csv</Ref>
+	<Wall>../InputFiles/repair_IVb_new_空調_外皮.csv</Wall>
+	<WCON>../InputFiles/repair_IVb_new_空調_外壁構成.csv</WCON>
+	<WIND>../InputFiles/repair_IVb_new_空調_窓仕様.csv</WIND>
     </AirConditioningSystem>
 
-    <LightingSystems>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_照明.csv</LightingSystems>
+    <LightingSystems>../InputFiles/repair_IVb_new_照明.csv</LightingSystems>
     
     <HotwaterSystems>
-	<Boiler>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_給湯_機器.csv</Boiler>
-	<Room>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_給湯_室.csv</Room>
+	<Boiler>../InputFiles/repair_IVb_new_給湯_機器.csv</Boiler>
+	<Room>../InputFiles/repair_IVb_new_給湯_室.csv</Room>
     </HotwaterSystems>
 
     <VentilationSystems>
-	<Room>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_換気_室.csv</Room>
-	<Fan>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_換気_送風機.csv</Fan>
-	<AC>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_換気_冷房.csv</AC>	
+	<Room>../InputFiles/repair_IVb_new_換気_室.csv</Room>
+	<Fan>../InputFiles/repair_IVb_new_換気_送風機.csv</Fan>
+	<AC>../InputFiles/repair_IVb_new_換気_冷房.csv</AC>	
     </VentilationSystems>
 
-    <Elevators>../InputFiles/事務所10000改修/改修Ver5/Ib地域/10000㎡改修Case19/10000㎡改修Case19_昇降機.csv</Elevators>
+    <Elevators>../InputFiles/repair_IVb_new_昇降機.csv</Elevators>
 
 </csv2xmlConfig>

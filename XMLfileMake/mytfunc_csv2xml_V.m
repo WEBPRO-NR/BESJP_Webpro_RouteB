@@ -13,15 +13,6 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_V(xmldata,filenameRoom,filenameFAN,filenameAC)
 
-% clear
-% clc
-% inputfilename = 'routeB_XMLtemplate.xml';
-% xmldata = xml_read(inputfilename);
-% xmldata = mytfunc_csv2xml_CommonSetting(xmldata,'../InputFiles/省エネ基準ルートB_共通_template.csv');
-% filenameRoom = '../InputFiles/省エネ基準ルートB_換気_室_template.csv';
-% filenameFAN  = '../InputFiles/省エネ基準ルートB_換気_送風機_template.csv';
-% filenameAC   = '../InputFiles/省エネ基準ルートB_換気_冷暖房_template.csv';
-
 % CSVファイルの読み込み
 roomData  = textread(filenameRoom,'%s','delimiter','\n','whitespace','');
 venData   = textread(filenameFAN,'%s','delimiter','\n','whitespace','');
@@ -89,9 +80,12 @@ for iUNIT = 11:size(roomDataCell,1)
             unitType  = [unitType; 'Supply'];
         elseif strcmp(roomDataCell{iUNIT,6},'排気')
             unitType  = [unitType; 'Exist'];
+        elseif strcmp(roomDataCell{iUNIT,6},'循環')
+            unitType  = [unitType; 'Circulation'];
+        elseif strcmp(roomDataCell{iUNIT,6},'冷房')
+            unitType  = [unitType; 'AC'];
         else
-            unitType  = [unitType; 'Exist'];
-            disp('給気／排気の設定が不正です。')
+            unitType  = [unitType; 'Null'];
         end
         
         unitName  = [unitName; roomDataCell{iUNIT,7}];
@@ -103,13 +97,16 @@ for iUNIT = 11:size(roomDataCell,1)
             if isempty(roomDataCell{iUNIT,6})
                 unitType  = [unitType; 'Null'];
             else
-                if strcmp(roomDataCell{iUNIT,6},'給気') || strcmp(roomDataCell{iUNIT,6},'冷房')
+                if strcmp(roomDataCell{iUNIT,6},'給気')
                     unitType  = [unitType; 'Supply'];
                 elseif strcmp(roomDataCell{iUNIT,6},'排気')
                     unitType  = [unitType; 'Exist'];
+                elseif strcmp(roomDataCell{iUNIT,6},'循環')
+                    unitType  = [unitType; 'Circulation'];
+                elseif strcmp(roomDataCell{iUNIT,6},'冷房')
+                    unitType  = [unitType; 'AC'];
                 else
-                    unitType  = [unitType; 'Exist'];
-                    disp('給気／排気の設定が不正です。')
+                    unitType  = [unitType; 'Null'];
                 end
             end
             if isempty(roomDataCell{iUNIT,7})
@@ -279,7 +276,7 @@ end
 for iROOM = 1:size(RoomList,1)
     
     % 室を検索
-    [RoomID,BldgType,RoomType,RoomArea,~,~,~,~] = ...
+    [RoomID,BldgType,RoomType,RoomArea,~,~] = ...
         mytfunc_roomIDsearch(xmldata,RoomList{iROOM,1},RoomList{iROOM,2});
     
     % 室の属性を格納
@@ -344,8 +341,7 @@ for iROOM = 1:size(RoomList,1)
             end
 
             if check == 0
-                tmpUnitID
-                error('ユニットが見つかりません')
+                error('ユニット %s が見つかりません', tmpUnitID)
             end
         end
     end

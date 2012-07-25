@@ -5,7 +5,7 @@
 % 外壁の設定ファイルを読み込む。
 %------------------------------------------------------------------------
 
-function confW = mytfunc_csv2xml_AC_OWALList(filename)
+function xmldata = mytfunc_csv2xml_AC_OWALList(xmldata,filename)
 
 owalListData = textread(filename,'%s','delimiter','\n','whitespace','');
 
@@ -26,65 +26,137 @@ end
 
 % 外壁名称の読み込み
 OWALList = {};
+OWALNum  = [];
 for iOWAL = 11:size(owalListDataCell,1)
-    if isempty(owalListDataCell(iOWAL,1)) == 0
+    if isempty(owalListDataCell{iOWAL,1}) == 0
         OWALList = [OWALList;owalListDataCell{iOWAL,1}];
+        OWALNum  = [OWALNum; iOWAL];
     end
 end
 
-confW = {};
+% 仕様の読み込み
 for iOWALList = 1:size(OWALList,1)
     
     % 名称
-    confW{iOWALList,1} = OWALList{iOWALList};
+    xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.Name = OWALList{iOWALList};
     % WCON名
-    confW{iOWALList,2} = strcat('W',int2str(iOWALList));
+    xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.ID   = strcat('W',int2str(iOWALList));
     
-    for iELE = 2:10
+    % 外壁か設置壁か
+    if strcmp(owalListDataCell{OWALNum(iOWALList),2},'外壁')
+        xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.WallType   = 'Air';
+    elseif strcmp(owalListDataCell{OWALNum(iOWALList),2},'接地壁')
+        xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.WallType   = 'Ground';
+    end
+    
+    % 熱貫流率
+    if isempty(owalListDataCell{OWALNum(iOWALList),3}) == 0
+        xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.Uvalue   = owalListDataCell(OWALNum(iOWALList),3);
+    else
+        xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.Uvalue   = 'Null';
+    end
+    
+    
+    % 各レイヤー
+    count = 0;
+    for iELE = 1:10
         
-        num = 10+11*(iOWALList-1)+iELE;
+        num = OWALNum(iOWALList)+iELE;
         
         if num < size(owalListDataCell,1)
             if isempty(owalListDataCell{num,4}) == 0
                 
-                confW{iOWALList,2*(iELE-2)+2+1} = owalListDataCell{num,4};
-                if isempty(owalListDataCell{num,7}) == 0
-                    confW{iOWALList,2*(iELE-2)+2+2} = owalListDataCell{num,7};
+                count = count + 1;
+                
+                % 層番号
+                xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.Layer = int2str(count);
+                
+                % 材料番号
+                xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.MaterialNumber = ...
+                    owalListDataCell{num,4};
+                
+                % 材料名
+                if isempty(owalListDataCell{num,5}) == 0
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.MaterialName   = ...
+                        owalListDataCell{num,5};
                 else
-                    confW{iOWALList,2*(iELE-2)+2+2} = '0';
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.MaterialName   = '';
+                end
+                
+                % 厚み
+                if isempty(owalListDataCell{num,6}) == 0
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.WallThickness  = ...
+                        owalListDataCell{num,6};
+                else
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.WallThickness  = '0';
+                end
+                
+                % 備考
+                if isempty(owalListDataCell{num,7}) == 0
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.Info  = ...
+                        owalListDataCell{num,7};
+                else
+                    xmldata.AirConditioningSystem.WallConfigure(iOWALList).MaterialRef(count).ATTRIBUTE.Info  = 'Null';
                 end
                 
             end
-        end 
+        end
     end
 end
 
-% 内壁追加
-confW{iOWALList+1,1} = '内壁_天井面';
-confW{iOWALList+1,2} = 'CEI';
-confW{iOWALList+1,3} = '75';
-confW{iOWALList+1,4} = '12';
-confW{iOWALList+1,5} = '32';
-confW{iOWALList+1,6} = '9';
-confW{iOWALList+1,7} = '92';
-confW{iOWALList+1,8} = '0';
-confW{iOWALList+1,9} = '22';
-confW{iOWALList+1,10} = '150';
-confW{iOWALList+1,11} = '41';
-confW{iOWALList+1,12} = '3';
 
-confW{iOWALList+2,1} = '内壁_床面';
-confW{iOWALList+2,2} = 'FLO';
-confW{iOWALList+2,3} = '41';
-confW{iOWALList+2,4} = '3';
-confW{iOWALList+2,5} = '22';
-confW{iOWALList+2,6} = '150';
-confW{iOWALList+2,7} = '92';
-confW{iOWALList+2,8} = '0';
-confW{iOWALList+2,9} = '32';
-confW{iOWALList+2,10} = '9';
-confW{iOWALList+2,11} = '75';
-confW{iOWALList+2,12} = '12';
+% 内壁追加
+lastnum = length(xmldata.AirConditioningSystem.WallConfigure);
+
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = '内壁_天井面';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.ID   = 'CEI';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = '0.00';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = '1';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = '75';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = '12';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = '2';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = '32';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = '9';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = '3';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = '4';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = '22';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = '150';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = '5';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = '41';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = '3';
+
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = '内壁_床面';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.ID   = 'FLO';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = '0.00';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = '1';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = '41';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = '3';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = '2';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = '22';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = '150';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = '3';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = '4';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = '32';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = '9';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = '5';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = '75';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = '12';
 
 
 end

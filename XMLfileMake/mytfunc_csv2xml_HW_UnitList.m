@@ -44,40 +44,42 @@ for iUNIT = 11:size(hwequipInfoCell,1)
     else
         equipName = [equipName; hwequipInfoCell{iUNIT,1}];
     end
-    
-    % 機器表の記号
-    if isempty(hwequipInfoCell{iUNIT,2})
-        equipInfo = [equipInfo; 'Null'];
-    else
-        equipInfo = [equipInfo; hwequipInfoCell{iUNIT,2}];
-    end
-        
+
     % 加熱容量
-    equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,3}];
+    equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,2}];
     
     % 熱源効率
-    equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,4}];
+    equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,3}];
     
     % 保温仕様
-    if strcmp(hwequipInfoCell{iUNIT,5},'保温仕様１')
+    if strcmp(hwequipInfoCell{iUNIT,4},'保温仕様１')
         equipInsulation = [equipInsulation; 'Level1'];
-    elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様２')
+    elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様２')
         equipInsulation = [equipInsulation; 'Level2'];
-    elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様３')
+    elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様３')
         equipInsulation = [equipInsulation; 'Level3'];
     else
         equipInsulation = [equipInsulation; 'Level0'];
     end
     
     % 接続口径
-    equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,6}];
+    equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,5}];
     
     % 太陽熱利用
-    if strcmp(hwequipInfoCell(iUNIT,7),'有')
+    if strcmp(hwequipInfoCell(iUNIT,6),'有')
         equipSolarSystem = [equipSolarSystem; 'True'];
     else
         equipSolarSystem = [equipSolarSystem; 'None'];
     end
+    
+        
+    % 機器表の記号
+    if isempty(hwequipInfoCell{iUNIT,7})
+        equipInfo = [equipInfo; 'Null'];
+    else
+        equipInfo = [equipInfo; hwequipInfoCell{iUNIT,7}];
+    end
+    
 end
 
 

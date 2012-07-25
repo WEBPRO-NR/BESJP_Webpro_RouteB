@@ -4,8 +4,7 @@
 % 省エネ基準：機器拾い表（csvファイル）を読みこみ、XMLファイルを吐き出す。
 % 窓の設定ファイルを読み込む。
 %------------------------------------------------------------------------
-
-function confG = mytfunc_csv2xml_AC_WINDList(filename)
+function xmldata = mytfunc_csv2xml_AC_WINDList(xmldata, filename)
 
 windListData = textread(filename,'%s','delimiter','\n','whitespace','');
 
@@ -26,49 +25,89 @@ end
 
 % 窓名称の読み込み
 WINDList = {};
+WINDNum  = [];
 for iWIND = 11:size(windListDataCell,1)
-    if isempty(windListDataCell(iWIND,1)) == 0
+    if isempty(windListDataCell{iWIND,1}) == 0
         WINDList = [WINDList;windListDataCell{iWIND,1}];
+        WINDNum  = [WINDNum; iWIND];
     end
 end
 
 % 仕様の読み込み
-confG = {};
 for iWIND = 1:size(WINDList,1)
     
-    % ブラインドの種類は予め4種類作成する。
-    for iBLIND = 1:4
-        
-        % 名称
-        confG{3*(iWIND-1)+iBLIND,1} = strcat(windListDataCell{10+iWIND,1},'_',int2str(iBLIND-1));
-        
-        % 窓種類
-        if strcmp(windListDataCell{10+iWIND,2},'単板ガラス')
-            confG{3*(iWIND-1)+iBLIND,2} = 'SNGL';
-        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層6mm）') || ...
-                strcmp(windListDataCell{10+iWIND,2},'複層ガラス(中空層6mm)')
-            confG{3*(iWIND-1)+iBLIND,2} = 'DL06';
-        elseif strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm）') || ...
-                strcmp(windListDataCell{10+iWIND,2},'複層ガラス（中空層12mm)') 
-            confG{3*(iWIND-1)+iBLIND,2} = 'DL12';
-        else
-            windListDataCell{10+iWIND,2}
-            error('ガラスの種類が不正です')
-        end
-        
-        % 品種番号
-        confG{3*(iWIND-1)+iBLIND,3} = windListDataCell{10+iWIND,4};
-        % ブラインド
-        confG{3*(iWIND-1)+iBLIND,4} = int2str(iBLIND-1);
-        
+    % 名称
+    xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.ID = ...
+        windListDataCell{WINDNum(iWIND),1};
+    
+    % 総熱貫流率
+    if isempty(windListDataCell{WINDNum(iWIND),2}) == 0
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue = ...
+            windListDataCell{WINDNum(iWIND),2};
+    else
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue = 'Null';
+    end
+    
+    % 日射侵入率
+    if isempty(windListDataCell{WINDNum(iWIND),3}) == 0
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue = ...
+            windListDataCell{WINDNum(iWIND),3};
+    else
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue = 'Null';
+    end
+    
+    % 品種番号
+    if isempty(windListDataCell{WINDNum(iWIND),4}) == 0
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber = ...
+            windListDataCell{WINDNum(iWIND),4};
+    else
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber = 'Null';
+    end
+    
+    % 窓種類
+    WindowTypeClass = '';
+    if strcmp(windListDataCell{WINDNum(iWIND),5},'単板ガラス')
+        WindowTypeClass  = 'SNGL';
+    elseif strcmp(windListDataCell{WINDNum(iWIND),5},'複層ガラス（中空層6mm）') || ...
+            strcmp(windListDataCell{WINDNum(iWIND),5},'複層ガラス(中空層6mm)')
+        WindowTypeClass = 'DL06';
+    elseif strcmp(windListDataCell{WINDNum(iWIND),5},'複層ガラス（中空層12mm）') || ...
+            strcmp(windListDataCell{WINDNum(iWIND),5},'複層ガラス（中空層12mm)')
+        WindowTypeClass = 'DL12';
+    else
+        WindowTypeClass = windListDataCell{WINDNum(iWIND),5};
+    end
+    xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass = ...
+        WindowTypeClass;
+    
+    
+    % 厚さ
+    if isempty(windListDataCell{WINDNum(iWIND),6}) == 0
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowThickness = ...
+            windListDataCell{WINDNum(iWIND),6};
+    else
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowThickness = 'Null';
+    end
+    
+    % 備考
+    if isempty(windListDataCell{WINDNum(iWIND),7}) == 0
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = ...
+            windListDataCell{WINDNum(iWIND),7};
+    else
+        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = '';
     end
     
 end
 
-lastnum = size(confG,1);
-confG{lastnum+1,1} = 'Null';
-confG{lastnum+1,2} = 'SNGL';
-confG{lastnum+1,3} = '1';
-confG{lastnum+1,4} = '0';
+lastnum = length(xmldata.AirConditioningSystem.WindowConfigure);
+
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.ID = 'Null';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeClass = 'SNGL';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeNumber = '1';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Uvalue = '0';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Mvalue = '0';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowThickness = '0';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Info = '';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Blind = '1';
 
 end

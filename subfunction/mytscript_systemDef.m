@@ -23,13 +23,13 @@ for iROOM = 1:numOfRoooms
                 strcmp(perDB_RoomType(iDB,5),roomType{iROOM})
             
             % 各室の空調開始・終了時刻
-            roomTime_start_p1_1 = str2double(cell2mat(perDB_RoomType(iDB,14))); % パターン1_空調開始時刻(1)
+            roomTime_start_p1_1  = str2double(cell2mat(perDB_RoomType(iDB,14))); % パターン1_空調開始時刻(1)
             roomTime_stop_p1_1   = str2double(cell2mat(perDB_RoomType(iDB,15))); % パターン1_空調終了時刻(1)
-            roomTime_start_p1_2 = str2double(cell2mat(perDB_RoomType(iDB,16))); % パターン1_空調開始時刻(2)
+            roomTime_start_p1_2  = str2double(cell2mat(perDB_RoomType(iDB,16))); % パターン1_空調開始時刻(2)
             roomTime_stop_p1_2   = str2double(cell2mat(perDB_RoomType(iDB,17))); % パターン1_空調終了時刻(2)
-            roomTime_start_p2_1 = str2double(cell2mat(perDB_RoomType(iDB,18))); % パターン2_空調開始時刻(1)
+            roomTime_start_p2_1  = str2double(cell2mat(perDB_RoomType(iDB,18))); % パターン2_空調開始時刻(1)
             roomTime_stop_p2_1   = str2double(cell2mat(perDB_RoomType(iDB,19))); % パターン2_空調終了時刻(1)
-            roomTime_start_p2_2 = str2double(cell2mat(perDB_RoomType(iDB,20))); % パターン2_空調開始時刻(2)
+            roomTime_start_p2_2  = str2double(cell2mat(perDB_RoomType(iDB,20))); % パターン2_空調開始時刻(2)
             roomTime_stop_p2_2   = str2double(cell2mat(perDB_RoomType(iDB,21))); % パターン2_空調終了時刻(2)
             
             % カレンダー番号
@@ -53,8 +53,28 @@ for iROOM = 1:numOfRoooms
             % 外気導入量 [m3/h/m2]
             roomVoa_m3hm2(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,13)));
             
-            % 内部発熱量 [W/m2]
+            % 機器発熱量 [W/m2]
             roomEnergyOAappUnit(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,11)));
+            
+            % 照明
+            roomEnergyLight(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,9)));
+            % 人体 [人/m2 * W/人 = W/m2]
+            switch cell2mat(perDB_RoomType(iDB,12))
+                case '1'
+                    roomEnergyPerson(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,10)))*92;
+                case '2'
+                    roomEnergyPerson(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,10)))*106;
+                case '3'
+                    roomEnergyPerson(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,10)))*119;
+                case '4'
+                    roomEnergyPerson(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,10)))*131;
+                case '5'
+                    roomEnergyPerson(iROOM) = str2double(cell2mat(perDB_RoomType(iDB,10)))*145;
+                otherwise
+                    iROOM
+                    perDB_RoomType(iDB,10)
+                    error('作業強度指数が不正です。')
+            end
             
             % WSCパターン
             if strcmp(perDB_RoomType(iDB,8),'WSC1')
@@ -69,6 +89,7 @@ for iROOM = 1:numOfRoooms
             
             % 検索キー
             roomKey{iROOM} = perDB_RoomType(iDB,1);
+            
             % 内部発熱量の時刻変動
             for iDB2 = 2:size(perDB_RoomOpeCondition,1)
                 
@@ -100,8 +121,20 @@ for iROOM = 1:numOfRoooms
                     end
                 end
                 
+                % 人体発熱密度
+                if strcmp(perDB_RoomOpeCondition(iDB2,1),roomKey{iROOM}) &&...
+                        strcmp(perDB_RoomOpeCondition(iDB2,4),'3')
+                    if strcmp(perDB_RoomOpeCondition(iDB2,5),'1')
+                        roomSchedulePerson(iROOM,1,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'2')
+                        roomSchedulePerson(iROOM,2,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    elseif strcmp(perDB_RoomOpeCondition(iDB2,5),'3')
+                        roomSchedulePerson(iROOM,3,:) = str2double(perDB_RoomOpeCondition(iDB2,8:31));
+                    else
+                        error('室使用パターンが不正です')
+                    end
+                end
             end
-
         end
     end
     if isempty(roomTime_start_p1_1)
@@ -159,6 +192,7 @@ for iROOM = 1:numOfRoooms
                 roomTime_stop(dd,iROOM)   = roomTime_stop_p2;
             end
             roomDailyOpePattern(dd,iROOM) = 3;
+            
         end
     end
     
@@ -428,15 +462,15 @@ for iAHU = 1:numOfAHUs
             numOfPumps = numOfPumps + 1;
             iPUMP = numOfPumps;
             pumpName{iPUMP}     = ahuPump_cooling{iAHU}; % ポンプ名称
-            pumpSystem{iPUMP}   = '';
             pumpMode{iPUMP}     = 'Cooling';             % ポンプ運転モード
-            pumpCount(iPUMP)    = 0;                     % ポンプ台数
-            pumpFlow(iPUMP)     = 0;                     % ポンプ流量
-            pumpPower(iPUMP)    = 0;                     % ポンプ定格電力
-            pumpFlowCtrl{iPUMP} = 'CWV';                 % ポンプ流量制御
-            pumpQuantityCtrl{iPUMP} = 'False';            % 台数制御
             pumpdelT(iPUMP)     = 0;
-            pumpMinValveOpening(iPUMP) = 1;
+            pumpQuantityCtrl{iPUMP} = 'False';            % 台数制御
+            pumpsetPnum(iPUMP)  = 0;
+            
+            pumpFlow(iPUMP,1)     = 0;                     % ポンプ流量
+            pumpPower(iPUMP,1)    = 0;                     % ポンプ定格電力
+            pumpFlowCtrl{iPUMP,1} = 'CWV';                 % ポンプ流量制御
+            pumpMinValveOpening(iPUMP,1) = 1;
         end
     end
     
@@ -457,15 +491,15 @@ for iAHU = 1:numOfAHUs
             numOfPumps = numOfPumps + 1;
             iPUMP = numOfPumps;
             pumpName{iPUMP}     = ahuPump_heating{iAHU}; % ポンプ名称
-            pumpSystem{iPUMP}   = '';
             pumpMode{iPUMP}     = 'Heating';             % ポンプ運転モード
-            pumpCount(iPUMP)    = 0;                     % ポンプ台数
-            pumpFlow(iPUMP)     = 0;                     % ポンプ流量
-            pumpPower(iPUMP)    = 0;                     % ポンプ定格電力
-            pumpFlowCtrl{iPUMP} = 'CWV';                 % ポンプ流量制御
-            pumpQuantityCtrl{iPUMP} = 'False';           % 台数制御
             pumpdelT(iPUMP)     = 0;
-            pumpMinValveOpening(iPUMP) = 1;
+            pumpQuantityCtrl{iPUMP} = 'False';           % 台数制御
+            pumpsetPnum(iPUMP)  = 0;
+            
+            pumpFlow(iPUMP,1)     = 0;                     % ポンプ流量
+            pumpPower(iPUMP,1)    = 0;                     % ポンプ定格電力
+            pumpFlowCtrl{iPUMP,1} = 'CWV';                 % ポンプ流量制御
+            pumpMinValveOpening(iPUMP,1) = 1;
         end
     end
     
@@ -477,9 +511,8 @@ end
 
 for iPUMP = 1:numOfPumps
     
-    Td_PUMP(iPUMP) = pumpdelT(iPUMP);
-    
-    pumpVWVmin(iPUMP) = pumpMinValveOpening(iPUMP);
+    % 往還温度差 [K]
+%     Td_PUMP(iPUMP) = pumpdelT(iPUMP);
     
     % ポンプ運転モード
     switch pumpMode{iPUMP}
@@ -487,16 +520,6 @@ for iPUMP = 1:numOfPumps
             PUMPtype(iPUMP) = 1;
         case 'Heating'
             PUMPtype(iPUMP) = 2;
-        otherwise
-            error('XMLファイルが不正です')
-    end
-    
-    % VWV制御
-    switch pumpFlowCtrl{iPUMP}
-        case 'CWV'
-            PUMPvwv(iPUMP) = 0;
-        case 'VWV'
-            PUMPvwv(iPUMP) = 1;
         otherwise
             error('XMLファイルが不正です')
     end
@@ -509,6 +532,35 @@ for iPUMP = 1:numOfPumps
             PUMPnumctr(iPUMP) = 1;
         otherwise
             error('XMLファイルが不正です')
+    end
+    
+    for iPUMPSUB = 1:pumpsetPnum(iPUMP)
+        
+        % VWV制御
+        switch pumpFlowCtrl{iPUMP,iPUMPSUB}
+            case 'CWV'
+                PUMPvwv(iPUMP,iPUMPSUB) = 0;
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = 0;  % 4次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = 0;  % 2次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 0;  % 切片
+                
+            case 'VWV'
+                PUMPvwv(iPUMP,iPUMPSUB) = 1;
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = 0;  % 4次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = 1;  % 2次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 0;  % 切片
+                
+            otherwise
+                error('XMLファイルが不正です')
+        end
+        
+        % VWV時の最小流量
+        pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP);        
+    
     end
     
     % 接続空調機
@@ -527,6 +579,7 @@ for iPUMP = 1:numOfPumps
             end
         end
     end
+    
     PUMPahuSet{iPUMP,:} = tmpAHUSet;
     pumpS(iPUMP)        = tmpSpump;    % ポンプ系統ごとの空調対象面積
     
@@ -535,6 +588,14 @@ end
 
 %----------------------------------
 % 熱源のパラメータ
+
+QrefrMax  = zeros(1,numOfRefs);  % 各群の定格最大能力（全台数合計）
+REFtype   = zeros(1,numOfRefs);  % 群の運転モード（１：冷房、２：暖房）
+TC        = zeros(1,numOfRefs);  % 送水温度 [℃]
+REFnumctr = zeros(1,numOfRefs);  % 台数制御の有無（０：なし、１：あり）
+REFstrage = zeros(1,numOfRefs);  % 蓄熱制御の有無（０：なし、１：あり）
+refS      = zeros(1,numOfRefs);  % 熱源群別の空調面積 [m2]
+
 
 xXratioMX = ones(numOfRefs,3).*NaN;
     
@@ -552,7 +613,7 @@ for iREF = 1:numOfRefs
             REFtype(iREF) = 2;
             TC(iREF) = refsetSupplyTemp(iREF); % 送水温度 [℃]
         otherwise
-            error('XMLファイルが不正です')
+            error('熱源群の運転モード %s は不正です',refsetMode{iREF})
     end
     
     % 台数制御
@@ -569,7 +630,7 @@ for iREF = 1:numOfRefs
     switch refsetStorage{iREF}
         case 'True'
             REFstrage(iREF) = 1;
-        case 'False'
+        case {'False','Null'}
             REFstrage(iREF) = 0;
         otherwise
             error('XMLファイルが不正です')
@@ -593,15 +654,16 @@ for iREF = 1:numOfRefs
         end
     end
     REFpumpSet{iREF,:} = tmpPUMPSet;
-    refS(iREF)         = tmpSref;
+    refS(iREF)         = tmpSref;     % 熱源群別の空調面積 [m2]
     
-    % 熱源特性
+    
+    % 熱源機器別の設定
     for iREFSUB = 1:refsetRnum(iREF)
         
         % 熱源種類
         tmprefset = refset_Type{iREF,iREFSUB};
         
-        refmatch = 0;
+        refmatch = 0; % チェック用
         
         % データベースを検索
         if isempty(tmprefset) == 0
@@ -613,6 +675,8 @@ for iREF = 1:numOfRefs
                     refParaSetALL = [refParaSetALL;perDB_refList(iDB,:)];
                 end
             end
+            
+            % データベースファイルに熱源機器の特性がない場合
             if isempty(refParaSetALL)
                 error('熱源 %s の特性が見つかりません',tmprefset)
             end
@@ -655,6 +719,8 @@ for iREF = 1:numOfRefs
                     refHeatSourceType(iREF,iREFSUB) = 2;
                 case '燃焼'
                     refHeatSourceType(iREF,iREFSUB) = 1;
+                otherwise
+                    error('熱源 %s の冷却方式が不正です',tmprefset)
             end
             
             % 能力比、入力比の変数
@@ -670,7 +736,9 @@ for iREF = 1:numOfRefs
                 error('モードが不正です')
             end
             
+            % 外気温度の軸（マトリックスの縦軸）
             xTALL(iREF,iREFSUB,:) = xT;
+            
             
             % 能力比と入力比
             for iPQXW = 1:4
@@ -698,8 +766,10 @@ for iREF = 1:numOfRefs
                 % 値の抜き出し
                 tmpdata   = [];
                 tmpdataMX = [];
-                if isempty(paraQ) == 0
+                if isempty(paraQ) == 0                  
                     for iDBQ = 1:size(paraQ,1)
+      
+                        % 機器特性データベース perDB_refCurve を探査
                         for iLIST = 2:size(perDB_refCurve,1)
                             if strcmp(paraQ(iDBQ,9),perDB_refCurve(iLIST,2))
                                 % 最小値、最大値、基整促係数、パラメータ（x4,x3,x2,x1,a）
@@ -710,6 +780,7 @@ for iREF = 1:numOfRefs
                                         tmpdataMX = str2double(paraQ(iDBQ,12));
                                     end
                                 end
+                                
                             end
                         end
                     end
@@ -773,7 +844,7 @@ for iREF = 1:numOfRefs
         end
         
         if isempty(tmprefset)== 0 && refmatch == 0
-            error('熱源名称が不正です');
+            error('熱源名称 %s は不正です',tmprefset);
         end
         
     end

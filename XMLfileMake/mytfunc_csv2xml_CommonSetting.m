@@ -31,8 +31,6 @@ roomBuildingType = {};
 roomRoomType  = {};
 roomFloorHeight = {};
 roomRoomHeight = {};
-roomWidth = {};
-roomDepth = {};
 roomArea = {};
 roomInfo = {};
 roomcalcAC = {};
@@ -42,110 +40,104 @@ roomcalcHW = {};
 
 for iRoom = 11:size(commonDataCell,1)
     
-    % 階数
-    if isempty(commonDataCell{iRoom,1})
-        roomFloor  = [roomFloor;'Null'];
-    else
-        roomFloor  = [roomFloor;commonDataCell{iRoom,1}];
-    end
-    
-    % 室名
-    roomName   = [roomName;commonDataCell{iRoom,2}];
-    
-    % 建物用途
-    switch commonDataCell{iRoom,3}
-        case '事務所等'
-            roomBuildingType   = [roomBuildingType; 'Office'];
-        case 'ホテル等'
-            roomBuildingType   = [roomBuildingType; 'Hotel'];
-        case '病院等'
-            roomBuildingType   = [roomBuildingType; 'Hospital'];
-        case '物品販売業を営む店舗等'
-            roomBuildingType   = [roomBuildingType; 'Store'];
-        case '学校等'
-            roomBuildingType   = [roomBuildingType; 'School'];
-        case '飲食店等'
-            roomBuildingType   = [roomBuildingType; 'Restaurant'];
-        case '集会所等'
-            roomBuildingType   = [roomBuildingType; 'MeetingPlace'];
-        case '工場等'
-            roomBuildingType   = [roomBuildingType; 'Factory'];
-        otherwise
-            commonDataCell{iRoom,3}
-            error('建物用途が不正です')
-    end
-    
-    % 室用途
-    roomRoomType = [roomRoomType;commonDataCell{iRoom,4}];
-    
-    % 階高
-    if isempty(commonDataCell{iRoom,5})
-        roomFloorHeight = [roomFloorHeight;'Null'];
-    else
-        roomFloorHeight = [roomFloorHeight;commonDataCell{iRoom,5}];
-    end
-    
-    % 天井高
-    if isempty(commonDataCell{iRoom,6})
-        roomRoomHeight = [roomRoomHeight;'Null'];
-    else
-        roomRoomHeight = [roomRoomHeight;commonDataCell{iRoom,6}];
-    end
-    
-    % 室の間口
-    if isempty(commonDataCell{iRoom,7})
-        roomWidth = [roomWidth;'Null'];
-    else
-        roomWidth = [roomWidth;commonDataCell{iRoom,7}];
-    end
-    
-    % 室の奥行き
-    if isempty(commonDataCell{iRoom,8})
-        roomDepth = [roomDepth;'Null'];
-    else
-        roomDepth = [roomDepth;commonDataCell{iRoom,8}];
-    end
-    
-    % 室の面積
-    if isempty(commonDataCell{iRoom,9})
-        roomArea = [roomArea;'Null'];
-    else
-        roomArea = [roomArea;commonDataCell{iRoom,9}];
-    end
-    
-    % 計算対象
-    if isempty(commonDataCell{iRoom,10})
-        roomcalcAC = [roomcalcAC;'False'];
-    else
-        roomcalcAC = [roomcalcAC;'True'];
-    end
+    if isempty(commonDataCell{iRoom,1}) && isempty(commonDataCell{iRoom,2})
         
-    if isempty(commonDataCell{iRoom,11})
-        roomcalcV = [roomcalcV;'False'];
+        eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iRoom),'行目'')'])
+        
     else
-        roomcalcV = [roomcalcV;'True'];
-    end
-    
-    if isempty(commonDataCell{iRoom,12})
-        roomcalcL = [roomcalcL;'False'];
-    else
-        roomcalcL = [roomcalcL;'True'];
-    end
-    
-    if isempty(commonDataCell{iRoom,13})
-        roomcalcHW = [roomcalcHW;'False'];
-    else
-        roomcalcHW = [roomcalcHW;'True'];
-    end
-    
-    % 備考
-    if isempty(commonDataCell{iRoom,14})
-        roomInfo = [roomInfo;'Null'];
-    else
-        roomInfo = [roomInfo;commonDataCell{iRoom,10}];
+        
+        % 階数
+        if isempty(commonDataCell{iRoom,1})
+            roomFloor  = [roomFloor;'Null'];
+        else
+            roomFloor  = [roomFloor;commonDataCell{iRoom,1}];
+        end
+        
+        % 室名
+        roomName   = [roomName;commonDataCell{iRoom,2}];
+        
+        % 建物用途
+        switch commonDataCell{iRoom,3}
+            case '事務所等'
+                roomBuildingType   = [roomBuildingType; 'Office'];
+            case 'ホテル等'
+                roomBuildingType   = [roomBuildingType; 'Hotel'];
+            case '病院等'
+                roomBuildingType   = [roomBuildingType; 'Hospital'];
+            case {'物品販売業を営む店舗等','物販店舗等'}
+                roomBuildingType   = [roomBuildingType; 'Store'];
+            case '学校等'
+                roomBuildingType   = [roomBuildingType; 'School'];
+            case '飲食店等'
+                roomBuildingType   = [roomBuildingType; 'Restaurant'];
+            case '集会所等'
+                roomBuildingType   = [roomBuildingType; 'MeetingPlace'];
+            case '工場等'
+                roomBuildingType   = [roomBuildingType; 'Factory'];
+            otherwise
+                error('建物用途 %s は無効です',commonDataCell{iRoom,3})
+        end
+        
+        % 室用途
+        roomRoomType = [roomRoomType;commonDataCell{iRoom,4}];
+        
+        % 室の面積
+        if isempty(commonDataCell{iRoom,5})
+            roomArea = [roomArea;'Null'];
+        else
+            roomArea = [roomArea;commonDataCell{iRoom,5}];
+        end
+        
+        % 階高
+        if isempty(commonDataCell{iRoom,6})
+            roomFloorHeight = [roomFloorHeight;'Null'];
+        else
+            roomFloorHeight = [roomFloorHeight;commonDataCell{iRoom,6}];
+        end
+        
+        % 天井高
+        if isempty(commonDataCell{iRoom,7})
+            roomRoomHeight = [roomRoomHeight;'Null'];
+        else
+            roomRoomHeight = [roomRoomHeight;commonDataCell{iRoom,7}];
+        end
+        
+        % 計算対象
+        if isempty(commonDataCell{iRoom,8})
+            roomcalcAC = [roomcalcAC;'False'];
+        else
+            roomcalcAC = [roomcalcAC;'True'];
+        end
+        
+        if isempty(commonDataCell{iRoom,9})
+            roomcalcV = [roomcalcV;'False'];
+        else
+            roomcalcV = [roomcalcV;'True'];
+        end
+        
+        if isempty(commonDataCell{iRoom,10})
+            roomcalcL = [roomcalcL;'False'];
+        else
+            roomcalcL = [roomcalcL;'True'];
+        end
+        
+        if isempty(commonDataCell{iRoom,11})
+            roomcalcHW = [roomcalcHW;'False'];
+        else
+            roomcalcHW = [roomcalcHW;'True'];
+        end
+        
+        % 備考
+        if isempty(commonDataCell{iRoom,12})
+            roomInfo = [roomInfo;'Null'];
+        else
+            roomInfo = [roomInfo;commonDataCell{iRoom,10}];
+        end
+        
     end
     
 end
+
 
 % XMLファイル生成
 for iROOM = 1:size(roomName,1)
@@ -157,8 +149,6 @@ for iROOM = 1:size(roomName,1)
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.RoomType       = roomRoomType{iROOM};
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.FloorHeight    = roomFloorHeight{iROOM};
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.RoomHeight     = roomRoomHeight{iROOM};
-    xmldata.Rooms.Room(iROOM).ATTRIBUTE.RoomWidth      = roomWidth{iROOM};
-    xmldata.Rooms.Room(iROOM).ATTRIBUTE.RoomDepth      = roomDepth{iROOM};
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.RoomArea       = roomArea{iROOM};
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.Info           = roomInfo{iROOM};
     xmldata.Rooms.Room(iROOM).ATTRIBUTE.calcAC         = roomcalcAC{iROOM};

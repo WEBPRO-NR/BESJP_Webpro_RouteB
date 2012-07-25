@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-% clear
-% tic
-% casenum = '1';
-% eval(['INPUTFILENAME = ''./InputFiles/都内某文系大学/ver20120622_IVb/Case',casenum,'/NSRI_School_IVb_Case',casenum,'.xml'';'])
-% addpath('./subfunction/')
-% OutputOption = 'OFF';
+clear
+clc
+tic
+INPUTFILENAME = 'repair_ivb_new.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -49,12 +49,10 @@ MODE = 2;
 % 熱源方式（2:二管式、4:四管式）
 PIPE = 2;
 % 負荷分割数（5か10）
-DivNUM = 5;
+DivNUM = 10;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
-% SeasonMODE = [1,1,1];
-% SeasonMODE = [-1,-1,-1];
 
 % ファン・ポンプの発熱比率
 k_heatup = 0.84;
@@ -77,6 +75,9 @@ mytscript_readDBfiles;     % CSVファイル読み込み
 mytscript_readXMLSetting;  % XMLファイル読み込み
 
 
+disp('データベース読み込み完了')
+toc
+
 %% システム特性
 if DivNUM == 5
     % 負荷マトリックス
@@ -91,6 +92,12 @@ elseif DivNUM == 10
     mxL = [0.1:0.1:1.0,1.2];
     kfVAVeffi = [0.1:0.1:1.0,1.0].^2;
     kpVWVeffi = [0.1:0.1:1.0,1.0].^2;
+    
+elseif DivNUM == 20
+    
+    mxL = [0.1:0.05:1.0,1.2];
+    kfVAVeffi = [0.1:0.05:1.0,1.0].^2;
+    kpVWVeffi = [0.1:0.05:1.0,1.0].^2;
     
 else
     error('分割数 %s は指定できません', int2str(DivNUM))
@@ -133,7 +140,7 @@ switch climateAREA
         ToawbH = 0.9034.*ToadbH -1.4545;   % 湿球温度 [℃]
         
         TctwC  = ToawbC + 3;
-
+        
     case {'VI'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         
@@ -151,24 +158,32 @@ end
 
 
 % 季節依存変数の定義（室内エンタルピー、運転モード）
-Hroom = zeros(365,1);
+Hroom   = zeros(365,1);
+TroomSP = zeros(365,1);
 ModeOpe = zeros(365,1);
+SeasonMode = zeros(365,1);
 SUMcell = {};
 for iSUM = 1:length(SUM)
     SUMcell = [SUMcell;SUM(iSUM)];
+    TroomSP(SUM(iSUM),1) = 26;
     Hroom(SUM(iSUM),1) = 52.91; % 夏期（２６℃，５０％ＲＨ）
+    SeasonMode(SUM(iSUM),1) = 1;
     ModeOpe(SUM(iSUM),1) = SeasonMODE(1);
 end
 MIDcell = {};
 for iMID = 1:length(MID)
     MIDcell = [MIDcell;MID(iMID)];
+    TroomSP(MID(iMID),1) = 24;
     Hroom(MID(iMID),1) = 47.81; % 中間期（２４℃，５０％ＲＨ）
+    SeasonMode(MID(iMID),1) = 0;
     ModeOpe(MID(iMID),1) = SeasonMODE(2);
 end
 WINcell = {};
 for iWIN = 1:length(WIN)
     WINcell = [WINcell;WIN(iWIN)];
+    TroomSP(WIN(iWIN),1) = 22;
     Hroom(WIN(iWIN),1) = 38.81;  % 冬期（２２℃，４０％ＲＨ）
+    SeasonMode(WIN(iWIN),1) = -1;
     ModeOpe(WIN(iWIN),1) = SeasonMODE(3);
 end
 
@@ -176,22 +191,24 @@ end
 % 機器データの加工
 mytscript_systemDef;
 
+disp('システム情報作成完了')
+toc
 
 
 %%-----------------------------------------------------------------------------------------------------------
 %% １）室負荷の計算
 
+% 熱貫流率、日射侵入率、SCC、SCRの計算
+[WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList]...
+    = mytfunc_calcK(0);
+% 熱貫流率×外皮面積
+UAlist = zeros(numOfRoooms,1);
+% 日射侵入率×外皮面積
+MAlist = zeros(numOfRoooms,1);
+
 switch MODE
     
     case {1,2}
-        
-        % 熱貫流率の計算
-        [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList] = mytfunc_calcK(0);
-        
-        % 熱貫流率×外皮面積
-        UAlist = zeros(numOfRoooms,1);
-        % 日射侵入率×外皮面積
-        MAlist = zeros(numOfRoooms,1);
         
         % newHASP設定ファイル(newHASPinput_室名.txt)自動生成
         mytscript_newHASPinputGen_run;
@@ -204,14 +221,15 @@ switch MODE
         [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weath.dat');
         delete weath.dat
         
-        
     case {3}
         
         % 負荷簡略計算法
-        error('未実装')
+        mytscript_calcQroom;
         
 end
 
+disp('負荷計算完了')
+toc
 
 %%-----------------------------------------------------------------------------------------------------------
 %% ２）空調負荷計算
@@ -226,6 +244,9 @@ Tahu_h        = zeros(365,numOfAHUs);  % 日積算暖房運転時間 [h]
 % 日毎の空調運転時間(ahuDayMode: 1昼，2夜，0終日)
 [AHUsystemT,ahuTime_start,ahuTime_stop,ahuDayMode] = ...
     mytfunc_AHUOpeTIME(ahuID,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
+
+disp('STEP1')
+toc
 
 switch MODE
     case {1}  % 毎時計算
@@ -265,7 +286,7 @@ switch MODE
                     % 空調負荷を求める．[kW] = [MJ/h]*1000/3600 + [kW]
                     Qahu_hour(num,iAHU) = QroomAHUhour(num,iAHU)*1000/3600 + qoaAHUhour(num,iAHU);
                     
-                    % 仮想空調負荷を求める。 [MJ/h] 
+                    % 仮想空調負荷を求める。 [MJ/h]
                     Qahu_hour_CEC(num,iAHU) = abs(QroomAHUhour(num,iAHU)) + abs(qoaAHU_CEC_hour(num,iAHU)*3600/1000);
                     
                     % 冷暖房空調時間（日積算）を求める．
@@ -302,6 +323,16 @@ switch MODE
                 end
             end
             
+            % 外気エンタルピー
+            HoaDayAve = [];
+            if ahuDayMode(iAHU) == 1
+                HoaDayAve = OAdataDay(:,3);
+            elseif ahuDayMode(iAHU) == 2
+                HoaDayAve = OAdataNgt(:,3);
+            elseif ahuDayMode(iAHU) == 0
+                HoaDayAve = OAdataAll(:,3);
+            end
+            
             % 日別のループ
             for dd = 1:365
                 
@@ -309,20 +340,10 @@ switch MODE
                 [Tahu_c(dd,iAHU),Tahu_h(dd,iAHU)] = ...
                     mytfunc_AHUOpeTimeSplit(QroomAHUc(dd,iAHU),QroomAHUh(dd,iAHU),AHUsystemT(dd,iAHU));
                 
-                % 外気エンタルピー
-                HoaDayAve = [];
-                if ahuDayMode(iAHU) == 1
-                    HoaDayAve = OAdataDay(dd,3);
-                elseif ahuDayMode(iAHU) == 2
-                    HoaDayAve = OAdataNgt(dd,3);
-                elseif ahuDayMode(iAHU) == 0
-                    HoaDayAve = OAdataAll(dd,3);
-                end
-                
                 % 外気負荷 qoaAHU、外冷時風量 AHUVovc、外冷効果 Qahu_oac の算出
                 [qoaAHU(dd,iAHU),AHUVovc(dd,iAHU),Qahu_oac(dd,iAHU),qoaAHU_CEC(dd,iAHU)] = ...
                     mytfunc_calcOALoad(ModeOpe(dd),QroomAHUc(dd,iAHU),Tahu_c(dd,iAHU),ahuVoa(iAHU),ahuVsa(iAHU),...
-                    HoaDayAve,Hroom(dd,1),AHUsystemT(dd,iAHU),ahuaexeff(iAHU),AEXbypass(iAHU),ahuOAcool(iAHU),ahuaexV(iAHU));
+                    HoaDayAve(dd,1),Hroom(dd,1),AHUsystemT(dd,iAHU),ahuaexeff(iAHU),AEXbypass(iAHU),ahuOAcool(iAHU),ahuaexV(iAHU));
                 
                 % 日積算空調負荷 Qahu_c, Qahu_h の算出
                 [Qahu_c(dd,iAHU),Qahu_h(dd,iAHU),Qahu_CEC(dd,iAHU)] = mytfunc_calcDailyQahu(AHUsystemT(dd,iAHU),...
@@ -333,6 +354,9 @@ switch MODE
         end
 end
 
+
+disp('空調負荷計算完了')
+toc
 
 %%-----------------------------------------------------------------------------------------------------------
 %% 空調エネルギー計算
@@ -426,7 +450,7 @@ if PIPE == 2
             
             Qahu_remainC = zeros(365,numOfAHUs);
             Qahu_remainH = zeros(365,numOfAHUs);
-
+            
             for iAHU = 1:numOfAHUs
                 for dd = 1:365
                     if ModeOpe(dd,1) == -1  % 暖房モード
@@ -455,6 +479,11 @@ if PIPE == 2
             end
     end
 end
+
+
+disp('空調エネルギー計算完了')
+toc
+
 
 %%-----------------------------------------------------------------------------------------------------------
 %% 二次搬送系の負荷計算
@@ -497,7 +526,7 @@ switch MODE
                                         Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + Qahu_hour(num,iAHU) - Qahu_oac_hour(num,iAHU) + tmp;
                                     end
                                 end
-
+                                
                             elseif PUMPtype(iPUMP) == 2 % 温水ポンプ
                                 
                                 % ファン発熱量 [kW]
@@ -610,14 +639,23 @@ switch MODE
         end
 end
 
+disp('ポンプ負荷計算完了')
+toc
+
 
 %% ポンプエネルギー計算
 
-% ポンプ定格能力（想定）[kW]
-Qpsr = Td_PUMP.*pumpCount.*pumpFlow.*4.186*1000/3600;
+% ポンプ定格能力（想定）[kW]　（温度差×流量合計値）
+Qpsr = pumpdelT'.*sum(pumpFlow,2).*4.186*1000/3600;
+
+% 負荷マトリックス
 MxPUMP    = zeros(numOfPumps,length(mxL));
+% 運転台数マトリックス
 MxPUMPNum = zeros(numOfPumps,length(mxL));
+MxPUMPPower = zeros(numOfPumps,length(mxL));
+% 消費電力マトリックス
 MxPUMPE   = zeros(numOfPumps,length(mxL));
+% 部分負荷特性
 PUMPvwvfac = ones(numOfPumps,length(mxL));
 
 for iPUMP = 1:numOfPumps
@@ -632,38 +670,107 @@ for iPUMP = 1:numOfPumps
                 MxPUMP(iPUMP,:) = mytfunc_matrixPUMP(MODE,Qps(:,iPUMP),Qpsr(iPUMP),Tps(:,iPUMP),mxL);
         end
         
-        % ポンプ運転台数 [台]
-        if PUMPnumctr(iPUMP) == 0
-            MxPUMPNum(iPUMP,:) = pumpCount(iPUMP).*ones(1,length(mxL));
-        elseif PUMPnumctr(iPUMP) == 1
-            MxPUMPNum(iPUMP,:) = ceil(aveL.*pumpCount(iPUMP));
+        
+        % ポンプ運転台数 [台] と　消費電力 [kW]
+        if PUMPnumctr(iPUMP) == 0   % 台数制御なし
             
-            % 過負荷の場合は最大台数で固定
-            MxPUMPNum(iPUMP,length(mxL)) = pumpCount(iPUMP);
-        end
-        
-        
-        % CWVかVWVか
-        if PUMPvwv(iPUMP) == 1
-            if PUMPnumctr(iPUMP) == 0
-                PUMPvwvfac(iPUMP,:) = kpVWVeffi;
-                for i=1:length(mxL)
-                    if aveL(length(mxL)+1-i) < pumpVWVmin(iPUMP) % VWV最小開度
-                        PUMPvwvfac(iPUMP,length(mxL)+1-i) = PUMPvwvfac(iPUMP,length(mxL)+1-i+1);
+            % 運転台数（全台運転）
+            MxPUMPNum(iPUMP,:)   = pumpsetPnum(iPUMP).*ones(1,length(mxL));
+            
+            % 流量制御方式
+            if prod(PUMPvwv(iPUMP,:)) == 1  % 全台VWVであれば
+                
+                for iL = 1:length(mxL)
+                    if iL < max(pumpVWVmin(iPUMP,:))
+                        tmpL = max(pumpVWVmin(iPUMP,:));
+                    else
+                        tmpL = iL;
+                    end
+                    
+                    % VWVの効果率曲線(1番目の特性を代表して使う)
+                    if iL == length(mxL)
+                        PUMPvwvfac(iPUMP,iL) = 1.2;
+                    else
+                        PUMPvwvfac(iPUMP,iL) = ...
+                            Pump_VWVcoeffi(iPUMP,1,1).*tmpL.^4 + ...
+                            Pump_VWVcoeffi(iPUMP,1,2).*tmpL.^3 + ...
+                            Pump_VWVcoeffi(iPUMP,1,3).*tmpL.^2 + ...
+                            Pump_VWVcoeffi(iPUMP,1,4).*tmpL + ...
+                            Pump_VWVcoeffi(iPUMP,1,5);
+                    end
+                    
+                end
+            end
+            
+            % 消費電力（部分負荷特性×定格消費電力）[kW]
+            MxPUMPPower(iPUMP,:) = PUMPvwvfac(iPUMP,:) .* sum(pumpPower(iPUMP,:),2);
+            
+            
+        elseif PUMPnumctr(iPUMP) == 1  % 台数制御あり
+            
+            for iL = 1:length(mxL)
+                
+                % 負荷区分 iL における処理負荷 [kW]
+                tmpQ  = Qpsr(iPUMP)*aveL(iL);
+                
+                % 運転台数 MxPUMPNum
+                for rr = 1:pumpsetPnum(iPUMP)
+                    % 1台～rr台までの最大能力合計値
+                    tmpQmax = pumpdelT(iPUMP).*sum(pumpFlow(iPUMP,1:rr),2).*4.186*1000/3600;
+                    if tmpQ < tmpQmax
+                        break
                     end
                 end
-            elseif PUMPnumctr(iPUMP) == 1
-                PUMPvwvfac(iPUMP,:) = kpVWVeffi.*(pumpCount(iPUMP)./MxPUMPNum(iPUMP,:));
-                for i=1:length(mxL)
-                    if aveL(length(mxL)+1-i) < pumpVWVmin(iPUMP) % VWV最小開度
-                        PUMPvwvfac(iPUMP,length(mxL)+1-i) = PUMPvwvfac(iPUMP,length(mxL)+1-i+1);
+                MxPUMPNum(iPUMP,iL) = rr;
+                
+                % 定流量ポンプの処理熱量（ベース）
+                Qtmp_CWV = 0;
+                tmpVWV = rr;
+                for iPUMPSUB = 1:rr
+                    if PUMPvwv(iPUMP,iPUMPSUB) == 0
+                        Qtmp_CWV = Qtmp_CWV + pumpdelT(iPUMP).*pumpFlow(iPUMP,iPUMPSUB).*4.186*1000/3600;
+                        tmpVWV = tmpVWV - 1;
+                    end
+                end
+                
+                % 消費エネルギー計算
+                for iPUMPSUB = 1:rr
+                    
+                    if PUMPvwv(iPUMP,iPUMPSUB) == 0 % 定流量
+                        
+                        MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB);
+                        
+                    elseif PUMPvwv(iPUMP,iPUMPSUB) == 1 % 変流量
+                        
+                        % 負荷率 [-]
+                        tmpL = ( (tmpQ-Qtmp_CWV)/tmpVWV ) / (pumpdelT(iPUMP).*sum(pumpFlow(iPUMP,iPUMPSUB),2).*4.186*1000/3600);
+                        
+                        if tmpL < pumpMinValveOpening(iPUMP,iPUMPSUB)
+                            tmpL = pumpMinValveOpening(iPUMP,iPUMPSUB);
+                        end
+                        
+                        % VWVの効果率曲線
+                        if iL == length(mxL)
+                            PUMPvwvfac = 1.2;
+                        else
+                            PUMPvwvfac = ...
+                                Pump_VWVcoeffi(iPUMP,iPUMPSUB,1).*tmpL.^4 + ...
+                                Pump_VWVcoeffi(iPUMP,iPUMPSUB,2).*tmpL.^3 + ...
+                                Pump_VWVcoeffi(iPUMP,iPUMPSUB,3).*tmpL.^2 + ...
+                                Pump_VWVcoeffi(iPUMP,iPUMPSUB,4).*tmpL + ...
+                                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5);
+                        end
+                        
+                        MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB).*PUMPvwvfac;
+                        
                     end
                 end
             end
+            
         end
         
         % ポンプエネルギー消費量 [MWh]
-        MxPUMPE(iPUMP,:) = MxPUMP(iPUMP,:).*MxPUMPNum(iPUMP,:).*pumpPower(iPUMP).*PUMPvwvfac(iPUMP,:)./1000;
+        MxPUMPE(iPUMP,:) = MxPUMP(iPUMP,:).*MxPUMPPower(iPUMP,:)./1000;
         
     end
 end
@@ -672,6 +779,10 @@ end
 E_pump = sum(sum(MxPUMPE));
 % 積算運転時間(システム毎)
 TcPUMP = sum(MxPUMP,2);
+
+
+disp('ポンプエネルギー計算完了')
+toc
 
 
 %%-----------------------------------------------------------------------------------------------------------
@@ -788,9 +899,13 @@ switch MODE
         end
 end
 
+disp('熱源負荷計算完了')
+toc
+
 
 %% 熱源エネルギー計算
-MxREF     = zeros(length(ToadbC),length(mxL),numOfRefs);
+
+MxREF     = zeros(length(ToadbC),length(mxL),numOfRefs);  % 熱源負荷の出現頻度マトリックス（縦軸：外気温度、横軸：負荷率）
 MxREFnum  = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFxL   = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFperE = zeros(length(ToadbC),length(mxL),numOfRefs);
@@ -807,16 +922,16 @@ for iREF = 1:numOfRefs
     switch MODE
         case {1}
             if REFtype(iREF) == 1
-                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataAll,mxTC,mxL);
+                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataAll,mxTC,mxL);  % 冷房
             else
-                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataAll,mxTH,mxL);
+                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataAll,mxTH,mxL);  % 暖房
             end
             
         case {2,3}
             if REFtype(iREF) == 1
-                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTC,mxL);
+                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTC,mxL);  % 冷房
             else
-                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTH,mxL);
+                MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTH,mxL);  % 暖房
             end
     end
     
@@ -863,36 +978,6 @@ for iREF = 1:numOfRefs
                 end
                 MxREFnum(ioa,iL,iREF) = rr;
                 
-                
-%                 if refsetRnum(iREF) == 1
-%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 1;
-%                     else
-%                         MxREFnum(ioa,iL,iREF) = 1;
-%                     end
-%                 elseif refsetRnum(iREF) == 2
-%                     
-%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 1;
-%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 2;
-%                     else
-%                         MxREFnum(ioa,iL,iREF) = 2;
-%                     end
-%                     
-%                 elseif refsetRnum(iREF) == 3
-%                     
-%                     if (Qrefr_mod(iREF,1,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 1;
-%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 2;
-%                     elseif (Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa) > tmpQ)
-%                         MxREFnum(ioa,iL,iREF) = 3;
-%                     else
-%                         MxREFnum(ioa,iL,iREF) = 3;
-%                     end
-%                 end
-                
             end
         end
     end
@@ -908,15 +993,6 @@ for iREF = 1:numOfRefs
             
             % 負荷率
             MxREFxL(ioa,iL,iREF) = tmpQ ./ sum(Qrefr_mod(iREF,1:MxREFnum(ioa,iL,iREF),ioa));
-            
-            
-%             if MxREFnum(ioa,iL,iREF) == 1
-%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa));
-%             elseif MxREFnum(ioa,iL,iREF) == 2
-%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa));
-%             elseif MxREFnum(ioa,iL,iREF) == 3
-%                 MxREFxL(ioa,iL,iREF) = tmpQ./(Qrefr_mod(iREF,1,ioa)+Qrefr_mod(iREF,2,ioa)+Qrefr_mod(iREF,3,ioa));
-%             end
             
             % どの部分負荷特性を使うか（インバータターボなど、冷却水温度によって特性が異なる場合がある）
             if isnan(xXratioMX(iREF,iREFSUB)) == 0
@@ -935,7 +1011,7 @@ for iREF = 1:numOfRefs
             elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB,xCurveNum) || iL == length(mxL)
                 MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB,xCurveNum);
             end
-
+            
             % 部分負荷特性（各負荷率・各温度帯について）
             tmpL = MxREFxL(ioa,iL,iREF);
             for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
@@ -966,40 +1042,12 @@ for iREF = 1:numOfRefs
                 
             end
             
-      
+            
             % エネルギー消費量 [kW] (1次エネルギー換算後の値であることに注意）
             for rr = 1:MxREFnum(ioa,iL,iREF)
                 MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
                 MxREFperE(ioa,iL,iREF) = MxREFperE(ioa,iL,iREF) + MxREFSUBperE(ioa,iL,iREF,rr);
             end
-            
-            
-%             if MxREFnum(ioa,iL,iREF) == 1
-%                 
-%                 MxREFperE(ioa,iL,iREF)      = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-%                 
-%             elseif MxREFnum(ioa,iL,iREF) == 2
-%                 
-%                 MxREFperE(ioa,iL,iREF) = ...
-%                     Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-%                     Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-%                 
-%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-%                 MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-%                    
-%             elseif MxREFnum(ioa,iL,iREF) == 3
-%                 
-%                 MxREFperE(ioa,iL,iREF) = ...
-%                     Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1) + ...
-%                     Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2) + ...
-%                     Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
-%                 
-%                 MxREFSUBperE(ioa,iL,iREF,1) = Erefr_mod(iREF,1,ioa).*coeff_x(1).*coeff_tw(1);
-%                 MxREFSUBperE(ioa,iL,iREF,2) = Erefr_mod(iREF,2,ioa).*coeff_x(2).*coeff_tw(2);
-%                 MxREFSUBperE(ioa,iL,iREF,3) = Erefr_mod(iREF,3,ioa).*coeff_x(3).*coeff_tw(3);
-%                 
-%             end
             
         end
     end
@@ -1008,35 +1056,11 @@ for iREF = 1:numOfRefs
     % 補機群のエネルギー消費量
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
-           
+            
             ErefaprALL(ioa,iL,iREF)  = sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));          % 補機電力
             EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ
             EctfanrALL(ioa,iL,iREF)  = sum( refset_CTFanPower(iREF,1:MxREFnum(ioa,iL,iREF)));        % 冷却塔ファン
             EctpumprALL(ioa,iL,iREF) = sum( refset_CTPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));       % 冷却水ポンプ
-                
-%             if MxREFnum(ioa,iL,iREF) == 1
-%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1);          % 補機電力
-%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1);  % 一次ポンプ
-%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1);        % 冷却塔ファン
-%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1);       % 冷却水ポンプ
-%                 
-%             elseif MxREFnum(ioa,iL,iREF) == 2
-%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + refset_SubPower(iREF,2);
-%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + refset_PrimaryPumpPower(iREF,2);
-%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + refset_CTFanPower(iREF,2);
-%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + refset_CTPumpPower(iREF,2);
-%                 
-%             elseif MxREFnum(ioa,iL,iREF) == 3
-%                 ErefaprALL(ioa,iL,iREF)  = refset_SubPower(iREF,1) + ...
-%                     refset_SubPower(iREF,2) + refset_SubPower(iREF,3);
-%                 EpprALL(ioa,iL,iREF)     = refset_PrimaryPumpPower(iREF,1) + ...
-%                     refset_PrimaryPumpPower(iREF,2) + refset_PrimaryPumpPower(iREF,3);
-%                 EctfanrALL(ioa,iL,iREF)  = refset_CTFanPower(iREF,1) + ...
-%                     refset_CTFanPower(iREF,2) + refset_CTFanPower(iREF,3);
-%                 EctpumprALL(ioa,iL,iREF) = refset_CTPumpPower(iREF,1) + ...
-%                     refset_CTPumpPower(iREF,2) + refset_CTPumpPower(iREF,3);
-%             end
-            
             
         end
     end
@@ -1091,6 +1115,10 @@ E_pumpP = sum(sum(MxPPcE));
 E_ctfan = sum(sum(MxCTfan));
 % 冷却水ポンプ電力消費量 [MWh]
 E_ctpump = sum(sum(MxCTpump));
+
+
+disp('熱源エネルギー計算完了')
+toc
 
 
 %%-----------------------------------------------------------------------------------------------------------
@@ -1242,7 +1270,7 @@ y(20) = roomAreaTotal;
 
 % 熱損失係数 [W/m2K]
 for iROOM = 1:numOfRoooms
-   UAlist(iROOM) = UAlist(iROOM) + 0.5*2.7*roomArea(iROOM)*(1.2*1.006/3600*1000);
+    UAlist(iROOM) = UAlist(iROOM) + 0.5*2.7*roomArea(iROOM)*(1.2*1.006/3600*1000);
 end
 
 y(21) = sum(UAlist)/roomAreaTotal;
@@ -1278,13 +1306,57 @@ y(26) = Qhpeak;
 y(27) = y(2)/(y(23)/1000000*3600); % 冷房
 y(28) = y(3)/(y(24)/1000000*3600); % 暖房
 
+
+disp('計算結果取り纏め完了')
+toc
+
 %%-----------------------------------------------------------------------------------------------------------
 %% 詳細出力
-if OutputOptionVar == 1 && MODE == 2
+if OutputOptionVar == 1 && (MODE == 2 || MODE == 3)
     mytscript_result2csv;
 end
 
+disp('詳細出力完了')
+toc
+
 %% 簡易出力
+
+rfcS = {};
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''一次エネルギー消費量 評価値： ', num2str(y(1)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''一次エネルギー消費量 基準値： ', num2str(y(17)) ,'  MJ/m2・年''];'])
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''年間冷房負荷  ： ', num2str(y(2)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''年間暖房負荷  ： ', num2str(y(3)) ,'  MJ/m2・年''];'])
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''BEI/Q        ： ', num2str((y(2)+y(3))/(y(17)*0.8)) ,'''];'])
+eval(['rfcS = [rfcS;''BEI/AC       ： ', num2str(y(18)) ,'''];'])
+eval(['rfcS = [rfcS;''CEC/AC*      ： ', num2str(y(16)) ,'''];'])
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''全熱交換機Ｅ  ： ', num2str(y(4)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''空調ファンＥ  ： ', num2str(y(5)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''二次ポンプＥ  ： ', num2str(y(6)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''熱源主機Ｅ    ： ', num2str(y(7)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''熱源補機Ｅ    ： ', num2str(y(8)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''一次ポンプＥ  ： ', num2str(y(9)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''冷却塔ファンＥ： ', num2str(y(10)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''冷却水ポンプＥ： ', num2str(y(11)) ,'  MJ/m2・年''];'])
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''未処理負荷(冷)： ', num2str(y(12)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''未処理負荷(温)： ', num2str(y(13)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''熱源過負荷(冷)： ', num2str(y(14)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''熱源過負荷(温)： ', num2str(y(15)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''ピーク負荷(冷)： ', num2str(y(25)) ,'  W/m2''];'])
+eval(['rfcS = [rfcS;''ピーク負荷(温)： ', num2str(y(26)) ,'  W/m2''];'])
+eval(['rfcS = [rfcS;''全負荷相当運転時間(冷)： ', num2str(y(27)) ,'  時間''];'])
+eval(['rfcS = [rfcS;''全負荷相当運転時間(暖)： ', num2str(y(28)) ,'  時間''];'])
+rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''熱損失係数*　 ： ', num2str(y(21)) ,'  W/m2・K''];'])
+eval(['rfcS = [rfcS;''日射取得係数* ： ', num2str(y(22)) ,'  ''];'])
+eval(['rfcS = [rfcS;''熱源容量（冷）： ', num2str(y(23)) ,'  W/m2''];'])
+eval(['rfcS = [rfcS;''熱源容量（暖）： ', num2str(y(24)) ,'  W/m2''];'])
+rfcS = [rfcS;'---------'];
+
 % 出力するファイル名
 if isempty(strfind(INPUTFILENAME,'/'))
     eval(['resfilenameS = ''calcRES_AC_',INPUTFILENAME(1:end-4),'_',datestr(now,30),'.csv'';'])
@@ -1292,42 +1364,15 @@ else
     tmp = strfind(INPUTFILENAME,'/');
     eval(['resfilenameS = ''calcRES_AC_',INPUTFILENAME(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
-csvwrite(resfilenameS,y);
-
-disp('---------')
-eval(['disp(''一次エネルギー消費量 評価値： ', num2str(y(1)) ,'  MJ/m2・年'')'])
-eval(['disp(''一次エネルギー消費量 基準値： ', num2str(y(17)) ,'  MJ/m2・年'')'])
-disp('---------')
-eval(['disp(''年間冷房負荷  ： ', num2str(y(2)) ,'  MJ/m2・年'')'])
-eval(['disp(''年間暖房負荷  ： ', num2str(y(3)) ,'  MJ/m2・年'')'])
-disp('---------')
-eval(['disp(''BEI/Q        ： ', num2str((y(2)+y(3))/(y(17)*0.8)) ,''')'])
-eval(['disp(''BEI/AC       ： ', num2str(y(18)) ,''')'])
-eval(['disp(''CEC/AC*      ： ', num2str(y(16)) ,''')'])
-disp('---------')
-eval(['disp(''全熱交換機Ｅ  ： ', num2str(y(4)) ,'  MJ/m2・年'')'])
-eval(['disp(''空調ファンＥ  ： ', num2str(y(5)) ,'  MJ/m2・年'')'])
-eval(['disp(''二次ポンプＥ  ： ', num2str(y(6)) ,'  MJ/m2・年'')'])
-eval(['disp(''熱源主機Ｅ    ： ', num2str(y(7)) ,'  MJ/m2・年'')'])
-eval(['disp(''熱源補機Ｅ    ： ', num2str(y(8)) ,'  MJ/m2・年'')'])
-eval(['disp(''一次ポンプＥ  ： ', num2str(y(9)) ,'  MJ/m2・年'')'])
-eval(['disp(''冷却塔ファンＥ： ', num2str(y(10)) ,'  MJ/m2・年'')'])
-eval(['disp(''冷却水ポンプＥ： ', num2str(y(11)) ,'  MJ/m2・年'')'])
-disp('---------')
-eval(['disp(''未処理負荷(冷)： ', num2str(y(12)) ,'  MJ/m2・年'')'])
-eval(['disp(''未処理負荷(温)： ', num2str(y(13)) ,'  MJ/m2・年'')'])
-eval(['disp(''熱源過負荷(冷)： ', num2str(y(14)) ,'  MJ/m2・年'')'])
-eval(['disp(''熱源過負荷(温)： ', num2str(y(15)) ,'  MJ/m2・年'')'])
-eval(['disp(''ピーク負荷(冷)： ', num2str(y(25)) ,'  W/m2'')'])
-eval(['disp(''ピーク負荷(温)： ', num2str(y(26)) ,'  W/m2'')'])
-eval(['disp(''全負荷相当運転時間(冷)： ', num2str(y(27)) ,'  時間'')'])
-eval(['disp(''全負荷相当運転時間(暖)： ', num2str(y(28)) ,'  時間'')'])
-disp('---------')
-eval(['disp(''熱損失係数*　 ： ', num2str(y(21)) ,'  W/m2・K'')'])
-eval(['disp(''日射取得係数* ： ', num2str(y(22)) ,'  '')'])
-eval(['disp(''熱源容量（冷）： ', num2str(y(23)) ,'  W/m2'')'])
-eval(['disp(''熱源容量（暖）： ', num2str(y(24)) ,'  W/m2'')'])
-disp('---------')
+fid = fopen(resfilenameS,'w+');
+for i=1:size(rfcS,1)
+    fprintf(fid,'%s\r\n',rfcS{i});
+end
+fclose(fid);
 
 
+disp('簡易出力完了')
+toc
+
+toc
 

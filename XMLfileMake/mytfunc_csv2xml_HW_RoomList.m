@@ -27,12 +27,7 @@ end
 for iUNIT = 11:size(hwRoomInfoCell,1)
     if isempty(hwRoomInfoCell{iUNIT,2})
         if iUNIT ~= 1
-            hwRoomInfoCell(iUNIT,1) = hwRoomInfoCell(iUNIT-1,1);
-            hwRoomInfoCell(iUNIT,2) = hwRoomInfoCell(iUNIT-1,2);
-            hwRoomInfoCell(iUNIT,3) = hwRoomInfoCell(iUNIT-1,3);
-            hwRoomInfoCell(iUNIT,4) = hwRoomInfoCell(iUNIT-1,4);
-            hwRoomInfoCell(iUNIT,5) = hwRoomInfoCell(iUNIT-1,5);
-            hwRoomInfoCell(iUNIT,6) = hwRoomInfoCell(iUNIT-1,6);
+            hwRoomInfoCell(iUNIT,1:5) = hwRoomInfoCell(iUNIT-1,1:5);
         else
             error('一つめの室名が空白です。')
         end
@@ -43,6 +38,7 @@ roomFloor = {};
 roomName  = {};
 equipWaterSaving = {};
 equipSet = {};
+equipLocation = {};
 
 for iUNIT = 11:size(hwRoomInfoCell,1)
     
@@ -50,25 +46,19 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
     roomFloor = [roomFloor; hwRoomInfoCell(iUNIT,1)];
     roomName  = [roomName; hwRoomInfoCell(iUNIT,2)];
     
+    % 給湯箇所
+    equipLocation = [equipLocation; hwRoomInfoCell(iUNIT,6)];
+    
     % 節湯器具の有無
-    if isempty(hwRoomInfoCell{iUNIT,6}) == 0
+    if isempty(hwRoomInfoCell{iUNIT,7}) == 0
         equipWaterSaving = [equipWaterSaving; 'MixingTap'];
     else
         equipWaterSaving = [equipWaterSaving; 'None'];
     end
     
     % 接続機器リスト
-    equipSet = [equipSet;hwRoomInfoCell(iUNIT,7)];
+    equipSet = [equipSet;hwRoomInfoCell(iUNIT,8)];
     
-%     tmpHWequip = {};
-%     for iEQP = 1:length(hwRoomInfoCell(iUNIT,:))-6
-%         if isempty(hwRoomInfoCell{iUNIT,6+iEQP}) == 0
-%             tmpHWequip = [tmpHWequip,hwRoomInfoCell(iUNIT,6+iEQP)];
-%         else
-%             tmpHWequip = [tmpHWequip,'Null'];
-%         end
-%     end
-%     equipList(iUNIT-10,:) =  tmpHWequip;
 end
 
 % 室を軸に並び替え
@@ -77,9 +67,9 @@ UnitList = {};
 
 for iUNIT = 1:size(roomName,1)
     
-    if isempty(RoomList)== 1
+    if isempty(RoomList)
         
-        RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipWaterSaving(iUNIT)];
+        RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
         UnitList = [UnitList; equipSet(iUNIT)];
 
     else
@@ -94,7 +84,7 @@ for iUNIT = 1:size(roomName,1)
         
         % 室が見つからなければ追加
         if check == 0
-            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipWaterSaving(iUNIT)];
+            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
             UnitList = [UnitList; equipSet(iUNIT)];
         end
         
@@ -109,7 +99,7 @@ for iROOM = 1:numOfRoom
     
     eval(['xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.ID = ''HWroom_',int2str(iROOM),''';'])
     
-    [RoomID,BldgType,RoomType,RoomArea,~,~,~,~] = ...
+    [RoomID,BldgType,RoomType,RoomArea,~,~] = ...
         mytfunc_roomIDsearch(xmldata,RoomList(iROOM,1),RoomList(iROOM,2));
     
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomIDs      = RoomID;
@@ -118,7 +108,8 @@ for iROOM = 1:numOfRoom
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.BuildingType = BldgType;
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomType     = RoomType;
     xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomArea     = RoomArea;
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving  = RoomList(iROOM,3);
+    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.Location     = RoomList(iROOM,3);
+    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving  = RoomList(iROOM,4);
     
     % ユニット情報
     if iscell(UnitList{iROOM}) == 1

@@ -144,13 +144,13 @@ rfc = [rfc;'ƒ|ƒ“ƒvE,'];
 for iPUMP = 1:numOfPumps
     
     rfc = [rfc; strcat(pumpName{iPUMP},',',pumpMode{iPUMP},',',...
-        num2str(pumpCount(iPUMP)),',',num2str(pumpFlow(iPUMP)),',',...
-        num2str(pumpPower(iPUMP)),',',pumpFlowCtrl{iPUMP},',',...
+        num2str(pumpsetPnum(iPUMP)),',',num2str(sum(pumpFlow(iPUMP,:))),',',...
+        num2str(sum(pumpPower(iPUMP,:))),',',pumpFlowCtrl{iPUMP,1},',',...
         '—L',',',num2str(Qpsr(iPUMP)))];
     
     rfc = mytfunc_oneLinecCell(rfc,[MxPUMP(iPUMP,:),sum(MxPUMP(iPUMP,:))]);
     rfc = mytfunc_oneLinecCell(rfc,MxPUMPNum(iPUMP,:));
-    rfc = mytfunc_oneLinecCell(rfc,pumpPower(iPUMP).*PUMPvwvfac(iPUMP,:));
+    rfc = mytfunc_oneLinecCell(rfc,MxPUMPPower(iPUMP,:));
     rfc = mytfunc_oneLinecCell(rfc,[MxPUMPE(iPUMP,:),sum(MxPUMPE(iPUMP,:))]);
     
 end

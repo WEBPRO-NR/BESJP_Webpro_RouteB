@@ -24,52 +24,49 @@ AHUsystemT    = zeros(365,length(AHUsystemName));  % 空調運転時間
 ahuTime_start = zeros(365,length(AHUsystemName));  % 空調開始時刻
 ahuTime_stop  = zeros(365,length(AHUsystemName));  % 空調終了時刻
 
+
 for sysa=1:length(AHUsystemName) % 空調系統ごと
-       
-    for dd = 1:365 % 日のループ
+    
+    tmpStart = [];
+    tmpStop  = [];
+    tmpMode  = [];
+    
+    for sysm = 1:length(AHUQallSet{sysa}) % 接続室ごと
         
-        tmpStart = [];
-        tmpStop  = [];
-        tmpMode  = [];
-        
-        for sysm = 1:length(AHUQallSet{sysa}) % 接続室ごと
-            
-            % マッチする室を探す
-            for i=1:length(roomNAME)
-                if strcmp(AHUQallSet{sysa}(sysm),roomNAME(i))
-                    break
-                end
+        % マッチする室を探す
+        for iROOM=1:length(roomNAME)
+            if strcmp(AHUQallSet{sysa}(sysm),roomNAME(iROOM))
+                tmpStart = [tmpStart, roomTime_start(:,iROOM)];
+                tmpStop  = [tmpStop, roomTime_stop(:,iROOM)];
+                tmpMode  = [tmpMode, roomDayMode(iROOM)];
             end
-            
-            tmpStart = [tmpStart, roomTime_start(dd,i)];
-            tmpStop  = [tmpStop, roomTime_stop(dd,i)];
-            
-            if dd==1
-                tmpMode = [tmpMode, roomDayMode(i)];
-            end
-            
         end
+        
+    end
+    
+    
+    for dd = 1:365 % 日のループ
         
         % 和集合をとる．
         if isempty(tmpStart)
             ahuTime_start(dd,sysa) = 0;
         else
-            ahuTime_start(dd,sysa) = min(tmpStart); % 一番早い時間が開始時刻
+            ahuTime_start(dd,sysa) = min(tmpStart(dd,:)); % 一番早い時間が開始時刻
         end
         if isempty(tmpStop)
             ahuTime_stop(dd,sysa) = 0;
         else
-            ahuTime_stop(dd,sysa)  = max(tmpStop);  % 一番遅い時間が終了時刻
+            ahuTime_stop(dd,sysa)  = max(tmpStop(dd,:));  % 一番遅い時間が終了時刻
         end
         
         % 空調時間
         if isempty(tmpStart) == 0 && isempty(tmpStop) == 0
-            if max(tmpStop) >= min(tmpStart)
+            if max(tmpStop(dd,:)) >= min(tmpStart(dd,:))
                 % 日を跨がない場合
-                AHUsystemT(dd,sysa) = max(tmpStop)-min(tmpStart);
+                AHUsystemT(dd,sysa) = max(tmpStop(dd,:))-min(tmpStart(dd,:));
             else
                 % 日を跨ぐ場合
-                AHUsystemT(dd,sysa) = min(tmpStart)+(24-max(tmpStop));
+                AHUsystemT(dd,sysa) = min(tmpStart(dd,:))+(24-max(tmpStop(dd,:)));
             end
         else
             AHUsystemT(dd,sysa) = 0;

@@ -175,7 +175,6 @@ for iROOM = 1:numOfRoom
             
             % 基準設定消費電力 [kW]
             if strcmp(perDB_RoomType(iDB,27),'-')
-                iROOM
                 error('室用途「 %s 」は換気対象室ではありません',strcat(BldgType{iROOM},':',RoomType{iROOM}))
             else
                 
@@ -192,9 +191,9 @@ for iROOM = 1:numOfRoom
                 Proom(iROOM) = str2double(perDB_RoomType(iDB,29));
                 
                 % 負荷率
-                if strcmp(RoomType{iROOM},'電気・機械室（高発熱）')
+                if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室') 
                     xL(iROOM) = 0.6;
-                elseif strcmp(RoomType{iROOM},'電気・機械室（標準）')
+                elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室') 
                     xL(iROOM) = 0.6;
                 else
                     xL(iROOM) = 1;
