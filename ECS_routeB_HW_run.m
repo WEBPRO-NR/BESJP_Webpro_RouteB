@@ -13,40 +13,15 @@
 %  y(4) : 基準値 [MJ/m2/年]
 %  y(5) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_HW_run(inputfilename,OutputOption)
+% function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% inputfilename = './TAISEI_Photel.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+inputfilename = './repair_ivb_new2.xml';
+addpath('./subfunction/')
+OutputOption = 'OFF';
 
 
 %% 設定
-model = xml_read(inputfilename);
-
-switch OutputOption
-    case 'ON'
-        OutputOptionVar = 1;
-    case 'OFF'
-        OutputOptionVar = 0;
-    otherwise
-        error('OutputOptionが不正です。ON か OFF で指定して下さい。')
-end
-
-% 地域
-climateAREA = model.ATTRIBUTE.Region;
-
-% データベースファイル
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
-
-% データベース読み込み
-mytscript_readDBfiles;
 
 ULLLIST = [0.159,0.191,0.191,0.599;
     0.189,0.213,0.231,0.838;
@@ -60,6 +35,54 @@ ULLLIST = [0.159,0.191,0.191,0.599;
     0.466,0.651,0.651,4.309;
     0.464,0.770,0.770,5.270;
     0.528,0.774,0.889,6.228];
+
+
+%% モデル読み込み
+
+model = xml_read(inputfilename);
+
+switch OutputOption
+    case 'ON'
+        OutputOptionVar = 1;
+    case 'OFF'
+        OutputOptionVar = 0;
+    otherwise
+        error('OutputOptionが不正です。ON か OFF で指定して下さい。')
+end
+
+% データベースファイル
+filename_calendar             = './database/CALENDAR.csv';   % カレンダー
+filename_ClimateArea          = './database/AREA.csv';       % 地域区分
+filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
+filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
+filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
+filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
+
+% データベース読み込み
+mytscript_readDBfiles;
+
+% 地域区分
+climateAREA = model.ATTRIBUTE.Region;
+
+check = 0;
+for iDB = 1:length(perDB_climateArea(:,2))
+    if strcmp(perDB_climateArea(iDB,2),climateAREA)
+        % 気象データファイル名
+        eval(['climatedatafile  = ''./weathdat/C1_',perDB_climateArea{iDB,6},''';'])
+        % 緯度
+        phi   = str2double(perDB_climateArea(iDB,4));
+        % 経度
+        longi = str2double(perDB_climateArea(iDB,5));
+        
+        check = 1;
+    end
+end
+if check == 0
+    error('地域区分が不正です')
+end
+
+% 日射データ読み込み
+[~,~,IodALL,IosALL,InnALL] = mytfunc_climatedataRead(climatedatafile);
 
 % 気象データの読み込み
 switch climateAREA
@@ -209,8 +232,14 @@ for iEQP = 1:length(model.HotwaterSystems.Boiler)
     % 太陽熱利用
     if strcmp(model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolarSystem,'True')
         equipSolar(iEQP) = 1;
+        equipSolor_S(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceArea;
+        equipSolor_alp(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceAzimuth; % 方位角
+        equipSolor_bet(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceInclination; % 傾斜角
     else
-        equipSolar(iEQP) = 0;
+        equipSolar(iEQP)     = 0;
+        equipSolor_S(iEQP)   = 0;
+        equipSolor_alp(iEQP) = 0;
+        equipSolor_bet(iEQP) = 0;
     end
     
 end
@@ -381,11 +410,37 @@ for iEQP = 1:length(equipID)
     connect_Name{iEQP}  = tmpconnectName;
     connect_Power{iEQP} = tmpconnectPower;
     
-    % 太陽熱利用量（今後の課題）[KJ/day]
-    Qs_solargain(:,iEQP) = zeros(365,1);
+    
+    % 太陽熱利用量 [KJ/day]
+    if equipSolar(iEQP) == 1
+        
+        % 日積算日射量 [MJ/m2/day]
+        dailyIds = mytfunc_calcSolorRadiation(IodALL,IosALL,InnALL,phi,longi,equipSolor_alp(iEQP),equipSolor_bet(iEQP),1);
+        Qs_solargain(:,iEQP) = (equipSolor_S(iEQP)*0.4*0.85).*dailyIds.*1000;
+    else
+        Qs_solargain(:,iEQP) = zeros(365,1);
+    end
     
     % 給湯負荷 [kJ/day]
-    Qh_eqp_daily(:,iEQP) = 4.2.*Qs_eqp_daily(:,iEQP).*(43-TWdata);
+    if equipSolar(iEQP) == 1
+        
+        % 太陽熱利用後の処理熱量は給湯負荷の1割を下回らない。
+        tmpQh = 4.2.*Qs_eqp_daily(:,iEQP).*(43-TWdata);
+        for dd = 1:365
+            if OAdataAll(dd,1) > 5   % 日平均外気温が５度を超えていれば集熱
+                if tmpQh*0.1 < (tmpQh(dd) - Qs_solargain(dd,iEQP))
+                    Qh_eqp_daily(dd,iEQP) = tmpQh*0.1;
+                else
+                    Qh_eqp_daily(dd,iEQP) = tmpQh(dd) - Qs_solargain(dd,iEQP);
+                end
+            else
+                Qh_eqp_daily(dd,iEQP) = tmpQh(dd);
+            end
+        end
+        
+    else
+        Qh_eqp_daily(:,iEQP) = 4.2.*Qs_eqp_daily(:,iEQP).*(43-TWdata);
+    end
     
     % 配管長 [m]
     L_eqp(iEQP) = max(Qsr_eqp_daily(:,iEQP)).*7*0.001;
@@ -415,7 +470,6 @@ y(2) = E_eqpSUMperAREA;
 y(3) = standardValue;
 y(4) = standardValue/sum(roomArea);
 y(5) = y(2)/y(4);
-
 
 %% 簡易出力
 % 出力するファイル名

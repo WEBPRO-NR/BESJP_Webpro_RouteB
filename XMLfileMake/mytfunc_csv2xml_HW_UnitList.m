@@ -32,19 +32,23 @@ equipEfficiency = {};
 equipInsulation = {};
 equipPipeSize = {};
 equipSolarSystem = {};
+SolorHeatingSurfaceArea = {};
+SolorHeatingSurfaceAzimuth = {};
+SolorHeatingSurfaceInclination = {};
+
 
 for iUNIT = 11:size(hwequipInfoCell,1)
     
     % 機器コード
     eval(['equipID = [equipID; ''HWUnit_',int2str(iUNIT-10),'''];'])
-
+    
     % 機器名称
     if isempty(hwequipInfoCell{iUNIT,1})
         equipName = [equipName; 'Null'];
     else
         equipName = [equipName; hwequipInfoCell{iUNIT,1}];
     end
-
+    
     % 加熱容量
     equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,2}];
     
@@ -66,18 +70,32 @@ for iUNIT = 11:size(hwequipInfoCell,1)
     equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,5}];
     
     % 太陽熱利用
-    if strcmp(hwequipInfoCell(iUNIT,6),'有')
-        equipSolarSystem = [equipSolarSystem; 'True'];
-    else
+    if isempty(hwequipInfoCell{iUNIT,6})
         equipSolarSystem = [equipSolarSystem; 'None'];
+        
+        SolorHeatingSurfaceArea = ...
+            [SolorHeatingSurfaceArea; 'Null'];
+        SolorHeatingSurfaceAzimuth = ...
+            [SolorHeatingSurfaceAzimuth; 'Null'];
+        SolorHeatingSurfaceInclination = ...
+            [SolorHeatingSurfaceInclination; 'Null'];
+        
+    else
+        equipSolarSystem = [equipSolarSystem; 'True'];
+        
+        SolorHeatingSurfaceArea = ...
+            [SolorHeatingSurfaceArea; hwequipInfoCell{iUNIT,6}];
+        SolorHeatingSurfaceAzimuth = ...
+            [SolorHeatingSurfaceAzimuth; hwequipInfoCell{iUNIT,7}];
+        SolorHeatingSurfaceInclination = ...
+            [SolorHeatingSurfaceInclination; hwequipInfoCell{iUNIT,8}];
     end
     
-        
     % 機器表の記号
-    if isempty(hwequipInfoCell{iUNIT,7})
+    if isempty(hwequipInfoCell{iUNIT,9})
         equipInfo = [equipInfo; 'Null'];
     else
-        equipInfo = [equipInfo; hwequipInfoCell{iUNIT,7}];
+        equipInfo = [equipInfo; hwequipInfoCell{iUNIT,9}];
     end
     
 end
@@ -94,5 +112,12 @@ for iUNIT = 1:size(equipID,1)
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Insulation  = equipInsulation{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.PipeSize    = equipPipeSize{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.SolarSystem = equipSolarSystem{iUNIT};
+    
+    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.SolorHeatingSurfaceArea = ...
+        SolorHeatingSurfaceArea{iUNIT};
+    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.SolorHeatingSurfaceAzimuth = ...
+        SolorHeatingSurfaceAzimuth{iUNIT};
+    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.SolorHeatingSurfaceInclination = ...
+        SolorHeatingSurfaceInclination{iUNIT};
     
 end
