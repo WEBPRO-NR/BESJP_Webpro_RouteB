@@ -13,12 +13,12 @@
 %  y(4) : 基準値 [MJ/m2/年]
 %  y(5) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_HW_run(inputfilename,OutputOption)
+function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
-clear
-inputfilename = './repair_ivb_new2.xml';
-addpath('./subfunction/')
-OutputOption = 'OFF';
+% clear
+% inputfilename = './repair_ivb_new2.xml';
+% addpath('./subfunction/')
+% OutputOption = 'OFF';
 
 
 %% 設定
@@ -427,9 +427,9 @@ for iEQP = 1:length(equipID)
         % 太陽熱利用後の処理熱量は給湯負荷の1割を下回らない。
         tmpQh = 4.2.*Qs_eqp_daily(:,iEQP).*(43-TWdata);
         for dd = 1:365
-            if OAdataAll(dd,1) > 5   % 日平均外気温が５度を超えていれば集熱
-                if tmpQh*0.1 < (tmpQh(dd) - Qs_solargain(dd,iEQP))
-                    Qh_eqp_daily(dd,iEQP) = tmpQh*0.1;
+            if OAdataAll(dd,1) > 5  && tmpQh(dd)>0 % 日平均外気温が５度を超えていれば集熱
+                if tmpQh(dd)*0.1 > (tmpQh(dd) - Qs_solargain(dd,iEQP))
+                    Qh_eqp_daily(dd,iEQP) = tmpQh(dd)*0.1;
                 else
                     Qh_eqp_daily(dd,iEQP) = tmpQh(dd) - Qs_solargain(dd,iEQP);
                 end
