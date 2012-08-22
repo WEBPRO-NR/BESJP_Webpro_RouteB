@@ -128,39 +128,40 @@ for iENVSET = 1:length(EnvList_Floor)
                 elseif strcmp(envListDataCell(iDB,3),'水平') || strcmp(envListDataCell(iDB,3),'屋根')
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Horizontal';
                 elseif strcmp(envListDataCell(iDB,3),'日陰') || strcmp(envListDataCell(iDB,3),'地中')
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Underground';
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Shade';
                 else
                     error('方位　%s　は不正です。', envListDataCell{iDB,3})
                 end
                 
-                % 庇
-                if strcmp(envListDataCell(iDB,4),'有') || strcmp(envListDataCell(iDB,4),'水平')
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves   = 'Horizontal';
-                elseif strcmp(envListDataCell(iDB,4),'垂直')
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves   = 'Vertical';
-                elseif strcmp(envListDataCell(iDB,4),'ボックス')
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves   = 'Box';
+                % 庇（日よけ効果係数）
+                if isempty(envListDataCell{iDB,4}) == 0
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves_Cooling = envListDataCell(iDB,4);
                 else
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves   = 'None';
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves_Cooling = 'Null';
+                end
+                if isempty(envListDataCell{iDB,5}) == 0
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves_Heating = envListDataCell(iDB,5);
+                else
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Eaves_Heating = 'Null';
                 end
                 
                 % 外壁タイプ
-                xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WallConfigure = envListDataCell(iDB,5);
+                xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WallConfigure = envListDataCell(iDB,6);
                 
                 % 外皮面積（窓面積＋外壁面積）
-                xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WallArea = envListDataCell(iDB,6);
+                xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WallArea = envListDataCell(iDB,7);
                 
                 % 窓種類
-                if isempty(envListDataCell{iDB,7}) == 0
+                if isempty(envListDataCell{iDB,8}) == 0
                     
                     % 窓種類
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WindowType = envListDataCell(iDB,7);
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WindowType = envListDataCell(iDB,8);
                     
                     % 窓面積
-                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WindowArea = envListDataCell(iDB,8);
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.WindowArea = envListDataCell(iDB,9);
                     
                     % 窓種類(ブラインド種類で場合分け)
-                    if strcmp(envListDataCell{iDB,9},'有')
+                    if strcmp(envListDataCell{iDB,10},'有')
                         xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Blind  = 'True';
                     else
                         xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Blind  = 'False';

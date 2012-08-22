@@ -630,7 +630,7 @@ for iREF = 1:numOfRefs
     switch refsetStorage{iREF}
         case 'True'
             REFstrage(iREF) = 1;
-        case {'False','Null'}
+        case {'False','Null','None'}
             REFstrage(iREF) = 0;
         otherwise
             error('XMLファイルが不正です')

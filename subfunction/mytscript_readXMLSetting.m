@@ -61,6 +61,93 @@ for iZONE = 1:numOfRoooms
     
 end
 
+%----------------------------------
+% 外壁と窓
+
+% WCON.csv の生成
+confW = {};
+WallType = {};
+
+for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
+      
+    % 壁名称
+    confW{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name;
+    % 壁ID
+    confW{iWALL,2} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.ID;
+    % 外壁タイプ
+    WallType{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.WallType;
+    
+    for iELE = 1:length(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef)
+   
+        LayerNum = INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.Layer;
+        
+        % 材料番号
+        confW{iWALL,2+2*(LayerNum-1)+1} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.MaterialNumber);
+        % 厚み
+        if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000    
+            confW{iWALL,2+2*(LayerNum-1)+2} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness);
+        else
+            error('壁の厚さが不正です')
+        end
+    end
+end
+
+% WIND.csv の生成
+confG = {};
+
+for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
+    
+    % 名称
+    confG{2*iWIND-1,1} = strcat(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.ID,'_0');
+    confG{2*iWIND,1}   = strcat(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.ID,'_1');
+    % 窓種類
+    confG{2*iWIND-1,2} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass;
+    confG{2*iWIND,2}   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass;
+    % 窓番号
+    confG{2*iWIND-1,3} = int2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber);
+    confG{2*iWIND,3}   = int2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber);
+    % ブラインド
+    confG{2*iWIND-1,4} = '0'; % ブラインドなし
+    confG{2*iWIND,4}   = '1';   % 明色ブラインドあり
+    
+end
+    
+% WCON,WIND.csv の出力
+for iFILE=1:2
+    if iFILE == 1
+        tmp = confG;
+        filename = './database/WIND.csv';
+        header = {'名称','窓種','品種番号','ブラインド'};
+    else
+        tmp = confW;
+        filename = './database/WCON.csv';
+        header = {'名称','WCON名','第1層材番','第1層厚','第2層材番','第2層厚','第3層材番',...
+            '第3層厚','第4層材番','第4層厚','第5層材番','第5層厚','第6層材番','第6層厚',...
+            '第7層材番','第7層厚','第8層材番','第8層厚','第9層材番','第9層厚','第10層材番',...
+            '第10層厚','第11層材番','第11層厚'};
+    end
+    
+    fid = fopen(filename,'wt'); % 書き込み用にファイルオープン
+    
+    % ヘッダーの書き出し
+    fprintf(fid, '%s,', header{1:end-1});
+    fprintf(fid, '%s\n', header{end});
+    
+    [rows,cols] = size(tmp);
+    for j = 1:rows
+        for k = 1:cols
+            if k < cols
+                fprintf(fid, '%s,', tmp{j,k}); % 文字列の書き出し
+            else
+                fprintf(fid, '%s\n', tmp{j,k}); % 行末の文字列は、改行を含めて出力
+            end
+        end
+    end
+    
+    y = fclose(fid);
+    
+end
+
 
 %----------------------------------
 % 外皮
@@ -77,11 +164,49 @@ for iENV = 1:numOfENVs
     for iWALL = 1:numOfWalls(iENV) 
         WallConfigure{iENV,iWALL} = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallConfigure;  % 外壁種類
         WallArea(iENV,iWALL)      = mytfunc_null2value(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallArea,0);  % 外皮面積 [m2]
-        WindowType{iENV,iWALL}    = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowType;     % 窓種類
         WindowArea(iENV,iWALL)    = mytfunc_null2value(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowArea,0); % 窓面積 [m2]
         Direction{iENV,iWALL}     = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.Direction;      % 方位
         Blind{iENV,iWALL}         = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.Blind;          % ブラインド
-        Eaves{iENV,iWALL}         = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.Eaves;          % 庇
+        
+        Eaves_Cooling{iENV,iWALL}  = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.Eaves_Cooling;  % 日よけ効果係数（冷房）
+        Eaves_Heating{iENV,iWALL}  = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.Eaves_Heating;  % 日よけ効果係数（暖房）
+        
+        % 外壁タイプNum
+        check = 0;
+        for iDB = 1:length(confW{iWALL,1})
+            if strcmp(confW{iDB,1},WallConfigure{iENV,iWALL})
+                WallTypeTemp = WallType{iDB,1};
+                check = 1;
+                break
+            end
+        end
+        if check == 0
+            error('外壁タイプが見つかりません')
+        end
+        
+        if strcmp(WallTypeTemp,'Air')
+            WallTypeNum(iENV,iWALL) = 1;
+        elseif strcmp(WallTypeTemp,'Ground')
+            WallTypeNum(iENV,iWALL) = 2;
+        elseif strcmp(WallTypeTemp,'Internal')
+            WallTypeNum(iENV,iWALL) = 3;
+        end
+        
+        % 窓種類(ブラインド番号を付ける)
+        switch Blind{iENV,iWALL}
+            case {'True'}
+                WindowType{iENV,iWALL} = strcat(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowType,'_1');
+            case {'False'}
+                WindowType{iENV,iWALL} = strcat(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowType,'_0');
+        end
+        
+        % EXPS(= 方位＋庇　newHASP用)
+        if strcmp(Eaves_Cooling{iENV,iWALL},'Null')
+            EXPSdata{iENV,iWALL} = strcat(Direction{iENV,iWALL});
+        else
+            EXPSdata{iENV,iWALL} = strcat(Direction{iENV,iWALL},Eaves_Cooling{iENV,iWALL});
+        end
+        
     end
 end
 
@@ -171,7 +296,6 @@ if isfield(INPUT.AirConditioningSystem,'SecondaryPumpSet')
             pumpsetPnum(2*iPUMP)  = length(INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).SecondaryPump); % ポンプの数（最大10）
         end
         
-        
         % 冷水ポンプ群
         pumpMode{2*iPUMP-1}         = 'Cooling';        % ポンプ運転モード
         pumpName{2*iPUMP-1}         = strcat(INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).ATTRIBUTE.Name,'_C');            % ポンプ群名称
@@ -228,7 +352,7 @@ refset_PrimaryPumpPower = zeros(numOfRefs,3);
 refset_CTCapacity       = zeros(numOfRefs,3);
 refset_CTFanPower       = zeros(numOfRefs,3);
 refset_CTPumpPower      = zeros(numOfRefs,3);
-refsetSupplyTemp   = zeros(1,numOfRefs);
+refset_SupplyTemp       = zeros(numOfRefs,3);
 
 for iREF = 1:numOfRefs/2
     
@@ -242,8 +366,6 @@ for iREF = 1:numOfRefs/2
     refsetStorage{2*iREF}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;   % 蓄熱制御
     refsetQuantityCtrl{2*iREF-1} = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;  % 台数制御
     refsetQuantityCtrl{2*iREF}   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;  % 台数制御
-    refsetSupplyTemp(2*iREF-1)   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.SupplyWaterTemp_Cooling;  % 送水温度
-    refsetSupplyTemp(2*iREF)     = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.SupplyWaterTemp_Heating; % 送水温度
     
     
     if length(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource) > 10
@@ -269,6 +391,7 @@ for iREF = 1:numOfRefs/2
                 refset_CTCapacity(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTCapacity_Cooling,0);  % 冷却塔能力
                 refset_CTFanPower(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTFanPower_Cooling,0);  % 冷却塔ファン電力
                 refset_CTPumpPower(2*iREF-1,rr)      = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
+                refset_SupplyTemp(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Cooling,0);   % 送水温度（冷房）
             end
         end
         
@@ -281,89 +404,19 @@ for iREF = 1:numOfRefs/2
                 refset_MainPower(2*iREF,rr)        = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.MainPower_Heating,0);  % 定格消費エネルギー
                 refset_SubPower(2*iREF,rr)         = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Heating,0);   % 定格補機電力
                 refset_PrimaryPumpPower(2*iREF,rr) = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
-            end
-        end
-        
-    end
-end
-
-
-% WCON.csv の生成
-confW = {};
-
-for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
-      
-    % 壁名称
-    confW{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name;
-    % 壁ID
-    confW{iWALL,2} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.ID;
-    
-    for iELE = 1:length(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef)
-   
-        LayerNum = INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.Layer;
-        
-        % 材料番号
-        confW{iWALL,2+2*(LayerNum-1)+1} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.MaterialNumber);
-        % 厚み
-        if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000    
-            confW{iWALL,2+2*(LayerNum-1)+2} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness);
-        else
-            error('壁の厚さが不正です')
-        end
-    end
-end
-
-% WIND.csv の生成
-confG = {};
-
-for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
-    
-    % 名称
-    confG{iWIND,1} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.ID;
-    % 窓種類
-    confG{iWIND,2} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass;
-    % 窓番号
-    confG{iWIND,3} = int2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber);
-    % ブラインド
-    confG{iWIND,4} = '1'; % newHASPでは常に明色ブラインドありとする。
-
-end
-    
-% WCON,WIND.csv の出力
-for iFILE=1:2
-    if iFILE == 1
-        tmp = confG;
-        filename = './database/WIND.csv';
-        header = {'名称','窓種','品種番号','ブラインド'};
-    else
-        tmp = confW;
-        filename = './database/WCON.csv';
-        header = {'名称','WCON名','第1層材番','第1層厚','第2層材番','第2層厚','第3層材番',...
-            '第3層厚','第4層材番','第4層厚','第5層材番','第5層厚','第6層材番','第6層厚',...
-            '第7層材番','第7層厚','第8層材番','第8層厚','第9層材番','第9層厚','第10層材番',...
-            '第10層厚','第11層材番','第11層厚'};
-    end
-    
-    fid = fopen(filename,'wt'); % 書き込み用にファイルオープン
-    
-    % ヘッダーの書き出し
-    fprintf(fid, '%s,', header{1:end-1});
-    fprintf(fid, '%s\n', header{end});
-    
-    [rows,cols] = size(tmp);
-    for j = 1:rows
-        for k = 1:cols
-            if k < cols
-                fprintf(fid, '%s,', tmp{j,k}); % 文字列の書き出し
-            else
-                fprintf(fid, '%s\n', tmp{j,k}); % 行末の文字列は、改行を含めて出力
+                refset_SupplyTemp(2*iREF,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Heating,0);   % 送水温度（暖房）
+                
             end
         end
     end
     
-    y = fclose(fid);
+    % 暫定措置(送水温度平均をとる)
+    refsetSupplyTemp(2*iREF-1) = mean(refset_SupplyTemp(2*iREF-1,:));
+    refsetSupplyTemp(2*iREF)   = mean(refset_SupplyTemp(2*iREF,:));
     
 end
+
+
 
 
 

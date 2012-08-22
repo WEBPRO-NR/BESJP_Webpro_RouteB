@@ -80,19 +80,10 @@ for iWIND = 1:size(WINDList,1)
     xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass = ...
         WindowTypeClass;
     
-    
-    % å˙Ç≥
-    if isempty(windListDataCell{WINDNum(iWIND),6}) == 0
-        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowThickness = ...
-            windListDataCell{WINDNum(iWIND),6};
-    else
-        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowThickness = 'Null';
-    end
-    
     % îıçl
-    if isempty(windListDataCell{WINDNum(iWIND),7}) == 0
+    if isempty(windListDataCell{WINDNum(iWIND),6}) == 0
         xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = ...
-            windListDataCell{WINDNum(iWIND),7};
+            windListDataCell{WINDNum(iWIND),6};
     else
         xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = '';
     end
@@ -106,8 +97,6 @@ xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeCla
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeNumber = '1';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Uvalue = '0';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Mvalue = '0';
-xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowThickness = '0';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Info = '';
-xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Blind = '1';
 
 end

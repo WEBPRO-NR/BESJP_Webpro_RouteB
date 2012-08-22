@@ -1,6 +1,9 @@
+% mytfunc_calcK.m
+%----------------------------------------------------------------------------
+% 総熱貫流率、日射取得係数などを求める
+%----------------------------------------------------------------------------
 function [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList] = ...
     mytfunc_calcK(dumy)
-
 
 % WCONデータベースの読み込み
 DB_WCON = textread('./newhasp/wcontabl.dat','%s','delimiter','\n','whitespace','');
@@ -124,6 +127,7 @@ WindowNameList = perWIND(2:end,1);
 
 for iWIND = 2:size(perWIND,1)
     
+    % 窓の種類
     if strcmp(perWIND(iWIND,2),'SNGL')
         startNum = 2;
     elseif strcmp(perWIND(iWIND,2),'DL06')
@@ -132,6 +136,7 @@ for iWIND = 2:size(perWIND,1)
         startNum = 298;
     end
     
+    % ブラインドの種類
     if strcmp(perWIND(iWIND,4),'0')
         blindnum = 3;
     elseif strcmp(perWIND(iWIND,4),'1')
@@ -142,13 +147,18 @@ for iWIND = 2:size(perWIND,1)
         blindnum = 12;
     end
     
+    % 窓のU値
     WindowUvalueList(iWIND-1) = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum};
+    
+    % 窓の日射侵入率
     WindowMyuList(iWIND-1)    = 0.88 * (perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+1} + ...
         perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+2} );
     
+    % 窓のSCC(遮蔽係数)
     WindowSCCList(iWIND-1)    = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+1};
+    % 窓のSCR(遮蔽係数)
     WindowSCRList(iWIND-1)    = perDB_WIND{startNum + str2double(perWIND{iWIND,3}),blindnum+2};
-    
+        
 end
 
 

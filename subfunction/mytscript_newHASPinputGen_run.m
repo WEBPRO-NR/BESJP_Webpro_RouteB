@@ -33,7 +33,7 @@ for iROOM = 1:numOfRoooms
             OUTPUT.ATTRIBUTE.Type   = '工場等';
     end
     
-    OUTPUT.Rooms.Room.ATTRIBUTE.ID          = roomID{iROOM};    % 室ID
+    OUTPUT.Rooms.Room.ATTRIBUTE.ID          = roomID{iROOM};      % 室ID
     OUTPUT.Rooms.Room.ATTRIBUTE.Type        = roomType{iROOM};    % 室用途
     OUTPUT.Rooms.Room.ATTRIBUTE.Area        = roomArea(iROOM);    % 室面積 [m2]
     OUTPUT.Rooms.Room.ATTRIBUTE.FloorHeight = roomFloorHeight(iROOM);  % 階高 [m]
@@ -51,15 +51,15 @@ for iROOM = 1:numOfRoooms
     
     % 外皮構成別に読み込む
     for iWALL = 1:numOfWalls(iENV)
-        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallConfigure = WallConfigure{iENV,iWALL};   % 外壁種類
-        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallArea      = WallArea(iENV,iWALL) - WindowArea(iENV,iWALL);  % 外皮面積 [m2]
+        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallConfigure  = WallConfigure{iENV,iWALL};   % 外壁種類
+        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WallArea       = WallArea(iENV,iWALL) - WindowArea(iENV,iWALL);  % 外皮面積 [m2]
         if strcmp(WindowType{iENV,iWALL},'Null')
-            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType    = 'Null';      % 窓種類
+            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType = 'Null_0';      % 窓種類
         else
-            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType    = WindowType{iENV,iWALL};      % 窓種類
+            OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowType = WindowType{iENV,iWALL};      % 窓種類
         end
-        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowArea    = WindowArea(iENV,iWALL);      % 窓面積 [m2]
-        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.Direction     = Direction{iENV,iWALL};       % 方位
+        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.WindowArea     = WindowArea(iENV,iWALL);      % 窓面積 [m2]
+        OUTPUT.Envelopes.Envelope.Wall(iWALL).ATTRIBUTE.Direction      = EXPSdata{iENV,iWALL};       % 方位
         
         
         % 方位係数

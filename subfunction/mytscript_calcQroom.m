@@ -269,15 +269,41 @@ for iROOM = 1:numOfRoooms
                     MAlist(iROOM) = MAlist(iROOM) + directionV*(0.8*0.04)*WallUA;
                     
                     switch Direction{iENV,iWALL}
+                        
                         case 'Horizontal'
-                            Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(Toa_ave-TroomSP).*24;     % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                        
+                            if WallTypeNum(iENV,iWALL) == 1  % ŠO‹C‚ÉÚ‚·‚é•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(Toa_ave-TroomSP).*24;      % ŠÑ—¬”MŽæ“¾(365“ú•ª)                            
+                            elseif WallTypeNum(iENV,iWALL) == 2  % Ú’n•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(mean(Toa_ave)*ones(365,1)-TroomSP).*24;      % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            else
+                                error('ŠO•Çƒ^ƒCƒv‚ª•s³‚Å‚·')
+                            end
                             Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8/23.3).*(DSR_H+ISR_H);  % “úŽË”MŽæ“¾(365“ú•ª)
-                            Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_H;  % –éŠÔ•úŽË(365“ú•ª)
-                        case 'Underground'
-                            Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(mean(Toa_ave)-TroomSP).*24;     % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_H;          % –éŠÔ•úŽË(365“ú•ª)
+                            
+                        case 'Shade'
+                            
+                            if WallTypeNum(iENV,iWALL) == 1  % ŠO‹C‚ÉÚ‚·‚é•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(Toa_ave-TroomSP).*24;   % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            elseif WallTypeNum(iENV,iWALL) == 2  % Ú’n•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(mean(Toa_ave)*ones(365,1)-TroomSP).*24;      % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            else
+                                error('ŠO•Çƒ^ƒCƒv‚ª•s³‚Å‚·')
+                            end
+                            
                             % “úŽË‚Í‰½‚à‘«‚³‚È‚¢
+                            
                         otherwise
-                            Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(Toa_ave-TroomSP).*24;     % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            
+                            if WallTypeNum(iENV,iWALL) == 1  % ŠO‹C‚ÉÚ‚·‚é•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(Toa_ave-TroomSP).*24;      % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            elseif WallTypeNum(iENV,iWALL) == 2  % Ú’n•Ç
+                                Qwall_T(:,iROOM) = Qwall_T(:,iROOM) + WallUA.*(mean(Toa_ave)*ones(365,1)-TroomSP).*24;      % ŠÑ—¬”MŽæ“¾(365“ú•ª)
+                            else
+                                error('ŠO•Çƒ^ƒCƒv‚ª•s³‚Å‚·')
+                            end 
+                            
                             eval(['Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8/23.3).*(DSR_',Direction{iENV,iWALL},'+ISR_V);']);  % “úŽË”MŽæ“¾(365“ú•ª)
                             Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_V;  % –éŠÔ•úŽË(365“ú•ª)
                     end
@@ -291,26 +317,60 @@ for iROOM = 1:numOfRoooms
             % ‘‹ƒŠƒXƒg WindowNameList ‚ÌŒŸõ
             for iDB = 1:length(WindowNameList)
                 if strcmp(WindowNameList{iDB},WindowType{iENV,iWALL})
+                    
                     % U’l~‘‹–ÊÏ
                     WindowUA = WindowUvalueList(iDB)*WindowArea(iENV,iWALL);
                     % (SCCASCR)~‘‹–ÊÏ
                     WindowSCC = WindowSCCList(iDB)*WindowArea(iENV,iWALL);
                     WindowSCR = WindowSCRList(iDB)*WindowArea(iENV,iWALL);
                     
+                    % “ú‚æ‚¯Œø‰ÊŒW”i—â–[j 
+                    WindowEavesC = Eaves_Cooling{iENV,iWALL};
+                    if strcmp(WindowEavesC,'Null') || isnan(WindowEavesC) || isempty(WindowEavesC) || WindowEavesC > 1
+                        WindowEavesC = 1;
+                    elseif WindowEavesC < 0
+                        WindowEavesC = 0;
+                    end
+
+                    % “ú‚æ‚¯Œø‰ÊŒW”i’g–[j
+                    WindowEavesH = Eaves_Heating{iENV,iWALL};
+                    if strcmp(WindowEavesH,'Null') || isnan(WindowEavesH) || isempty(WindowEavesH) || WindowEavesH > 1
+                        WindowEavesH = 1;
+                    elseif WindowEavesH < 0
+                        WindowEavesH = 0;
+                    end
+                                                            
                     % UA,MA•Û‘¶
                     UAlist(iROOM) = UAlist(iROOM) + WindowUA;
-                    MAlist(iROOM) = MAlist(iROOM) + directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);  
+                    MAlist(iROOM) = MAlist(iROOM) + WindowEavesC * directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);  
                     
                     switch Direction{iENV,iWALL}
                         case 'Horizontal'
+                            
                             Qwind_T(:,iROOM) = Qwind_T(:,iROOM) + WindowUA.*(Toa_ave-TroomSP).*24;   % ŠÑ—¬”MŽæ“¾(365“ú•ª)
-                            Qwind_S(:,iROOM) = Qwind_S(:,iROOM) + (WindowSCC+WindowSCR).*(DSR_H*0.89+ISR_H*0.808); % “úŽË”MŽæ“¾(365“ú•ª)
+                          
+                            for dd = 1:365
+                                if SeasonMode(dd) == -1  % ’g–[
+                                    Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.* (WindowSCC+WindowSCR).*(DSR_H(dd)*0.89+ISR_H(dd)*0.808); % “úŽË”MŽæ“¾(365“ú•ª)
+                                else
+                                    Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.* (WindowSCC+WindowSCR).*(DSR_H(dd)*0.89+ISR_H(dd)*0.808); % “úŽË”MŽæ“¾(365“ú•ª)
+                                end
+                            end
+                            
                             Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_H;  % –éŠÔ•úŽË(365“ú•ª)
-                        case 'Underground'
+                        case 'Shade'
                             % ‰½‚à‚µ‚È‚¢
                         otherwise
                             Qwind_T(:,iROOM) = Qwind_T(:,iROOM) + WindowUA.*(Toa_ave-TroomSP).*24;   % ŠÑ—¬”MŽæ“¾(365“ú•ª)
-                            eval(['Qwind_S(:,iROOM) = Qwind_S(:,iROOM) + (WindowSCC+WindowSCR).*(DSR_',Direction{iENV,iWALL},'*0.89+ISR_V*0.808);']) % “úŽË”MŽæ“¾(365“ú•ª)
+                            
+                            for dd = 1:365
+                                if SeasonMode(dd) == -1  % ’g–[
+                                    eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.*(WindowSCC+WindowSCR).*(DSR_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % “úŽË”MŽæ“¾(365“ú•ª)
+                                else
+                                    eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.*(WindowSCC+WindowSCR).*(DSR_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % “úŽË”MŽæ“¾(365“ú•ª)
+                                end
+                            end
+                            
                             Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_V;  % –éŠÔ•úŽË(365“ú•ª)
                     end
                     
