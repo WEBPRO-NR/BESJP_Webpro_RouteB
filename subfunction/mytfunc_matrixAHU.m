@@ -16,7 +16,7 @@
 %   Mxh : ïââ◊èoåªïpìxÉ}ÉgÉäÉbÉNÉXÅiâ∑îMÅj
 %-----------------------------------------------------------------------------------------------------------
 
-function [Mxc,Mxh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,PIPE,WIN,MID,SUM,mxL)
+function [Mxc,Mxh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUCHmode,WIN,MID,SUM,mxL)
 
 % É}ÉgÉäÉbÉNÉX
 Mxc = zeros(1,length(mxL)); % ó‚ñ[É}ÉgÉäÉbÉNÉX
@@ -26,7 +26,7 @@ switch MODE
     
     case {1}
         
-        if PIPE == 4
+        if AHUCHmode == 1  % ó‚ígìØéûâ^ì]óL
             
             % éûçèï Ç…É}ÉgÉäÉbÉNÉXÇ…äiî[ÇµÇƒÇ¢Ç≠
             for dd = 1:365
@@ -47,7 +47,7 @@ switch MODE
                 end
             end
             
-        elseif PIPE == 2
+        elseif AHUCHmode == 0   % ó‚ígêÿë÷ÅiãGêﬂÇ≤Ç∆Åj
             
             % ãGêﬂï ÅAéûçèï Ç…É}ÉgÉäÉbÉNÉXÇ…äiî[ÇµÇƒÇ¢Ç≠
             for iSEASON = 1:3
@@ -85,53 +85,42 @@ switch MODE
             error('ìÒä«éÆÅ^élä«éÆÇÃê›íËÇ™ïsê≥Ç≈Ç∑')
         end
         
+        
+        
     case {2,3}
         
-        if PIPE == 4  % 4ä«éÆ
+        for ich = 1:2
             
-            for iCH = 1:2
+            if ich == 1 % ó‚ñ[ä˙
+                La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % ïââ◊ó¶ [-]
+                Ta = Ta_c;
+            elseif ich == 2 % ígñ[ä˙
+                La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % ïââ◊ó¶ [-]
+                Ta = Ta_h;
+            end
+            
+            if (Qar_c > 0) || (Qar_h > 0)  % íËäiî\óÕÅÑÇOÅ@Å®Å@AHU or FCU Ç™Ç†ÇÍÇŒ
                 
-                if iCH == 1 % ó‚ñ[ä˙
-                    La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % ïââ◊ó¶ [-]
-                    Ta = Ta_c;
-                elseif iCH == 2 % ígñ[ä˙
-                    La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % ïââ◊ó¶ [-]
-                    Ta = Ta_h;
-                end
-                
-                if Qar_c > 0 % íËäiî\óÕÅÑÇOÅ@Å®Å@AHU or FCU Ç™Ç†ÇÍÇŒ
+                if AHUCHmode == 1  % ó‚ígìØéûâ^ì]óL
+                    
                     for dd = 1:365
                         if isnan(La(dd,1)) == 0 % É[ÉçäÑÇ≈NaNÇ…Ç»Ç¡ÇƒÇ¢ÇÈílÇîÚÇŒÇ∑
                             
                             if La(dd,1) > 0 % ó‚ñ[ïââ◊Ç≈Ç†ÇÍÇŒ
                                 ix = mytfunc_countMX(La(dd,1),mxL);
                                 Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
-                                    
+                                
                             elseif La(dd,1) < 0 % ígñ[ïââ◊Ç≈Ç†ÇÍÇŒ
                                 ix = mytfunc_countMX((-1)*La(dd,1),mxL);
                                 Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
-
+                                
                             end
                         end
                     end
-                end
-            end
-            
-        elseif PIPE == 2 % 2ä«éÆ
-            
-            for iCH = 1:2
-                if iCH == 1 % ó‚ñ[ä˙
-                    La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % ïââ◊ó¶ [-]
-                    Ta = Ta_c;
-                elseif iCH == 2 % ígñ[ä˙
-                    La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % ïââ◊ó¶ [-]
-                    Ta = Ta_h;
-                end
-                
-                if Qar_c > 0 % íËäiî\óÕÅÑÇOÅ@Å®Å@AHU or FCU Ç™Ç†ÇÍÇŒ
+                    
+                elseif AHUCHmode == 0   % ó‚ígêÿë÷ÅiãGêﬂÇ≤Ç∆Åj
                     
                     for iSEASON = 1:3
-                        
                         if iSEASON == 1
                             seasonspan = WIN;
                         elseif iSEASON == 2
@@ -145,23 +134,25 @@ switch MODE
                         for dd = seasonspan
                             if isnan(La(dd,1)) == 0 % É[ÉçäÑÇ≈NaNÇ…Ç»Ç¡ÇƒÇ¢ÇÈílÇîÚÇŒÇ∑
                                 if La(dd,1) ~= 0  && (iSEASON == 2 || iSEASON == 3) % ó‚ñ[ä˙ä‘Ç≈Ç†ÇÍÇŒ
-                                ix = mytfunc_countMX(La(dd,1),mxL);
-                                Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
+                                    ix = mytfunc_countMX(La(dd,1),mxL);
+                                    Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
                                     
                                 elseif La(dd,1) ~= 0 && iSEASON == 1  % ígñ[ä˙ä‘Ç≈Ç†ÇÍÇŒ
-                                ix = mytfunc_countMX((-1)*La(dd,1),mxL);
-                                Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
+                                    ix = mytfunc_countMX((-1)*La(dd,1),mxL);
+                                    Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
                                 end
                             end
                         end
                     end
+                    
                 end
+                
             end
-
-        else
-            error('ìÒä«éÆÅ^élä«éÆÇÃê›íËÇ™ïsê≥Ç≈Ç∑')
         end
-        
+end
+
+
+
 end
 
 

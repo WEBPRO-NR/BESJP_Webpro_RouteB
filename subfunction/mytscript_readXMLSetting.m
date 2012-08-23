@@ -10,7 +10,7 @@ INPUT = xml_read(INPUTFILENAME);
 % Modelの属性
 climateAREA  = INPUT.ATTRIBUTE.Region;     % 地域区分
 BuildingArea = INPUT.ATTRIBUTE.TotalArea;  % 延床面積 [m2]
-    
+
 %----------------------------------
 % 空調ゾーンのパラメータ
 numOfRoooms    = length(INPUT.AirConditioningSystem.AirConditioningZone);
@@ -69,7 +69,7 @@ confW = {};
 WallType = {};
 
 for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
-      
+    
     % 壁名称
     confW{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name;
     % 壁ID
@@ -78,13 +78,13 @@ for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
     WallType{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.WallType;
     
     for iELE = 1:length(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef)
-   
+        
         LayerNum = INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.Layer;
         
         % 材料番号
         confW{iWALL,2+2*(LayerNum-1)+1} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.MaterialNumber);
         % 厚み
-        if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000    
+        if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000
             confW{iWALL,2+2*(LayerNum-1)+2} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness);
         else
             error('壁の厚さが不正です')
@@ -111,7 +111,7 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
     confG{2*iWIND,4}   = '1';   % 明色ブラインドあり
     
 end
-    
+
 % WCON,WIND.csv の出力
 for iFILE=1:2
     if iFILE == 1
@@ -160,8 +160,8 @@ for iENV = 1:numOfENVs
     
     envelopeID{iENV} = INPUT.AirConditioningSystem.Envelope(iENV).ATTRIBUTE.ACZoneID;
     numOfWalls(iENV) = length(INPUT.AirConditioningSystem.Envelope(iENV).Wall);
-   
-    for iWALL = 1:numOfWalls(iENV) 
+    
+    for iWALL = 1:numOfWalls(iENV)
         WallConfigure{iENV,iWALL} = INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallConfigure;  % 外壁種類
         WallArea(iENV,iWALL)      = mytfunc_null2value(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WallArea,0);  % 外皮面積 [m2]
         WindowArea(iENV,iWALL)    = mytfunc_null2value(INPUT.AirConditioningSystem.Envelope(iENV).Wall(iWALL).ATTRIBUTE.WindowArea,0); % 窓面積 [m2]
@@ -254,7 +254,7 @@ for iAHU = 1:numOfAHUsTemp
     ahueleEfra(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.ReturnFanPower,0);   % 還気ファン消費電力
     ahueleEfoa(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirFanPower,0);   % 外気ファン消費電力
     ahueleEfex(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.ExitFanPower,0);     % 排気ファン消費電力
-        
+    
     ahueleFlowControl{iAHU}        = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.FlowControl;            % 風量制御
     ahueleMinDamperOpening(iAHU)   = mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.MinDamperOpening,1);       % VAV最小開度
     ahueleOACutCtrl{iAHU}          = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirCutControl;   % 外気カット制御
@@ -262,7 +262,7 @@ for iAHU = 1:numOfAHUsTemp
     
     ahueleHeatExchangeCtrl{iAHU}   = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchanger;          % 全熱交換機制御
     ahueleHeatExchangeBypass{iAHU} = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerBypass;    % 全熱交バイパス有無
-
+    
     ahueleHeatExchangeEff(iAHU)    = mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerEfficiency,0);  % 全熱交効率
     ahueleHeatExchangePower(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerPower,0);     % 全熱交動力
     ahueleHeatExchangeVolume(iAHU) = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerVolume,0);    % 全熱交風量
@@ -285,7 +285,7 @@ if isfield(INPUT.AirConditioningSystem,'SecondaryPumpSet')
     pumpMode         = cell(1,numOfPumps);
     
     for iPUMP = 1:numOfPumps/2
-               
+        
         % 10台以上あれば警告
         if length(INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).SecondaryPump) > 10
             disp('二次ポンプが10台以上あります。')
@@ -309,7 +309,7 @@ if isfield(INPUT.AirConditioningSystem,'SecondaryPumpSet')
         pumpQuantityCtrl{2*iPUMP}   = INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).ATTRIBUTE.QuantityControl; % ポンプ台数制御
         
         % 各ポンプの設定
-        for iPUMPSUB = 1:pumpsetPnum(2*iPUMP-1)      
+        for iPUMPSUB = 1:pumpsetPnum(2*iPUMP-1)
             for rr = 1:10
                 if INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).SecondaryPump(iPUMPSUB).ATTRIBUTE.Order == rr
                     pumpsubCount  = mytfunc_null2value(INPUT.AirConditioningSystem.SecondaryPumpSet(iPUMP).SecondaryPump(iPUMPSUB).ATTRIBUTE.Count,0);           % ポンプ台数
@@ -335,24 +335,25 @@ end
 %----------------------------------
 % 熱源のパラメータ
 
-numOfRefs = 2*length(INPUT.AirConditioningSystem.HeatSourceSet);
+numOfRefs = 2*length(INPUT.AirConditioningSystem.HeatSourceSet);  % numOfRefs: 熱源群の数
 
-refsetID           = cell(1,numOfRefs);
-refsetMode         = cell(1,numOfRefs);
-refsetSupplyMode   = cell(1,numOfRefs);
-refsetStorage      = cell(1,numOfRefs);
-refsetQuantityCtrl = cell(1,numOfRefs);
-refsetRnum         = zeros(1,numOfRefs);
-refset_Count       = zeros(numOfRefs,3);
-refset_Type        = cell(numOfRefs,3);
-refset_Capacity    = zeros(numOfRefs,3);
-refset_MainPower   = zeros(numOfRefs,3);
-refset_SubPower    = zeros(numOfRefs,3);
-refset_PrimaryPumpPower = zeros(numOfRefs,3);
-refset_CTCapacity       = zeros(numOfRefs,3);
-refset_CTFanPower       = zeros(numOfRefs,3);
-refset_CTPumpPower      = zeros(numOfRefs,3);
-refset_SupplyTemp       = zeros(numOfRefs,3);
+refsetID           = cell(1,numOfRefs);        % refsetID: 熱源群名称
+refsetMode         = cell(1,numOfRefs);        % refsetMode: 運転モード（Cooling or Heating)
+refsetSupplyMode   = cell(1,numOfRefs);        % refsetSupplyMode: 冷温同時供給の有無
+refsetStorage      = cell(1,numOfRefs);        % refsetStorage: 蓄熱制御方式
+refsetStorageSize  = zeros(1,numOfRefs);        % refsetStorageSize: 蓄熱槽容量 [MJ]
+refsetQuantityCtrl = cell(1,numOfRefs);        % refsetQuantityCtrl: 台数制御の有無
+refsetRnum         = zeros(1,numOfRefs);       % refsetRnum: 熱源群に属する熱源機の総台数
+refset_Count       = zeros(numOfRefs,10);      % refset_Count: 同種熱源機の台数
+refset_Type        = cell(numOfRefs,10);       % refset_Type: 熱源機の機種
+refset_Capacity    = zeros(numOfRefs,10);      % refset_Capacity: 熱源機器の定格能力
+refset_MainPower   = zeros(numOfRefs,10);      % refset_MainPower: 熱源主機の定格消費エネルギー
+refset_SubPower    = zeros(numOfRefs,10);      % refset_SubPower: 熱源補機の定格消費電力
+refset_PrimaryPumpPower = zeros(numOfRefs,10); % refset_PrimaryPumpPower: 一次ポンプの定格消費電力
+refset_CTCapacity       = zeros(numOfRefs,10); % refset_CTCapacity: 冷却塔定格能力
+refset_CTFanPower       = zeros(numOfRefs,10); % refset_CTFanPower: 冷却塔ファンの定格消費電力
+refset_CTPumpPower      = zeros(numOfRefs,10); % refset_CTPumpPower: 冷却塔ポンプの定格消費電力
+refset_SupplyTemp       = zeros(numOfRefs,10); % refset_SupplyTemp: 送水温度
 
 for iREF = 1:numOfRefs/2
     
@@ -360,13 +361,14 @@ for iREF = 1:numOfRefs/2
     refsetMode{2*iREF}           = 'Heating';             % 運転モード
     refsetID{2*iREF-1}           = strcat(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.Name,'_C');  % 熱源群名称
     refsetID{2*iREF}             = strcat(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.Name,'_H');  % 熱源群名称
-    refsetSupplyMode{2*iREF-1}   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.CHmode;  % 冷温同時供給の有無
-    refsetSupplyMode{2*iREF}     = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.CHmode;  % 冷温同時供給の有無
-    refsetStorage{2*iREF-1}      = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;   % 蓄熱制御
-    refsetStorage{2*iREF}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;   % 蓄熱制御
-    refsetQuantityCtrl{2*iREF-1} = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;  % 台数制御
-    refsetQuantityCtrl{2*iREF}   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;  % 台数制御
-    
+    refsetSupplyMode{2*iREF-1}   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.CHmode;             % 冷温同時供給の有無
+    refsetSupplyMode{2*iREF}     = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.CHmode;             % 冷温同時供給の有無
+    refsetQuantityCtrl{2*iREF-1} = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;     % 台数制御
+    refsetQuantityCtrl{2*iREF}   = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.QuantityConrol;     % 台数制御
+    refsetStorage{2*iREF-1}      = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;        % 蓄熱制御
+    refsetStorage{2*iREF}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;        % 蓄熱制御
+    refsetStorageSize(2*iREF-1)  = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageSize,0);        % 蓄熱容量 [MJ]
+    refsetStorageSize(2*iREF)    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageSize,0);        % 蓄熱容量 [MJ]
     
     if length(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource) > 10
         disp('熱源機器が10台以上あります。')
@@ -382,44 +384,114 @@ for iREF = 1:numOfRefs/2
         for rr = 1:10
             % 冷房
             if INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Cooling == rr
-                refset_Count(2*iREF-1,rr)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Cooling,0);      % 台数
-                refset_Type{2*iREF-1,rr}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
-                refset_Capacity(2*iREF-1,rr)         = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Cooling,0);   % 定格能力
-                refset_MainPower(2*iREF-1,rr)        = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.MainPower_Cooling,0);  % 定格消費エネルギー
-                refset_SubPower(2*iREF-1,rr)         = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Cooling,0);   % 定格補機電力
-                refset_PrimaryPumpPower(2*iREF-1,rr) = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Cooling,0);  % 一次ポンプ定格電力
-                refset_CTCapacity(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTCapacity_Cooling,0);  % 冷却塔能力
-                refset_CTFanPower(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTFanPower_Cooling,0);  % 冷却塔ファン電力
-                refset_CTPumpPower(2*iREF-1,rr)      = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
-                refset_SupplyTemp(2*iREF-1,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Cooling,0);   % 送水温度（冷房）
+                refset_Count(2*iREF-1,rr)      ...
+                    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Cooling,0);      % 台数
+                refset_Type{2*iREF-1,rr}       ...
+                    = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
+                refset_Capacity(2*iREF-1,rr)   ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Cooling,0);   % 定格能力
+                refset_MainPower(2*iREF-1,rr)  ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.MainPower_Cooling,0);  % 定格消費エネルギー
+                refset_SubPower(2*iREF-1,rr)   ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Cooling,0);   % 定格補機電力
+                refset_PrimaryPumpPower(2*iREF-1,rr) ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Cooling,0);  % 一次ポンプ定格電力
+                refset_CTCapacity(2*iREF-1,rr) ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTCapacity_Cooling,0);  % 冷却塔能力
+                refset_CTFanPower(2*iREF-1,rr) ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTFanPower_Cooling,0);  % 冷却塔ファン電力
+                refset_CTPumpPower(2*iREF-1,rr) ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
+                refset_SupplyTemp(2*iREF-1,rr) ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Cooling,0);   % 送水温度（冷房）
             end
         end
         
         % 暖房
         for rr = 1:10
             if INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Order_Heating == rr
-                refset_Count(2*iREF,rr)       = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Heating,0);      % 台数
-                refset_Type{2*iREF,rr}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
-                refset_Capacity(2*iREF,rr)         = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Heating,0);   % 定格能力
-                refset_MainPower(2*iREF,rr)        = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.MainPower_Heating,0);  % 定格消費エネルギー
-                refset_SubPower(2*iREF,rr)         = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Heating,0);   % 定格補機電力
-                refset_PrimaryPumpPower(2*iREF,rr) = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
-                refset_SupplyTemp(2*iREF,rr)       = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Heating,0);   % 送水温度（暖房）
-                
+                refset_Count(2*iREF,rr)       ...
+                    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Count_Heating,0);      % 台数
+                refset_Type{2*iREF,rr}        ...
+                    = INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Type;       % 熱源機種
+                refset_Capacity(2*iREF,rr)    ...
+                    = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.Capacity_Heating,0);   % 定格能力
+                refset_MainPower(2*iREF,rr)   ...
+                    = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.MainPower_Heating,0);  % 定格消費エネルギー
+                refset_SubPower(2*iREF,rr)    ...
+                    = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SubPower_Heating,0);   % 定格補機電力
+                refset_PrimaryPumpPower(2*iREF,rr) ...
+                    = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
+                refset_SupplyTemp(2*iREF,rr)  ...
+                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Heating,0);   % 送水温度（暖房）
             end
         end
     end
-    
-    % 暫定措置(送水温度平均をとる)
-    refsetSupplyTemp(2*iREF-1) = mean(refset_SupplyTemp(2*iREF-1,:));
-    refsetSupplyTemp(2*iREF)   = mean(refset_SupplyTemp(2*iREF,:));
-    
+        
 end
 
 
-
-
-
-
+% 蓄熱ありで「放熱」モードである場合
+% 熱源機種に熱交換機(HEX)があるかを検索し、なければ追加。
+% さらに運転順位を1つずつずらす。
+for iREF = 1:numOfRefs
+       
+    if strcmp(refsetStorage(iREF),'Discharge')
+        
+        % 蓄熱容量が空白であった場合は検索して代入
+        if refsetStorageSize(iREF) == 0
+            for iDB = 1:numOfRefs
+                if strcmp(refsetID(iDB),refsetID(iREF)) && strcmp(refsetStorage(iDB),'Charge')
+                    refsetStorageSize(iREF) = refsetStorageSize(iDB);
+                end
+            end
+        end
+        
+        check = 0;
+        for iREFSUB = 1:length(refset_Type(iREF,:))
+            if strcmp(refset_Type(iREF,iREFSUB),'HEX')
+                
+                % 熱交換機の大きさをチェック
+                tmpCapacity = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8時間運転した際のkW
+                if refset_Capacity(iREF,iREFSUB) > tmpCapacity
+                    refset_Capacity(iREF,iREFSUB) = tmpCapacity;
+                end
+                check = 1;
+            end
+        end
+        
+        % 放熱用装置が無い場合
+        if check == 0
+            
+            refset_Count(iREF,2:11)       = refset_Count(iREF,1:10);
+            refset_Type(iREF,2:11)        = refset_Type(iREF,1:10);
+            refset_Capacity(iREF,2:11)    = refset_Capacity(iREF,1:10);
+            refset_MainPower(iREF,2:11)   = refset_MainPower(iREF,1:10);
+            refset_SubPower(iREF,2:11)    = refset_SubPower(iREF,1:10);
+            refset_PrimaryPumpPower(iREF,2:11) = refset_PrimaryPumpPower(iREF,1:10);
+            refset_CTCapacity(iREF,2:11)  = refset_CTCapacity(iREF,1:10);
+            refset_CTFanPower(iREF,2:11)  = refset_CTFanPower(iREF,1:10);
+            refset_CTPumpPower(iREF,2:11) = refset_CTPumpPower(iREF,1:10);
+            refset_SupplyTemp(iREF,2:11)  = refset_SupplyTemp(iREF,1:10);
+            
+            % 仮想熱交換機を追加
+            refset_Count(iREF,1)       = 1;
+            refset_Type{iREF,1}        = 'HEX';
+            refset_Capacity(iREF,1)    = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8時間運転した際のkW
+            refset_MainPower(iREF,1)   = 0;
+            refset_SubPower(iREF,1)    = 0;
+            refset_PrimaryPumpPower(iREF,1) = 0;
+            refset_CTCapacity(iREF,1)  = 0;
+            refset_CTFanPower(iREF,1)  = 0;
+            refset_CTPumpPower(iREF,1) = 0;
+            if strcmp(refsetMode(iREF),'Cooling')
+                refset_SupplyTemp(iREF,1)  = 7;
+            elseif strcmp(refsetMode(iREF),'Heating')
+                refset_SupplyTemp(iREF,1)  = 42;
+            end
+            
+        end
+    end
+end
 
 

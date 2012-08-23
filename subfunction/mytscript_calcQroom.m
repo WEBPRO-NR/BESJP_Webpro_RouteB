@@ -358,8 +358,10 @@ for iROOM = 1:numOfRoooms
                             end
                             
                             Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_H;  % –éŠÔ•úŽË(365“ú•ª)
+                            
                         case 'Shade'
                             % ‰½‚à‚µ‚È‚¢
+                            
                         otherwise
                             Qwind_T(:,iROOM) = Qwind_T(:,iROOM) + WindowUA.*(Toa_ave-TroomSP).*24;   % ŠÑ—¬”MŽæ“¾(365“ú•ª)
                             

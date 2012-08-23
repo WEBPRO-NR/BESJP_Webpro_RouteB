@@ -1,5 +1,5 @@
 % mytfunc_readDBfiles.m
-%                                                  2012/01/01 by Masato Miyata
+%                                                  2012/08/23 by Masato Miyata
 %------------------------------------------------------------------------------
 % 省エネ基準ルートB：データベースファイルを読み込む
 %------------------------------------------------------------------------------
@@ -16,6 +16,9 @@ DB_RoomOpeCondition = textread(filename_roomOperateCondition,'%s','delimiter','\
 DB_refList = textread(filename_refList,'%s','delimiter','\n','whitespace','');
 % データベースファイル読込み（熱源機器特性）
 DB_refCurve = textread(filename_performanceCurve,'%s','delimiter','\n','whitespace','');
+% データベースファイル読込み（搬送系の効果係数）
+DB_flowControl = textread(filename_flowControl,'%s','delimiter','\n','whitespace','');
+
 
 %----------------------------------
 % 地域ごとの季節区分の読み込み
@@ -115,5 +118,19 @@ for i=1:length(DB_refCurve)
     end
 end
 
-
+%----------------------------------
+% 搬送系の効果係数の読み込み
+for i=1:length(DB_flowControl)
+    conma = strfind(DB_flowControl{i},',');
+    for j = 1:length(conma)
+        if j == 1
+            perDB_flowControl{i,j} = DB_flowControl{i}(1:conma(j)-1);
+        elseif j == length(conma)
+            perDB_flowControl{i,j}   = DB_flowControl{i}(conma(j-1)+1:conma(j)-1);
+            perDB_flowControl{i,j+1} = DB_flowControl{i}(conma(j)+1:end);
+        else
+            perDB_flowControl{i,j} = DB_flowControl{i}(conma(j-1)+1:conma(j)-1);
+        end
+    end
+end
 

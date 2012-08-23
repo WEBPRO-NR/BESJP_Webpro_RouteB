@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-clear
-clc
-tic
-INPUTFILENAME = 'repair_ivb_new.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% tic
+% INPUTFILENAME = 'IBEC1_ivb_new.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -45,11 +45,13 @@ switch OutputOption
 end
 
 % 計算モード（1:newHASPによる時刻別計算、2:newHASPによる日別計算、3:簡略法による日別計算）
-MODE = 2;
-% 熱源方式（2:二管式、4:四管式）
-PIPE = 2;
+MODE = 3;
+
 % 負荷分割数（5か10）
 DivNUM = 10;
+
+% 蓄熱効率
+storageEff = 0.8;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
@@ -61,12 +63,13 @@ k_heatup = 0.84;
 %% 計算の設定
 
 % 各種データベース
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
+filename_calendar             = './database/CALENDAR.csv';    % カレンダー
+filename_ClimateArea          = './database/AREA.csv';        % 地域区分
+filename_RoomTypeList         = './database/ROOM_SPEC.csv';   % 室用途リスト
+filename_roomOperateCondition = './database/ROOM_COND.csv';   % 標準室使用条件
+filename_refList              = './database/REFLIST.csv';     % 熱源機器リスト
+filename_performanceCurve     = './database/REFCURVE.csv';    % 熱源特性
+filename_flowControl          = './database/FLOWCONTROL.csv'; % 搬送系の効果係数
 
 
 %% データベース読み込み
@@ -78,35 +81,19 @@ mytscript_readXMLSetting;  % XMLファイル読み込み
 disp('データベース読み込み完了')
 toc
 
-%% システム特性
-if DivNUM == 5
-    % 負荷マトリックス
-    mxL = [0.2,0.4,0.6,0.8,1.0,1.2];
-    % VAV効果係数
-    kfVAVeffi = [0.1,0.3,0.5,0.7,0.9,1.0].^2;
-    % VWV効果係数
-    kpVWVeffi = [0.1,0.3,0.5,0.7,0.9,1.0].^2;
-    
-elseif DivNUM == 10
-    
-    mxL = [0.1:0.1:1.0,1.2];
-    kfVAVeffi = [0.1:0.1:1.0,1.0].^2;
-    kpVWVeffi = [0.1:0.1:1.0,1.0].^2;
-    
-elseif DivNUM == 20
-    
-    mxL = [0.1:0.05:1.0,1.2];
-    kfVAVeffi = [0.1:0.05:1.0,1.0].^2;
-    kpVWVeffi = [0.1:0.05:1.0,1.0].^2;
-    
-else
-    error('分割数 %s は指定できません', int2str(DivNUM))
-end
 
+%% システム特性
+
+% 負荷マトリックス
+mxL = [1/DivNUM:1/DivNUM:1,1.2];
+
+% 平均負荷率aveL
 aveL = zeros(size(mxL));
 for iL = 1:length(mxL)
     if iL == 1
         aveL(iL) = mxL(iL)/2;
+    elseif iL == length(mxL)
+        aveL(iL) = 1.2;
     else
         aveL(iL) = mxL(iL-1) + (mxL(iL)-mxL(iL-1))/2;
     end
@@ -198,7 +185,7 @@ toc
 %%-----------------------------------------------------------------------------------------------------------
 %% １）室負荷の計算
 
-% 熱貫流率、日射侵入率、SCC、SCRの計算
+% 熱貫流率、日射侵入率、SCC、SCRの計算 (庇の効果は見込んでいない)
 [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList]...
     = mytfunc_calcK(0);
 % 熱貫流率×外皮面積
@@ -366,7 +353,6 @@ MxAHUc    = zeros(numOfAHUs,length(mxL));
 MxAHUh    = zeros(numOfAHUs,length(mxL));
 MxAHUcE   = zeros(numOfAHUs,length(mxL));
 MxAHUhE   = zeros(numOfAHUs,length(mxL));
-AHUvavfac = ones(numOfAHUs,length(mxL));
 AHUaex    = zeros(1,numOfAHUs);
 
 for iAHU = 1:numOfAHUs
@@ -374,25 +360,26 @@ for iAHU = 1:numOfAHUs
     switch MODE
         case {1}
             % 時刻別計算の場合
-            [MxAHUc(iAHU,:),MxAHUh(iAHU,:)] = ...
-                mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],PIPE,WIN,MID,SUM,mxL);
+                  [MxAHUc(iAHU,:),MxAHUh(iAHU,:)] = ...
+                mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],AHUCHmode(iAHU),WIN,MID,SUM,mxL);     
             
         case {2,3}
             % 日単位の計算の場合
             [MxAHUc(iAHU,:),MxAHUh(iAHU,:)] = ...
                 mytfunc_matrixAHU(MODE,Qahu_c(:,iAHU),ahuQcmax(iAHU),Tahu_c(:,iAHU),...
-                Qahu_h(:,iAHU),ahuQhmax(iAHU),Tahu_h(:,iAHU),PIPE,WIN,MID,SUM,mxL);
+                Qahu_h(:,iAHU),ahuQhmax(iAHU),Tahu_h(:,iAHU),AHUCHmode(iAHU),WIN,MID,SUM,mxL);
+            
     end
-    
+          
     % CAVかVAVか
-    if ahuFanVAV(iAHU) == 1
-        AHUvavfac(iAHU,:) = kfVAVeffi;
+    if ahuFanVAV(iAHU) == 1        
         for i=1:length(mxL)
             if aveL(length(mxL)+1-i) < ahuFanVAVmin(iAHU) % VAV最小開度
                 AHUvavfac(iAHU,length(mxL)+1-i) = AHUvavfac(iAHU,length(mxL)+1-i+1);
             end
         end
     end
+        
     % エネルギー計算（空調機ファン） 出現時間 * 単位エネルギー [MWh]
     MxAHUcE(iAHU,:) = MxAHUc(iAHU,:).* ahuEfan(iAHU).*AHUvavfac(iAHU,:)./1000;
     MxAHUhE(iAHU,:) = MxAHUh(iAHU,:).* ahuEfan(iAHU).*AHUvavfac(iAHU,:)./1000;
@@ -414,62 +401,28 @@ ThAHU = sum(MxAHUh,2);
 %------------------------------
 % 二管式/四管式の処理（未処理負荷を0にする）
 
-% 未処理負荷 [MJ/day]
-if PIPE == 2
-    switch MODE
-        case {1}
-            
-            Qahu_remainChour = zeros(8760,numOfAHUs);
-            Qahu_remainHhour = zeros(8760,numOfAHUs);
-            
-            for iAHU = 1:numOfAHUs
-                for dd = 1:365
-                    for hh = 1:24
-                        
-                        num = 24*(dd-1)+hh;
-                        
-                        if ModeOpe(dd,1) == -1  % 暖房モード
-                            if Qahu_hour(num,iAHU) > 0
-                                Qahu_remainChour(num,iAHU) = Qahu_remainChour(num,iAHU) + Qahu_hour(num,iAHU);
-                                Qahu_hour(num,iAHU) = 0;
-                            end
-                        elseif ModeOpe(dd,1) == 1  % 冷房モード
-                            if Qahu_hour(num,iAHU) < 0
-                                Qahu_remainHhour(num,iAHU) = Qahu_remainHhour(num,iAHU) + Qahu_hour(num,iAHU);
-                                Qahu_hour(num,iAHU) = 0;
-                            end
-                        else
-                            error('運転モード ModeOpe が不正です。')
-                        end
-                        
-                    end
-                end
-            end
-            
-        case {2,3}
-            
-            Qahu_remainC = zeros(365,numOfAHUs);
-            Qahu_remainH = zeros(365,numOfAHUs);
-            
-            for iAHU = 1:numOfAHUs
-                for dd = 1:365
+% 未処理負荷 [MJ/day] の集計
+switch MODE
+    case {1}
+        
+        Qahu_remainChour = zeros(8760,numOfAHUs);
+        Qahu_remainHhour = zeros(8760,numOfAHUs);
+        
+        for iAHU = 1:numOfAHUs
+            for dd = 1:365
+                for hh = 1:24
+                    
+                    num = 24*(dd-1)+hh;
+                    
                     if ModeOpe(dd,1) == -1  % 暖房モード
-                        if Qahu_c(dd,iAHU) > 0
-                            Qahu_remainC(dd,iAHU) = Qahu_remainC(dd,iAHU) + abs(Qahu_c(dd,iAHU));
-                            Qahu_c(dd,iAHU) = 0;
-                        end
-                        if Qahu_h(dd,iAHU) > 0
-                            Qahu_remainC(dd,iAHU) = Qahu_remainC(dd,iAHU) + abs(Qahu_h(dd,iAHU));
-                            Qahu_h(dd,iAHU) = 0;
+                        if Qahu_hour(num,iAHU) > 0  && AHUCHmode_H(iAHU) == 0
+                            Qahu_remainChour(num,iAHU) = Qahu_remainChour(num,iAHU) + Qahu_hour(num,iAHU);
+                            Qahu_hour(num,iAHU) = 0;
                         end
                     elseif ModeOpe(dd,1) == 1  % 冷房モード
-                        if Qahu_c(dd,iAHU) < 0
-                            Qahu_remainH(dd,iAHU) = Qahu_remainH(dd,iAHU) + abs(Qahu_c(dd,iAHU));
-                            Qahu_c(dd,iAHU) = 0;
-                        end
-                        if Qahu_h(dd,iAHU) < 0
-                            Qahu_remainH(dd,iAHU) = Qahu_remainH(dd,iAHU) + abs(Qahu_h(dd,iAHU));
-                            Qahu_h(dd,iAHU) = 0;
+                        if Qahu_hour(num,iAHU) < 0  && AHUCHmode_C(iAHU) == 0
+                            Qahu_remainHhour(num,iAHU) = Qahu_remainHhour(num,iAHU) + Qahu_hour(num,iAHU);
+                            Qahu_hour(num,iAHU) = 0;
                         end
                     else
                         error('運転モード ModeOpe が不正です。')
@@ -477,7 +430,39 @@ if PIPE == 2
                     
                 end
             end
-    end
+        end
+        
+    case {2,3}
+        
+        Qahu_remainC = zeros(365,numOfAHUs);
+        Qahu_remainH = zeros(365,numOfAHUs);
+        
+        for iAHU = 1:numOfAHUs
+            for dd = 1:365
+                if ModeOpe(dd,1) == -1  % 暖房モード
+                    if Qahu_c(dd,iAHU) > 0 && AHUCHmode_H(iAHU) == 0
+                        Qahu_remainC(dd,iAHU) = Qahu_remainC(dd,iAHU) + abs(Qahu_c(dd,iAHU));
+                        Qahu_c(dd,iAHU) = 0;
+                    end
+                    if Qahu_h(dd,iAHU) > 0 && AHUCHmode_H(iAHU) == 0
+                        Qahu_remainC(dd,iAHU) = Qahu_remainC(dd,iAHU) + abs(Qahu_h(dd,iAHU));
+                        Qahu_h(dd,iAHU) = 0;
+                    end
+                elseif ModeOpe(dd,1) == 1  % 冷房モード
+                    if Qahu_c(dd,iAHU) < 0  && AHUCHmode_C(iAHU) == 0
+                        Qahu_remainH(dd,iAHU) = Qahu_remainH(dd,iAHU) + abs(Qahu_c(dd,iAHU));
+                        Qahu_c(dd,iAHU) = 0;
+                    end
+                    if Qahu_h(dd,iAHU) < 0   && AHUCHmode_C(iAHU) == 0
+                        Qahu_remainH(dd,iAHU) = Qahu_remainH(dd,iAHU) + abs(Qahu_h(dd,iAHU));
+                        Qahu_h(dd,iAHU) = 0;
+                    end
+                else
+                    error('運転モード ModeOpe が不正です。')
+                end
+                
+            end
+        end
 end
 
 
@@ -830,14 +815,36 @@ switch MODE
                 end
             end
             
-            for num = 1:8760
-                if Qref_hour(num,iREF) > QrefrMax(iREF)
-                    Qref_OVER_hour(num,iREF) = Qref_hour(num,iREF)*3600/1000;
+            % 熱源運転時間を求める
+            opetimeTemp = zeros(365,1);
+            for dd = 1:365
+                count = 0;
+                for hh = 1:24
+                    if Qref_hour(24*(dd-1)+hh,iREF) > 0
+                        count = count + 1;
+                    end
                 end
+                opetimeTemp(dd) = count;
             end
             
+            for dd = 1:365
+                for hh = 1:24
+                    num = 24*(dd-1) + hh;
+                    
+                    % 蓄熱の場合: 熱損失量 [MJ/hour] を足す。損失量は 3%。
+                    if Qref_hour(num,iREF) > 0  && REFstorage(iREF) == 1
+                        Qref_hour(num,iREF) = Qref_hour(num,iREF) + refsetStorageSize(iREF)*0.03./opetimeTemp(dd);
+                    end
+                    
+                    % 過負荷分を抜き出す [MJ/hour]
+                    if Qref_hour(num,iREF) > QrefrMax(iREF)
+                        Qref_OVER_hour(num,iREF) = (Qref_hour(num,iREF)-QrefrMax(iREF)) *3600/1000;
+                    end
+                    
+                end
+            end
         end
-        
+
     case {2,3}
         
         Qref          = zeros(365,numOfRefs);    % 日積算熱源負荷 [MJ/day]
@@ -876,22 +883,29 @@ switch MODE
                         end
                 end
                 
-                % 熱源運転時間
+                % 熱源運転時間（ポンプ運転時間の和集合）
                 [Tref(:,iREF),refTime_Start(:,iREF),refTime_Stop(:,iREF)] =...
                     mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpTime_Start,pumpTime_Stop);
+
                 
                 % 平均負荷[kW]と過負荷量を求める。
                 for dd = 1:365
                     
+                    % 蓄熱の場合: 熱損失量 [MJ/day] を足す。損失量は 蓄熱槽容量の3%。
+                    if Tref(dd,iREF) > 0  && REFstorage(iREF) == 1
+                        Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;
+                    end
+                    
+                    % 平均負荷 [kW]
                     if Tref(dd,iREF) == 0
                         Qref_kW(dd,iREF) = 0;
                     else
                         Qref_kW(dd,iREF) = Qref(dd,iREF)./Tref(dd,iREF).*1000./3600;
                     end
                     
-                    % 過負荷分を足す [MJ/day]
+                    % 過負荷分を集計 [MJ/day]
                     if Qref_kW(dd,iREF) > QrefrMax(iREF)
-                        Qref_OVER(dd,iREF) = Qref_kW(dd,iREF).*Tref(dd,iREF)*3600/1000;
+                        Qref_OVER(dd,iREF) = (Qref_kW(dd,iREF)-QrefrMax(iREF)).*Tref(dd,iREF)*3600/1000;
                     end
                 end
                 
@@ -910,10 +924,10 @@ MxREFnum  = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFxL   = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFperE = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREF_E   = zeros(numOfRefs,length(mxL));
-MxREFSUBperE = zeros(length(ToadbC),length(mxL),numOfRefs,3);
-MxREFSUBE = zeros(numOfRefs,3,length(mxL));
-Qrefr_mod = zeros(numOfRefs,3,length(ToadbC));
-Erefr_mod = zeros(numOfRefs,3,length(ToadbC));
+MxREFSUBperE = zeros(length(ToadbC),length(mxL),numOfRefs,10);
+MxREFSUBE = zeros(numOfRefs,10,length(mxL));
+Qrefr_mod = zeros(numOfRefs,10,length(ToadbC));
+Erefr_mod = zeros(numOfRefs,10,length(ToadbC));
 
 
 for iREF = 1:numOfRefs
@@ -933,6 +947,30 @@ for iREF = 1:numOfRefs
             else
                 MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTH,mxL);  % 暖房
             end
+    end
+    
+    % 蓄熱の場合のマトリックス操作（負荷率１に集約＋外気温を１レベル変える）
+    if REFstorage(iREF) == 1
+        for iX = 1:length(ToadbC)
+            timeQmax = 0;
+            for iY = 1:length(aveL)
+                timeQmax = timeQmax + aveL(iY)*MxREF(iX,iY,iREF);
+                MxREF(iX,iY,iREF) = 0;
+            end
+            % 全負荷相当運転時間 [hour]
+            MxREF(iX,length(aveL)-1,iREF) = timeQmax./(aveL(length(aveL)-1));
+        end
+        
+        % 外気温をシフト
+        for iX = 1:length(ToadbC)
+            if iX == 1
+                MxREF(iX,:,iREF) = MxREF(iX,:,iREF) + MxREF(iX+1,:,iREF);
+            elseif iX == length(ToadbC)
+                MxREF(iX,:,iREF) = zeros(1,length(aveL));
+            else
+                MxREF(iX,:,iREF) = MxREF(iX+1,:,iREF);
+            end
+        end
     end
     
     
@@ -1028,12 +1066,12 @@ for iREF = 1:numOfRefs
                 end
                 
                 % 送水温度特性
-                if TC(iREF) < RerPerC_w_min(iREF,iREFSUB)
+                if refset_SupplyTemp(iREF,iREFSUB) < RerPerC_w_min(iREF,iREFSUB)
                     TCtmp = RerPerC_w_min(iREF,iREFSUB);
-                elseif TC(iREF) > RerPerC_w_max(iREF,iREFSUB)
+                elseif refset_SupplyTemp(iREF,iREFSUB) > RerPerC_w_max(iREF,iREFSUB)
                     TCtmp = RerPerC_w_max(iREF,iREFSUB);
                 else
-                    TCtmp = TC(iREF);
+                    TCtmp = refset_SupplyTemp(iREF,iREFSUB);
                 end
                 
                 coeff_tw(iREFSUB) = RerPerC_w_coeffi(iREF,iREFSUB,1).*TCtmp.^4 + ...
@@ -1151,11 +1189,11 @@ switch MODE
         tmpQcpeak = zeros(8760,1);
         tmpQhpeak = zeros(8760,1);
         for iREF = 1:numOfRefs
-            if REFtype(iREF) == 1  % 冷房 [kW]→[MJ/day]
+            if REFtype(iREF) == 1 &&  REFstorage(iREF) ~= -1 % 冷房 [kW]→[MJ/day]
                 Qctotal = Qctotal + sum(Qref_hour(:,iREF)).*3600./1000;
                 Qcover = Qcover + sum(Qref_OVER_hour(:,iREF));
                 tmpQcpeak = tmpQcpeak + Qref_hour(:,iREF);
-            else
+            elseif REFtype(iREF) == 2 &&  REFstorage(iREF) ~= -1
                 Qhtotal = Qhtotal + sum(Qref_hour(:,iREF)).*3600./1000;
                 Qhover = Qhover + sum(Qref_OVER_hour(:,iREF));
                 tmpQhpeak = tmpQhpeak + Qref_hour(:,iREF);
@@ -1168,11 +1206,11 @@ switch MODE
         tmpQhpeak = zeros(365,1);
         
         for iREF = 1:numOfRefs
-            if REFtype(iREF) == 1  % 冷房 [MJ/day]
+            if REFtype(iREF) == 1 &&  REFstorage(iREF) ~= -1  % 冷房 [MJ/day] で追い掛け運転ではない場合
                 Qctotal = Qctotal + sum(Qref(:,iREF));
                 Qcover = Qcover + sum(Qref_OVER(:,iREF));
                 tmpQcpeak = tmpQcpeak + Qref_kW(:,iREF);
-            else
+            elseif REFtype(iREF) == 2 &&  REFstorage(iREF) ~= -1  % 冷房 [MJ/day] で追い掛け運転ではない場合
                 Qhtotal = Qhtotal + sum(Qref(:,iREF));
                 Qhover = Qhover + sum(Qref_OVER(:,iREF));
                 tmpQhpeak = tmpQhpeak + Qref_kW(:,iREF);
@@ -1352,7 +1390,7 @@ eval(['rfcS = [rfcS;''全負荷相当運転時間(冷)： ', num2str(y(27)) ,'  時間''];'])
 eval(['rfcS = [rfcS;''全負荷相当運転時間(暖)： ', num2str(y(28)) ,'  時間''];'])
 rfcS = [rfcS;'---------'];
 eval(['rfcS = [rfcS;''熱損失係数*　 ： ', num2str(y(21)) ,'  W/m2・K''];'])
-eval(['rfcS = [rfcS;''日射取得係数* ： ', num2str(y(22)) ,'  ''];'])
+eval(['rfcS = [rfcS;''夏季日射取得係数* ： ', num2str(y(22)) ,'  ''];'])
 eval(['rfcS = [rfcS;''熱源容量（冷）： ', num2str(y(23)) ,'  W/m2''];'])
 eval(['rfcS = [rfcS;''熱源容量（暖）： ', num2str(y(24)) ,'  W/m2''];'])
 rfcS = [rfcS;'---------'];

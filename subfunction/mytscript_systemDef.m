@@ -257,10 +257,10 @@ for iAHU = 1:numOfAHUs
     % 一致するユニットを探索
     for iAHUELE = 1:numOfAHUsTemp
         if strcmp(ahuID(iAHU),ahueleID(iAHUELE))
-
+            
             switch ahueleType{iAHUELE}
                 case {'AHU','FCU','UNIT'}
-                                        
+                    
                     % AHUtype
                     if isempty(ahueleType{iAHUELE}) == 0
                         switch ahueleType{iAHUELE}
@@ -289,23 +289,47 @@ for iAHU = 1:numOfAHUs
                     % VAV制御
                     if isempty(ahueleFlowControl{iAHUELE}) == 0
                         switch ahueleFlowControl{iAHUELE}
-                            case 'CAV'
+                            case {'CAV','Null'}
                                 ahuFlowControl{iAHU} = '定風量';
                                 ahuFanVAV(iAHU)    = 0;
                                 ahuFanVAVmin(iAHU) = 1;
-                            case 'VAV'
+                                AHUvavfac(iAHU,:) = ones(1,length(aveL));
+                                
+                            otherwise
                                 ahuFlowControl{iAHU} = '変風量';
                                 ahuFanVAV(iAHU) = 1;
+                                
+                                % 効果係数 AHUvavfac
+                                check = 0;
+                                for iDB = 2:size(perDB_flowControl,1)
+                                    if strcmp(perDB_flowControl(iDB,2),ahueleFlowControl(iAHUELE))
+                                        
+                                        a4 = str2double(perDB_flowControl(iDB,4));
+                                        a3 = str2double(perDB_flowControl(iDB,5));
+                                        a2 = str2double(perDB_flowControl(iDB,6));
+                                        a1 = str2double(perDB_flowControl(iDB,7));
+                                        a0 = str2double(perDB_flowControl(iDB,8));
+                                        
+                                        AHUvavfac(iAHU,:) = a4 .* aveL.^4 + a3 .* aveL.^3 + a2 .* aveL.^2 + a1 .* aveL + a0;
+                                        check = 1;
+                                    end
+                                end
+                                
                                 if ahueleMinDamperOpening(iAHUELE) >= 0 && ahueleMinDamperOpening(iAHUELE) <= 1
                                     ahuFanVAVmin(iAHU) = ahueleMinDamperOpening(iAHUELE);  % VAV最小風量比 [-]
                                 else
                                     error('VAV最小開度の設定が不正です')
                                 end
-                            otherwise
-                                error('XMLファイルが不正です')
+                                
+                                if check == 0
+                                    error('XMLファイルが不正です')
+                                end
                         end
+                        
                     else
                         ahuFlowControl{iAHU} = '定風量';
+                        ahuFanVAV(iAHU)    = 0;
+                        ahuFanVAVmin(iAHU) = 1;
                     end
                     
                     
@@ -322,7 +346,7 @@ for iAHU = 1:numOfAHUs
                                 error('XMLファイルが不正です')
                         end
                     else
-                         ahuOACutCtrl{iAHU} = '無';   
+                        ahuOACutCtrl{iAHU} = '無';
                     end
                     
                     % 外気冷房
@@ -443,7 +467,7 @@ for iAHU = 1:numOfAHUs
     ahuATF_H(iAHU)      = ahuQhmax(iAHU)/ahuEfan(iAHU); % 冷房時ATF(暖房能力／ファン動力）
     ahuFratio(iAHU)     = ahuEfan(iAHU)/ahuS(iAHU)*1000;     % 単位床面積あたりのファン電力 [W/m2]
     
-                                        
+    
     % ビルマル対応（仮想二次ポンプを自動追加）
     if strcmp(ahuPump_cooling{iAHU},'Null_C') % 冷水ポンプ
         
@@ -465,7 +489,7 @@ for iAHU = 1:numOfAHUs
             pumpMode{iPUMP}     = 'Cooling';             % ポンプ運転モード
             pumpdelT(iPUMP)     = 0;
             pumpQuantityCtrl{iPUMP} = 'False';            % 台数制御
-            pumpsetPnum(iPUMP)  = 0;
+            pumpsetPnum(iPUMP)  = 1;
             
             pumpFlow(iPUMP,1)     = 0;                     % ポンプ流量
             pumpPower(iPUMP,1)    = 0;                     % ポンプ定格電力
@@ -494,7 +518,7 @@ for iAHU = 1:numOfAHUs
             pumpMode{iPUMP}     = 'Heating';             % ポンプ運転モード
             pumpdelT(iPUMP)     = 0;
             pumpQuantityCtrl{iPUMP} = 'False';           % 台数制御
-            pumpsetPnum(iPUMP)  = 0;
+            pumpsetPnum(iPUMP)  = 1;
             
             pumpFlow(iPUMP,1)     = 0;                     % ポンプ流量
             pumpPower(iPUMP,1)    = 0;                     % ポンプ定格電力
@@ -505,15 +529,11 @@ for iAHU = 1:numOfAHUs
     
 end
 
-
 %----------------------------------
 % ポンプのパラメータ
 
 for iPUMP = 1:numOfPumps
-    
-    % 往還温度差 [K]
-%     Td_PUMP(iPUMP) = pumpdelT(iPUMP);
-    
+        
     % ポンプ運転モード
     switch pumpMode{iPUMP}
         case 'Cooling'
@@ -538,7 +558,7 @@ for iPUMP = 1:numOfPumps
         
         % VWV制御
         switch pumpFlowCtrl{iPUMP,iPUMPSUB}
-            case 'CWV'
+            case {'CWV', 'Null'}
                 PUMPvwv(iPUMP,iPUMPSUB) = 0;
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = 0;  % 4次の係数
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
@@ -546,21 +566,31 @@ for iPUMP = 1:numOfPumps
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 0;  % 切片
                 
-            case 'VWV'
-                PUMPvwv(iPUMP,iPUMPSUB) = 1;
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = 0;  % 4次の係数
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = 1;  % 2次の係数
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 0;  % 切片
-                
             otherwise
-                error('XMLファイルが不正です')
+                
+                PUMPvwv(iPUMP,iPUMPSUB) = 1;
+                
+                % 効果係数 Pump_VWVcoeffi
+                check = 0;
+                for iDB = 2:size(perDB_flowControl,1)
+                    if strcmp(perDB_flowControl(iDB,2),pumpFlowCtrl{iPUMP,iPUMPSUB})
+                        Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = str2double(perDB_flowControl(iDB,4));  % 4次の係数
+                        Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = str2double(perDB_flowControl(iDB,5));  % 3次の係数
+                        Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = str2double(perDB_flowControl(iDB,6));  % 2次の係数
+                        Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = str2double(perDB_flowControl(iDB,7));  % 1次の係数
+                        Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = str2double(perDB_flowControl(iDB,8));  % 切片
+                        check = 1;
+                    end
+                end
+                
+                % VWV時の最小流量
+                pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP);
+                
+                if check == 0
+                    error('XMLファイルが不正です')
+                end
         end
         
-        % VWV時の最小流量
-        pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP);        
-    
     end
     
     % 接続空調機
@@ -595,10 +625,10 @@ TC        = zeros(1,numOfRefs);  % 送水温度 [℃]
 REFnumctr = zeros(1,numOfRefs);  % 台数制御の有無（０：なし、１：あり）
 REFstrage = zeros(1,numOfRefs);  % 蓄熱制御の有無（０：なし、１：あり）
 refS      = zeros(1,numOfRefs);  % 熱源群別の空調面積 [m2]
-
+REFCHmode = zeros(1,numOfRefs);  % 冷暖同時運転の有無（０：なし、１：あり）
 
 xXratioMX = ones(numOfRefs,3).*NaN;
-    
+
 for iREF = 1:numOfRefs
     
     % 定格最大能力（全台数合計）
@@ -608,12 +638,20 @@ for iREF = 1:numOfRefs
     switch refsetMode{iREF}
         case 'Cooling'
             REFtype(iREF) = 1;
-            TC(iREF) = refsetSupplyTemp(iREF); % 送水温度 [℃]
         case 'Heating'
             REFtype(iREF) = 2;
-            TC(iREF) = refsetSupplyTemp(iREF); % 送水温度 [℃]
         otherwise
             error('熱源群の運転モード %s は不正です',refsetMode{iREF})
+    end
+    
+    % 冷暖同時運転
+    switch refsetSupplyMode{iREF}
+        case 'Both'
+            REFCHmode(iREF) = 1;
+        case 'Each'
+            REFCHmode(iREF) = 0;
+        otherwise
+            error('XMLファイルが不正です')
     end
     
     % 台数制御
@@ -628,10 +666,12 @@ for iREF = 1:numOfRefs
     
     % 蓄熱制御
     switch refsetStorage{iREF}
-        case 'True'
-            REFstrage(iREF) = 1;
-        case {'False','Null','None'}
-            REFstrage(iREF) = 0;
+        case 'Charge'
+            REFstorage(iREF) = 1;
+        case 'Discharge'
+            REFstorage(iREF) = -1;
+        case {'Null','None'}
+            REFstorage(iREF) = 0;
         otherwise
             error('XMLファイルが不正です')
     end
@@ -755,7 +795,7 @@ for iREF = 1:numOfRefs
                     PQname = '送水温度特性';
                 end
                 
-                % データベースから該当箇所を抜き出し：）
+                % データベースから該当箇所を抜き出し
                 paraQ = {};
                 for iDB = 1:size(refParaSetALL,1)
                     if strcmp(refParaSetALL(iDB,5),refsetMode{iREF}) && strcmp(refParaSetALL(iDB,6),PQname)
@@ -766,9 +806,9 @@ for iREF = 1:numOfRefs
                 % 値の抜き出し
                 tmpdata   = [];
                 tmpdataMX = [];
-                if isempty(paraQ) == 0                  
+                if isempty(paraQ) == 0
                     for iDBQ = 1:size(paraQ,1)
-      
+                        
                         % 機器特性データベース perDB_refCurve を探査
                         for iLIST = 2:size(perDB_refCurve,1)
                             if strcmp(paraQ(iDBQ,9),perDB_refCurve(iLIST,2))
@@ -850,6 +890,29 @@ for iREF = 1:numOfRefs
     end
     
 end
+
+
+
+% 各空調機が何管式か(0なら冷暖切替、1なら冷暖同時)
+AHUCHmode_C = zeros(numOfAHUs,1);
+AHUCHmode_H = zeros(numOfAHUs,1);
+AHUCHmode   = zeros(numOfAHUs,1);
+for iAHU = 1:numOfAHUs
+    for iDB = 1:numOfRefs
+        if strcmp(ahueleRef_cooling{iAHU},refsetID{iDB})
+            AHUCHmode_C(iAHU) = REFCHmode(iDB);
+        end
+        if strcmp(ahueleRef_heating{iAHU},refsetID{iDB})
+            AHUCHmode_H(iAHU) = REFCHmode(iDB);
+        end
+    end
+    
+    % 両方とも冷暖同時なら、その空調機は冷暖同時運転可能とする。
+    if AHUCHmode_C(iAHU) == 1 && AHUCHmode_H(iAHU) == 1
+        AHUCHmode(iAHU) = 1;
+    end
+end
+
 
 
 

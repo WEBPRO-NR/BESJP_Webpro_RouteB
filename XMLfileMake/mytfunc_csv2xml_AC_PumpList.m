@@ -131,7 +131,15 @@ for iPUMPSET = 1:length(PumpListName)
                 
                 % 流量制御方式
                 if isempty(pumpListDataCell{iDB,9})==0
-                    xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.FlowControl = pumpListDataCell(iDB,9);
+                    if strcmp(pumpListDataCell(iDB,9),'定流量制御')
+                        xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.FlowControl = 'CWV';
+                    elseif strcmp(pumpListDataCell(iDB,9),'ベーン制御')
+                        xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.FlowControl = 'VWV_Vane';
+                    elseif strcmp(pumpListDataCell(iDB,9),'回転数制御')
+                        xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.FlowControl = 'VWV_INV';
+                    else
+                        error('流量制御の設定が不正です。')
+                    end
                 else
                     xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.FlowControl = 'Null';
                 end

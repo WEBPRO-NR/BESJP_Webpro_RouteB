@@ -23,27 +23,49 @@ for i=1:length(refListData)
     end
 end
 
-% ‹ó”’‚Í’¼ã‚Ìî•ñ‚ð–„‚ß‚éB
+% iÅ‰‚Ì3—ñ‚Ìj‹ó”’‚Í’¼ã‚Ìî•ñ‚ð–„‚ß‚éB
 for iREF = 11:size(refListDataCell,1)
     if isempty(refListDataCell{iREF,1})
         if iREF == 11
             error('Å‰‚Ìs‚Í•K‚¸”MŒ¹ŒQƒR[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢')
         else
-            refListDataCell(iREF,1:7) = refListDataCell(iREF-1,1:7);
+            refListDataCell(iREF,1:3) = refListDataCell(iREF-1,1:3);
         end
     end
 end
 
-% ”MŒ¹ŒQƒŠƒXƒg‚ðì¬
+% i’~”MŠÖ˜Aj‹ó”’‚Í’¼ã‚Ìî•ñ‚ð–„‚ß‚éB
+for iREF = 11:size(refListDataCell,1)
+    if isempty(refListDataCell{iREF,4})
+        if iREF == 11
+            refListDataCell{iREF,4} = 'None';
+        else
+            refListDataCell(iREF,4) = refListDataCell(iREF-1,4);
+        end
+        
+    else
+        
+        if strcmp(refListDataCell(iREF,4),'’~”M')
+            refListDataCell{iREF,4} = 'Charge';
+        elseif strcmp(refListDataCell(iREF,4),'•ú”M')
+            refListDataCell{iREF,4} = 'Discharge';
+        else
+            refListDataCell{iREF,4} = 'None';
+        end
+        
+    end
+end
+
+
+%% ”MŒ¹ŒQƒŠƒXƒg(’~”Mƒ‚[ƒh•Ê)‚ðì¬
 RefListName = {};
 RefListCHmode = {};
 RefListQuantityConrol = {};
-RefListTempSupply_Cooling = {};
-RefListTempSupply_Heating = {};
 RefListThermalStorage_Mode = {};
 RefListThermalStorage_StorageSize = {};
 
 for iREF = 11:size(refListDataCell,1)
+    
     if isempty(RefListName)
         RefListName                       = refListDataCell(iREF,1);
         RefListCHmode                     = refListDataCell(iREF,2);
@@ -53,7 +75,7 @@ for iREF = 11:size(refListDataCell,1)
     else
         check = 0;
         for iDB = 1:length(RefListName)
-            if strcmp(refListDataCell(iREF,1),RefListName(iDB))
+            if strcmp(refListDataCell(iREF,1),RefListName(iDB)) && strcmp(refListDataCell(iREF,4),RefListThermalStorage_Mode(iDB))
                 % d•¡”»’è
                 check = 1;
             end
@@ -67,8 +89,10 @@ for iREF = 11:size(refListDataCell,1)
             RefListThermalStorage_StorageSize = [RefListThermalStorage_StorageSize; refListDataCell(iREF,5)];
         end
     end
+
 end
 
+% ”MŒ¹ŒQ‚Ìƒ‹[ƒv
 for iREFSET = 1:length(RefListName)
     
     % ŒQ‚Ì‘®«
@@ -86,14 +110,9 @@ for iREFSET = 1:length(RefListName)
         xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol = 'False';
     end
     
-    if strcmp(RefListThermalStorage_Mode(iREFSET,1),'’~”M')
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageMode = 'Charge';
-    elseif strcmp(RefListThermalStorage_Mode(iREFSET,1),'•ú”M')
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageMode = 'Discharge';
-    else
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageMode = 'None';
-    end
-    
+    % ’~”Mƒ‚[ƒh
+    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageMode = RefListThermalStorage_Mode(iREFSET,1);
+
     if isempty(RefListThermalStorage_StorageSize{iREFSET,1}) == 0
         xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageSize = RefListThermalStorage_StorageSize(iREFSET,1);
     else
@@ -103,7 +122,9 @@ for iREFSET = 1:length(RefListName)
     
     iCOUNT = 0;
     for iDB = 11:size(refListDataCell,1)
-        if strcmp(RefListName(iREFSET,1),refListDataCell(iDB,1))
+        
+        if strcmp(RefListName(iREFSET,1),refListDataCell(iDB,1)) && strcmp(RefListThermalStorage_Mode(iREFSET,1),refListDataCell(iDB,4)) 
+            
             iCOUNT = iCOUNT + 1;
             
             if strcmp(refListDataCell(iDB,6),'‹ó—âƒq[ƒgƒ|ƒ“ƒviƒXƒNƒŠƒ…[CƒXƒ‰ƒCƒh•Ùj') || ...
@@ -166,7 +187,7 @@ for iREFSET = 1:length(RefListName)
                 refListDataCell(iDB,6)
                 error('”MŒ¹Ží—Þ‚ª•s³‚Å‚·B')
             end
-            
+                        
             if isempty(refListDataCell{iDB,7}) == 0
                 if length(refListDataCell{iDB,7}) > 1 && strcmp(refListDataCell{iDB,7}(end-1:end),'”Ô–Ú')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = refListDataCell{iDB,7}(1:end-2);

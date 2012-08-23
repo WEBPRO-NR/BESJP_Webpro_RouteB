@@ -112,7 +112,19 @@ for iAHU = 11:size(ahuListDataCell,1)
         
         % 風量制御
         if isempty(ahuListDataCell{iAHU,11}) == 0
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = ahuListDataCell(iAHU,11);
+            if strcmp(ahuListDataCell(iAHU,11),'定風量制御')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'CAV';
+            elseif strcmp(ahuListDataCell(iAHU,11),'ダンパー制御')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'VAV_Damper';
+            elseif strcmp(ahuListDataCell(iAHU,11),'サクションベーン制御')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'VAV_Vane';
+            elseif strcmp(ahuListDataCell(iAHU,11),'可変ピッチ制御')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'VAV_Pitch';
+            elseif strcmp(ahuListDataCell(iAHU,11),'回転数制御')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'VAV_INV';
+            else
+                error('送風量制御の設定が不正です。')
+            end
         else
             xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.FlowControl = 'Null';
         end
