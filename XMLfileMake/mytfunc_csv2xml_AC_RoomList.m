@@ -123,11 +123,11 @@ for iZONE = 1:length(ZoneList_Name)
     
     % 空調機参照（室内負荷処理用）
     xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(1).ATTRIBUTE.Load = 'Room';
-    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(1).ATTRIBUTE.ID = ZoneList_AHUR(iZONE);
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(1).ATTRIBUTE.Name = ZoneList_AHUR(iZONE);
     
     % 空調機参照（外気処理用）
     xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(2).ATTRIBUTE.Load = 'OutsideAir';
-    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(2).ATTRIBUTE.ID = ZoneList_AHUO(iZONE);
+    xmldata.AirConditioningSystem.AirConditioningZone(iZONE).AirHandlingUnitRef(2).ATTRIBUTE.Name = ZoneList_AHUO(iZONE);
     
     Rcount = 0;
     for iDB = 11:size(roomDefDataCell,1)

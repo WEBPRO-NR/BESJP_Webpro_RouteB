@@ -225,34 +225,34 @@ for iAHU = 11:size(ahuListDataCell,1)
         
         % ポンプ接続（冷）
         if isempty(ahuListDataCell{iAHU,20}) == 0
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingID = ...
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingName = ...
                 strcat(ahuListDataCell(iAHU,20));
         else
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingID = 'Null';
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.CoolingName = 'Null';
         end
         
         % ポンプ接続（温）
         if isempty(ahuListDataCell{iAHU,21}) == 0
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingID = ...
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingName = ...
                 strcat(ahuListDataCell(iAHU,21));
         else
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingID = 'Null';
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).SecondaryPumpRef.ATTRIBUTE.HeatingName = 'Null';
         end
         
         % 熱源接続（冷）
         if isempty(ahuListDataCell{iAHU,22}) == 0
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingID = ...
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingName = ...
                 strcat(ahuListDataCell(iAHU,22));
         else
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingID = 'Null';
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.CoolingName = 'Null';
         end
         
         % 熱源接続（温）
         if isempty(ahuListDataCell{iAHU,23}) == 0
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingID = ...
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingName = ...
                 strcat(ahuListDataCell(iAHU,23));
         else
-            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingID = 'Null';
+            xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).HeatSourceSetRef.ATTRIBUTE.HeatingName = 'Null';
         end
        
         % 機器表の記号

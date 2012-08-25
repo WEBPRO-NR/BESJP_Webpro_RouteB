@@ -1,5 +1,5 @@
 % ECS_routeB_HW_run.m
-%                                          by Masato Miyata 2011/04/25
+%                                          by Masato Miyata 2011/08/24
 %----------------------------------------------------------------------
 % 省エネ基準：給湯計算プログラム
 %----------------------------------------------------------------------
@@ -16,7 +16,7 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = './repair_ivb_new2.xml';
+% inputfilename = './IBEC1_ivb_new.xml';
 % addpath('./subfunction/')
 % OutputOption = 'OFF';
 
@@ -49,14 +49,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
-% データベースファイル
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
 
 % データベース読み込み
 mytscript_readDBfiles;
@@ -145,38 +137,33 @@ end
 
 %% XMLファイルの読み込み
 
-for iROOM = 1:length(model.HotwaterSystems.HotwarterRoom)
-    
-    % 室ID
-    roomID{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.ID;
-    
+for iROOM = 1:length(model.HotwaterSystems.HotwaterRoom)
+       
     % 階
-    roomFloor{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomFloor;
+    roomFloor{iROOM} = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomFloor;
     % 室名
-    roomName{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomName;
+    roomName{iROOM} = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomName;
     % 建物用途
-    bldgType{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.BuildingType;
+    bldgType{iROOM} = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.BuildingType;
     % 室用途
-    roomType{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomType;
+    roomType{iROOM} = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomType;
     % 室面積 [m2]
-    roomArea(iROOM) = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomArea;
-    % 節水器具の有無
-    roomWsave{iROOM} = model.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving;
+    roomArea(iROOM) = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomArea;
     
-    % ボイラー接続
+    % ボイラー接続と節水器具の有無
     tmpHWequip = {};
-    for iREF = 1:length(model.HotwaterSystems.HotwarterRoom(iROOM).BoilerRef)
-        tmpHWequip = [tmpHWequip, model.HotwaterSystems.HotwarterRoom(iROOM).BoilerRef(iREF).ATTRIBUTE.ID];
+    tmpWSequip = {};
+    for iREF = 1:length(model.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef)
+        tmpHWequip = [tmpHWequip, model.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef(iREF).ATTRIBUTE.Name];
+        tmpWSequip = [tmpWSequip, model.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef(iREF).ATTRIBUTE.WaterSaving];
     end
     roomEquipSet{iROOM} = tmpHWequip;
-    
+    roomWsave{iROOM}    = tmpWSequip;
 end
 
 
 for iEQP = 1:length(model.HotwaterSystems.Boiler)
     
-    % 機器コード
-    equipID{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.ID;
     % 機器コード
     equipName{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Name;
     % 機器情報
@@ -331,15 +318,7 @@ for iROOM = 1:length(roomArea)
             
             % 標準日積算給湯量 [L/day]
             Qsr_daily(:,iROOM) = scheduleHW(:,iROOM).* Qsr_std(iROOM);
-            
-            % 節湯を考慮した日積算給湯量[L/day]
-            if strcmp(roomWsave{iROOM},'MixingTap') || strcmp(roomWsave{iROOM},'ShowerHead')
-                Qs_save(:,iROOM)  = Qsr_daily(:,iROOM).*0.25;
-                Qs_daily(:,iROOM) = Qsr_daily(:,iROOM).*(1-0.25);
-            else
-                Qs_daily(:,iROOM) = Qsr_daily(:,iROOM);
-            end
-            
+                        
         end
     end
     if Qsr_std(iROOM) == 0
@@ -358,7 +337,7 @@ for iROOM = 1:length(roomArea)
     for iEQPLIST = 1:length(roomEquipSet{iROOM})
         % 機器リストを探査し、加熱容量を足す。
         check = 0;
-        for iEQP = 1:length(equipID)
+        for iEQP = 1:length(equipName)
             if strcmp(roomEquipSet{iROOM}(iEQPLIST),equipName(iEQP))
                 equipPowerEach = [equipPowerEach, equipPower(iEQP)];
                 equipPowerSum(iROOM) = equipPowerSum(iROOM) + equipPower(iEQP);
@@ -379,17 +358,17 @@ end
 
 
 %% 機器のエネルギー消費量計算
-L_eqp = zeros(length(equipID));
-Qsr_eqp_daily = zeros(365,length(equipID));
-Qs_eqp_daily  = zeros(365,length(equipID));
-Qs_solargain  = zeros(365,length(equipID));
-Qh_eqp_daily  = zeros(365,length(equipID));
-Qp_eqp        = zeros(365,length(equipID));
-E_eqp         = zeros(365,length(equipID));
-connect_Name   = cell(length(equipID));
-connect_Power  = cell(length(equipID));
+L_eqp = zeros(length(equipName));
+Qsr_eqp_daily = zeros(365,length(equipName));
+Qs_eqp_daily  = zeros(365,length(equipName));
+Qs_solargain  = zeros(365,length(equipName));
+Qh_eqp_daily  = zeros(365,length(equipName));
+Qp_eqp        = zeros(365,length(equipName));
+E_eqp         = zeros(365,length(equipName));
+connect_Name   = cell(length(equipName));
+connect_Power  = cell(length(equipName));
 
-for iEQP = 1:length(equipID)
+for iEQP = 1:length(equipName)
     
     % 接続する室を探索
     tmpconnectName = {};
@@ -397,12 +376,22 @@ for iEQP = 1:length(equipID)
     for iROOM = 1:length(roomArea)
         for iEQPLIST = 1:length(roomEquipSet{iROOM})
             if strcmp(equipName(iEQP),roomEquipSet{iROOM}(iEQPLIST))
+                
                 % 標準日積算給湯量 [L/day]
                 Qsr_eqp_daily(:,iEQP) = Qsr_eqp_daily(:,iEQP) + Qsr_daily(:,iROOM).*roomPowerRatio(iROOM,iEQPLIST);
-                % 日積算給湯量 [L/day]
-                Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + Qs_daily(:,iROOM).*roomPowerRatio(iROOM,iEQPLIST);
+                
+                % 節湯を考慮した日積算給湯量[L/day]
+                if strcmp(roomWsave{iROOM}(iEQPLIST),'MixingTap')
+                    k_Wsave = 1-0.40;
+                elseif strcmp(roomWsave{iROOM}(iEQPLIST),'WaterSavingShowerHead')
+                    k_Wsave = 1-0.25;
+                else
+                    k_Wsave = 1;
+                end
+                Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + Qsr_daily(:,iROOM).*k_Wsave.*roomPowerRatio(iROOM,iEQPLIST);
+                
                 % 室接続保存
-                tmpconnectName = [tmpconnectName,roomName{iROOM}];
+                tmpconnectName  = [tmpconnectName,roomName{iROOM}];
                 tmpconnectPower = [tmpconnectPower,num2str(roomPowerRatio(iROOM,iEQPLIST))];
             end
         end
@@ -493,7 +482,7 @@ if OutputOptionVar == 1
     end
     RES1 = [Troom,OAdataAll(:,1),TWdata,(OAdataAll(:,1)+Troom)/2];
     RES2 = [];
-    for iEQP = 1:length(equipID)
+    for iEQP = 1:length(equipName)
         RES2 = [RES2,Qsr_eqp_daily(:,iEQP),Qs_eqp_daily(:,iEQP),Qs_solargain(:,iEQP),Qh_eqp_daily(:,iEQP),Qp_eqp(:,iEQP),E_eqp(:,iEQP),NaN*ones(365,1)];
     end
     
@@ -528,7 +517,7 @@ if OutputOptionVar == 1
     
     rfc = [rfc;'エネルギー計算シート,'];
     
-    for iEQP = 1:length(equipID)
+    for iEQP = 1:length(equipName)
         
         rfc = [rfc; strcat(equipName{iEQP},',',equipInfo{iEQP})];
         

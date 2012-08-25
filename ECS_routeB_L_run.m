@@ -21,8 +21,7 @@ function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
 % clear
 % clc
-%
-% inputfilename = './TAISEI_Photel.xml';
+% inputfilename = './IBEC1_ivb_new.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -38,14 +37,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
-% データベースファイル
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
 
 % データベース読み込み
 mytscript_readDBfiles;

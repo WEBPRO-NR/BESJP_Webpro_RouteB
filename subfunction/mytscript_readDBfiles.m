@@ -4,6 +4,16 @@
 % 省エネ基準ルートB：データベースファイルを読み込む
 %------------------------------------------------------------------------------
 
+% データベースファイル
+filename_calendar             = './database/CALENDAR.csv';   % カレンダー
+filename_ClimateArea          = './database/AREA.csv';       % 地域区分
+filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
+filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
+filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
+filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
+filename_flowControl          = './database/FLOWCONTROL.csv'; % 搬送系の効果係数
+
+
 % データベースファイル読込み（地域）
 DB_climateArea = textread(filename_ClimateArea,'%s','delimiter','\n','whitespace','');
 % データベースファイル読込み（カレンダー）

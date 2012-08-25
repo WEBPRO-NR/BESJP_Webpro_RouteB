@@ -130,7 +130,8 @@ for iENVSET = 1:length(EnvList_Floor)
                 elseif strcmp(envListDataCell(iDB,3),'日陰') || strcmp(envListDataCell(iDB,3),'地中')
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Shade';
                 else
-                    error('方位　%s　は不正です。', envListDataCell{iDB,3})
+                    % newHASP用にEXPS名を直接入力できるモードをもたせる
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = envListDataCell(iDB,3);
                 end
                 
                 % 庇（日よけ効果係数）

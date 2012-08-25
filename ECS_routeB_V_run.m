@@ -22,8 +22,7 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = './TAISEI_Photel.xml';
-% inputfilename = './InputFiles/都内某文系大学/ver20120622_IVb/Case1/NSRI_School_IVb_Case1.xml';
+% inputfilename = './IBEC1_ivb_new.xml';
 % OutputOption = 'ON';
 
 
@@ -38,14 +37,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
-% データベースファイル
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
 
 % データベース読み込み
 mytscript_readDBfiles;
@@ -77,79 +68,127 @@ for iROOM = 1:numOfRoom
     % 室面積
     RoomArea(iROOM)  = model.VentilationSystems.VentilationRoom(iROOM).ATTRIBUTE.RoomArea;
     
-    % 送風機
-    if isfield(model.VentilationSystems.VentilationRoom(iROOM),'VentilationFANUnit')
+    % 接続されているユニット数（送風機＋空調機）
+    numOfVtotal(iROOM) = length(model.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef);
+    
+    numOfVfan(iROOM)   = 0;
+    numOfVAC(iROOM)    = 0;
+    
+    for iUNIT = 1:numOfVtotal(iROOM)
         
-        numOfVfan(iROOM) = length(model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit);
+        % 機器名称
+        unitName = model.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name;
+        unitType = model.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType;
         
-        for iVFAN = 1:numOfVfan(iROOM)
-            UnitNameFAN{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.UnitName;
-            UnitTypeFAN{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.UnitType;
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.FanVolume,'Null') == 0
-                FanVolumeFAN(iROOM,iVFAN) = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.FanVolume;
-            else
-                FanVolumeFAN(iROOM,iVFAN) = 0;
+        check = 0;
+        if isfield(model.VentilationSystems,'VentilationFANUnit')
+            for iDB = 1:length(model.VentilationSystems.VentilationFANUnit)
+                
+                if strcmp(unitName,model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.Name)
+                    
+                    check = 1;
+                    numOfVfan(iROOM) = numOfVfan(iROOM) + 1;
+                    
+                    % 機器名称
+                    UnitNameFAN{iROOM,numOfVfan(iROOM)} = unitName;
+                    UnitTypeFAN{iROOM,numOfVfan(iROOM)} = unitType;
+                    
+                    % 送風量
+                    if strcmp(model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.FanVolume,'Null') == 0
+                        FanVolumeFAN(iROOM,numOfVfan(iROOM)) = model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.FanVolume;
+                    else
+                        FanVolumeFAN(iROOM,numOfVfan(iROOM)) = 0;
+                    end
+                    
+                    % 消費電力
+                    if strcmp(model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.FanPower,'Null') == 0
+                        FanPowerFAN(iROOM,numOfVfan(iROOM)) = model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.FanPower;
+                    else
+                        FanPowerFAN(iROOM,numOfVfan(iROOM)) = 0;
+                    end
+                    
+                    ControlFlag_C1{iROOM,numOfVfan(iROOM)} = model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.ControlFlag_C1;
+                    ControlFlag_C2{iROOM,numOfVfan(iROOM)} = model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.ControlFlag_C2;
+                    ControlFlag_C3{iROOM,numOfVfan(iROOM)} = model.VentilationSystems.VentilationFANUnit(iDB).ATTRIBUTE.ControlFlag_C3;
+                    
+                end
+                
             end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.FanPower,'Null') == 0
-                FanPowerFAN(iROOM,iVFAN) = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.FanPower;
-            else
-                FanPowerFAN(iROOM,iVFAN) = 0;
-            end
+        end
+        
+        if isfield(model.VentilationSystems,'VentilationACUnit')
+            for iDB = 1:length(model.VentilationSystems.VentilationACUnit)
+                
+                if strcmp(unitName,model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.Name)
+                    
+                    if check == 1
+                        error('名称の重複があります')
+                    else
                         
-            ControlFlag_C1{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C1;
-            ControlFlag_C2{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C2;
-            ControlFlag_C3{iROOM,iVFAN} = model.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(iVFAN).ATTRIBUTE.ControlFlag_C3;
-            
+                        check = 1;
+                        numOfVac(iROOM) = numOfVac(iROOM) + 1;
+                        
+                        % 機器名称
+                        UnitNameAC{iROOM,numOfVac(iROOM)} = unitName;
+                        UnitTypeAC{iROOM,numOfVac(iROOM)} = unitType;
+                        
+                        % 必要冷却能力
+                        if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.CoolingCapacity,'Null') == 0
+                            CoolingCapacityAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.CoolingCapacity;
+                        else
+                            CoolingCapacityAC(iROOM,numOfVac(iROOM)) = 0;
+                        end
+                        
+                        % 熱源効率
+                        if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.COP,'Null') == 0
+                            COPAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.COP;
+                        else
+                            COPAC(iROOM,numOfVac(iROOM)) = 0;
+                        end
+                        
+                        % 送風機消費電力
+                        if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.FanPower,'Null') == 0
+                            FanPowerAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.FanPower;
+                        else
+                            FanPowerAC(iROOM,numOfVac(iROOM)) = 0;
+                        end
+                        
+                        % ポンプ消費電力
+                        if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.PumpPower,'Null') == 0
+                            PumpPowerAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.PumpPower;
+                        else
+                            PumpPowerAC(iROOM,numOfVac(iROOM)) = 0;
+                        end
+                        
+                    end
+                end
+            end
         end
-    end
-    
-    % 冷房
-    if isfield(model.VentilationSystems.VentilationRoom(iROOM),'VentilationACUnit')
         
-        numOfVac(iROOM)  = length(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit);
-        
-        for iVAC = 1:numOfVac(iROOM)
-            
-            UnitNameAC{iROOM,iVAC} = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.UnitName;
-            
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.CoolingCapacity,'Null') == 0
-                CoolingCapacityAC(iROOM,iVAC) = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.CoolingCapacity;
-            else
-                CoolingCapacityAC(iROOM,iVAC) = 0;
-            end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.COP,'Null') == 0
-                COPAC(iROOM,iVAC) = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.COP;
-            else
-                COPAC(iROOM,iVAC) = 0;
-            end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.FanPower,'Null') == 0
-                FanPowerAC(iROOM,iVAC) = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.FanPower;
-            else
-                FanPowerAC(iROOM,iVAC) = 0;
-            end
-            
-            if strcmp(model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.PumpPower,'Null') == 0
-                PumpPowerAC(iROOM,iVAC) = model.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(iVAC).ATTRIBUTE.PumpPower;
-            else
-                PumpPowerAC(iROOM,iVAC) = 0;
-            end
-           
+        if check == 0
+            error('機器が見つかりません')
         end
+        
+        if numOfVfan(iROOM) == 0
+            UnitNameFAN{iROOM,1}  = [];
+            UnitTypeFAN{iROOM,1}  = [];
+            FanVolumeFAN(iROOM,1) = 0;
+            FanPowerFAN(iROOM,1)  = 0;
+            ControlFlag_C1{iROOM,1}  = 'None';
+            ControlFlag_C2{iROOM,1}  = 'None';
+            ControlFlag_C3{iROOM,1}  = 'None';
+        end
+        
+        if numOfVac(iROOM) == 0
+            UnitNameAC{iROOM,1}  = [];
+            UnitTypeAC{iROOM,1}  = [];
+            CoolingCapacityAC(iROOM,1) = 0;
+            COPAC(iROOM,1)       = 0;
+            FanPowerAC(iROOM,1)  = 0;
+            PumpPowerAC(iROOM,1) = 0;
+        end
+        
     end
-    
-    if numOfVac(iROOM) == 0
-        UnitNameAC{iROOM,1}  = [];
-        CoolingCapacityAC(iROOM,1) = 0;
-        COPAC(iROOM,1)       = 0;
-        FanPowerAC(iROOM,1)  = 0;
-        PumpPowerAC(iROOM,1) = 0;
-    end
-    
 end
 
 
@@ -191,14 +230,14 @@ for iROOM = 1:numOfRoom
                 Proom(iROOM) = str2double(perDB_RoomType(iDB,29));
                 
                 % 負荷率
-                if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室') 
+                if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室')
                     xL(iROOM) = 0.6;
-                elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室') 
+                elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室')
                     xL(iROOM) = 0.6;
                 else
                     xL(iROOM) = 1;
                 end
-
+                
             end
         end
     end
@@ -336,7 +375,7 @@ for iUNIT = 1:length(UnitListFAN)
             end
         end
     end
-
+    
 end
 
 opeTimeListAC = zeros(length(UnitListAC),1);
@@ -354,7 +393,7 @@ for iUNIT = 1:length(UnitListAC)
             end
         end
     end
-
+    
 end
 if isempty(opeTimeListAC)
     opeTimeListAC = [];
@@ -366,17 +405,12 @@ end
 % 機器ベースで計算
 Edesign_FAN_MWh    = opeTimeListFAN .* UnitListFANPower ./(1000*0.75);
 
-% 評価値計算 (室ベースで計算）
-% Edesign_FAN_MWh    = repmat(timeL,1,size(FanPowerFAN,2)) .* FanPowerFAN .* hosei_ALL ./(1000*0.75);
-
 Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
- 
+
 % % COPを一次換算で入れた場合
 Edesign_AC_kW_ROOM     = CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75;
-% Edesing_AC_Mwh    = repmat(timeL,1,size(FanPowerAC,2)) .* ...
-%      (CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75 ) ./1000;
 
 Edesign_AC_kW  = UnitListAC_CoolingCapacity ./(2.71.*UnitListAC_COP) + (UnitListAC_FanPower + UnitListAC_PumpPower) ./0.75;
 Edesing_AC_Mwh = Edesign_AC_kW .* opeTimeListAC ./1000;
@@ -391,9 +425,9 @@ for iUNIT = 1:length(UnitListFAN)
     for iROOM = 1:size(UnitNameFAN,1)
         for iUNITdb = 1:size(UnitNameFAN,2)
             if strcmp(UnitNameFAN(iROOM,iUNITdb),UnitListFAN(iUNIT))
-                ratioP_FAN(iROOM,iUNITdb) = Edesign_FAN_MJ(iUNIT).*RoomArea(iROOM)./AreaListFAN(iUNIT);                                   
+                ratioP_FAN(iROOM,iUNITdb) = Edesign_FAN_MJ(iUNIT).*RoomArea(iROOM)./AreaListFAN(iUNIT);
             end
-        end     
+        end
     end
 end
 
@@ -402,9 +436,9 @@ for iUNIT = 1:length(UnitListAC)
     for iROOM = 1:size(UnitNameAC,1)
         for iUNITdb = 1:size(UnitNameAC,2)
             if strcmp(UnitNameAC(iROOM,iUNITdb),UnitListAC(iUNIT))
-                ratioP_AC(iROOM,iUNITdb) = Edesign_AC_MJ(iUNIT).*RoomArea(iROOM)./AreaListAC(iUNIT);                                   
+                ratioP_AC(iROOM,iUNITdb) = Edesign_AC_MJ(iUNIT).*RoomArea(iROOM)./AreaListAC(iUNIT);
             end
-        end     
+        end
     end
 end
 
@@ -524,7 +558,7 @@ if OutputOptionVar == 1
                         num2str(RoomArea(iROOM)),',',...
                         '冷房,',...
                         UnitNameAC{iROOM,iUNIT},',',...
-                        ',',...
+                        UnitTypeAC{iROOM,iUNIT},',',...
                         ',',...
                         ',',...
                         num2str(CoolingCapacityAC(iROOM,iUNIT)),',',...
@@ -543,7 +577,7 @@ if OutputOptionVar == 1
                         num2str( (nansum(ratioP_FAN(iROOM,:)) + nansum(ratioP_AC(iROOM,:))) ./Es_MJ(iROOM)));
                     
                 else
-                                        
+                    
                     tmpdata = strcat(',',...
                         ',',...
                         ',',...
@@ -575,7 +609,7 @@ if OutputOptionVar == 1
         end
         
     end
-       
+    
     % 出力するファイル名
     if isempty(strfind(inputfilename,'/'))
         eval(['resfilenameD = ''calcRESdetail_V_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])

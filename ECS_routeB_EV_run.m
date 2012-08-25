@@ -17,15 +17,15 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_EV_run(inputfilename,OutputOption)
+% function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% tic
-% 
-% inputfilename = './TAISEI_Photel.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+tic
+
+inputfilename = './IBEC1_ivb_new.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 %% 設定
 model = xml_read(inputfilename);
@@ -38,14 +38,6 @@ switch OutputOption
     otherwise
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
-
-% データベースファイル
-filename_calendar             = './database/CALENDAR.csv';   % カレンダー
-filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';    % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';   % 熱源特性
 
 % データベース読み込み
 mytscript_readDBfiles;

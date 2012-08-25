@@ -23,10 +23,8 @@ for i=1:length(hwequipInfoCSV)
     end
 end
 
-equipID   = {};
 equipInfo = {};
 equipName = {};
-equipCount = {};
 equipCapacity = {};
 equipEfficiency = {};
 equipInsulation = {};
@@ -38,10 +36,7 @@ SolorHeatingSurfaceInclination = {};
 
 
 for iUNIT = 11:size(hwequipInfoCell,1)
-    
-    % 機器コード
-    eval(['equipID = [equipID; ''HWUnit_',int2str(iUNIT-10),'''];'])
-    
+        
     % 機器名称
     if isempty(hwequipInfoCell{iUNIT,1})
         equipName = [equipName; 'Null'];
@@ -102,9 +97,8 @@ end
 
 
 % XMLファイル生成
-for iUNIT = 1:size(equipID,1)
+for iUNIT = 1:size(equipName,1)
     
-    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.ID          = equipID{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Info        = equipInfo{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Name        = equipName{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Capacity    = equipCapacity{iUNIT};

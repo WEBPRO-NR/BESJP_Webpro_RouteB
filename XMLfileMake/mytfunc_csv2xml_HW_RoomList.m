@@ -1,5 +1,5 @@
 % mytfunc_csv2xml_HW_UnitList.m
-%                                             by Masato Miyata 2012/04/02
+%                                             by Masato Miyata 2012/08/24
 %------------------------------------------------------------------------
 % 省エネ基準：換気設定ファイルを作成する。
 %------------------------------------------------------------------------
@@ -34,6 +34,9 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
     end
 end
 
+
+%% 情報の抽出
+
 roomFloor = {};
 roomName  = {};
 equipWaterSaving = {};
@@ -51,7 +54,15 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
     
     % 節湯器具の有無
     if isempty(hwRoomInfoCell{iUNIT,7}) == 0
-        equipWaterSaving = [equipWaterSaving; 'MixingTap'];
+        if strcmp(hwRoomInfoCell(iUNIT,7),'自動給湯栓')
+            equipWaterSaving = [equipWaterSaving; 'MixingTap'];
+        elseif strcmp(hwRoomInfoCell(iUNIT,7),'節湯型シャワー')
+            equipWaterSaving = [equipWaterSaving; 'WaterSavingShowerHead'];
+        elseif strcmp(hwRoomInfoCell(iUNIT,7),'無')
+            equipWaterSaving = [equipWaterSaving; 'None'];
+        else
+            error('節湯器具の選択肢が不正です')
+        end
     else
         equipWaterSaving = [equipWaterSaving; 'None'];
     end
@@ -69,8 +80,8 @@ for iUNIT = 1:size(roomName,1)
     
     if isempty(RoomList)
         
-        RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
-        UnitList = [UnitList; equipSet(iUNIT)];
+        RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT)];
+        UnitList = [UnitList; equipSet(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
 
     else
         check = 0;
@@ -78,14 +89,14 @@ for iUNIT = 1:size(roomName,1)
             if strcmp(RoomList(iDB,1),roomFloor(iUNIT)) && ...
                     strcmp(RoomList(iDB,2),roomName(iUNIT))
                 check = 1;
-                UnitList{iDB} = [UnitList{iDB}, equipSet(iUNIT)];
+                UnitList{iDB} = [UnitList{iDB}, equipSet(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
             end
         end
         
         % 室が見つからなければ追加
         if check == 0
-            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
-            UnitList = [UnitList; equipSet(iUNIT)];
+            RoomList = [RoomList; roomFloor(iUNIT),roomName(iUNIT)];
+            UnitList = [UnitList; equipSet(iUNIT),equipLocation(iUNIT),equipWaterSaving(iUNIT)];
         end
         
     end
@@ -96,20 +107,16 @@ end
 numOfRoom = size(RoomList,1);
 
 for iROOM = 1:numOfRoom
-    
-    eval(['xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.ID = ''HWroom_',int2str(iROOM),''';'])
-    
+        
     [RoomID,BldgType,RoomType,RoomArea,~,~] = ...
         mytfunc_roomIDsearch(xmldata,RoomList(iROOM,1),RoomList(iROOM,2));
     
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomIDs      = RoomID;
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomFloor    = RoomList(iROOM,1);
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomName     = RoomList(iROOM,2);
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.BuildingType = BldgType;
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomType     = RoomType;
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.RoomArea     = RoomArea;
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.Location     = RoomList(iROOM,3);
-    xmldata.HotwaterSystems.HotwarterRoom(iROOM).ATTRIBUTE.WaterSaving  = RoomList(iROOM,4);
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomIDs      = RoomID;
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomFloor    = RoomList(iROOM,1);
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomName     = RoomList(iROOM,2);
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.BuildingType = BldgType;
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomType     = RoomType;
+    xmldata.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomArea     = RoomArea;
     
     % ユニット情報
     if iscell(UnitList{iROOM}) == 1
@@ -121,12 +128,18 @@ for iROOM = 1:numOfRoom
     for iUNIT = 1:unitNum
         
         if unitNum == 1
-            tmpUnitID = UnitList(iROOM);
+            tmpUnitID = UnitList(iROOM,1);
+            tmpUnitLO = UnitList(iROOM,2);
+            tmpUnitWS = UnitList(iROOM,3);
         else
-            tmpUnitID = UnitList{iROOM}(iUNIT);
+            tmpUnitID = UnitList{iROOM}(iUNIT,1);
+            tmpUnitLO = UnitList{iROOM}(iUNIT,2);
+            tmpUnitWS = UnitList{iROOM}(iUNIT,3);
         end
         
-        xmldata.HotwaterSystems.HotwarterRoom(iROOM).BoilerRef(iUNIT).ATTRIBUTE.ID = tmpUnitID;
+        xmldata.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef(iUNIT).ATTRIBUTE.Name        = tmpUnitID;  % 機器名称
+        xmldata.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef(iUNIT).ATTRIBUTE.Location    = tmpUnitLO;  % 設置場所
+        xmldata.HotwaterSystems.HotwaterRoom(iROOM).BoilerRef(iUNIT).ATTRIBUTE.WaterSaving = tmpUnitWS;  % 節水器具
     end
     
 end

@@ -37,7 +37,7 @@ end
 for iWIND = 1:size(WINDList,1)
     
     % ñºèÃ
-    xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.ID = ...
+    xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Name = ...
         windListDataCell{WINDNum(iWIND),1};
     
     % ëçîMä—ó¨ó¶
@@ -92,7 +92,7 @@ end
 
 lastnum = length(xmldata.AirConditioningSystem.WindowConfigure);
 
-xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.ID = 'Null';
+xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Name = 'Null';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeClass = 'SNGL';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.WindowTypeNumber = '1';
 xmldata.AirConditioningSystem.WindowConfigure(lastnum+1).ATTRIBUTE.Uvalue = '0';

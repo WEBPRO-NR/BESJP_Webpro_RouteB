@@ -39,8 +39,6 @@ for iOWALList = 1:size(OWALList,1)
     
     % 名称
     xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.Name = OWALList{iOWALList};
-    % WCON名
-    xmldata.AirConditioningSystem.WallConfigure(iOWALList).ATTRIBUTE.ID   = strcat('W',int2str(iOWALList));
     
     % 外壁か設置壁か
     if strcmp(owalListDataCell{OWALNum(iOWALList),2},'外壁')
@@ -109,7 +107,6 @@ end
 lastnum = length(xmldata.AirConditioningSystem.WallConfigure);
 
 xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = '内壁_天井面';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.ID   = 'CEI';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = '0.00';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = '1';
@@ -134,7 +131,6 @@ xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.
 xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = '3';
 
 xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = '内壁_床面';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.ID   = 'FLO';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = '0.00';
 xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = '1';

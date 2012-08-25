@@ -94,6 +94,7 @@ for iUNIT = 11:size(roomDataCell,1)
             roomFloor = [roomFloor; roomFloor(end)];
             roomName  = [roomName; roomName(end)];
             
+            % 換気種類
             if isempty(roomDataCell{iUNIT,6})
                 unitType  = [unitType; 'Null'];
             else
@@ -109,6 +110,8 @@ for iUNIT = 11:size(roomDataCell,1)
                     unitType  = [unitType; 'Null'];
                 end
             end
+            
+            % 換気機機名称
             if isempty(roomDataCell{iUNIT,7})
                 unitName  = [unitName; 'Null'];
             else
@@ -157,24 +160,18 @@ end
 
 %% 換気（送風機）の処理
 
-venUnitID   = {};
 venUnitName = {};
-venUnitType = {};
 venVolume   = {};
 venPower    = {};
 venControlFlag_C1 = {};
 venControlFlag_C2 = {};
 venControlFlag_C3 = {};
 
-numRoom = (size(venDataCell,2)-9)/2;
-
 for iUNIT = 11:size(venDataCell,1)
-    
-    eval(['venUnitID = [venUnitID; ''VfanUnit_',int2str(iUNIT-10),'''];'])
     
     % 器具名称
     if isempty(venDataCell{iUNIT,1})
-        venUnitName  = [venUnitName;'Null'];
+        error('換気器具名称が定義されていません')
     else
         venUnitName  = [venUnitName;venDataCell{iUNIT,1}];
     end
@@ -218,21 +215,14 @@ end
 %% 換気（空調機）の処理
 
 % 情報の抜出
-venACUnitID   = {};
 venACUnitName = {};
 venACCoolingCapacity = {};
 venACCOP        = {};
 venACFanPower   = {};
 venACPumpPower  = {};
-roomFloorAC = {};
-roomNameAC  = {};
-
-numRoomAC = (size(venACDataCell,2)-7)/2;
 
 for iUNIT = 11:size(venACDataCell,1)
-    
-    eval(['venACUnitID = [venACUnitID; ''VacUnit_',int2str(iUNIT-10),'''];'])
-    
+       
     % 器具名称
     if isempty(venACDataCell{iUNIT,1})
         venACUnitName  = [venACUnitName;'Null'];
@@ -293,57 +283,39 @@ for iROOM = 1:size(RoomList,1)
     else
         unitNum = 1;
     end
-    
-    Fcount = 0;
-    Acount = 0;
-    
+        
     for iUNIT = 1:unitNum
         if unitNum == 1
-            tmpUnitID   = UnitList(iROOM);
-            tmpUnitType = UnitTypeList(iROOM);
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name       = UnitList(iROOM,1);
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType   = UnitTypeList(iROOM,1);
         else
-            tmpUnitID = UnitList{iROOM}(iUNIT);
-            tmpUnitType = UnitTypeList{iROOM}(iUNIT);
-        end
-        
-        % ユニットの情報を検索
-        check = 0;
-        for iDB = 1:length(venUnitName)
-            if strcmp(venUnitName(iDB),tmpUnitID)
-                
-                check = 1;
-                Fcount = Fcount + 1;
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.ID              = venUnitID{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.UnitName        = venUnitName{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.UnitType        = tmpUnitType;
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.FanVolume       = venVolume{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.FanPower        = venPower{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.ControlFlag_C1  = venControlFlag_C1{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.ControlFlag_C2  = venControlFlag_C2{iDB};
-                xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationFANUnit(Fcount).ATTRIBUTE.ControlFlag_C3  = venControlFlag_C3{iDB};
-                
-            end
-        end
-        if check == 0
-            for iDB = 1:length(venACUnitName)
-                if strcmp(venACUnitName(iDB),tmpUnitID)
-                    
-                    check = 1;
-                    Acount = Acount + 1;
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.ID               = venACUnitID{iDB};
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.UnitName         = venACUnitName{iDB};
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.CoolingCapacity  = venACCoolingCapacity{iDB};
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.COP              = venACCOP{iDB};
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.FanPower         = venACFanPower{iDB};
-                    xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationACUnit(Acount).ATTRIBUTE.PumpPower        = venACPumpPower{iDB};
-
-                end
-            end
-
-            if check == 0
-                error('ユニット %s が見つかりません', tmpUnitID)
-            end
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name       = UnitList{iROOM,iUNIT};
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType   = UnitTypeList{iROOM,iUNIT};
         end
     end
+    
+end
+
+% 換気ファン
+for iUNIT = 1:length(venUnitName)
+    
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.Name      = venUnitName(iUNIT);
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.FanVolume = venVolume(iUNIT);
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.FanPower  = venPower(iUNIT);
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C1 = venControlFlag_C1(iUNIT);
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C2 = venControlFlag_C2(iUNIT);
+    xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C3 = venControlFlag_C3(iUNIT);
+
+end
+
+% 換気代替空調機
+for iUNIT = 1:length(venACUnitName)
+
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.Name             = venACUnitName{iUNIT};
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.CoolingCapacity  = venACCoolingCapacity{iUNIT};
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.COP              = venACCOP{iUNIT};
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.FanPower         = venACFanPower{iUNIT};
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.PumpPower        = venACPumpPower{iUNIT};
+
 end
 

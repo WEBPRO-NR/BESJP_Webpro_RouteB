@@ -86,8 +86,6 @@ end
 % XMLファイル生成
 for iUNIT = 1:size(EVCount,1)
     
-    eval(['xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.ID = ''EV_',int2str(iUNIT),''';'])
-    
     % 室IDリスト
     [RoomID,BldgType,RoomType,~,~,~] = ...
         mytfunc_roomIDsearch(xmldata,roomFloor{iUNIT},roomName{iUNIT});

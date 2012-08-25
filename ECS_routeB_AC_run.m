@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-% clear
-% clc
-% tic
-% INPUTFILENAME = 'IBEC1_ivb_new.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+tic
+INPUTFILENAME = 'IBEC1_ivb_new.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -58,18 +58,6 @@ SeasonMODE = [1,1,-1];
 
 % ファン・ポンプの発熱比率
 k_heatup = 0.84;
-
-
-%% 計算の設定
-
-% 各種データベース
-filename_calendar             = './database/CALENDAR.csv';    % カレンダー
-filename_ClimateArea          = './database/AREA.csv';        % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';   % 室用途リスト
-filename_roomOperateCondition = './database/ROOM_COND.csv';   % 標準室使用条件
-filename_refList              = './database/REFLIST.csv';     % 熱源機器リスト
-filename_performanceCurve     = './database/REFCURVE.csv';    % 熱源特性
-filename_flowControl          = './database/FLOWCONTROL.csv'; % 搬送系の効果係数
 
 
 %% データベース読み込み
