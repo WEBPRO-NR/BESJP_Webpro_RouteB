@@ -724,9 +724,9 @@ for iPUMP = 1:numOfPumps
                         
                         % VWVÇÃå¯â ó¶ã»ê¸
                         if iL == length(mxL)
-                            PUMPvwvfac = 1.2;
+                            PUMPvwvfac(iPUMP,iL) = 1.2;
                         else
-                            PUMPvwvfac = ...
+                            PUMPvwvfac(iPUMP,iL) = ...
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,1).*tmpL.^4 + ...
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,2).*tmpL.^3 + ...
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,3).*tmpL.^2 + ...
@@ -734,7 +734,7 @@ for iPUMP = 1:numOfPumps
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,5);
                         end
                         
-                        MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB).*PUMPvwvfac;
+                        MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB).*PUMPvwvfac(iPUMP,iL);
                         
                     end
                 end

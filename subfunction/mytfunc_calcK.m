@@ -128,11 +128,11 @@ WindowNameList = perWIND(2:end,1);
 for iWIND = 2:size(perWIND,1)
     
     % ‘‹‚ÌŽí—Þ
-    if strcmp(perWIND(iWIND,2),'SNGL')
+    if strcmp(perWIND(iWIND,2),'Single')
         startNum = 2;
-    elseif strcmp(perWIND(iWIND,2),'DL06')
+    elseif strcmp(perWIND(iWIND,2),'Double6')
         startNum = 110;
-    elseif strcmp(perWIND(iWIND,2),'DL12')
+    elseif strcmp(perWIND(iWIND,2),'Double12')
         startNum = 298;
     end
     

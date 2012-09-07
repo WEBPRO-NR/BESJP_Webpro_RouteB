@@ -57,8 +57,8 @@ mytscript_readDBfiles;
 climateAREA = model.ATTRIBUTE.Region;
 
 check = 0;
-for iDB = 1:length(perDB_climateArea(:,2))
-    if strcmp(perDB_climateArea(iDB,2),climateAREA)
+for iDB = 1:length(perDB_climateArea(:,1))
+    if strcmp(perDB_climateArea(iDB,1),num2str(climateAREA))
         % ãCè€ÉfÅ[É^ÉtÉ@ÉCÉãñº
         eval(['climatedatafile  = ''./weathdat/C1_',perDB_climateArea{iDB,6},''';'])
         % à‹ìx
@@ -78,42 +78,42 @@ end
 
 % ãCè€ÉfÅ[É^ÇÃì«Ç›çûÇ›
 switch climateAREA
-    case 'Ia'
+    case 1
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 9;
-    case 'Ib'
+    case 2
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 10;
-    case 'II'
+    case 3
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_II.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 11;
-    case 'III'
+    case 4
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_III.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 12;
-    case 'IVa'
+    case 5
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8660.*OAdataAll(:,1) + 1.665;
         stdLineNum = 13;
-    case 'IVb'
+    case 6
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8516.*OAdataAll(:,1) + 2.473;
         stdLineNum = 14;
-    case 'V'
+    case 7
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_V.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.9223.*OAdataAll(:,1) + 2.097;
         stdLineNum = 15;
-    case 'VI'
+    case 8
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         TWdata = 0.6921.*OAdataAll(:,1) + 7.167;
@@ -219,9 +219,9 @@ for iEQP = 1:length(model.HotwaterSystems.Boiler)
     % ëæózîMóòóp
     if strcmp(model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolarSystem,'True')
         equipSolar(iEQP) = 1;
-        equipSolor_S(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceArea;
-        equipSolor_alp(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceAzimuth; % ï˚à äp
-        equipSolor_bet(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolorHeatingSurfaceInclination; % åXéŒäp
+        equipSolor_S(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolarHeatingSurfaceArea;
+        equipSolor_alp(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolarHeatingSurfaceAzimuth; % ï˚à äp
+        equipSolor_bet(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.SolarHeatingSurfaceInclination; % åXéŒäp
     else
         equipSolar(iEQP)     = 0;
         equipSolor_S(iEQP)   = 0;

@@ -469,7 +469,7 @@ for iAHU = 1:numOfAHUs
     
     
     % ビルマル対応（仮想二次ポンプを自動追加）
-    if strcmp(ahuPump_cooling{iAHU},'Null_C') % 冷水ポンプ
+    if strcmp(ahuPump_cooling{iAHU},'_C') % 冷水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
         ahuPump_cooling{iAHU} = strcat(ahuRef_cooling{iAHU},'_VirtualPump');
@@ -498,7 +498,7 @@ for iAHU = 1:numOfAHUs
         end
     end
     
-    if strcmp(ahuPump_heating{iAHU},'Null_H') % 温水ポンプ
+    if strcmp(ahuPump_heating{iAHU},'_H') % 温水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
         ahuPump_heating{iAHU} = strcat(ahuRef_heating{iAHU},'_VirtualPump');
@@ -646,9 +646,9 @@ for iREF = 1:numOfRefs
     
     % 冷暖同時運転
     switch refsetSupplyMode{iREF}
-        case 'Both'
+        case 'True'
             REFCHmode(iREF) = 1;
-        case 'Each'
+        case 'False'
             REFCHmode(iREF) = 0;
         otherwise
             error('XMLファイルが不正です')
