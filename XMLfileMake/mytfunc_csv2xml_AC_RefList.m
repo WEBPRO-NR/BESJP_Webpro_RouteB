@@ -89,7 +89,7 @@ for iREF = 11:size(refListDataCell,1)
             RefListThermalStorage_StorageSize = [RefListThermalStorage_StorageSize; refListDataCell(iREF,5)];
         end
     end
-
+    
 end
 
 % 熱源群のループ
@@ -112,7 +112,7 @@ for iREFSET = 1:length(RefListName)
     
     % 蓄熱モード
     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageMode = RefListThermalStorage_Mode(iREFSET,1);
-
+    
     if isempty(RefListThermalStorage_StorageSize{iREFSET,1}) == 0
         xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.StorageSize = RefListThermalStorage_StorageSize(iREFSET,1);
     else
@@ -123,187 +123,191 @@ for iREFSET = 1:length(RefListName)
     iCOUNT = 0;
     for iDB = 11:size(refListDataCell,1)
         
-        if strcmp(RefListName(iREFSET,1),refListDataCell(iDB,1)) && strcmp(RefListThermalStorage_Mode(iREFSET,1),refListDataCell(iDB,4)) 
+        % 空白行を飛ばす
+        if isempty(refListDataCell{iDB,6}) == 0
             
-            iCOUNT = iCOUNT + 1;
-            
-            if strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクリュー，スライド弁）') || ...
-                    strcmp(refListDataCell(iDB,6),'空冷式スクリューヒートポンプ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Screw';
-            elseif strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクロール，圧縮機台数制御）') || ...
-                    strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクリュー，インバータ）') || ...
-                    strcmp(refListDataCell(iDB,6),'空冷式スクロールヒートポンプ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Scroll';
-            elseif strcmp(refListDataCell(iDB,6),'電気式ビル用マルチ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'EHP';
-            elseif strcmp(refListDataCell(iDB,6),'ガス式ビル用マルチ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GHP';
-            elseif strcmp(refListDataCell(iDB,6),'水冷チラー（スクリュー，スライド弁）') || ...
-                    strcmp(refListDataCell(iDB,6),'水冷式スクリューチラー')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw';
-            elseif strcmp(refListDataCell(iDB,6),'水冷式スクロールチラー')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll';
-            elseif strcmp(refListDataCell(iDB,6),'ターボ冷凍機（標準，ベーン制御）') || ...
-                    strcmp(refListDataCell(iDB,6),'ターボ冷凍機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF';
-            elseif strcmp(refListDataCell(iDB,6),'ターボ冷凍機（高効率，インバータ制御）') || ...
-                    strcmp(refListDataCell(iDB,6),'インバータターボ冷凍機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_INV';
-            elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機（標準，蓄熱時）')  || ...
-                    strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine';
-            elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機（標準，追掛時）')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine';
-            elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF';
-            elseif strcmp(refListDataCell(iDB,6),'蒸気吸収冷凍機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_S';
-            elseif strcmp(refListDataCell(iDB,6),'温水焚吸収冷凍機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_HW';
-            elseif strcmp(refListDataCell(iDB,6),'ボイラ（小型貫流ボイラ）') || ...
-                    strcmp(refListDataCell(iDB,6),'小型貫流ボイラ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler';
-            elseif strcmp(refListDataCell(iDB,6),'ボイラ（真空温水ヒータ）') || ...
-                    strcmp(refListDataCell(iDB,6),'真空温水ヒータ')
-            elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式スクリューヒートポンプ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Screw_ICE';
-            elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式スクロールヒートポンプ')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Scroll_ICE';
-            elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷式スクリューチラー')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw_ICE';
-            elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷スクロールチラー')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll_ICE';
-            elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機A')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeA';
-            elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機B')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeB';
-            elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機C')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeC';
-            elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機D')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeD';
-            elseif strcmp(refListDataCell(iDB,6),'熱交換機')
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
-            else
-                refListDataCell(iDB,6)
-                error('熱源種類が不正です。')
-            end
-                        
-            if isempty(refListDataCell{iDB,7}) == 0
-                if length(refListDataCell{iDB,7}) > 1 && strcmp(refListDataCell{iDB,7}(end-1:end),'番目')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = refListDataCell{iDB,7}(1:end-2);
+            if strcmp(RefListName(iREFSET,1),refListDataCell(iDB,1)) && strcmp(RefListThermalStorage_Mode(iREFSET,1),refListDataCell(iDB,4))
+                
+                iCOUNT = iCOUNT + 1;
+                
+                if strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクリュー，スライド弁）') || ...
+                        strcmp(refListDataCell(iDB,6),'空冷式スクリューヒートポンプ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Screw';
+                elseif strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクロール，圧縮機台数制御）') || ...
+                        strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ（スクリュー，インバータ）') || ...
+                        strcmp(refListDataCell(iDB,6),'空冷式スクロールヒートポンプ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Scroll';
+                elseif strcmp(refListDataCell(iDB,6),'電気式ビル用マルチ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'EHP';
+                elseif strcmp(refListDataCell(iDB,6),'ガス式ビル用マルチ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GHP';
+                elseif strcmp(refListDataCell(iDB,6),'水冷チラー（スクリュー，スライド弁）') || ...
+                        strcmp(refListDataCell(iDB,6),'水冷式スクリューチラー')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw';
+                elseif strcmp(refListDataCell(iDB,6),'水冷式スクロールチラー')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll';
+                elseif strcmp(refListDataCell(iDB,6),'ターボ冷凍機（標準，ベーン制御）') || ...
+                        strcmp(refListDataCell(iDB,6),'ターボ冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF';
+                elseif strcmp(refListDataCell(iDB,6),'ターボ冷凍機（高効率，インバータ制御）') || ...
+                        strcmp(refListDataCell(iDB,6),'インバータターボ冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_INV';
+                elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機（標準，蓄熱時）')  || ...
+                        strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine';
+                elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機（標準，追掛時）')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine';
+                elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF';
+                elseif strcmp(refListDataCell(iDB,6),'蒸気吸収冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_S';
+                elseif strcmp(refListDataCell(iDB,6),'温水焚吸収冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_HW';
+                elseif strcmp(refListDataCell(iDB,6),'ボイラ（小型貫流ボイラ）') || ...
+                        strcmp(refListDataCell(iDB,6),'小型貫流ボイラ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler';
+                elseif strcmp(refListDataCell(iDB,6),'ボイラ（真空温水ヒータ）') || ...
+                        strcmp(refListDataCell(iDB,6),'真空温水ヒータ')
+                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式スクリューヒートポンプ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Screw_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式スクロールヒートポンプ')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_Scroll_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷式スクリューチラー')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷スクロールチラー')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機A')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeA';
+                elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機B')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeB';
+                elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機C')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeC';
+                elseif strcmp(refListDataCell(iDB,6),'排熱投入型吸収冷温水機D')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeD';
+                elseif strcmp(refListDataCell(iDB,6),'熱交換機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
                 else
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = refListDataCell{iDB,7};
+                    refListDataCell(iDB,6)
+                    error('熱源種類が不正です。')
                 end
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,8}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Cooling  = refListDataCell(iDB,8);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Cooling  = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,9}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Cooling  = refListDataCell(iDB,9);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Cooling  = 'Null';
-            end
-
-            if isempty(refListDataCell{iDB,10}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Cooling  = refListDataCell(iDB,10);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Cooling  = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,11}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Cooling   = refListDataCell(iDB,11);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,12}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Cooling   = refListDataCell(iDB,12);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,13}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Cooling   = refListDataCell(iDB,13);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,14}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTCapacity_Cooling   = refListDataCell(iDB,14);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTCapacity_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,15}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTFanPower_Cooling   = refListDataCell(iDB,15);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTFanPower_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,16}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTPumpPower_Cooling   = refListDataCell(iDB,16);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTPumpPower_Cooling   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,17}) == 0
-                if length(refListDataCell{iDB,17}) > 1 && strcmp(refListDataCell{iDB,17}(end-1:end),'番目')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = refListDataCell{iDB,17}(1:end-2);
+                
+                if isempty(refListDataCell{iDB,7}) == 0
+                    if length(refListDataCell{iDB,7}) > 1 && strcmp(refListDataCell{iDB,7}(end-1:end),'番目')
+                        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = refListDataCell{iDB,7}(1:end-2);
+                    else
+                        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = refListDataCell{iDB,7};
+                    end
                 else
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = refListDataCell{iDB,17};
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Cooling  = 'Null';
                 end
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = 'Null';
+                
+                if isempty(refListDataCell{iDB,8}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Cooling  = refListDataCell(iDB,8);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Cooling  = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,9}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Cooling  = refListDataCell(iDB,9);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Cooling  = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,10}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Cooling  = refListDataCell(iDB,10);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Cooling  = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,11}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Cooling   = refListDataCell(iDB,11);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,12}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Cooling   = refListDataCell(iDB,12);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,13}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Cooling   = refListDataCell(iDB,13);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,14}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTCapacity_Cooling   = refListDataCell(iDB,14);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTCapacity_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,15}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTFanPower_Cooling   = refListDataCell(iDB,15);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTFanPower_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,16}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTPumpPower_Cooling   = refListDataCell(iDB,16);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.CTPumpPower_Cooling   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,17}) == 0
+                    if length(refListDataCell{iDB,17}) > 1 && strcmp(refListDataCell{iDB,17}(end-1:end),'番目')
+                        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = refListDataCell{iDB,17}(1:end-2);
+                    else
+                        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = refListDataCell{iDB,17};
+                    end
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Order_Heating   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,18}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Heating     = refListDataCell(iDB,18);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Heating     = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,19}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Heating     = refListDataCell(iDB,19);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Heating     = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,20}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Heating   = refListDataCell(iDB,20);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Heating   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,21}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Heating    = refListDataCell(iDB,21);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Heating    = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,22}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Heating   = refListDataCell(iDB,22);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Heating   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,23}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Heating   = refListDataCell(iDB,23);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Heating   = 'Null';
+                end
+                
+                if isempty(refListDataCell{iDB,24}) == 0
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Info = refListDataCell(iDB,24);
+                else
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Info = 'Null';
+                end
+                
             end
-            
-            if isempty(refListDataCell{iDB,18}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Heating     = refListDataCell(iDB,18);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Count_Heating     = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,19}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Heating     = refListDataCell(iDB,19);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SupplyWaterTemp_Heating     = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,20}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Heating   = refListDataCell(iDB,20);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Capacity_Heating   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,21}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Heating    = refListDataCell(iDB,21);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.MainPower_Heating    = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,22}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Heating   = refListDataCell(iDB,22);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.SubPower_Heating   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,23}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Heating   = refListDataCell(iDB,23);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.PrimaryPumpPower_Heating   = 'Null';
-            end
-            
-            if isempty(refListDataCell{iDB,24}) == 0
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Info = refListDataCell(iDB,24);
-            else
-                xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Info = 'Null';
-            end
-            
         end
     end
     
@@ -312,4 +316,8 @@ for iREFSET = 1:length(RefListName)
     end
     
 end
+
+
+
+
 

@@ -42,7 +42,7 @@ for iRoom = 11:size(commonDataCell,1)
     
     if isempty(commonDataCell{iRoom,1}) && isempty(commonDataCell{iRoom,2})
         
-        eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iRoom),'行目'')'])
+%         eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iRoom),'行目'')'])
         
     else
         

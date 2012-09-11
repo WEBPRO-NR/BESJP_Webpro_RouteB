@@ -3,56 +3,19 @@ clc
 
 tic
 
-addpath('./subfunction/')
+addpath('./subfunction')
 
+RES = ECS_routeB_run('NSRI_School_IVb_Case0.xml');
 
-for i=1
-    
-    casenum = int2str(i);
-    if i==192
-        casenum = '19Åf';
-    elseif i==193
-        casenum = '19ÅfÅf';
-    elseif i==211
-        casenum = '21Åf';
-    elseif i==221
-        casenum = '22+Éø';
-    elseif i==231
-        casenum = '23+Éø';
-    end
-    eval(['disp(''ÉPÅ[ÉX',casenum,'Å@é¿çsíÜ'')'])
-    
-    inputfilename =  './repair_ivb_new.xml';
-    OutputOption  = 'ON';
-    
-    resAC = ECS_routeB_AC_run(inputfilename,OutputOption);
-    resV  = ECS_routeB_V_run(inputfilename,OutputOption);
-    resL  = ECS_routeB_L_run(inputfilename,OutputOption);
-    resHW = ECS_routeB_HW_run(inputfilename,OutputOption);
-    resEV = ECS_routeB_EV_run(inputfilename,OutputOption);
-        
-    Sac = resAC(20);
-    
-    RES = [];
-    RES = [(resAC(2)+resAC(3))*Sac,resAC(17).*Sac*0.8;...
-        resAC(1)*Sac,resAC(17).*Sac;...
-        resV(3),resV(7);...
-        resL(3),resL(7);...
-        resHW(1),resHW(3);...
-        resEV(3),resEV(7);...
-        0,0];
-    
-    RES = [RES;
-        sum(RES(2:end,:),1);
-        resAC(19)*Sac,resAC(19)*Sac;
-        sum(RES(2:end,1))+resAC(19)*Sac,sum(RES(2:end,2))+resAC(19)*Sac];
-    
-    eval(['save RES',casenum,'.mat RES'])
-    
-    toc
-    
-end
+% for i=0
+%     eval(['RES',int2str(i),' = ECS_routeB_run(''./InputFiles/ìsì‡ñ^ï∂ånëÂäw/ver20120830_VI/êRãcâÔópCase',int2str(i),'_CSV/NSRI_School_VI_Case',int2str(i),'.xml'');'])
+%     toc
+% end
+% 
+% % RES8 = ECS_routeB_run('./InputFiles/ìsì‡ñ^ï∂ånëÂäw/ver20120830_IVb/êRãcâÔópCase0_CSV/NSRI_School_IVb_Case0.xml');
+% % toc
+% % 
+% % RES9 = ECS_routeB_run('./InputFiles/ìsì‡ñ^ï∂ånëÂäw/ver20120830_Ia/êRãcâÔópCase0_CSV/NSRI_School_Ia_Case0.xml');
+% % toc
 
-rmpath('./subfunction/')
-
-toc
+rmpath('./subfunction')

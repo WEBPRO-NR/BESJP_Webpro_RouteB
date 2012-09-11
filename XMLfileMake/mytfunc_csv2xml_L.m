@@ -45,6 +45,7 @@ LightControlFlag_C2 = {};
 LightControlFlag_C3 = {};
 LightControlFlag_C4 = {};
 LightControlFlag_C5 = {};
+LightControlFlag_C6 = {};
 
 for iUNIT = 11:size(LightDataCell,1)
     
@@ -158,9 +159,9 @@ for iUNIT = 11:size(LightDataCell,1)
     
         % è∆ìxí≤êÆí≤åıêßå‰
     if strcmp(LightDataCell(iUNIT,20),'óL')
-        LightControlFlag_C6 = [LightControlFlag_C5;'True'];
+        LightControlFlag_C6 = [LightControlFlag_C6;'True'];
     else
-        LightControlFlag_C6 = [LightControlFlag_C5;'False'];
+        LightControlFlag_C6 = [LightControlFlag_C6;'False'];
     end
     
 end

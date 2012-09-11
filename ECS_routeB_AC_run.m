@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-clear
-clc
-tic
-INPUTFILENAME = 'IBEC1_ivb_new.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% tic
+% INPUTFILENAME = 'output.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -654,10 +654,10 @@ for iPUMP = 1:numOfPumps
             if prod(PUMPvwv(iPUMP,:)) == 1  % 全台VWVであれば
                 
                 for iL = 1:length(mxL)
-                    if iL < max(pumpVWVmin(iPUMP,:))
+                    if mxL(iL) < max(pumpVWVmin(iPUMP,:))
                         tmpL = max(pumpVWVmin(iPUMP,:));
                     else
-                        tmpL = iL;
+                        tmpL = mxL(iL);
                     end
                     
                     % VWVの効果率曲線(1番目の特性を代表して使う)
@@ -1278,7 +1278,7 @@ switch MODE
         y(14) = nansum(Qcover)./roomAreaTotal;
         y(15) = nansum(Qhover)./roomAreaTotal;
         y(16) = y(1)./( ((sum(sum(Qahu_hour_CEC))))./roomAreaTotal -y(12) -y(13) );
-    case {2}
+    case {2,3}
         % 未処理負荷[MJ/m2]
         y(12) = nansum(sum(abs(Qahu_remainC)))./roomAreaTotal;
         y(13) = nansum(sum(abs(Qahu_remainH)))./roomAreaTotal;

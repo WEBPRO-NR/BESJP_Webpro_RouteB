@@ -17,15 +17,15 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_EV_run(inputfilename,OutputOption)
+function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 
-clear
-clc
-tic
-
-inputfilename = './IBEC1_ivb_new.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% tic
+% 
+% inputfilename = './NSRI_School_IVb_Case0.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 %% 設定
 model = xml_read(inputfilename);

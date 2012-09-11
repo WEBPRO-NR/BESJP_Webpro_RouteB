@@ -72,58 +72,61 @@ unitName  = {};
 % 空白セルを埋める
 for iUNIT = 11:size(roomDataCell,1)
     
-    if isempty(roomDataCell{iUNIT,2}) == 0
-        roomFloor = [roomFloor; roomDataCell{iUNIT,1}];
-        roomName  = [roomName; roomDataCell{iUNIT,2}];
+    if isempty(roomDataCell{iUNIT,7}) == 0
         
-        if strcmp(roomDataCell{iUNIT,6},'給気')
-            unitType  = [unitType; 'Supply'];
-        elseif strcmp(roomDataCell{iUNIT,6},'排気')
-            unitType  = [unitType; 'Exist'];
-        elseif strcmp(roomDataCell{iUNIT,6},'循環')
-            unitType  = [unitType; 'Circulation'];
-        elseif strcmp(roomDataCell{iUNIT,6},'冷房')
-            unitType  = [unitType; 'AC'];
-        else
-            unitType  = [unitType; 'Null'];
-        end
-        
-        unitName  = [unitName; roomDataCell{iUNIT,7}];
-    else
-        if iUNIT > 11
-            roomFloor = [roomFloor; roomFloor(end)];
-            roomName  = [roomName; roomName(end)];
+        if isempty(roomDataCell{iUNIT,2}) == 0
+            roomFloor = [roomFloor; roomDataCell{iUNIT,1}];
+            roomName  = [roomName; roomDataCell{iUNIT,2}];
             
-            % 換気種類
-            if isempty(roomDataCell{iUNIT,6})
+            if strcmp(roomDataCell{iUNIT,6},'給気')
+                unitType  = [unitType; 'Supply'];
+            elseif strcmp(roomDataCell{iUNIT,6},'排気')
+                unitType  = [unitType; 'Exist'];
+            elseif strcmp(roomDataCell{iUNIT,6},'循環')
+                unitType  = [unitType; 'Circulation'];
+            elseif strcmp(roomDataCell{iUNIT,6},'冷房')
+                unitType  = [unitType; 'AC'];
+            else
                 unitType  = [unitType; 'Null'];
-            else
-                if strcmp(roomDataCell{iUNIT,6},'給気')
-                    unitType  = [unitType; 'Supply'];
-                elseif strcmp(roomDataCell{iUNIT,6},'排気')
-                    unitType  = [unitType; 'Exist'];
-                elseif strcmp(roomDataCell{iUNIT,6},'循環')
-                    unitType  = [unitType; 'Circulation'];
-                elseif strcmp(roomDataCell{iUNIT,6},'冷房')
-                    unitType  = [unitType; 'AC'];
-                else
-                    unitType  = [unitType; 'Null'];
-                end
             end
             
-            % 換気機機名称
-            if isempty(roomDataCell{iUNIT,7})
-                unitName  = [unitName; 'Null'];
-            else
-                unitName  = [unitName; roomDataCell{iUNIT,7}];
-            end
-            
+            unitName  = [unitName; roomDataCell{iUNIT,7}];
         else
-            error('1行目は必ず室名を入力してください。')
+            if iUNIT > 11
+                roomFloor = [roomFloor; roomFloor(end)];
+                roomName  = [roomName; roomName(end)];
+                
+                % 換気種類
+                if isempty(roomDataCell{iUNIT,6})
+                    unitType  = [unitType; 'Null'];
+                else
+                    if strcmp(roomDataCell{iUNIT,6},'給気')
+                        unitType  = [unitType; 'Supply'];
+                    elseif strcmp(roomDataCell{iUNIT,6},'排気')
+                        unitType  = [unitType; 'Exist'];
+                    elseif strcmp(roomDataCell{iUNIT,6},'循環')
+                        unitType  = [unitType; 'Circulation'];
+                    elseif strcmp(roomDataCell{iUNIT,6},'冷房')
+                        unitType  = [unitType; 'AC'];
+                    else
+                        unitType  = [unitType; 'Null'];
+                    end
+                end
+                
+                % 換気機機名称
+                if isempty(roomDataCell{iUNIT,7})
+                    unitName  = [unitName; 'Null'];
+                else
+                    unitName  = [unitName; roomDataCell{iUNIT,7}];
+                end
+                
+            else
+                error('1行目は必ず室名を入力してください。')
+            end
         end
     end
-    
 end
+
 
 % 室リスト作成
 RoomList = {};
@@ -131,7 +134,7 @@ UnitList = {};
 UnitTypeList = {};
 
 for iUNIT = 1:length(roomName)
-
+    
     if isempty(RoomList) == 1
         RoomList     = [RoomList; roomFloor(iUNIT),roomName(iUNIT)];
         UnitTypeList = [UnitTypeList; unitType(iUNIT)];
@@ -169,46 +172,46 @@ venControlFlag_C3 = {};
 
 for iUNIT = 11:size(venDataCell,1)
     
-    % 器具名称
-    if isempty(venDataCell{iUNIT,1})
-        error('換気器具名称が定義されていません')
-    else
+    if isempty(venDataCell{iUNIT,1}) == 0
+        
+        % 器具名称
         venUnitName  = [venUnitName;venDataCell{iUNIT,1}];
+        
+        % 風量
+        if isempty(venDataCell{iUNIT,2})
+            venVolume  = [venVolume;'Null'];
+        else
+            venVolume  = [venVolume;venDataCell{iUNIT,2}];
+        end
+        
+        % 消費電力
+        venPower = [venPower;venDataCell{iUNIT,3}];
+        
+        % 高効率電動機採用
+        if strcmp(venDataCell{iUNIT,4},'有')
+            venControlFlag_C1 = [venControlFlag_C1;'True'];
+        else
+            venControlFlag_C1 = [venControlFlag_C1;'None'];
+        end
+        
+        % インバータ採用
+        if strcmp(venDataCell{iUNIT,5},'有')
+            venControlFlag_C2 = [venControlFlag_C2;'True'];
+        else
+            venControlFlag_C2 = [venControlFlag_C2;'None'];
+        end
+        
+        % 送風量制御
+        if strcmp(venDataCell{iUNIT,6},'CO濃度制御')
+            venControlFlag_C3 = [venControlFlag_C3;'COconcentration'];
+        elseif strcmp(venDataCell{iUNIT,6},'温度制御')
+            venControlFlag_C3 = [venControlFlag_C3;'Temprature'];
+        else
+            venControlFlag_C3 = [venControlFlag_C3;'None'];
+        end
+        
     end
     
-    % 風量
-    if isempty(venDataCell{iUNIT,2})
-        venVolume  = [venVolume;'Null'];
-    else
-        venVolume  = [venVolume;venDataCell{iUNIT,2}];
-    end
-    
-    % 消費電力
-    venPower = [venPower;venDataCell{iUNIT,3}];
-    
-    % 高効率電動機採用
-    if strcmp(venDataCell{iUNIT,4},'有')
-        venControlFlag_C1 = [venControlFlag_C1;'True'];
-    else
-        venControlFlag_C1 = [venControlFlag_C1;'None'];
-    end
-    
-    % インバータ採用
-    if strcmp(venDataCell{iUNIT,5},'有')
-        venControlFlag_C2 = [venControlFlag_C2;'True'];
-    else
-        venControlFlag_C2 = [venControlFlag_C2;'None'];
-    end
-    
-    % 送風量制御
-    if strcmp(venDataCell{iUNIT,6},'CO濃度制御')
-        venControlFlag_C3 = [venControlFlag_C3;'COconcentration'];
-    elseif strcmp(venDataCell{iUNIT,6},'温度制御')
-        venControlFlag_C3 = [venControlFlag_C3;'Temprature'];
-    else
-        venControlFlag_C3 = [venControlFlag_C3;'None'];
-    end
-
 end
 
 
@@ -222,42 +225,42 @@ venACFanPower   = {};
 venACPumpPower  = {};
 
 for iUNIT = 11:size(venACDataCell,1)
-       
-    % 器具名称
-    if isempty(venACDataCell{iUNIT,1})
-        venACUnitName  = [venACUnitName;'Null'];
-    else
+        
+    if isempty(venACDataCell{iUNIT,1}) == 0
+        
+        % 器具名称
         venACUnitName  = [venACUnitName;venACDataCell{iUNIT,1}];
+        
+        % 冷却能力
+        if isempty(venACDataCell{iUNIT,2})
+            venACCoolingCapacity  = [venACCoolingCapacity;'Null'];
+        else
+            venACCoolingCapacity  = [venACCoolingCapacity;venACDataCell{iUNIT,2}];
+        end
+        
+        % COP
+        if isempty(venACDataCell{iUNIT,3})
+            venACCOP  = [venACCOP;'Null'];
+        else
+            venACCOP  = [venACCOP;venACDataCell{iUNIT,3}];
+        end
+        
+        % 送風機動力
+        if isempty(venACDataCell{iUNIT,4})
+            venACFanPower  = [venACFanPower;'0'];
+        else
+            venACFanPower  = [venACFanPower;venACDataCell{iUNIT,4}];
+        end
+        
+        % ポンプ動力
+        if isempty(venACDataCell{iUNIT,5})
+            venACPumpPower  = [venACPumpPower;'0'];
+        else
+            venACPumpPower  = [venACPumpPower;venACDataCell{iUNIT,5}];
+        end
+        
     end
     
-    % 冷却能力
-    if isempty(venACDataCell{iUNIT,2})
-        venACCoolingCapacity  = [venACCoolingCapacity;'Null'];
-    else
-        venACCoolingCapacity  = [venACCoolingCapacity;venACDataCell{iUNIT,2}];
-    end
-    
-    % COP
-    if isempty(venACDataCell{iUNIT,3})
-        venACCOP  = [venACCOP;'Null'];
-    else
-        venACCOP  = [venACCOP;venACDataCell{iUNIT,3}];
-    end
-    
-    % 送風機動力
-    if isempty(venACDataCell{iUNIT,4})
-        venACFanPower  = [venACFanPower;'0'];
-    else
-        venACFanPower  = [venACFanPower;venACDataCell{iUNIT,4}];
-    end
-    
-    % ポンプ動力
-    if isempty(venACDataCell{iUNIT,5})
-        venACPumpPower  = [venACPumpPower;'0'];
-    else
-        venACPumpPower  = [venACPumpPower;venACDataCell{iUNIT,5}];
-    end    
-
 end
 
 
@@ -283,14 +286,14 @@ for iROOM = 1:size(RoomList,1)
     else
         unitNum = 1;
     end
-        
+    
     for iUNIT = 1:unitNum
         if unitNum == 1
             xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name       = UnitList(iROOM,1);
             xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType   = UnitTypeList(iROOM,1);
         else
-            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name       = UnitList{iROOM,iUNIT};
-            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType   = UnitTypeList{iROOM,iUNIT};
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.Name       = UnitList{iROOM}(iUNIT);
+            xmldata.VentilationSystems.VentilationRoom(iROOM).VentilationUnitRef(iUNIT).ATTRIBUTE.UnitType   = UnitTypeList{iROOM}(iUNIT);
         end
     end
     
@@ -305,17 +308,17 @@ for iUNIT = 1:length(venUnitName)
     xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C1 = venControlFlag_C1(iUNIT);
     xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C2 = venControlFlag_C2(iUNIT);
     xmldata.VentilationSystems.VentilationFANUnit(iUNIT).ATTRIBUTE.ControlFlag_C3 = venControlFlag_C3(iUNIT);
-
+    
 end
 
 % 換気代替空調機
 for iUNIT = 1:length(venACUnitName)
-
+    
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.Name             = venACUnitName{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.CoolingCapacity  = venACCoolingCapacity{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.COP              = venACCOP{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.FanPower         = venACFanPower{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.PumpPower        = venACPumpPower{iUNIT};
-
+    
 end
 

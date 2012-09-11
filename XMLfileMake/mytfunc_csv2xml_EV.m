@@ -33,16 +33,17 @@ EVCount       = {};
 EVLoadLimit   = {};
 EVVelocity    = {};
 EVControlType = {};
+TransportCapacityFactor = {};
 
 for iUNIT = 11:size(EVDataCell,1)
     
     if isempty(EVDataCell{iUNIT,2}) == 0
         
         % 系統名称
-        if isempty(EVDataCell{iUNIT,9})
+        if isempty(EVDataCell{iUNIT,5})
             EVName  = [EVName;'Null'];
         else
-            EVName  = [EVName;EVDataCell{iUNIT,9}];
+            EVName  = [EVName;EVDataCell{iUNIT,5}];
         end
         
         % 台数
@@ -52,30 +53,45 @@ for iUNIT = 11:size(EVDataCell,1)
         % 速度
         EVVelocity = [EVVelocity;EVDataCell{iUNIT,8}];
         
+        % 輸送能力係数
+        if isempty(EVDataCell{iUNIT,9})
+            TransportCapacityFactor = [TransportCapacityFactor; 'Null'];
+        else
+            TransportCapacityFactor = [TransportCapacityFactor; EVDataCell{iUNIT,9}];
+        end
+        
         % 速度制御方式
-        if strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり、ギアレス)') || ...
-                strcmp(EVDataCell(iUNIT,9),'VVVF（電力回生あり、ギアレス）')  ||...
-                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり、ギアレス）')
+        if strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生あり、ギアレス)') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり、ギアレス）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生あり、ギアレス）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり、ギアレス)')
             EVControlType = [EVControlType;'VVVF_Regene_GearLess'];
-        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり)') || ...
-                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生あり）')
+        elseif strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生あり)') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生あり）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり)')
             EVControlType = [EVControlType;'VVVF_Regene'];
-        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし、ギアレス)') || ...
-                strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし、ギアレス）')
+        elseif strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生なし、ギアレス)') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生なし、ギアレス）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生なし、ギアレス、ギアレス）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり)')
             EVControlType = [EVControlType;'VVVF_GearLess'];
-        elseif strcmp(EVDataCell(iUNIT,9),'VVVF(電力回生なし)') || ...
-                strcmp(EVDataCell(iUNIT,9),'VVVF（電力回生なし）')
+        elseif strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生なし)') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生なし）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生なし）') || ...
+                strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生なし)')
             EVControlType = [EVControlType;'VVVF'];
-        elseif strcmp(EVDataCell(iUNIT,9),'交流帰還制御方式')
+        elseif strcmp(EVDataCell(iUNIT,10),'交流帰還制御方式')
             EVControlType = [EVControlType;'AC_FeedbackControl'];
         else
             error('エレベータ：速度制御方式 %s は不正です。',EVDataCell{iUNIT,9})
         end
         
+        
         if isempty(EVDataCell{iUNIT,1})
             roomFloor  = [roomFloor;'Null'];
         else
-            roomFloor  = [roomFloor;EVDataCell{iUNIT,1}];
+            roomFloor  = [roomFloor; EVDataCell{iUNIT,1}];
         end
         
         roomName = [roomName; EVDataCell{iUNIT,2}];
@@ -101,5 +117,6 @@ for iUNIT = 1:size(EVCount,1)
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.LoadLimit   = EVLoadLimit{iUNIT};
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.Velocity    = EVVelocity{iUNIT};
     xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType = EVControlType{iUNIT};
+    xmldata.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor = TransportCapacityFactor{iUNIT};
     
 end

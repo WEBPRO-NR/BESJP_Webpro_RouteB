@@ -64,6 +64,7 @@ end
 %----------------------------------
 % 外壁と窓
 
+
 % WCON.csv の生成
 confW = {};
 WallType = {};
@@ -73,7 +74,13 @@ for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
     % 壁名称
     confW{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name;
     % WCON名
-    confW{iWALL,2} = strcat('W',int2str(iWALL));
+    if strcmp(INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name,'内壁_天井面')
+        confW{iWALL,2} = 'CEI';
+    elseif strcmp(INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Name,'内壁_床面')
+        confW{iWALL,2} = 'FLO';
+    else
+        confW{iWALL,2} = strcat('W',int2str(iWALL));
+    end
     
     % 外壁タイプ
     WallType{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.WallType;
@@ -85,10 +92,14 @@ for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
         % 材料番号
         confW{iWALL,2+2*(LayerNum-1)+1} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.MaterialNumber);
         % 厚み
-        if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000
-            confW{iWALL,2+2*(LayerNum-1)+2} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness);
+        if isempty(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness) == 0
+            if INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness < 1000
+                confW{iWALL,2+2*(LayerNum-1)+2} = int2str(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.WallThickness);
+            else
+                error('壁の厚さが不正です')
+            end
         else
-            error('壁の厚さが不正です')
+            confW{iWALL,2+2*(LayerNum-1)+2} = '0';
         end
     end
 end
@@ -174,7 +185,7 @@ for iENV = 1:numOfENVs
         
         % 外壁タイプNum
         check = 0;
-        for iDB = 1:length(confW{iWALL,1})
+        for iDB = 1:size(confW,1)
             if strcmp(confW{iDB,1},WallConfigure{iENV,iWALL})
                 WallTypeTemp = WallType{iDB,1};
                 check = 1;

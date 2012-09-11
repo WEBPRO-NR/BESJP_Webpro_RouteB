@@ -3,16 +3,12 @@
 %--------------------------------------------------------------------
 % 省エネ基準：機器拾い表（csvファイル）を読みこみ、XMLファイルを吐き出す
 %--------------------------------------------------------------------
-function y = mytfunc_csv2xml_run(inputfilename,outputfilename,Area)
+function y = mytfunc_csv2xml_run(outputfilename,Area)
 
 tic
 
 % 設定ファイル読み込み
-if isempty(inputfilename)
-    CONFIG = xml_read('csv2xml_config.xml');
-else
-    CONFIG = xml_read(inputfilename);
-end
+CONFIG = xml_read('csv2xml_config.xml');
     
 % XMLテンプレートの読み込み
 xmldata = xml_read('routeB_XMLtemplate.xml');
@@ -96,6 +92,8 @@ end
 
 % XMLファイル生成
 xml_write(outputfilename, xmldata, 'model');
+
+y = 0;
 
 toc
 

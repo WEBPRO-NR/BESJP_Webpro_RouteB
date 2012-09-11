@@ -27,9 +27,9 @@ end
 
 for iAHU = 11:size(ahuListDataCell,1)
     
-    if isempty(ahuListDataCell(iAHU,1))
+    if isempty(ahuListDataCell{iAHU,1})
         
-        eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iAHU),'行目'')'])
+%         eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iAHU),'行目'')'])
         
     else
         

@@ -16,9 +16,9 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = './IBEC1_ivb_new.xml';
+% inputfilename = './NSRI_School_IVb_Case0.xml';
 % addpath('./subfunction/')
-% OutputOption = 'OFF';
+% OutputOption = 'ON';
 
 
 %% ê›íË
@@ -508,7 +508,8 @@ if OutputOptionVar == 1
     
     for iROOM = 1:length(roomName)
         
-        rfc = [rfc; strcat(roomName{iROOM},',',roomType{iROOM},',',num2str(roomArea(iROOM)),',',roomWsave(iROOM))];
+        eval(['tmp = ''',cell2mat(roomName(iROOM)),',',cell2mat(roomType(iROOM)),',',num2str(roomArea(iROOM)),',',cell2mat(roomWsave{iROOM}(1)),''';'])        
+        rfc = [rfc; tmp];
         
         rfc = mytfunc_oneLinecCell(rfc,Qsr_daily(:,iROOM)');
         rfc = mytfunc_oneLinecCell(rfc,Qs_save(:,iROOM)');
@@ -567,6 +568,7 @@ if OutputOptionVar == 1
     end
     
     %% èoóÕ
+    
     fid = fopen(resfilenameD,'w+');
     for i=1:size(rfc,1)
         fprintf(fid,'%s\r\n',rfc{i});

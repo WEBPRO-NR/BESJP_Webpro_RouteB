@@ -584,7 +584,11 @@ for iPUMP = 1:numOfPumps
                 end
                 
                 % VWV時の最小流量
-                pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP);
+                if pumpMinValveOpening(iPUMP,iPUMPSUB) >= 0 && pumpMinValveOpening(iPUMP,iPUMPSUB) <= 1
+                    pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP,iPUMPSUB);
+                else
+                    error('VWVの最小開度の設定が不正です')
+                end
                 
                 if check == 0
                     error('XMLファイルが不正です')

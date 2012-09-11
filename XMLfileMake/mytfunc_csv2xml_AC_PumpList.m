@@ -146,7 +146,7 @@ for iPUMPSET = 1:length(PumpListName)
                 
                 % ïœó¨ó éûç≈è¨ó¨ó 
                 if isempty(pumpListDataCell{iDB,10})==0
-                    xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.MinValveOpening = pumpListDataCell(iDB,10);
+                    xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.MinValveOpening = num2str(str2double(pumpListDataCell(iDB,10))/100);
                 else
                     xmldata.AirConditioningSystem.SecondaryPumpSet(iPUMPSET).SecondaryPump(iCOUNT).ATTRIBUTE.MinValveOpening = 'Null';
                 end

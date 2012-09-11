@@ -22,7 +22,7 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = './IBEC1_ivb_new.xml';
+% inputfilename = './NSRI_School_IVb_Case0.xml';
 % OutputOption = 'ON';
 
 
@@ -166,6 +166,7 @@ for iROOM = 1:numOfRoom
         end
         
         if check == 0
+            unitName
             error('‹@Ší‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ')
         end
         

@@ -1,18 +1,25 @@
 function [Tref,refTime_Start,refTime_Stop] =...
     mytfunc_REFOpeTIME(Qref,PUMPsystemName,REFpumpSet,pumpTime_Start,pumpTime_Stop)
 
+% ƒ|ƒ“ƒv‚ðŒŸõ
+pumpID = [];
+for i = 1:length(REFpumpSet)
+    for j = 1:length(PUMPsystemName)
+        if strcmp(REFpumpSet(i),PUMPsystemName(j))
+            pumpID = [pumpID,j];
+        end
+    end
+end
+
 for dd = 1:365
     
     tmpStart = [];
     tmpStop  = [];
     
     if Qref(dd,1) > 0
-        for i = 1:length(REFpumpSet)
-            for j = 1:length(PUMPsystemName)
-                if strcmp(REFpumpSet(i),PUMPsystemName(j))
-                    break
-                end
-            end
+        
+        for iPUMP = 1:length(pumpID)
+            j = pumpID(iPUMP);
             if pumpTime_Start(dd,j)==0 && pumpTime_Stop(dd,j)==0
             else
                 tmpStart = [tmpStart,pumpTime_Start(dd,j)];
@@ -34,5 +41,5 @@ for dd = 1:365
         refTime_Start(dd,1) = 0;
         refTime_Stop(dd,1) = 0;
     end
-end
+    
 end
