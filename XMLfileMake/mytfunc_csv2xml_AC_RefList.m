@@ -101,13 +101,13 @@ for iREFSET = 1:length(RefListName)
     if strcmp(RefListCHmode(iREFSET,1),'óL')
         xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.CHmode = 'True';
     else
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.CHmode = 'Each';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.CHmode = 'False';
     end
     
     if strcmp(RefListQuantityConrol(iREFSET,1),'óL')
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol = 'True';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl = 'True';
     else
-        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityConrol = 'False';
+        xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).ATTRIBUTE.QuantityControl = 'False';
     end
     
     % í~îMÉÇÅ[Éh
@@ -186,6 +186,8 @@ for iREFSET = 1:length(RefListName)
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_WasteH_TypeD';
                 elseif strcmp(refListDataCell(iDB,6),'îMåä∑ã@')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
+                    elseif strcmp(refListDataCell(iDB,6),'ínàÊîMãüãã')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC';
                 else
                     refListDataCell(iDB,6)
                     error('îMåπéÌóﬁÇ™ïsê≥Ç≈Ç∑ÅB')

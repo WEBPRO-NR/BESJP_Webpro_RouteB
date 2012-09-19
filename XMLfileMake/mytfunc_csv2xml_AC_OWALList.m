@@ -103,56 +103,56 @@ for iOWALList = 1:size(OWALList,1)
 end
 
 
-% ì‡ï«í«â¡
-lastnum = length(xmldata.AirConditioningSystem.WallConfigure);
-
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = 'ì‡ï«_ìVà‰ñ ';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = '0.00';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = '1';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = '75';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = '12';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = '2';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = '32';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = '9';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = '3';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = '4';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = '22';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = '150';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = '5';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = '41';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = '3';
-
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = 'ì‡ï«_è∞ñ ';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = '0.00';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = '1';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = '41';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = '3';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = '2';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = '22';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = '150';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = '3';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = '4';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = '32';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = '9';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = '5';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = '75';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
-xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = '12';
+% % ì‡ï«í«â¡
+% lastnum = length(xmldata.AirConditioningSystem.WallConfigure);
+% 
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = 'ì‡ï«_ìVà‰ñ ';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = '0.00';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = '1';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = '75';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = '12';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = '2';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = '32';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = '9';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = '3';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = '4';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = '22';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = '150';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = '5';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = '41';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = '3';
+% 
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = 'ì‡ï«_è∞ñ ';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = '0.00';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = '1';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = '41';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = '3';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = '2';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = '22';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = '150';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = '3';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = '92';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = '0';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = '4';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = '32';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = '9';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = '5';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = '75';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+% xmldata.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = '12';
 
 
 end

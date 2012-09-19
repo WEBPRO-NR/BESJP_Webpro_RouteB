@@ -64,10 +64,74 @@ end
 %----------------------------------
 % 外壁と窓
 
-
 % WCON.csv の生成
 confW = {};
 WallType = {};
+
+% 計算モードがnewHASPの場合、内壁を加える。
+switch DBWCONMODE
+    
+    case {'newHASP'}
+        if strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'内壁_天井面') || ...
+            strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'内壁_床面')
+            % すでに追加されている場合
+            disp('内壁は追加しません')
+        else
+            
+            % 内壁追加
+            lastnum = length(INPUT.AirConditioningSystem.WallConfigure);
+            
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = '内壁_天井面';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = 'Null';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = 1;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = 75;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = 12;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = 2;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = 32;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = 9;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = 3;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = 4;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = 22;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = 150;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = 5;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = 41;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = 3;
+            
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = '内壁_床面';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = 'Null';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = 1;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = 41;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = 3;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = 2;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = 22;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = 150;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = 3;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = 4;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = 32;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = 9;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = 5;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = 75;
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = 12;
+           
+        end
+end
+
 
 for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
     
@@ -85,6 +149,13 @@ for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
     % 外壁タイプ
     WallType{iWALL,1} = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.WallType;
     
+    % U値
+    if strcmp(INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Uvalue,'Null')
+        WallUvalue(iWALL,1) = NaN;
+    else
+        WallUvalue(iWALL,1) = INPUT.AirConditioningSystem.WallConfigure(iWALL).ATTRIBUTE.Uvalue;
+    end
+        
     for iELE = 1:length(INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef)
         
         LayerNum = INPUT.AirConditioningSystem.WallConfigure(iWALL).MaterialRef(iELE).ATTRIBUTE.Layer;
@@ -121,6 +192,22 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
     % ブラインド
     confG{2*iWIND-1,4} = '0'; % ブラインドなし
     confG{2*iWIND,4}   = '1';   % 明色ブラインドあり
+    % U値
+    if strcmp(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue,'Null')
+        WindowUvalue(2*iWIND-1,1) = NaN;
+        WindowUvalue(2*iWIND,1)   = NaN;
+    else
+        WindowUvalue(2*iWIND-1,1) = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue;
+        WindowUvalue(2*iWIND,1)   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue;
+    end
+    % μ値
+    if strcmp(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue,'Null')
+        WindowMvalue(2*iWIND-1,1) = NaN;
+        WindowMvalue(2*iWIND,1)   = NaN;
+    else
+        WindowMvalue(2*iWIND-1,1) = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue;
+        WindowMvalue(2*iWIND,1)   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue;
+    end
     
 end
 

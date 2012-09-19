@@ -16,7 +16,7 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = './NSRI_School_IVb_Case0.xml';
+% inputfilename = 'output.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -57,8 +57,8 @@ mytscript_readDBfiles;
 climateAREA = model.ATTRIBUTE.Region;
 
 check = 0;
-for iDB = 1:length(perDB_climateArea(:,1))
-    if strcmp(perDB_climateArea(iDB,1),num2str(climateAREA))
+for iDB = 1:length(perDB_climateArea(:,2))
+    if strcmp(perDB_climateArea(iDB,2),num2str(climateAREA))
         % 気象データファイル名
         eval(['climatedatafile  = ''./weathdat/C1_',perDB_climateArea{iDB,6},''';'])
         % 緯度
@@ -78,42 +78,42 @@ end
 
 % 気象データの読み込み
 switch climateAREA
-    case 1
+    case 'Ia'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 9;
-    case 2
+    case 'Ib'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 10;
-    case 3
+    case 'II'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_II.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 11;
-    case 4
+    case 'III'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_III.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 12;
-    case 5
+    case 'IVa'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8660.*OAdataAll(:,1) + 1.665;
         stdLineNum = 13;
-    case 6
+    case 'IVb'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8516.*OAdataAll(:,1) + 2.473;
         stdLineNum = 14;
-    case 7
+    case 'V'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_V.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.9223.*OAdataAll(:,1) + 2.097;
         stdLineNum = 15;
-    case 8
+    case 'VI'
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         TWdata = 0.6921.*OAdataAll(:,1) + 7.167;
@@ -138,7 +138,7 @@ end
 %% XMLファイルの読み込み
 
 for iROOM = 1:length(model.HotwaterSystems.HotwaterRoom)
-       
+    
     % 階
     roomFloor{iROOM} = model.HotwaterSystems.HotwaterRoom(iROOM).ATTRIBUTE.RoomFloor;
     % 室名
@@ -318,7 +318,7 @@ for iROOM = 1:length(roomArea)
             
             % 標準日積算給湯量 [L/day]
             Qsr_daily(:,iROOM) = scheduleHW(:,iROOM).* Qsr_std(iROOM);
-                        
+            
         end
     end
     if Qsr_std(iROOM) == 0
@@ -508,7 +508,7 @@ if OutputOptionVar == 1
     
     for iROOM = 1:length(roomName)
         
-        eval(['tmp = ''',cell2mat(roomName(iROOM)),',',cell2mat(roomType(iROOM)),',',num2str(roomArea(iROOM)),',',cell2mat(roomWsave{iROOM}(1)),''';'])        
+        eval(['tmp = ''',cell2mat(roomName(iROOM)),',',cell2mat(roomType(iROOM)),',',num2str(roomArea(iROOM)),',',cell2mat(roomWsave{iROOM}(1)),''';'])
         rfc = [rfc; tmp];
         
         rfc = mytfunc_oneLinecCell(rfc,Qsr_daily(:,iROOM)');

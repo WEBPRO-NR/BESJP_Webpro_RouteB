@@ -469,7 +469,7 @@ for iAHU = 1:numOfAHUs
     
     
     % ビルマル対応（仮想二次ポンプを自動追加）
-    if strcmp(ahuPump_cooling{iAHU},'_C') % 冷水ポンプ
+    if strcmp(ahuPump_cooling{iAHU},'Null_C') % 冷水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
         ahuPump_cooling{iAHU} = strcat(ahuRef_cooling{iAHU},'_VirtualPump');
@@ -498,7 +498,7 @@ for iAHU = 1:numOfAHUs
         end
     end
     
-    if strcmp(ahuPump_heating{iAHU},'_H') % 温水ポンプ
+    if strcmp(ahuPump_heating{iAHU},'Null_H') % 温水ポンプ
         
         % 仮想ポンプ(冷)を追加（熱源名称＋VirtualPump）
         ahuPump_heating{iAHU} = strcat(ahuRef_heating{iAHU},'_VirtualPump');
@@ -744,13 +744,19 @@ for iREF = 1:numOfRefs
                     refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);
                 case '蒸気'
                     refInputType(iREF,iREFSUB) = 6;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
                 case '温水'
                     refInputType(iREF,iREFSUB) = 7;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
                 case '冷水'
                     refInputType(iREF,iREFSUB) = 8;
-                    refset_MainPowerELE(iREF,iREFSUB) = (1.36/3600)*refset_MainPower(iREF,iREFSUB);
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
                 otherwise
                     error('熱源 %s の燃料種別が不正です',tmprefset)
             end

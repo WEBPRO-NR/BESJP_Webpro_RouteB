@@ -31,7 +31,7 @@ function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 % clear
 % clc
 % tic
-% INPUTFILENAME = 'output.xml';
+% INPUTFILENAME = './InputFiles/地域冷暖房/1地域/CASE11/DHC_Ia_CASE11.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -47,10 +47,13 @@ end
 % 計算モード（1:newHASPによる時刻別計算、2:newHASPによる日別計算、3:簡略法による日別計算）
 MODE = 3;
 
+% 建材データベースのモード (newHASP or Regulation)
+DBWCONMODE = 'Regulation';
+
 % 負荷分割数（5か10）
 DivNUM = 10;
 
-% 蓄熱効率
+% 蓄熱槽効率
 storageEff = 0.8;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
@@ -174,8 +177,9 @@ toc
 %% １）室負荷の計算
 
 % 熱貫流率、日射侵入率、SCC、SCRの計算 (庇の効果は見込んでいない)
-[WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList]...
-    = mytfunc_calcK(0);
+[WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,...
+    WindowSCCList,WindowSCRList] = ...
+    mytfunc_calcK(DBWCONMODE,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
 % 熱貫流率×外皮面積
 UAlist = zeros(numOfRoooms,1);
 % 日射侵入率×外皮面積
@@ -654,10 +658,10 @@ for iPUMP = 1:numOfPumps
             if prod(PUMPvwv(iPUMP,:)) == 1  % 全台VWVであれば
                 
                 for iL = 1:length(mxL)
-                    if mxL(iL) < max(pumpVWVmin(iPUMP,:))
+                    if aveL(iL) < max(pumpVWVmin(iPUMP,:))
                         tmpL = max(pumpVWVmin(iPUMP,:));
                     else
-                        tmpL = mxL(iL);
+                        tmpL = aveL(iL);
                     end
                     
                     % VWVの効果率曲線(1番目の特性を代表して使う)
