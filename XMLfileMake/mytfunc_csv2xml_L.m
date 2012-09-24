@@ -158,13 +158,13 @@ for iUNIT = 11:size(LightDataCell,1)
     % 昼光利用制御
     if isempty(LightDataCell{iUNIT,18}) == 0
         if strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御なし')
-            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御あり')
             LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithoutBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御あり')
+            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
         elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御なし')
-            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御あり')
             LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithoutBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御あり')
+            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
         elseif strcmp(LightDataCell(iUNIT,18),'無')
             LightControlFlag_C4 = [LightControlFlag_C4;'None'];
         else
