@@ -107,59 +107,96 @@ for iUNIT = 11:size(LightDataCell,1)
     LightCount = [LightCount;str2double(LightDataCell(iUNIT,14))];
     
     % 在室検知制御
-    if strcmp(LightDataCell(iUNIT,15),'減光')
-        LightControlFlag_C1 = [LightControlFlag_C1;'dimmer'];
-    elseif strcmp(LightDataCell(iUNIT,15),'一括点滅')
-        LightControlFlag_C1 = [LightControlFlag_C1;'onoff'];
-    elseif strcmp(LightDataCell(iUNIT,15),'6.4m角点滅')
-        LightControlFlag_C1 = [LightControlFlag_C1;'sensing64'];
-    elseif strcmp(LightDataCell(iUNIT,15),'3.2m角点滅）')
-        LightControlFlag_C1 = [LightControlFlag_C1;'sensing32'];
-    elseif strcmp(LightDataCell(iUNIT,15),'器具毎点滅')
-        LightControlFlag_C1 = [LightControlFlag_C1;'eachunit'];
+    if isempty(LightDataCell{iUNIT,15}) == 0
+        if strcmp(LightDataCell(iUNIT,15),'減光')
+            LightControlFlag_C1 = [LightControlFlag_C1;'dimmer'];
+        elseif strcmp(LightDataCell(iUNIT,15),'一括点滅')
+            LightControlFlag_C1 = [LightControlFlag_C1;'onoff'];
+        elseif strcmp(LightDataCell(iUNIT,15),'6.4m角点滅')
+            LightControlFlag_C1 = [LightControlFlag_C1;'sensing64'];
+        elseif strcmp(LightDataCell(iUNIT,15),'3.2m角点滅）')
+            LightControlFlag_C1 = [LightControlFlag_C1;'sensing32'];
+        elseif strcmp(LightDataCell(iUNIT,15),'器具毎点滅')
+            LightControlFlag_C1 = [LightControlFlag_C1;'eachunit'];
+        elseif strcmp(LightDataCell(iUNIT,15),'無')
+            LightControlFlag_C1 = [LightControlFlag_C1;'None'];
+        else
+            error('照明制御C1: 不正な選択肢です')
+        end
     else
         LightControlFlag_C1 = [LightControlFlag_C1;'None'];
     end
     
     % タイムスケジュール制御
-    if strcmp(LightDataCell(iUNIT,16),'減光')
-        LightControlFlag_C2 = [LightControlFlag_C2;'dimmer'];
-    elseif strcmp(LightDataCell(iUNIT,16),'消灯')
-        LightControlFlag_C2 = [LightControlFlag_C2;'onoff'];
+    if isempty(LightDataCell{iUNIT,16}) == 0
+        if strcmp(LightDataCell(iUNIT,16),'減光')
+            LightControlFlag_C2 = [LightControlFlag_C2;'dimmer'];
+        elseif strcmp(LightDataCell(iUNIT,16),'消灯')
+            LightControlFlag_C2 = [LightControlFlag_C2;'onoff'];
+        elseif strcmp(LightDataCell(iUNIT,16),'無')
+            LightControlFlag_C2 = [LightControlFlag_C2;'None'];
+        else
+            error('照明制御C2: 不正な選択肢です')
+        end
     else
         LightControlFlag_C2 = [LightControlFlag_C2;'None'];
     end
     
     % 初期照度補正
-    if strcmp(LightDataCell(iUNIT,17),'有')
-        LightControlFlag_C3 = [LightControlFlag_C3;'True'];
+    if isempty(LightDataCell{iUNIT,17}) == 0
+        if strcmp(LightDataCell(iUNIT,17),'有')
+            LightControlFlag_C3 = [LightControlFlag_C3;'True'];
+        elseif strcmp(LightDataCell(iUNIT,17),'無')
+            LightControlFlag_C3 = [LightControlFlag_C3;'False'];
+        else
+            error('照明制御C3: 不正な選択肢です')
+        end
     else
         LightControlFlag_C3 = [LightControlFlag_C3;'False'];
     end
     
     % 昼光利用制御
-    if strcmp(LightDataCell(iUNIT,18),'片側採光、ブラインド自動制御なし')
-        LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
-    elseif strcmp(LightDataCell(iUNIT,18),'片側採光、ブラインド自動制御あり')
-        LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithoutBlind'];
-    elseif strcmp(LightDataCell(iUNIT,18),'両側採光、ブラインド自動制御なし')
-        LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
-    elseif strcmp(LightDataCell(iUNIT,18),'両側採光、ブラインド自動制御あり')
-        LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithoutBlind'];
+    if isempty(LightDataCell{iUNIT,18}) == 0
+        if strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御なし')
+            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御あり')
+            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithoutBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御なし')
+            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御あり')
+            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithoutBlind'];
+        elseif strcmp(LightDataCell(iUNIT,18),'無')
+            LightControlFlag_C4 = [LightControlFlag_C4;'None'];
+        else
+            error('照明制御C4: 不正な選択肢です')
+        end
     else
         LightControlFlag_C4 = [LightControlFlag_C4;'None'];
     end
     
+    
     % 明るさ感知制御
-    if strcmp(LightDataCell(iUNIT,19),'有')
-        LightControlFlag_C5 = [LightControlFlag_C5;'True'];
+    if isempty(LightDataCell{iUNIT,19}) == 0
+        if strcmp(LightDataCell(iUNIT,19),'有')
+            LightControlFlag_C5 = [LightControlFlag_C5;'True'];
+        elseif strcmp(LightDataCell(iUNIT,19),'無')
+            LightControlFlag_C5 = [LightControlFlag_C5;'False'];
+        else
+            error('照明制御C5: 不正な選択肢です')
+        end
     else
         LightControlFlag_C5 = [LightControlFlag_C5;'False'];
     end
     
-        % 照度調整調光制御
-    if strcmp(LightDataCell(iUNIT,20),'有')
-        LightControlFlag_C6 = [LightControlFlag_C6;'True'];
+    % 照度調整調光制御
+    if isempty(LightDataCell{iUNIT,20}) == 0
+        if strcmp(LightDataCell(iUNIT,20),'有')
+            LightControlFlag_C6 = [LightControlFlag_C6;'True'];
+        elseif strcmp(LightDataCell(iUNIT,20),'無')
+            LightControlFlag_C6 = [LightControlFlag_C6;'False'];
+        else
+            error('照明制御C6: 不正な選択肢です')
+        end
     else
         LightControlFlag_C6 = [LightControlFlag_C6;'False'];
     end
