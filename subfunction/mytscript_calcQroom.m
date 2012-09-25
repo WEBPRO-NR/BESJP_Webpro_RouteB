@@ -227,10 +227,17 @@ QroomDh   = zeros(365,numOfRoooms);
 for iROOM = 1:numOfRoooms
     
     % 外皮ID（EnvelopeRef）から外皮仕様ID(envelopeID の iENV)を探す
+    check = 0;
     for iENV = 1:numOfENVs
         if strcmp(EnvelopeRef{iROOM},envelopeID{iENV}) == 1
+            check = 1;
             break
         end
+    end
+    
+    if check == 0
+        iROOM
+        error('外皮仕様が未定義です')
     end
     
     % 外壁・窓の情報を読み込む
@@ -432,7 +439,7 @@ for iROOM = 1:numOfRoooms
                     % 前日が非空調の場合
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC_off(iROOM,3);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH_off(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR_off(3);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR_off(iROOM,3);
                 end
                 
             elseif SeasonMode(dd) == 0  % 中間期
