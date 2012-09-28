@@ -61,7 +61,7 @@ for iOWALList = 1:size(OWALList,1)
         
         num = OWALNum(iOWALList)+iELE;
         
-        if num < size(owalListDataCell,1)
+        if num <= size(owalListDataCell,1)
             if isempty(owalListDataCell{num,4}) == 0
                 
                 count = count + 1;
