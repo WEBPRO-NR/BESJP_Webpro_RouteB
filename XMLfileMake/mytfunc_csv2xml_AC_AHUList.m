@@ -54,6 +54,8 @@ for iAHU = 11:size(ahuListDataCell,1)
                 xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'UNIT';
             elseif strcmp(ahuListDataCell(iAHU,3),'全熱交ユニット') || strcmp(ahuListDataCell(iAHU,3),'AEX') || strcmp(ahuListDataCell(iAHU,3),'ＡＥＸ')
                 xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'AEX';
+            elseif strcmp(ahuListDataCell(iAHU,3),'送風機')
+                xmldata.AirConditioningSystem.AirHandlingUnit(iAHU-10).ATTRIBUTE.Type = 'FAN';
             else
                 error('空調機タイプ %s は不正です',ahuListDataCell{iAHU,3})
             end

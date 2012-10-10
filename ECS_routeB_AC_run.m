@@ -31,7 +31,7 @@ function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 % clear
 % clc
 % tic
-% INPUTFILENAME = './InputFiles/地域冷暖房/1地域/CASE11/DHC_Ia_CASE11.xml';
+% INPUTFILENAME = './InputFiles/国交省営繕部/富山地方法務局/Case1/EIZEN_Toyama_Case1.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -49,6 +49,7 @@ MODE = 3;
 
 % 建材データベースのモード (newHASP or Regulation)
 DBWCONMODE = 'Regulation';
+% DBWCONMODE = 'newHASP';
 
 % 負荷分割数（5か10）
 DivNUM = 10;
@@ -728,7 +729,7 @@ for iPUMP = 1:numOfPumps
                         
                         % VWVの効果率曲線
                         if iL == length(mxL)
-                            PUMPvwvfac(iPUMP,iL) = 1.2;
+                            PUMPvwvfac(iPUMP,iL) = 1.0;
                         else
                             PUMPvwvfac(iPUMP,iL) = ...
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,1).*tmpL.^4 + ...
@@ -916,6 +917,7 @@ MxREFnum  = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFxL   = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREFperE = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREF_E   = zeros(numOfRefs,length(mxL));
+
 MxREFSUBperE = zeros(length(ToadbC),length(mxL),numOfRefs,10);
 MxREFSUBE = zeros(numOfRefs,10,length(mxL));
 Qrefr_mod = zeros(numOfRefs,10,length(ToadbC));
@@ -966,10 +968,9 @@ for iREF = 1:numOfRefs
     end
     
     
-    % 各熱源の計算
+    % 最大能力、最大入力の設定
     for iREFSUB = 1:refsetRnum(iREF)   % 熱源台数分だけ繰り返す
         
-        % 最大能力、最大入力の設定
         for iX = 1:length(ToadbC)
             
             % 各外気温区分における最大能力 [kW]
@@ -978,8 +979,8 @@ for iREF = 1:numOfRefs
             % 各外気温区分における最大入力 [kW]  (1次エネルギー換算値であることに注意）
             Erefr_mod(iREF,iREFSUB,iX) = refset_MainPowerELE(iREF,iREFSUB) .* xPratio(iREF,iREFSUB,iX);
             
-            xqsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
-            xpsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);
+            xqsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);  % xTALL 外気温度の軸(結果表示用)
+            xpsave(iREF,iX) = xTALL(iREF,iREFSUB,iX);  % xTALL 外気温度の軸(結果表示用)
             
         end
     end
@@ -1021,31 +1022,38 @@ for iREF = 1:numOfRefs
             % 処理負荷 [kW]
             tmpQ  = QrefrMax(iREF)*aveL(iL);
             
-            % 負荷率
+            % [ioa,iL]における負荷率
             MxREFxL(ioa,iL,iREF) = tmpQ ./ sum(Qrefr_mod(iREF,1:MxREFnum(ioa,iL,iREF),ioa));
             
-            % どの部分負荷特性を使うか（インバータターボなど、冷却水温度によって特性が異なる場合がある）
-            if isnan(xXratioMX(iREF,iREFSUB)) == 0
-                if xTALL(iREF,iREFSUB,ioa) <= xXratioMX(iREF,iREFSUB)
-                    xCurveNum = 1;
-                else
-                    xCurveNum = 2;
-                end
-            else
-                xCurveNum = 1;
-            end
             
-            % 上下限
-            if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB,xCurveNum)
-                MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB,xCurveNum);
-            elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB,xCurveNum) || iL == length(mxL)
-                MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB,xCurveNum);
-            end
-            
-            % 部分負荷特性（各負荷率・各温度帯について）
-            tmpL = MxREFxL(ioa,iL,iREF);
+            % 部分負荷特性と送水温度特性（各負荷率・各温度帯について）
             for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
                 
+                % どの部分負荷特性を使うか（インバータターボなど、冷却水温度によって特性が異なる場合がある）
+                if isnan(xXratioMX(iREF,iREFSUB)) == 0
+                    if xTALL(iREF,iREFSUB,ioa) <= xXratioMX(iREF,iREFSUB,1)
+                        xCurveNum = 1;
+                    elseif xTALL(iREF,iREFSUB,ioa) <= xXratioMX(iREF,iREFSUB,2)
+                        xCurveNum = 2;
+                    elseif xTALL(iREF,iREFSUB,ioa) <= xXratioMX(iREF,iREFSUB,3)
+                        xCurveNum = 3;
+                    else
+                        error('特性式の上限を超えています')
+                    end
+                else
+                    xCurveNum = 1;
+                end
+                
+                % 部分負荷特性の上下限
+                if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB,xCurveNum)
+                    MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB,xCurveNum);
+                elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB,xCurveNum) || iL == length(mxL)
+                    MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB,xCurveNum);
+                end
+                
+                tmpL = MxREFxL(ioa,iL,iREF);
+                
+                % 部分負荷特性
                 coeff_x(iREFSUB) = ...
                     RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,1).*tmpL.^4 + ...
                     RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,2).*tmpL.^3 + ...
@@ -1057,7 +1065,7 @@ for iREF = 1:numOfRefs
                     coeff_x(iREFSUB) = coeff_x(iREFSUB).* 1.2;  % 過負荷時のペナルティ（要検討）
                 end
                 
-                % 送水温度特性
+                % 送水温度特性の上下限
                 if refset_SupplyTemp(iREF,iREFSUB) < RerPerC_w_min(iREF,iREFSUB)
                     TCtmp = RerPerC_w_min(iREF,iREFSUB);
                 elseif refset_SupplyTemp(iREF,iREFSUB) > RerPerC_w_max(iREF,iREFSUB)
@@ -1066,6 +1074,7 @@ for iREF = 1:numOfRefs
                     TCtmp = refset_SupplyTemp(iREF,iREFSUB);
                 end
                 
+                % 送水温度特性
                 coeff_tw(iREFSUB) = RerPerC_w_coeffi(iREF,iREFSUB,1).*TCtmp.^4 + ...
                     RerPerC_w_coeffi(iREF,iREFSUB,2).*TCtmp.^3 + RerPerC_w_coeffi(iREF,iREFSUB,3).*TCtmp.^2 +...
                     RerPerC_w_coeffi(iREF,iREFSUB,4).*TCtmp + RerPerC_w_coeffi(iREF,iREFSUB,5);

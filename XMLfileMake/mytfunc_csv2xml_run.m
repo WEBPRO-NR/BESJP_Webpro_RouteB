@@ -50,7 +50,7 @@ if isempty(CONFIG.AirConditioningSystem.Ref) == 0
 end
 
 % 外壁の設定ファイルの生成
-if isempty(CONFIG.AirConditioningSystem.WCON) == 0    
+if isempty(CONFIG.AirConditioningSystem.WCON) == 0
     xmldata = mytfunc_csv2xml_AC_OWALList(xmldata,CONFIG.AirConditioningSystem.WCON);
 end
 

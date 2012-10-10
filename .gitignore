@@ -3,3 +3,6 @@ InputFiles
 XMLfileMake/csv2xmlexe/
 MATLAB_RouteB_ver201208/
 subfunction/*.back
+database/WCON.csv
+database/WIND.csv
+./run.m

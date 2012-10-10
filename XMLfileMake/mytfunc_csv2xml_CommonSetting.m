@@ -131,13 +131,12 @@ for iRoom = 11:size(commonDataCell,1)
         if isempty(commonDataCell{iRoom,12})
             roomInfo = [roomInfo;'Null'];
         else
-            roomInfo = [roomInfo;commonDataCell{iRoom,10}];
+            roomInfo = [roomInfo;commonDataCell{iRoom,12}];
         end
         
     end
     
 end
-
 
 % XMLÉtÉ@ÉCÉãê∂ê¨
 for iROOM = 1:size(roomName,1)

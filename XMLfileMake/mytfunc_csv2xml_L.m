@@ -168,6 +168,7 @@ for iUNIT = 11:size(LightDataCell,1)
         elseif strcmp(LightDataCell(iUNIT,18),'ñ≥')
             LightControlFlag_C4 = [LightControlFlag_C4;'None'];
         else
+            LightDataCell(iUNIT,18)
             error('è∆ñæêßå‰C4: ïsê≥Ç»ëIëéàÇ≈Ç∑')
         end
     else

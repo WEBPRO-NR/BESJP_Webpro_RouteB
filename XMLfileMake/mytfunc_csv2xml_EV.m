@@ -59,7 +59,7 @@ for iUNIT = 11:size(EVDataCell,1)
         else
             TransportCapacityFactor = [TransportCapacityFactor; EVDataCell{iUNIT,9}];
         end
-        
+                
         % 速度制御方式
         if strcmp(EVDataCell(iUNIT,10),'VVVF(電力回生あり、ギアレス)') || ...
                 strcmp(EVDataCell(iUNIT,10),'VVVF（電力回生あり、ギアレス）') || ...
@@ -84,7 +84,7 @@ for iUNIT = 11:size(EVDataCell,1)
         elseif strcmp(EVDataCell(iUNIT,10),'交流帰還制御方式')
             EVControlType = [EVControlType;'AC_FeedbackControl'];
         else
-            error('エレベータ：速度制御方式 %s は不正です。',EVDataCell{iUNIT,9})
+            error('エレベータ：速度制御方式 %s は不正です。',EVDataCell{iUNIT,10})
         end
         
         

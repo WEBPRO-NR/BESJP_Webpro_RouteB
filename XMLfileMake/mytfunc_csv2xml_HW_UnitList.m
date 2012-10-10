@@ -49,11 +49,11 @@ for iUNIT = 11:size(hwequipInfoCell,1)
         equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,3}];
         
         % 保温仕様
-        if strcmp(hwequipInfoCell{iUNIT,4},'保温仕様１')
+        if strcmp(hwequipInfoCell{iUNIT,4},'保温仕様１') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様1') 
             equipInsulation = [equipInsulation; 'Level1'];
-        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様２')
+        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様２') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様2')
             equipInsulation = [equipInsulation; 'Level2'];
-        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様３')
+        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様３') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様3')
             equipInsulation = [equipInsulation; 'Level3'];
         else
             equipInsulation = [equipInsulation; 'Level0'];

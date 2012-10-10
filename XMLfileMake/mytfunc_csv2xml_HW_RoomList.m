@@ -62,7 +62,7 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
         if isempty(hwRoomInfoCell{iUNIT,7}) == 0
             if strcmp(hwRoomInfoCell(iUNIT,7),'自動給湯栓')
                 equipWaterSaving = [equipWaterSaving; 'MixingTap'];
-            elseif strcmp(hwRoomInfoCell(iUNIT,7),'節湯型シャワー')
+            elseif strcmp(hwRoomInfoCell(iUNIT,7),'節水型シャワー')
                 equipWaterSaving = [equipWaterSaving; 'WaterSavingShowerHead'];
             elseif strcmp(hwRoomInfoCell(iUNIT,7),'無')
                 equipWaterSaving = [equipWaterSaving; 'None'];

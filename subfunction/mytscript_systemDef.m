@@ -315,8 +315,12 @@ for iAHU = 1:numOfAHUs
                                     end
                                 end
                                 
-                                if ahueleMinDamperOpening(iAHUELE) >= 0 && ahueleMinDamperOpening(iAHUELE) <= 1
+                                if ahueleMinDamperOpening(iAHUELE) >= 0 && ahueleMinDamperOpening(iAHUELE) < 1
                                     ahuFanVAVmin(iAHU) = ahueleMinDamperOpening(iAHUELE);  % VAV最小風量比 [-]
+                                elseif ahueleMinDamperOpening(iAHUELE) == 1
+                                    % 最小開度が1の時はVAVとはみなさない。
+                                    AHUvavfac(iAHU,:) = ones(1,length(aveL));
+                                    ahuFanVAVmin(iAHU) = 1;
                                 else
                                     error('VAV最小開度の設定が不正です')
                                 end
@@ -564,7 +568,7 @@ for iPUMP = 1:numOfPumps
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = 0;  % 2次の係数
                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
-                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 0;  % 切片
+                Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 1;  % 切片
                 
             otherwise
                 
@@ -584,8 +588,16 @@ for iPUMP = 1:numOfPumps
                 end
                 
                 % VWV時の最小流量
-                if pumpMinValveOpening(iPUMP,iPUMPSUB) >= 0 && pumpMinValveOpening(iPUMP,iPUMPSUB) <= 1
+                if pumpMinValveOpening(iPUMP,iPUMPSUB) >= 0 && pumpMinValveOpening(iPUMP,iPUMPSUB) < 1
                     pumpVWVmin(iPUMP,iPUMPSUB) = pumpMinValveOpening(iPUMP,iPUMPSUB);
+                elseif pumpMinValveOpening(iPUMP,iPUMPSUB) == 1
+                    % 最小開度が1の時はVWVとはみなさない。
+                    Pump_VWVcoeffi(iPUMP,iPUMPSUB,1) = 0;  % 4次の係数
+                    Pump_VWVcoeffi(iPUMP,iPUMPSUB,2) = 0;  % 3次の係数
+                    Pump_VWVcoeffi(iPUMP,iPUMPSUB,3) = 0;  % 2次の係数
+                    Pump_VWVcoeffi(iPUMP,iPUMPSUB,4) = 0;  % 1次の係数
+                    Pump_VWVcoeffi(iPUMP,iPUMPSUB,5) = 1;  % 切片
+                    pumpVWVmin(iPUMP,iPUMPSUB) = 1;
                 else
                     error('VWVの最小開度の設定が不正です')
                 end
@@ -631,7 +643,7 @@ REFstrage = zeros(1,numOfRefs);  % 蓄熱制御の有無（０：なし、１：あり）
 refS      = zeros(1,numOfRefs);  % 熱源群別の空調面積 [m2]
 REFCHmode = zeros(1,numOfRefs);  % 冷暖同時運転の有無（０：なし、１：あり）
 
-xXratioMX = ones(numOfRefs,3).*NaN;
+xXratioMX = ones(numOfRefs,3,3).*NaN;
 
 for iREF = 1:numOfRefs
     
@@ -805,7 +817,7 @@ for iREF = 1:numOfRefs
                     PQname = '送水温度特性';
                 end
                 
-                % データベースから該当箇所を抜き出し
+                % データベースから該当箇所を抜き出し（特性が2つ以上の式で表現されている場合、該当箇所が複数ある）
                 paraQ = {};
                 for iDB = 1:size(refParaSetALL,1)
                     if strcmp(refParaSetALL(iDB,5),refsetMode{iREF}) && strcmp(refParaSetALL(iDB,6),PQname)
@@ -826,16 +838,14 @@ for iREF = 1:numOfRefs
                                 tmpdata = [tmpdata;str2double(paraQ(iDBQ,[7,8,10])),str2double(perDB_refCurve(iLIST,4:8))];
                                 
                                 if iPQXW == 3
-                                    if isempty(tmpdataMX)
-                                        tmpdataMX = str2double(paraQ(iDBQ,12));
-                                    end
+                                    tmpdataMX = [tmpdataMX; str2double(paraQ(iDBQ,12))];  % 当該特性の冷却水温度適用最大値（該当機器のみ）
                                 end
                                 
                             end
                         end
                     end
                 end
-                
+                                
                 % 係数（基整促係数込み）
                 if iPQXW == 1 || iPQXW == 2
                     for i = 1:6
@@ -854,6 +864,7 @@ for iREF = 1:numOfRefs
                             RerPerC_x_coeffi(iREF,iREFSUB,iX,5)  = tmpdata(iX,8);
                         end
                     else
+                        disp('特性が見つからないため、デフォルト特性を適用')
                         RerPerC_x_min(iREF,iREFSUB,1)    = 0;
                         RerPerC_x_max(iREF,iREFSUB,1)    = 0;
                         RerPerC_x_coeffi(iREF,iREFSUB,1,1)  = 0;
@@ -863,7 +874,10 @@ for iREF = 1:numOfRefs
                         RerPerC_x_coeffi(iREF,iREFSUB,1,5)  = 1;
                     end
                     if isempty(tmpdataMX) == 0
-                        xXratioMX(iREF,iREFSUB) = tmpdataMX;
+                        % 当該特性の冷却水温度適用最大値（該当機器のみ）
+                        for iMX = 1:length(tmpdataMX)
+                            xXratioMX(iREF,iREFSUB,iMX) = tmpdataMX(iMX);
+                        end
                     end
                     
                 elseif iPQXW == 4
