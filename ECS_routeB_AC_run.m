@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-% clear
-% clc
-% tic
-% INPUTFILENAME = './InputFiles/国交省営繕部/富山地方法務局/Case1/EIZEN_Toyama_Case1.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+tic
+INPUTFILENAME = './InputFiles/国交省営繕部/富山地方法務局/Case4/EIZEN_Toyama_Case4_AEX100_Bypass.xml';
+addpath('./subfunction/')
+OutputOption = 'OFF';
 
 switch OutputOption
     case 'ON'
