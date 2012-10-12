@@ -31,4 +31,9 @@
     <Elevators>	
     </Elevators>
 
+    <PhotovoltaicGenerationSystems>
+    </PhotovoltaicGenerationSystems>
+
+    <CogenerationSystems>
+    </CogenerationSystems>
 </Model>

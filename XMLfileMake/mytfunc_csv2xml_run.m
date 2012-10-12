@@ -90,6 +90,21 @@ if isempty(CONFIG.Elevators) == 0
     xmldata = mytfunc_csv2xml_EV(xmldata,CONFIG.Elevators);
 end
 
+
+% 太陽光発電システムのファイルを読み込み
+if isfield(CONFIG,'PhotovoltaicGenerationSystems')
+    if isempty(CONFIG.PhotovoltaicGenerationSystems) == 0
+        xmldata = mytfunc_csv2xml_EFI_PV(xmldata,CONFIG.PhotovoltaicGenerationSystems);
+    end
+end
+
+% コジェネレーションシステムのファイルを読み込み
+if isfield(CONFIG,'CogenerationSystems')
+    if isempty(CONFIG.CogenerationSystems) == 0
+        xmldata = mytfunc_csv2xml_EFI_CGS(xmldata,CONFIG.CogenerationSystems);
+    end
+end
+
 % XMLファイル生成
 xml_write(outputfilename, xmldata, 'model');
 

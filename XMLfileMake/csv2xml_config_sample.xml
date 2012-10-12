@@ -29,4 +29,8 @@
 
     <Elevators>../InputFiles/sample1/sample1_IBEC_Office2F(昇降機).csv</Elevators>
 
+    <PhotovoltaicGenerationSystems>./太陽光発電シート.csv</PhotovoltaicGenerationSystems>
+
+    <CogenerationSystems>./コジェネレーションシート.csv</CogenerationSystems>
+
 </csv2xmlConfig>

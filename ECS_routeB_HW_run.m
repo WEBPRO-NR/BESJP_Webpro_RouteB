@@ -404,7 +404,7 @@ for iEQP = 1:length(equipName)
     if equipSolar(iEQP) == 1
         
         % ì˙êœéZì˙éÀó  [MJ/m2/day]
-        dailyIds = mytfunc_calcSolorRadiation(IodALL,IosALL,InnALL,phi,longi,equipSolor_alp(iEQP),equipSolor_bet(iEQP),1);
+        [dailyIds,~] = mytfunc_calcSolorRadiation(IodALL,IosALL,InnALL,phi,longi,equipSolor_alp(iEQP),equipSolor_bet(iEQP),1);
         Qs_solargain(:,iEQP) = (equipSolor_S(iEQP)*0.4*0.85).*dailyIds.*1000;
     else
         Qs_solargain(:,iEQP) = zeros(365,1);

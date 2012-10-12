@@ -1,6 +1,6 @@
 % mytfunc_calcSolorRadiation.m
-%                                                            by Masato Miyata  2012/08/03
-%----------------------------------------------------------------------------------------
+%                                                 by Masato Miyata 2012/10/12
+%-----------------------------------------------------------------------------
 % 日射量を求めるプログラム
 % 
 % 入力
@@ -10,8 +10,8 @@
 % alp             : 日射量を求める面の方位角
 % bet             : 日射量を求める面の傾斜角
 % go              : 日射量を求める面の直達日射照射率 [-]
-%----------------------------------------------------------------------------------------
-function [dailyIds] = mytfunc_calcSolorRadiation(IodALL,IosALL,InnALL,phi,longi,alp,bet,go)
+%-----------------------------------------------------------------------------
+function [dailyIds,hourlyIds] = mytfunc_calcSolorRadiation(IodALL,IosALL,InnALL,phi,longi,alp,bet,go)
 
 % % 気象データファイル名
 % climatedatafile  = './weathdat/C1_6158195.has';
@@ -110,6 +110,9 @@ for month = 1:12
 
     end
 end
+
+% 時刻別日射量 [W/m2]
+hourlyIds = Id + Is;
 
 
 
