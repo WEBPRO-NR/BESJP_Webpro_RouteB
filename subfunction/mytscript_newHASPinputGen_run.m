@@ -12,7 +12,27 @@ for iROOM = 1:numOfRoooms
     
     % åöï®ã§í ê›íË
     OUTPUT.ATTRIBUTE.Area   = BuildingArea;   % âÑè∞ñ êœ [m2]
-    OUTPUT.ATTRIBUTE.Region = climateAREA;    % ínàÊ
+    
+    % ínàÊãÊï™
+    switch climateAREA
+        case {'Ia','1'}
+            OUTPUT.ATTRIBUTE.Region = 'Ia';
+        case {'Ib','2'}
+            OUTPUT.ATTRIBUTE.Region = 'Ib';
+        case {'II','3'}
+            OUTPUT.ATTRIBUTE.Region = 'II';
+        case {'III','4'}
+            OUTPUT.ATTRIBUTE.Region = 'III';
+        case {'IVa','5'}
+            OUTPUT.ATTRIBUTE.Region = 'IVa';
+        case {'IVb','6'}
+            OUTPUT.ATTRIBUTE.Region = 'IVb';
+        case {'V','7'}
+            OUTPUT.ATTRIBUTE.Region = 'V';
+        case {'VI','8'}
+            OUTPUT.ATTRIBUTE.Region = 'VI';
+    end
+
     
     switch buildingType{iROOM}
         case 'Office'

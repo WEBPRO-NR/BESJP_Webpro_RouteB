@@ -54,11 +54,11 @@ end
 mytscript_readDBfiles;
 
 % 地域区分
-climateAREA = model.ATTRIBUTE.Region;
+climateAREA = num2str(model.ATTRIBUTE.Region);
 
 check = 0;
 for iDB = 1:length(perDB_climateArea(:,2))
-    if strcmp(perDB_climateArea(iDB,2),num2str(climateAREA))
+    if strcmp(perDB_climateArea(iDB,1),climateAREA) || strcmp(perDB_climateArea(iDB,2),climateAREA)
         % 気象データファイル名
         eval(['climatedatafile  = ''./weathdat/C1_',perDB_climateArea{iDB,6},''';'])
         % 緯度
@@ -78,42 +78,42 @@ end
 
 % 気象データの読み込み
 switch climateAREA
-    case 'Ia'
+    case {'Ia','1'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ia.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 9;
-    case 'Ib'
+    case {'Ib','2'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_Ib.dat');
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         TWdata = 0.6639.*OAdataAll(:,1) + 3.466;
         stdLineNum = 10;
-    case 'II'
+    case {'II','3'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_II.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 11;
-    case 'III'
+    case {'III','4'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_III.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.6054.*OAdataAll(:,1) + 4.515;
         stdLineNum = 12;
-    case 'IVa'
+    case {'IVa','5'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVa.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8660.*OAdataAll(:,1) + 1.665;
         stdLineNum = 13;
-    case 'IVb'
+    case {'IVb','6'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_IVb.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.8516.*OAdataAll(:,1) + 2.473;
         stdLineNum = 14;
-    case 'V'
+    case {'V','7'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_V.dat');
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         TWdata = 0.9223.*OAdataAll(:,1) + 2.097;
         stdLineNum = 15;
-    case 'VI'
+    case {'VI','8'}
         [OAdataAll,~,~,~] = mytfunc_weathdataRead('weathdat/weath_VI.dat');
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         TWdata = 0.6921.*OAdataAll(:,1) + 7.167;

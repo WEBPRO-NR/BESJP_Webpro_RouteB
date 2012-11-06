@@ -16,6 +16,7 @@ xmldata = xml_read('routeB_XMLtemplate.xml');
 % ’nˆæ‚Ìİ’è
 switch Area
     case {'Ia','Ib','II','III','IVa','IVb','V','VI'}
+    case {'1','2','3','4','5','6','7','8'}
     otherwise
         error('’nˆæ %s ‚Í–³Œø‚Å‚·',Area)
 end

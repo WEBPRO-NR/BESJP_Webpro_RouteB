@@ -26,14 +26,14 @@
 %  y(17) : ˆêŸƒGƒlƒ‹ƒM[Á”ï—Ê@Šî€’l [MJ/m2”N]
 %  y(18) : BEI/AC (=•]‰¿’l/Šî€’lj [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-clear
-clc
-tic
-INPUTFILENAME = './InputFiles/‘ŒğÈ‰c‘U•”/‚èŒö‹¤EˆÀ/Case1/Takasaki_Case1_new.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% tic
+% INPUTFILENAME = './InputFiles/‘ŒğÈ‰c‘U•”/‚èŒö‹¤EˆÀ/Case1/Takasaki_Case1_new.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -94,7 +94,7 @@ end
 
 % —â’g–[ŠúŠÔ‚Ìİ’è
 switch climateAREA
-    case {'Ia','Ib'}
+    case {'Ia','Ib','1','2'}
         WIN = [1:120,305:365]; MID = [121:181,274:304]; SUM = [182:273];
         
         mxTC   = [5,10,15,20,25,30];
@@ -107,7 +107,7 @@ switch climateAREA
         
         TctwC  = ToawbC + 3;
         
-    case {'II','III','IVa','IVb','V'}
+    case {'II','III','IVa','IVb','V','3','4','5','6','7'}
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         
         mxTC   = [10,15,20,25,30,35];
@@ -120,7 +120,7 @@ switch climateAREA
         
         TctwC  = ToawbC + 3;
         
-    case {'VI'}
+    case {'VI','8'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         
         mxTC   = [10,15,20,25,30,35];
@@ -1258,21 +1258,21 @@ P_Light_ave = mean(P_Light,2);
 %% Šî€’lŒvZ
 
 switch climateAREA
-    case 'Ia'
+    case {'Ia','1'}
         stdLineNum = 1;
-    case 'Ib'
+    case {'Ib','2'}
         stdLineNum = 2;
-    case 'II'
+    case {'II','3'}
         stdLineNum = 3;
-    case 'III'
+    case {'III','4'}
         stdLineNum = 4;
-    case 'IVa'
+    case {'IVa','5'}
         stdLineNum = 5;
-    case 'IVb'
+    case {'IVb','6'}
         stdLineNum = 6;
-    case 'V'
+    case {'V','7'}
         stdLineNum = 7;
-    case 'VI'
+    case {'VI','8'}
         stdLineNum = 8;
 end
 

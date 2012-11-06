@@ -6,7 +6,8 @@
 
 % 気象データ
 for iDB = 2:size(DB_climateArea,1)
-    if strcmp(perDB_climateArea(iDB,2),climateAREA)
+    if strcmp(perDB_climateArea(iDB,1),climateAREA) ...
+            || strcmp(perDB_climateArea(iDB,2),climateAREA)
         climateDatabase = perDB_climateArea(iDB,6);
     end
 end

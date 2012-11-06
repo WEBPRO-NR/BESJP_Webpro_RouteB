@@ -27,24 +27,24 @@ end
 
 % 該当地域のデータを切り出し(変数 C_sta2dyn)
 switch climateAREA
-    case {'Ia'}
+    case {'Ia','1'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,7:9]);
-    case {'Ib'}
+    case {'Ib','2'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,10:12]);
-    case {'II'}
+    case {'II','3'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,13:15]);
-    case {'III'}
+    case {'III','4'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,16:18]);
-    case {'IVa'}
+    case {'IVa','5'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,19:21]);
-    case {'IVb'}
+    case {'IVb','6'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,22:24]);
-    case {'V'}
+    case {'V','7'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,25:27]);
-    case {'VI'}
+    case {'VI','8'}
         C_sta2dyn = perDB_COEFFI(:,[1:6,28:30]);
     otherwise
-        error('')
+        error('地域区分が不正です')
 end
 
 % 各室の補正係数を抜き出す

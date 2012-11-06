@@ -8,7 +8,7 @@
 INPUT = xml_read(INPUTFILENAME);
 
 % Model‚Ì‘®«
-climateAREA  = INPUT.ATTRIBUTE.Region;     % ’nˆæ‹æ•ª
+climateAREA  = num2str(INPUT.ATTRIBUTE.Region);   % ’nˆæ‹æ•ª
 BuildingArea = INPUT.ATTRIBUTE.TotalArea;  % ‰„°–ÊÏ [m2]
 
 %----------------------------------
