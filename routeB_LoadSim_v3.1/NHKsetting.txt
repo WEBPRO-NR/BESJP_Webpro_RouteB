@@ -1,5 +1,0 @@
-buildingdata.txt
-climatedata.has
-out20.dat
-input\wndwtabl.dat
-input\wcontabl.dat
