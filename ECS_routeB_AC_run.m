@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-% clear
-% clc
-% tic
-% INPUTFILENAME = './InputFiles/国交省営繕部/富山地方法務局/Case4/EIZEN_Toyama_Case4_AEX100_bypass.xml';
-% addpath('./subfunction/')
-% OutputOption = 'OFF';
+clear
+clc
+tic
+INPUTFILENAME = './InputFiles/国交省営繕部/高崎公共職安/Case1/Takasaki_Case1_new.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -214,16 +214,16 @@ toc
 %%-----------------------------------------------------------------------------------------------------------
 %% ２）空調負荷計算
 
-QroomAHUc     = zeros(365,numOfAHUs);  % 日積算室負荷（冷房）[MJ/day]
-QroomAHUh     = zeros(365,numOfAHUs);  % 日積算室負荷（暖房）[MJ/day]
-Qahu_hour     = zeros(365,numOfAHUs);  % 時刻別空調負荷[MJ/day]
-Tahu_c        = zeros(365,numOfAHUs);  % 日積算冷房運転時間 [h]
-Tahu_h        = zeros(365,numOfAHUs);  % 日積算暖房運転時間 [h]
+QroomAHUc     = zeros(365,numOfAHUSET);  % 日積算室負荷（冷房）[MJ/day]
+QroomAHUh     = zeros(365,numOfAHUSET);  % 日積算室負荷（暖房）[MJ/day]
+Qahu_hour     = zeros(365,numOfAHUSET);  % 時刻別空調負荷[MJ/day]
+Tahu_c        = zeros(365,numOfAHUSET);  % 日積算冷房運転時間 [h]
+Tahu_h        = zeros(365,numOfAHUSET);  % 日積算暖房運転時間 [h]
 
 
 % 日毎の空調運転時間(ahuDayMode: 1昼，2夜，0終日)
 [AHUsystemT,ahuTime_start,ahuTime_stop,ahuDayMode] = ...
-    mytfunc_AHUOpeTIME(ahuID,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
+    mytfunc_AHUOpeTIME(ahuSetName,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
 
 disp('STEP1')
 toc
@@ -231,16 +231,16 @@ toc
 switch MODE
     case {1}  % 毎時計算
         
-        QroomAHUhour  = zeros(8760,numOfAHUs); % 時刻別室負荷 [MJ/h]
-        Qahu_oac_hour = zeros(8760,numOfAHUs); % 外気冷房効果 [kW]
-        qoaAHUhour    = zeros(8760,numOfAHUs); % 外気負荷 [kW]
-        AHUVovc_hour  = zeros(8760,numOfAHUs); % 外気冷房時風量 [kg/s]
-        qoaAHU_CEC_hour = zeros(8760,numOfAHUs); % 仮想外気負荷 [kW]
-        Qahu_hour_CEC =  zeros(8760,numOfAHUs); % 仮想空調負荷 [MJ/h]
+        QroomAHUhour  = zeros(8760,numOfAHUSET); % 時刻別室負荷 [MJ/h]
+        Qahu_oac_hour = zeros(8760,numOfAHUSET); % 外気冷房効果 [kW]
+        qoaAHUhour    = zeros(8760,numOfAHUSET); % 外気負荷 [kW]
+        AHUVovc_hour  = zeros(8760,numOfAHUSET); % 外気冷房時風量 [kg/s]
+        qoaAHU_CEC_hour = zeros(8760,numOfAHUSET); % 仮想外気負荷 [kW]
+        Qahu_hour_CEC =  zeros(8760,numOfAHUSET); % 仮想空調負荷 [MJ/h]
         
         % 日積算室負荷を空調系統ごとに集計
         for iROOM=1:numOfRoooms
-            for iAHU=1:numOfAHUs
+            for iAHU=1:numOfAHUSET
                 switch roomID{iROOM}
                     case ahuQroomSet{iAHU,:}
                         QroomAHUc(:,iAHU)    = QroomAHUc(:,iAHU)    + QroomDc(:,iROOM);   % 室数かける
@@ -250,7 +250,7 @@ switch MODE
             end
         end
         
-        for iAHU = 1:numOfAHUs
+        for iAHU = 1:numOfAHUSET
             for dd = 1:365
                 for hh = 1:24
                     
@@ -284,15 +284,15 @@ switch MODE
     case {2,3}  % 日単位の計算
         
         % 変数定義
-        qoaAHU     = zeros(365,numOfAHUs);  % 日平均外気負荷 [kW]
-        qoaAHU_CEC = zeros(365,numOfAHUs);  % 日平均仮想外気負荷 [kW]
-        AHUVovc   = zeros(365,numOfAHUs);  % 外気冷房風量 [kg/s]
-        Qahu_oac  = zeros(365,numOfAHUs);  % 外気冷房効果 [MJ/day]
-        Qahu_c    = zeros(365,numOfAHUs);  % 日積算空調負荷(冷房) [MJ/day]
-        Qahu_h    = zeros(365,numOfAHUs);  % 日積算空調負荷(暖房) [MJ/day]
-        Qahu_CEC  = zeros(365,numOfAHUs);  % CECの仮想空調負荷 [MJ/day]
+        qoaAHU     = zeros(365,numOfAHUSET);  % 日平均外気負荷 [kW]
+        qoaAHU_CEC = zeros(365,numOfAHUSET);  % 日平均仮想外気負荷 [kW]
+        AHUVovc   = zeros(365,numOfAHUSET);  % 外気冷房風量 [kg/s]
+        Qahu_oac  = zeros(365,numOfAHUSET);  % 外気冷房効果 [MJ/day]
+        Qahu_c    = zeros(365,numOfAHUSET);  % 日積算空調負荷(冷房) [MJ/day]
+        Qahu_h    = zeros(365,numOfAHUSET);  % 日積算空調負荷(暖房) [MJ/day]
+        Qahu_CEC  = zeros(365,numOfAHUSET);  % CECの仮想空調負荷 [MJ/day]
         
-        for iAHU=1:numOfAHUs
+        for iAHU=1:numOfAHUSET
             
             % 日積算室負荷を空調系統ごとに集計（QroomAHUc,QroomAHUhを求める）
             for iROOM=1:numOfRoooms
@@ -342,13 +342,14 @@ toc
 %% 空調エネルギー計算
 
 % 空調負荷マトリックス作成 (AHUとFCUの運転時間は常に同じで良いか？→日積算であれば判別の仕様がない)
-MxAHUc    = zeros(numOfAHUs,length(mxL));
-MxAHUh    = zeros(numOfAHUs,length(mxL));
-MxAHUcE   = zeros(numOfAHUs,length(mxL));
-MxAHUhE   = zeros(numOfAHUs,length(mxL));
-AHUaex    = zeros(1,numOfAHUs);
+MxAHUc    = zeros(numOfAHUSET,length(mxL));
+MxAHUh    = zeros(numOfAHUSET,length(mxL));
+MxAHUcE   = zeros(numOfAHUSET,length(mxL));
+MxAHUhE   = zeros(numOfAHUSET,length(mxL));
+MxAHUkW   = zeros(numOfAHUSET,length(mxL));
+AHUaex    = zeros(1,numOfAHUSET);
 
-for iAHU = 1:numOfAHUs
+for iAHU = 1:numOfAHUSET
     
     switch MODE
         case {1}
@@ -364,18 +365,31 @@ for iAHU = 1:numOfAHUs
             
     end
           
-    % CAVかVAVか
-    if ahuFanVAV(iAHU) == 1        
-        for i=1:length(mxL)
-            if aveL(length(mxL)+1-i) < ahuFanVAVmin(iAHU) % VAV最小開度
-                AHUvavfac(iAHU,length(mxL)+1-i) = AHUvavfac(iAHU,length(mxL)+1-i+1);
+% エネルギー消費特性
+    tmpEkW = zeros(1,length(mxL));
+    for iAHUele = 1:numOfAHUele(iAHU)
+        
+        % VAV最小開度
+        if ahuFanVAV(iAHU,iAHUele) == 1
+            for i=1:length(mxL)
+                if aveL(length(mxL)+1-i) < ahuFanVAVmin(iAHU,iAHUele) % VAV最小開度
+                    ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i) = ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i+1);
+                end
             end
         end
-    end
         
+        % 過負荷の扱い
+        AHUvavfac(iAHU,iAHUele,length(mxL)) = 1.2;
+        
+        for iL = 1:length(mxL)
+            tmpEkW(iL) = tmpEkW(iL) + ahuEfan(iAHU,iAHUele).*ahuFanVAVfunc(iAHU,iAHUele,iL);
+        end
+    end
+    
     % エネルギー計算（空調機ファン） 出現時間 * 単位エネルギー [MWh]
-    MxAHUcE(iAHU,:) = MxAHUc(iAHU,:).* ahuEfan(iAHU).*AHUvavfac(iAHU,:)./1000;
-    MxAHUhE(iAHU,:) = MxAHUh(iAHU,:).* ahuEfan(iAHU).*AHUvavfac(iAHU,:)./1000;
+    MxAHUkW(iAHU,:) = tmpEkW;  % 結果出力用[kW]
+    MxAHUcE(iAHU,:) = MxAHUc(iAHU,:).* tmpEkW./1000;
+    MxAHUhE(iAHU,:) = MxAHUh(iAHU,:).* tmpEkW./1000;
     
     % 全熱交換機のエネルギー消費量 [MWh] →　バイパスの影響は？
     AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
@@ -398,10 +412,10 @@ ThAHU = sum(MxAHUh,2);
 switch MODE
     case {1}
         
-        Qahu_remainChour = zeros(8760,numOfAHUs);
-        Qahu_remainHhour = zeros(8760,numOfAHUs);
+        Qahu_remainChour = zeros(8760,numOfAHUSET);
+        Qahu_remainHhour = zeros(8760,numOfAHUSET);
         
-        for iAHU = 1:numOfAHUs
+        for iAHU = 1:numOfAHUSET
             for dd = 1:365
                 for hh = 1:24
                     
@@ -427,10 +441,10 @@ switch MODE
         
     case {2,3}
         
-        Qahu_remainC = zeros(365,numOfAHUs);
-        Qahu_remainH = zeros(365,numOfAHUs);
+        Qahu_remainC = zeros(365,numOfAHUSET);
+        Qahu_remainH = zeros(365,numOfAHUSET);
         
-        for iAHU = 1:numOfAHUs
+        for iAHU = 1:numOfAHUSET
             for dd = 1:365
                 if ModeOpe(dd,1) == -1  % 暖房モード
                     if Qahu_c(dd,iAHU) > 0 && AHUCHmode_H(iAHU) == 0
@@ -475,8 +489,8 @@ switch MODE
         for iPUMP = 1:numOfPumps
             
             % ポンプ負荷の積算
-            for iAHU = 1:numOfAHUs
-                switch ahuID{iAHU}  % 属する空調機を見つける
+            for iAHU = 1:numOfAHUSET
+                switch ahuSetName{iAHU}  % 属する空調機を見つける
                     case PUMPahuSet{iPUMP}
                         
                         % ポンプ負荷[kW]
@@ -538,11 +552,11 @@ switch MODE
         for iPUMP = 1:numOfPumps
             
             % ポンプ負荷の積算
-            for iAHU = 1:numOfAHUs
+            for iAHU = 1:numOfAHUSET
                 
                 if isempty(PUMPahuSet{iPUMP}) == 0
                     
-                    switch ahuID{iAHU}
+                    switch ahuSetName{iAHU}
                         case PUMPahuSet{iPUMP}
                             
                             for dd = 1:365
@@ -612,7 +626,7 @@ switch MODE
             
             % ポンプ運転時間
             [Tps(:,iPUMP),pumpTime_Start(:,iPUMP),pumpTime_Stop(:,iPUMP)]...
-                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuID,PUMPahuSet{iPUMP},ahuTime_start,ahuTime_stop);
+                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuSetName,PUMPahuSet{iPUMP},ahuTime_start,ahuTime_stop);
             
         end
 end

@@ -308,64 +308,100 @@ end
 
 %----------------------------------
 % 空調機のパラメータ
-numOfAHUsTemp = length(INPUT.AirConditioningSystem.AirHandlingUnit);
 
-ahueleID    = cell(1,numOfAHUsTemp);
-ahueleName  = cell(1,numOfAHUsTemp);
-ahueleType  = cell(1,numOfAHUsTemp);
-ahueleCount = zeros(1,numOfAHUsTemp);
-ahueleQcmax = zeros(1,numOfAHUsTemp);
-ahueleQhmax = zeros(1,numOfAHUsTemp);
-ahueleVsa   = zeros(1,numOfAHUsTemp);
-ahueleEfsa  = zeros(1,numOfAHUsTemp);
-ahueleEfra  = zeros(1,numOfAHUsTemp);
-ahueleEfoa  = zeros(1,numOfAHUsTemp);
-ahueleEfex  = zeros(1,numOfAHUsTemp);
-ahueleFlowControl        = cell(1,numOfAHUsTemp);
-ahueleMinDamperOpening   = zeros(1,numOfAHUsTemp);
-ahueleOACutCtrl          = cell(1,numOfAHUsTemp);
-ahueleFreeCoolingCtrl    = cell(1,numOfAHUsTemp);
-ahueleHeatExchangeCtrl   = cell(1,numOfAHUsTemp);
-ahueleHeatExchangeEff    = zeros(1,numOfAHUsTemp);
-ahueleHeatExchangePower  = zeros(1,numOfAHUsTemp);
-ahueleHeatExchangeVolume = zeros(1,numOfAHUsTemp);
-ahueleHeatExchangeBypass = cell(1,numOfAHUsTemp);
-ahueleRef_cooling  = cell(1,numOfAHUsTemp);
-ahueleRef_heating  = cell(1,numOfAHUsTemp);
-ahuelePump_cooling = cell(1,numOfAHUsTemp);
-ahuelePump_heating = cell(1,numOfAHUsTemp);
+numOfAHUSET = length(INPUT.AirConditioningSystem.AirHandlingUnitSet);  % 空調機群の数
 
-for iAHU = 1:numOfAHUsTemp
+ahuSetName = cell(numOfAHUSET,1);
+numOfAHUele  = zeros(numOfAHUSET,1);
+ahuRef_cooling  = cell(numOfAHUSET,1);
+ahuRef_heating  = cell(numOfAHUSET,1);
+ahuPump_cooling = cell(numOfAHUSET,1);
+ahuPump_heating = cell(numOfAHUSET,1);
+
+for iAHUSET = 1:numOfAHUSET
     
-    ahueleID{iAHU}    = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.Name;    % 空調機ID
-    ahueleType{iAHU}  = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.Type;  % 空調機タイプ
+    % 空調機群名称
+    ahuSetName{iAHUSET,1} = INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).ATTRIBUTE.Name;
     
-    ahueleCount(iAHU) = mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.Count,1);  % 台数
+    % 空調機群の中に含まれる空調機要素の数
+    numOfAHUele(iAHUSET) = length(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit);
     
-    ahueleQcmax(iAHU) = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.CoolingCapacity,0);  % 定格冷房能力
-    ahueleQhmax(iAHU) = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatingCapacity,0);  % 定格暖房能力
-    ahueleVsa(iAHU)   = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.SupplyAirVolume,0);  % 給気風量
-    ahueleEfsa(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.SupplyFanPower,0);   % 給気ファン消費電力
-    ahueleEfra(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.ReturnFanPower,0);   % 還気ファン消費電力
-    ahueleEfoa(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirFanPower,0);   % 外気ファン消費電力
-    ahueleEfex(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.ExitFanPower,0);     % 排気ファン消費電力
+    % 熱源接続（冷房）
+    ahuRef_cooling{iAHUSET}  = ...
+        strcat(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).HeatSourceSetRef.ATTRIBUTE.Cooling,'_C');
+    % 熱源接続（暖房）
+    ahuRef_heating{iAHUSET}  = ...
+        strcat(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).HeatSourceSetRef.ATTRIBUTE.Heating,'_H');
+    % ポンプ接続（冷房）
+    ahuPump_cooling{iAHUSET} = ...
+        strcat(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).SecondaryPumpRef.ATTRIBUTE.Cooling,'_C');
+    % ポンプ接続（暖房）
+    ahuPump_heating{iAHUSET} = ...
+        strcat(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).SecondaryPumpRef.ATTRIBUTE.Heating,'_H');
     
-    ahueleFlowControl{iAHU}        = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.FlowControl;            % 風量制御
-    ahueleMinDamperOpening(iAHU)   = mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.MinDamperOpening,1);       % VAV最小開度
-    ahueleOACutCtrl{iAHU}          = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirCutControl;   % 外気カット制御
-    ahueleFreeCoolingCtrl{iAHU}    = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.FreeCoolingControl;     % 外気冷房制御
-    
-    ahueleHeatExchangeCtrl{iAHU}   = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchanger;          % 全熱交換機制御
-    ahueleHeatExchangeBypass{iAHU} = INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerBypass;    % 全熱交バイパス有無
-    
-    ahueleHeatExchangeEff(iAHU)    = mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerEfficiency,0);  % 全熱交効率
-    ahueleHeatExchangePower(iAHU)  = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerPower,0);     % 全熱交動力
-    ahueleHeatExchangeVolume(iAHU) = ahueleCount(iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerVolume,0);    % 全熱交風量
-    
-    ahueleRef_cooling{iAHU}  = strcat(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).HeatSourceSetRef.ATTRIBUTE.CoolingName,'_C');  % 熱源接続（冷房）
-    ahueleRef_heating{iAHU}  = strcat(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).HeatSourceSetRef.ATTRIBUTE.HeatingName,'_H');  % 熱源接続（暖房）
-    ahuelePump_cooling{iAHU} = strcat(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).SecondaryPumpRef.ATTRIBUTE.CoolingName,'_C');  % ポンプ接続（冷房）
-    ahuelePump_heating{iAHU} = strcat(INPUT.AirConditioningSystem.AirHandlingUnit(iAHU).SecondaryPumpRef.ATTRIBUTE.HeatingName,'_H');  % ポンプ接続（暖房）
+    for iAHU = 1:numOfAHUele(iAHUSET)
+        
+        % 空調機タイプ
+        ahueleType{iAHUSET,iAHU}  = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.Type;
+        
+        % 台数
+        ahueleCount(iAHUSET,iAHU) = ...
+            mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.Count,1);
+        
+        % 定格冷房能力 [kW]
+        ahueleQcmax(iAHUSET,iAHU) = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.CoolingCapacity,0);
+        % 定格暖房能力 [kW]
+        ahueleQhmax(iAHUSET,iAHU) = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatingCapacity,0);
+        % 給気風量 [m3/h]
+        ahueleVsa(iAHUSET,iAHU)   = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.SupplyAirVolume,0);
+        % 給気ファン消費電力 [kW]
+        ahueleEfsa(iAHUSET,iAHU)  = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.SupplyFanPower,0);
+        % 還気ファン消費電力 [kW]
+        ahueleEfra(iAHUSET,iAHU)  = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.ReturnFanPower,0);
+        % 外気ファン消費電力 [kW]
+        ahueleEfoa(iAHUSET,iAHU)  = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirFanPower,0);
+        % 排気ファン消費電力 [kW]
+        ahueleEfex(iAHUSET,iAHU)  = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.ExitFanPower,0);
+        
+        % 送風量制御
+        ahueleFlowControl{iAHUSET,iAHU}        = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.FlowControl;
+        % VAV最小開度
+        ahueleMinDamperOpening(iAHUSET,iAHU)   = ...
+            mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.MinDamperOpening,1);
+        
+        % 外気カット制御
+        ahueleOACutCtrl{iAHUSET,iAHU}          = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.OutsideAirCutControl;
+        % 外気冷房制御
+        ahueleFreeCoolingCtrl{iAHUSET,iAHU}    = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.FreeCoolingControl;
+        
+        % 全熱交換機制御
+        ahueleHeatExchangeCtrl{iAHUSET,iAHU}   = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchanger;
+        % 全熱交バイパス有無
+        ahueleHeatExchangeBypass{iAHUSET,iAHU} = ...
+            INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerBypass;
+        % 全熱交効率
+        ahueleHeatExchangeEff(iAHUSET,iAHU)    = ...
+            mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerEfficiency,0);
+        % 全熱交動力
+        ahueleHeatExchangePower(iAHUSET,iAHU)  = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerPower,0);
+        % 全熱交風量
+        ahueleHeatExchangeVolume(iAHUSET,iAHU) = ...
+            ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerVolume,0);
+        
+    end
     
 end
 

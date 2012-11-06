@@ -52,14 +52,14 @@ end
 
 
 %% 空調負荷
-qroomAHUc = zeros(365,numOfAHUs);
-qroomAHUh = zeros(365,numOfAHUs);
+qroomAHUc = zeros(365,numOfAHUSET);
+qroomAHUh = zeros(365,numOfAHUSET);
 
 rfc = [rfc;'空調負荷,'];
-for iAHU = 1:numOfAHUs
+for iAHU = 1:numOfAHUSET
     
     % 空調機コード
-    rfc = [rfc;strcat(ahuID{iAHU},',',ahuType{iAHU})];
+    rfc = [rfc;strcat(ahuSetName{iAHU},',',ahuType{iAHU})];
     
     % 接続室情報（手間なので簡略化）
     tmp = 0; % カウンタ（5まで）
@@ -124,17 +124,17 @@ end
 
 %% 空調機エネルギー消費量
 rfc = [rfc;'空調機E,'];
-for iAHU = 1:numOfAHUs
+for iAHU = 1:numOfAHUSET
     
-    rfc = [rfc; strcat(ahuID{iAHU},',',ahuType{iAHU},',',num2str(ahuQcmax(iAHU)),',',...
+    rfc = [rfc; strcat(ahuSetName{iAHU},',',ahuType{iAHU},',',num2str(ahuQcmax(iAHU)),',',...
         num2str(ahuQhmax(iAHU)),',',num2str(ahuEfan(iAHU)),',',num2str(0),',',...
         num2str(0),',',ahuFlowControl{iAHU},',',num2str(ahuFanVAVmin(iAHU)))];
     
     rfc = mytfunc_oneLinecCell(rfc,[MxAHUc(iAHU,:),sum(MxAHUc(iAHU,:))]);
-    rfc = mytfunc_oneLinecCell(rfc,ahuEfan(iAHU).*AHUvavfac(iAHU,:));
+    rfc = mytfunc_oneLinecCell(rfc,MxAHUkW(iAHU,:));
     rfc = mytfunc_oneLinecCell(rfc,[MxAHUcE(iAHU,:),sum(MxAHUcE(iAHU,:))]);
     rfc = mytfunc_oneLinecCell(rfc,[MxAHUh(iAHU,:),sum(MxAHUh(iAHU,:))]);
-    rfc = mytfunc_oneLinecCell(rfc,ahuEfan(iAHU).*AHUvavfac(iAHU,:));
+    rfc = mytfunc_oneLinecCell(rfc,MxAHUkW(iAHU,:));
     rfc = mytfunc_oneLinecCell(rfc,[MxAHUhE(iAHU,:),sum(MxAHUhE(iAHU,:))]);
 end
 
