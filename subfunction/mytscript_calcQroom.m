@@ -85,6 +85,8 @@ for iROOM = 1:numOfRoooms
             BTname = '飲食店等';
         case 'MeetingPlace'
             BTname = '集会所等';
+        case 'ApartmentHouse'
+            BTname = '共同住宅';
         otherwise
             error('建物用途が不正です')
     end
