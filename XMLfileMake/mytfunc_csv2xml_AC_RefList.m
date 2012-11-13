@@ -202,7 +202,7 @@ for iREFSET = 1:length(RefListName)
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_HeatingWater';
                 elseif strcmp(refListDataCell(iDB,6),'’nˆæ”M‹Ÿ‹‹(ö‹C)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_Steam';
-                elseif strcmp(refListDataCell(iDB,6),'”MŒğŠ·‹@')
+                elseif strcmp(refListDataCell(iDB,6),'”MŒğŠ·Ší')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
                 else
                     refListDataCell(iDB,6)

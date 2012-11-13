@@ -58,6 +58,7 @@ LoadLimit  = zeros(1,numofUnit);
 Velocity   = zeros(1,numofUnit);
 kControlT      = ones(1,numofUnit);
 kControlT_name = cell(1,numofUnit);
+TransportCapacityFactor = zeros(1,numofUnit);
 
 for iUNIT = 1:numofUnit
     
@@ -70,7 +71,17 @@ for iUNIT = 1:numofUnit
     Count(iUNIT)       = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Count;
     LoadLimit(iUNIT)   = model.Elevators.Elevator(iUNIT).ATTRIBUTE.LoadLimit;
     Velocity(iUNIT)    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Velocity;
-        
+    
+    % 輸送能力係数
+    if stcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor,'Null')
+        TransportCapacityFactor(iUNIT) = 1;
+    else
+        TransportCapacityFactor(iUNIT) = model.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor;
+    end
+    if TransportCapacityFactor(iUNIT) < 0
+        TransportCapacityFactor(iUNIT) = 0;
+    end
+    
     if strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.ControlType,'VVVF_Regene_GearLess')
         kControlT(iUNIT) = 1/50;
         kControlT_name{iUNIT} = '可変電圧可変周波数制御方式（電力回生制御ありギアレス巻上機）';
@@ -111,7 +122,7 @@ end
 
 % エネルギー消費量計算 [MJ/年]
 Edesign_MWh   = LoadLimit.* Velocity.* kControlT.* Count.* timeEV ./860 ./1000;
-Estandard_MWh = LoadLimit.* Velocity.* (1/40).* Count.* timeEV ./860 ./1000;
+Estandard_MWh = LoadLimit.* Velocity.* (1/40).* TransportCapacityFactor .* Count.* timeEV ./860 ./1000;
 Edesign_MJ   = 9760.* Edesign_MWh;
 Estandard_MJ = 9760.* Estandard_MWh;
  

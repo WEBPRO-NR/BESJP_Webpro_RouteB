@@ -48,24 +48,24 @@ switch climateAREA
 end
 
 % äeé∫ÇÃï‚ê≥åWêîÇî≤Ç´èoÇ∑
-C_sta2dyn_CTC = zeros(numOfRoooms,3);
-C_sta2dyn_CTH = zeros(numOfRoooms,3);
-C_sta2dyn_CSR = zeros(numOfRoooms,3);
-C_sta2dyn_HTC = zeros(numOfRoooms,3);
-C_sta2dyn_HTH = zeros(numOfRoooms,3);
-C_sta2dyn_HSR = zeros(numOfRoooms,3);
-C_sta2dyn_MTC = zeros(numOfRoooms,3);
-C_sta2dyn_MTH = zeros(numOfRoooms,3);
-C_sta2dyn_MSR = zeros(numOfRoooms,3);
-C_sta2dyn_CTC_off = zeros(numOfRoooms,3); 
-C_sta2dyn_CTH_off = zeros(numOfRoooms,3); 
-C_sta2dyn_CSR_off = zeros(numOfRoooms,3); 
-C_sta2dyn_HTC_off = zeros(numOfRoooms,3); 
-C_sta2dyn_HTH_off = zeros(numOfRoooms,3); 
-C_sta2dyn_HSR_off = zeros(numOfRoooms,3); 
-C_sta2dyn_MTC_off = zeros(numOfRoooms,3); 
-C_sta2dyn_MTH_off = zeros(numOfRoooms,3); 
-C_sta2dyn_MSR_off = zeros(numOfRoooms,3); 
+C_sta2dyn_CTC = zeros(numOfRoooms,3);        % âƒãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_CTH = zeros(numOfRoooms,3);        % âƒãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêî
+C_sta2dyn_CSR = zeros(numOfRoooms,3);        % âƒãGÇ…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_HTC = zeros(numOfRoooms,3);        % ì~ãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_HTH = zeros(numOfRoooms,3);        % ì~ãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêî
+C_sta2dyn_HSR = zeros(numOfRoooms,3);        % ì~ãGÇ…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_MTC = zeros(numOfRoooms,3);        % íÜä‘ä˙Ç…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_MTH = zeros(numOfRoooms,3);        % íÜä‘ä˙Ç…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêî
+C_sta2dyn_MSR = zeros(numOfRoooms,3);        % íÜä‘ä˙Ç…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêî
+C_sta2dyn_CTC_off = zeros(numOfRoooms,3);    % âƒãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_CTH_off = zeros(numOfRoooms,3);    % âƒãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_CSR_off = zeros(numOfRoooms,3);    % âƒãGÇ…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_HTC_off = zeros(numOfRoooms,3);    % ì~ãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_HTH_off = zeros(numOfRoooms,3);    % ì~ãGÇ…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_HSR_off = zeros(numOfRoooms,3);    % ì~ãGÇ…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_MTC_off = zeros(numOfRoooms,3);    % íÜä‘ä˙Ç…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_MTH_off = zeros(numOfRoooms,3);    % íÜä‘ä˙Ç…Ç®ÇØÇÈâ∑ìxç∑Ç…ÇÊÇÈígñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
+C_sta2dyn_MSR_off = zeros(numOfRoooms,3);    % íÜä‘ä˙Ç…Ç®ÇØÇÈì˙éÀÇ…ÇÊÇÈó‚ñ[ïââ◊ÇÃåWêîÅiëOì˙Ç™îÒãÛí≤ÇÃèÍçáÅj
 
 for iROOM = 1:numOfRoooms
     
@@ -199,10 +199,10 @@ ISR_H   = str2double(perDB_WEATHER(3:end,20));  % êÖïΩ
 NSR_V   = str2double(perDB_WEATHER(3:end,21));  % âîíº
 NSR_H   = str2double(perDB_WEATHER(3:end,22));  % êÖïΩ
 
-% èoóÕóp
-OAdataAll = [Toa_ave,Xoa_ave,mytfunc_enthalpy(Toa_ave,Xoa_ave)];
-OAdataDay = [Toa_day,Xoa_day,mytfunc_enthalpy(Toa_day,Xoa_day)];
-OAdataNgt = [Toa_ngt,Xoa_ngt,mytfunc_enthalpy(Toa_ngt,Xoa_ngt)];
+% èoóÕóp(äOãCâ∑ÅAéºìxÅAÉGÉìÉ^ÉãÉsÅ[)
+OAdataAll = [Toa_ave,Xoa_ave,mytfunc_enthalpy(Toa_ave,Xoa_ave)];  % èIì˙ïΩãœ
+OAdataDay = [Toa_day,Xoa_day,mytfunc_enthalpy(Toa_day,Xoa_day)];  % íãä‘ïΩãœ
+OAdataNgt = [Toa_ngt,Xoa_ngt,mytfunc_enthalpy(Toa_ngt,Xoa_ngt)];  % ñÈä‘ïΩãœ
 
 
 
@@ -228,11 +228,11 @@ QroomDh   = zeros(365,numOfRoooms);
 % é∫íPà ÇÃÉãÅ[Év
 for iROOM = 1:numOfRoooms
     
-    % äOîÁIDÅiEnvelopeRefÅjÇ©ÇÁäOîÁédólDB(envelopeID ÇÃ iENV)ÇíTÇ∑
+    % äeé∫ÇÃäOï«ê›íËÅiEnvelopeRefÅjÇ©ÇÁäOîÁédólDB(envelopeID ÇÃ iENV)ÇíTÇ∑
     % äOï«ÇÃê›íËÇ™Ç≥ÇÍÇƒÇ¢Ç»Ç¢èÍçáÇÕ check = 0 Ç∆ÇµÇƒÅAéüÇÃifï∂Ç≈ï™äÚÇ≥ÇπÇÈÅB
     check = 0;
     for iENV = 1:numOfENVs
-        if strcmp(EnvelopeRef{iROOM},envelopeID{iENV}) == 1
+        if strcmp(EnvelopeRef{iROOM},envelopeID{iENV})
             check = 1;
             break
         end
@@ -244,24 +244,8 @@ for iROOM = 1:numOfRoooms
         % äOï«ÅEëãÇÃèÓïÒÇì«Ç›çûÇﬁ
         for iWALL = 1:numOfWalls(iENV)
             
-            % ï˚à åWêîÅiï˚à ÅFDirection{iENV,iWALL}ÅjÅièZëÓÇÃï˚à åWêîÇåpè≥Åj
-            if strcmp(Direction{iENV,iWALL},'N')
-                directionV = 0.24;
-            elseif strcmp(Direction{iENV,iWALL},'E') || strcmp(Direction{iENV,iWALL},'W')
-                directionV = 0.45;
-            elseif strcmp(Direction{iENV,iWALL},'S')
-                directionV = 0.39;
-            elseif strcmp(Direction{iENV,iWALL},'SE') || strcmp(Direction{iENV,iWALL},'SW')
-                directionV = 0.45;
-            elseif strcmp(Direction{iENV,iWALL},'NE') || strcmp(Direction{iENV,iWALL},'NW')
-                directionV = 0.34;
-            elseif strcmp(Direction{iENV,iWALL},'Horizontal')
-                directionV = 1;
-            elseif strcmp(Direction{iENV,iWALL},'Underground')
-                directionV = 0;
-            else
-                directionV = 0.5;
-            end
+            % ï˚à åWêîÅÉó‚ñ[ä˙ÅÑÅiï˚à ÅFDirection{iENV,iWALL}Åj
+            directionV = mytfunc_DirectionCoeffi(Direction{iENV,iWALL},climateAREA,'C');
             
             % äOï«Ç™Ç†ÇÍÇŒÅiäOï«ñºèÃ WallConfigure Ç≈íTç∏Åj
             if isempty(WallConfigure{iENV,iWALL}) == 0
@@ -428,43 +412,43 @@ for iROOM = 1:numOfRoooms
         
         if AHUonoff(dd,iROOM) > 0
             
-            if SeasonMode(dd) == 1   % ó‚ñ[ä˙
+            if SeasonMode(dd) == 1   % ó‚ñ[ä˙Å@ÅÉì˙éÀê¨ï™ÇÕï‚ê≥ÇµÇ»Ç¢êÿï–Çì«Ç›çûÇﬁÅÑ
                 
                 if dd > 1 && AHUonoff(dd-1,iROOM)==1
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_CTC(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_CTC(iROOM,3);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_CTH(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_CTH(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_CSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_CSR(iROOM,3);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_CSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_CSR(iROOM,2);
                 else
                     % ëOì˙Ç™îÒãÛí≤ÇÃèÍçá
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_CTC_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_CTC_off(iROOM,3);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_CTH_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_CTH_off(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_CSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_CSR_off(iROOM,3);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_CSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_CSR_off(iROOM,2);
                 end
                 
-            elseif SeasonMode(dd) == -1 % ígñ[ä˙
+            elseif SeasonMode(dd) == -1 % ígñ[ä˙Å@ÅÉígñ[ä˙ÇÕäOãCâ∑ÅAì˙éÀÇ∆Ç‡ï‚ê≥ÇµÇ»Ç¢êÿï–Çì«Ç›çûÇﬁÅÑ
                 
                 if dd > 1 && AHUonoff(dd-1,iROOM)==1
-                    Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC(iROOM,3);
-                    Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR(iROOM,3);
+                    Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC(iROOM,2);
+                    Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH(iROOM,2);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR(iROOM,2);
                 else
                     % ëOì˙Ç™îÒãÛí≤ÇÃèÍçá
-                    Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC_off(iROOM,3);
-                    Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH_off(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR_off(iROOM,3);
+                    Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC_off(iROOM,2);
+                    Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH_off(iROOM,2);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR_off(iROOM,2);
                 end
                 
-            elseif SeasonMode(dd) == 0  % íÜä‘ä˙
+            elseif SeasonMode(dd) == 0  % íÜä‘ä˙Å@ÅÉì˙éÀê¨ï™ÇÕï‚ê≥ÇµÇ»Ç¢êÿï–Çì«Ç›çûÇﬁÅÑ
                 
                 if dd > 1 && AHUonoff(dd-1,iROOM)==1
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_MTC(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_MTC(iROOM,3);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_MTH(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_MTH(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_MSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_MSR(iROOM,3);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_MSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_MSR(iROOM,2);
                 else
                     % ëOì˙Ç™îÒãÛí≤ÇÃèÍçá
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_MTC_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_MTC_off(iROOM,3);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_MTH_off(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_MTH_off(iROOM,3);
-                    Qroom_CSR(dd,iROOM) = C_sta2dyn_MSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_MSR_off(iROOM,3);
+                    Qroom_CSR(dd,iROOM) = C_sta2dyn_MSR_off(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_MSR_off(iROOM,2);
                 end
                 
             else

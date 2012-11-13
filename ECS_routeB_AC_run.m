@@ -1105,12 +1105,17 @@ for iREF = 1:numOfRefs
         end
     end
     
-    
     % 補機群のエネルギー消費量
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
+                        
+            % 補機電力(負荷に比例させる)
+            if mxL(iL) <= 0.3
+                ErefaprALL(ioa,iL,iREF)  = 0.3 * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+            else
+                ErefaprALL(ioa,iL,iREF)  = mxL(iL) * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+            end
             
-            ErefaprALL(ioa,iL,iREF)  = sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));          % 補機電力
             EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ
             EctfanrALL(ioa,iL,iREF)  = sum( refset_CTFanPower(iREF,1:MxREFnum(ioa,iL,iREF)));        % 冷却塔ファン
             EctpumprALL(ioa,iL,iREF) = sum( refset_CTPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));       % 冷却水ポンプ

@@ -2,7 +2,7 @@ function y = ECS_routeB_run(inputfilename)
 
 tic
 
-OutputOption  = 'ON';
+OutputOption  = 'OFF';
 
 resAC = ECS_routeB_AC_run(inputfilename,OutputOption);
 resV  = ECS_routeB_V_run(inputfilename,OutputOption);
