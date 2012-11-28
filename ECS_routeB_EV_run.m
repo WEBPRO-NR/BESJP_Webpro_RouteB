@@ -73,7 +73,7 @@ for iUNIT = 1:numofUnit
     Velocity(iUNIT)    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Velocity;
     
     % óAëóî\óÕåWêî
-    if stcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor,'Null')
+    if strcmp(model.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor,'Null')
         TransportCapacityFactor(iUNIT) = 1;
     else
         TransportCapacityFactor(iUNIT) = model.Elevators.Elevator(iUNIT).ATTRIBUTE.TransportCapacityFactor;
@@ -112,8 +112,8 @@ for iUNIT = 1:numofUnit
         if strcmp(perDB_RoomType{iDB,2},BldgType{iUNIT}) && ...
                 strcmp(perDB_RoomType{iDB,5},RoomType{iUNIT})
             
-            % è∏ç~ã@â^ì]éûä‘ [hour] (ãÛí≤éûä‘Ç∆Ç∑ÇÈ)
-            timeEV(iUNIT) = str2double(perDB_RoomType(iDB,22));
+            % è∏ç~ã@â^ì]éûä‘ [hour] (è∆ñæéûä‘Ç∆Ç∑ÇÈ)
+            timeEV(iUNIT) = str2double(perDB_RoomType(iDB,23));
             
         end
     end
