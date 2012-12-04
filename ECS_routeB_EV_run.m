@@ -107,14 +107,22 @@ timeEV = zeros(1,numofUnit);
 
 for iUNIT = 1:numofUnit
     
-    % •W€ºg—pğŒ‚ğ’Tõ
-    for iDB = 1:length(perDB_RoomType)
-        if strcmp(perDB_RoomType{iDB,2},BldgType{iUNIT}) && ...
-                strcmp(perDB_RoomType{iDB,5},RoomType{iUNIT})
-            
-            % ¸~‹@‰^“]ŠÔ [hour] (Æ–¾ŠÔ‚Æ‚·‚é)
-            timeEV(iUNIT) = str2double(perDB_RoomType(iDB,23));
-            
+    % ‹¤“¯Z‘î‚Ìê‡‚Í 5480ŠÔ‚ÅŒÅ’è
+    if strcmp(BldgType{iUNIT},'ApartmentHouse')
+        
+        timeEV(iUNIT) = 5480;
+                        
+    else
+        
+        % •W€ºg—pğŒ‚ğ’Tõ
+        for iDB = 1:length(perDB_RoomType)
+            if strcmp(perDB_RoomType{iDB,2},BldgType{iUNIT}) && ...
+                    strcmp(perDB_RoomType{iDB,5},RoomType{iUNIT})
+                
+                % ¸~‹@‰^“]ŠÔ [hour] (Æ–¾ŠÔ‚Æ‚·‚é)
+                timeEV(iUNIT) = str2double(perDB_RoomType(iDB,23));
+                
+            end
         end
     end
     
