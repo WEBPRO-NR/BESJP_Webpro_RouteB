@@ -266,10 +266,10 @@ end
 %% エネルギー消費量計算
 
 % 評価値 Edesign [MJ/年]
-Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5) ./1000000;
+Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
 Edesign_noRI_MJ  = 9760.*Edesign_noRI_MWh;
 Edesign_MWh      = repmat(timeL,1,max(numofUnit)).*repmat(hosei_RI,1,max(numofUnit))...
-    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5) ./1000000;
+    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
 Edesign_MJ       = 9760.*Edesign_MWh;
 
 % 評価値 Edesign_m2 [MJ/m2年]
