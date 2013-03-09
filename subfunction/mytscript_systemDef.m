@@ -300,6 +300,7 @@ for iAHU = 1:numOfAHUSET
                 case 'True'
                     ahueleOAcut(iAHU,iAHUele) = 1;
                 otherwise
+                    ahueleOACutCtrl{iAHU,iAHUele}
                     error('XMLファイルが不正です')
             end
         else

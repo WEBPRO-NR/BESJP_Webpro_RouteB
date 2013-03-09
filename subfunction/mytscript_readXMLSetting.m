@@ -621,6 +621,9 @@ for iREF = 1:numOfRefs
                 refset_SupplyTemp(iREF,1)  = 42;
             end
             
+            % ‘ä”‚ğˆê‘ä’Ç‰Á
+            refsetRnum(iREF) = refsetRnum(iREF) + 1;
+            
         end
     end
 end
