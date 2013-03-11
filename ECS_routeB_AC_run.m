@@ -26,14 +26,14 @@
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
 
-% clear
-% clc
-% tic
-% INPUTFILENAME = './InputFiles/国交省営繕部/高崎公共職安/Case1/Takasaki_Case1_new.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+tic
+INPUTFILENAME = 'input_normal.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 switch OutputOption
     case 'ON'
@@ -56,6 +56,7 @@ DivNUM = 10;
 
 % 蓄熱槽効率
 storageEff = 0.8;
+
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
@@ -222,11 +223,11 @@ Tahu_h        = zeros(365,numOfAHUSET);  % 日積算暖房運転時間 [h]
 
 
 % 日毎の空調運転時間(ahuDayMode: 1昼，2夜，0終日)
-[AHUsystemT,ahuTime_start,ahuTime_stop,ahuDayMode] = ...
+[AHUsystemT,AHUsystemOpeTime,ahuDayMode] = ...
     mytfunc_AHUOpeTIME(ahuSetName,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
 
 disp('STEP1')
-toc
+toc;
 
 switch MODE
     case {1}  % 毎時計算
@@ -625,14 +626,14 @@ switch MODE
             end
             
             % ポンプ運転時間
-            [Tps(:,iPUMP),pumpTime_Start(:,iPUMP),pumpTime_Stop(:,iPUMP)]...
-                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuSetName,PUMPahuSet{iPUMP},ahuTime_start,ahuTime_stop);
+            [Tps(:,iPUMP),pumpsystemOpeTime(iPUMP,:,:)]...
+                = mytfunc_PUMPOpeTIME(Qps(:,iPUMP),ahuSetName,PUMPahuSet{iPUMP},AHUsystemOpeTime);
             
         end
 end
 
 disp('ポンプ負荷計算完了')
-toc
+toc;
 
 
 %% ポンプエネルギー計算
@@ -692,6 +693,10 @@ for iPUMP = 1:numOfPumps
                     end
                     
                 end
+            else
+                % 全台VWVでなければ、CWVとみなす
+                PUMPvwvfac(iPUMP,:) = ones(1,11);
+                PUMPvwvfac(iPUMP,end) = 1.2;
             end
             
             % 消費電力（部分負荷特性×定格消費電力）[kW]
@@ -730,7 +735,11 @@ for iPUMP = 1:numOfPumps
                     
                     if PUMPvwv(iPUMP,iPUMPSUB) == 0 % 定流量
                         
-                        MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB);
+                        if iL == length(mxL)
+                            MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB);
+                        else
+                            MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB)*1.2;
+                        end
                         
                     elseif PUMPvwv(iPUMP,iPUMPSUB) == 1 % 変流量
                         
@@ -743,7 +752,7 @@ for iPUMP = 1:numOfPumps
                         
                         % VWVの効果率曲線
                         if iL == length(mxL)
-                            PUMPvwvfac(iPUMP,iL) = 1.0;
+                            PUMPvwvfac(iPUMP,iL) = 1.2;
                         else
                             PUMPvwvfac(iPUMP,iL) = ...
                                 Pump_VWVcoeffi(iPUMP,iPUMPSUB,1).*tmpL.^4 + ...
@@ -891,8 +900,8 @@ switch MODE
                 end
                 
                 % 熱源運転時間（ポンプ運転時間の和集合）
-                [Tref(:,iREF),refTime_Start(:,iREF),refTime_Stop(:,iREF)] =...
-                    mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpTime_Start,pumpTime_Stop);
+                [Tref(:,iREF),refsystemOpeTime(iREF,:,:)] =...
+                    mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpsystemOpeTime);
 
                 
                 % 平均負荷[kW]と過負荷量を求める。

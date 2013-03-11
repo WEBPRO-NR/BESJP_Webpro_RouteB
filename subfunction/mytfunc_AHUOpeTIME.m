@@ -17,7 +17,7 @@
 %   ahuDayMode     : 空調運転時間モード（0:終日，1:昼，2:夜）
 %-----------------------------------------------------------------------------------------------------------
 
-function [AHUsystemT,ahuTime_start,ahuTime_stop,ahuDayMode]...
+function [AHUsystemT,AHUsystemOpeTime,ahuDayMode]...
     = mytfunc_AHUOpeTIME(AHUsystemName,roomNAME,AHUQallSet,roomTime_start,roomTime_stop,roomDayMode)
 
 AHUsystemT    = zeros(365,length(AHUsystemName));  % 空調運転時間
@@ -45,34 +45,42 @@ for sysa=1:length(AHUsystemName) % 空調系統ごと
     end
     
     
-    for dd = 1:365 % 日のループ
-        
-        % 和集合をとる．
-        if isempty(tmpStart)
-            ahuTime_start(dd,sysa) = 0;
-        else
-            ahuTime_start(dd,sysa) = min(tmpStart(dd,:)); % 一番早い時間が開始時刻
-        end
-        if isempty(tmpStop)
-            ahuTime_stop(dd,sysa) = 0;
-        else
-            ahuTime_stop(dd,sysa)  = max(tmpStop(dd,:));  % 一番遅い時間が終了時刻
-        end
-        
-        % 空調時間
-        if isempty(tmpStart) == 0 && isempty(tmpStop) == 0
-            if max(tmpStop(dd,:)) >= min(tmpStart(dd,:))
-                % 日を跨がない場合
-                AHUsystemT(dd,sysa) = max(tmpStop(dd,:))-min(tmpStart(dd,:));
-            else
-                % 日を跨ぐ場合
-                AHUsystemT(dd,sysa) = min(tmpStart(dd,:))+(24-max(tmpStop(dd,:)));
-            end
-        else
-            AHUsystemT(dd,sysa) = 0;
-        end
-        
-    end
+    %     for dd = 1:365 % 日のループ
+    %
+    %         % 和集合をとる．
+    %         if isempty(tmpStart)
+    %             ahuTime_start(dd,sysa) = 0;
+    %         else
+    %             ahuTime_start(dd,sysa) = min(tmpStart(dd,:)); % 一番早い時間が開始時刻
+    %         end
+    %         if isempty(tmpStop)
+    %             ahuTime_stop(dd,sysa) = 0;
+    %         else
+    %             ahuTime_stop(dd,sysa)  = max(tmpStop(dd,:));  % 一番遅い時間が終了時刻
+    %         end
+    %
+    %         % 空調時間
+    %         if isempty(tmpStart) == 0 && isempty(tmpStop) == 0
+    %             if max(tmpStop(dd,:)) >= min(tmpStart(dd,:))
+    %                 % 日を跨がない場合
+    %                 AHUsystemT(dd,sysa) = max(tmpStop(dd,:))-min(tmpStart(dd,:));
+    %             else
+    %                 % 日を跨ぐ場合
+    %                 AHUsystemT(dd,sysa) = min(tmpStart(dd,:))+(24-max(tmpStop(dd,:)));
+    %             end
+    %         else
+    %             AHUsystemT(dd,sysa) = 0;
+    %         end
+    %
+    %     end
+    
+    % 運転時間を算出 systemOpeTime は 365×24の行列
+    systemOpeTime = mytfunc_calcOpeTime(tmpStart,tmpStop);
+    
+    % 各日の運転時間
+    AHUsystemT(:,sysa) = sum(systemOpeTime,2);
+    % 各系統の運転時間マトリックス
+    AHUsystemOpeTime(sysa,:,:) = systemOpeTime;
     
     % 使用時間帯（PROD：配列の要素の積）
     if prod(tmpMode) == 1

@@ -8,7 +8,7 @@ function [qoaAHUhour,AHUVovc_hour,Qahu_oac_hour,qoaAHU_CEC_hour] = ...
     ahuTime_start,ahuTime_stop,OAdataHourly,Hroom,ahuVoa,ahuOAcut,AEXbypass,ahuaexeff,ahuOAcool,ahuaexV)
 
 
-% 外気導入ON/OFFの判定
+% 外気導入ON/OFFの判定(2013/03/11 ahuTime_stop は使わない方がよい、日を跨ぐ場合の処理を再検討)
 OAintake = 0;
 if AHUsystemT > 0
     if ahuTime_stop > AHUsystemT
@@ -21,6 +21,8 @@ if AHUsystemT > 0
         end
     end
 end
+
+error('日を跨ぐ場合の処理を再検討')
 
 if OAintake == 0
     

@@ -259,6 +259,10 @@ for iAHU = 1:numOfAHUSET
                     
                     ahuFanVAVfunc(iAHU,iAHUele,:) = ...
                         a4 .* aveL.^4 + a3 .* aveL.^3 + a2 .* aveL.^2 + a1 .* aveL + a0;
+                    
+                    % 過負荷の際の処理
+                    ahuFanVAVfunc(iAHU,iAHUele,end) = 1.2;
+                    
                     check = 1;
                 end
             end
@@ -268,8 +272,9 @@ for iAHU = 1:numOfAHUSET
                 ahuFanVAVmin(iAHU,iAHUele) = ahueleMinDamperOpening(iAHU,iAHUele);  % VAV最小風量比 [-]
             elseif ahueleMinDamperOpening(iAHU,iAHUele) == 1
                 % 最小開度が1の時はVAVとはみなさない。
-                ahuFanVAVfunc(iAHU,:) = ones(1,length(aveL));
-                ahuFanVAVmin(iAHU)    = 1;
+                ahuFanVAVfunc(iAHU,iAHUele,:) = ones(1,length(aveL));
+                ahuFanVAVfunc(iAHU,iAHUele,end) = 1.2;
+                ahuFanVAVmin(iAHU,iAHUele)    = 1;
             else
                 error('VAV最小開度の設定が不正です')
             end
@@ -286,6 +291,8 @@ for iAHU = 1:numOfAHUSET
             ahuFanVAV(iAHU,iAHUele)        = 0;
             % エネルギー消費特性
             ahuFanVAVfunc(iAHU,iAHUele,:)  = ones(1,length(aveL));
+            % 過負荷の際の処理
+            ahuFanVAVfunc(iAHU,iAHUele,end) = 1.2;
             % 最小開度
             ahuFanVAVmin(iAHU,iAHUele)     = 1;
             
