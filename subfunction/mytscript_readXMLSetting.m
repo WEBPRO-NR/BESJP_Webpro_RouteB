@@ -534,7 +534,7 @@ for iREF = 1:numOfRefs/2
                 refset_CTPumpPower(2*iREF-1,rr) ...
                     = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.CTPumpPower_Cooling,0); % 冷却塔
                 refset_SupplyTemp(2*iREF-1,rr) ...
-                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Cooling,0);   % 送水温度（冷房）
+                    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Cooling,0);   % 送水温度（冷房）
             end
         end
         
@@ -554,7 +554,7 @@ for iREF = 1:numOfRefs/2
                 refset_PrimaryPumpPower(2*iREF,rr) ...
                     = refset_Count(2*iREF,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.PrimaryPumpPower_Heating,0);  % 一次ポンプ定格電力
                 refset_SupplyTemp(2*iREF,rr)  ...
-                    = refset_Count(2*iREF-1,rr) * mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Heating,0);   % 送水温度（暖房）
+                    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource(iREFSUB).ATTRIBUTE.SupplyWaterTemp_Heating,0);   % 送水温度（暖房）
             end
         end
     end
