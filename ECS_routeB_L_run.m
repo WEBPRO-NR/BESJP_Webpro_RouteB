@@ -222,17 +222,17 @@ for iROOM = 1:numOfRoom
             hosei_C4(iROOM,iUNIT) = 1.0;
             hosei_C4_name{iROOM,iUNIT} = ' ';
         elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithBlind')
-            hosei_C4(iROOM,iUNIT) = 0.9;
-            hosei_C4_name{iROOM,iUNIT} = '昼片VB無';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithoutBlind')
             hosei_C4(iROOM,iUNIT) = 0.85;
             hosei_C4_name{iROOM,iUNIT} = '昼片VB有';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithoutBlind')
+            hosei_C4(iROOM,iUNIT) = 0.90;
+            hosei_C4_name{iROOM,iUNIT} = '昼片VB無';
         elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'bothSidesWithBlind')
-            hosei_C4(iROOM,iUNIT) = 0.80;
-            hosei_C4_name{iROOM,iUNIT} = '昼両VB無';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'bothSidesWithoutBlind')
             hosei_C4(iROOM,iUNIT) = 0.75;
             hosei_C4_name{iROOM,iUNIT} = '昼両VB有';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'bothSidesWithoutBlind')
+            hosei_C4(iROOM,iUNIT) = 0.80;
+            hosei_C4_name{iROOM,iUNIT} = '昼両VB無';
         else
             error('昼光利用制御の方式が不正です')
         end
