@@ -267,7 +267,7 @@ for iROOM = 1:numOfRoom
                 hosei_C2(iROOM,iVFAN) = 1;
                 hosei_C2_name{iROOM,iVFAN} = ' ';
             elseif strcmp(ControlFlag_C2(iROOM,iVFAN),'True')
-                hosei_C2(iROOM,iVFAN) = 0.95;
+                hosei_C2(iROOM,iVFAN) = 0.6;
                 hosei_C2_name{iROOM,iVFAN} = '有';
             else
                 error('インバータの設定が不正です。')
