@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'input_normal.xml';
+INPUTFILENAME = 'input_test.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -736,9 +736,9 @@ for iPUMP = 1:numOfPumps
                     if PUMPvwv(iPUMP,iPUMPSUB) == 0 % ’è—¬—Ê
                         
                         if iL == length(mxL)
-                            MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB);
-                        else
                             MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB)*1.2;
+                        else
+                            MxPUMPPower(iPUMP,iL) = MxPUMPPower(iPUMP,iL)  + pumpPower(iPUMP,iPUMPSUB);
                         end
                         
                     elseif PUMPvwv(iPUMP,iPUMPSUB) == 1 % •Ï—¬—Ê

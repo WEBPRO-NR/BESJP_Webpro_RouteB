@@ -569,6 +569,9 @@ for iREF = 1:numOfRefs
        
     if strcmp(refsetStorage(iREF),'Discharge')
         
+        % 放熱時には、必ず「台数制御あり」にする。(2013/04/18追加)
+        refsetQuantityCtrl{iREF} = 'True';
+        
         % 蓄熱容量が空白であった場合は検索して代入
         if refsetStorageSize(iREF) == 0
             for iDB = 1:numOfRefs

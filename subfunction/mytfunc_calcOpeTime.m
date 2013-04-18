@@ -21,7 +21,7 @@ for dd = 1:365
     
     for i=1:numsys
         
-        if start(dd,1) == 0 && stop(dd,i) == 0
+        if start(dd,i) == 0 && stop(dd,i) == 0
             tmp(i,:) = zeros(1,24);
 
         elseif start(dd,i) < stop(dd,i)  % “ú‚ðŒ×‚ª‚È‚¢ê‡

@@ -302,7 +302,7 @@ for iAHU = 1:numOfAHUSET
         % 外気カット
         if isempty(ahueleOACutCtrl{iAHU,iAHUele}) == 0
             switch ahueleOACutCtrl{iAHU,iAHUele}
-                case 'False'
+                case {'False', 'Null'}
                     ahueleOAcut(iAHU,iAHUele) = 0;
                 case 'True'
                     ahueleOAcut(iAHU,iAHUele) = 1;
@@ -318,7 +318,7 @@ for iAHU = 1:numOfAHUSET
         % 外気冷房
         if isempty(ahueleFreeCoolingCtrl{iAHU,iAHUele}) == 0
             switch ahueleFreeCoolingCtrl{iAHU,iAHUele}
-                case 'False'
+                case {'False','Null'}
                     ahueleOAcool(iAHU,iAHUele) = 0;
                 case 'True'
                     ahueleOAcool(iAHU,iAHUele) = 1;
@@ -346,7 +346,7 @@ for iAHU = 1:numOfAHUSET
                     end
                     
                     switch ahueleHeatExchangeBypass{iAHU,iAHUele}
-                        case 'False'
+                        case {'False','Null'}
                             ahuelebypass(iAHU,iAHUele) = 0;
                         case 'True'
                             ahuelebypass(iAHU,iAHUele) = 1;
