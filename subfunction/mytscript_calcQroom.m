@@ -284,11 +284,11 @@ for iROOM = 1:numOfRoooms
                                     error('外壁タイプが不正です')
                                 end
                                 
-                                % 日射は何も足さない →　日陰の場合のみ、夜間放射を足す。（修正20130412）
-%                                 if strcmp(Direction{iENV,iWALL},'Shade')
-%                                    Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
-%                                    disp('Hello!')
-%                                 end
+                                % 日射は何も足さない →　日陰の場合のみ、夜間放射を足す。（修正20130419）
+                                if strcmp(Direction{iENV,iWALL},'Shade')
+                                   Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                   disp('Hello!')
+                                end
                                 
                             otherwise
                                 
@@ -357,11 +357,11 @@ for iROOM = 1:numOfRoooms
                                 
                             case {'Shade','Underground'}
                                 
-                                % 日陰の場合のみ、夜間放射を足す。（修正20130412）
-%                                 if strcmp(Direction{iENV,iWALL},'Shade')
-%                                     Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
-%                                     disp('Hello!')
-%                                 end
+                                % 日陰の場合のみ、夜間放射を足す。（修正20130419）
+                                if strcmp(Direction{iENV,iWALL},'Shade')
+                                    Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                    disp('Hello!')
+                                end
                                 
                             otherwise
                                 Qwind_T(:,iROOM) = Qwind_T(:,iROOM) + WindowUA.*(Toa_ave-TroomSP).*24;   % 貫流熱取得(365日分)
