@@ -47,7 +47,7 @@ for iREF = 11:size(refListDataCell,1)
         
         if strcmp(refListDataCell(iREF,4),'’~”M')
             refListDataCell{iREF,4} = 'Charge';
-        elseif strcmp(refListDataCell(iREF,4),'•ú”M')
+        elseif strcmp(refListDataCell(iREF,4),'•ú”M') || strcmp(refListDataCell(iREF,4),'’ÇŠ|')  
             refListDataCell{iREF,4} = 'Discharge';
         else
             refListDataCell{iREF,4} = 'None';

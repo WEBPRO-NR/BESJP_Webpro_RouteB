@@ -43,27 +43,27 @@ for iUNIT = 11:size(hwequipInfoCell,1)
         equipName = [equipName; hwequipInfoCell{iUNIT,1}];
         
         % 加熱容量
-        equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,2}];
+        equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,3}];
         
         % 熱源効率
-        equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,3}];
+        equipEfficiency = [equipEfficiency; hwequipInfoCell{iUNIT,4}];
         
         % 保温仕様
-        if strcmp(hwequipInfoCell{iUNIT,4},'保温仕様１') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様1') 
+        if strcmp(hwequipInfoCell{iUNIT,5},'保温仕様１') || strcmp(hwequipInfoCell{iUNIT,5},'保温仕様1') 
             equipInsulation = [equipInsulation; 'Level1'];
-        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様２') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様2')
+        elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様２') || strcmp(hwequipInfoCell{iUNIT,5},'保温仕様2')
             equipInsulation = [equipInsulation; 'Level2'];
-        elseif strcmp(hwequipInfoCell{iUNIT,4},'保温仕様３') || strcmp(hwequipInfoCell{iUNIT,4},'保温仕様3')
+        elseif strcmp(hwequipInfoCell{iUNIT,5},'保温仕様３') || strcmp(hwequipInfoCell{iUNIT,5},'保温仕様3')
             equipInsulation = [equipInsulation; 'Level3'];
         else
             equipInsulation = [equipInsulation; 'Level0'];
         end
         
         % 接続口径
-        equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,5}];
+        equipPipeSize = [equipPipeSize; hwequipInfoCell{iUNIT,6}];
         
         % 太陽熱利用
-        if isempty(hwequipInfoCell{iUNIT,6})
+        if isempty(hwequipInfoCell{iUNIT,7})
             equipSolarSystem = [equipSolarSystem; 'None'];
             
             SolorHeatingSurfaceArea = ...
@@ -77,18 +77,18 @@ for iUNIT = 11:size(hwequipInfoCell,1)
             equipSolarSystem = [equipSolarSystem; 'True'];
             
             SolorHeatingSurfaceArea = ...
-                [SolorHeatingSurfaceArea; hwequipInfoCell{iUNIT,6}];
+                [SolorHeatingSurfaceArea; hwequipInfoCell{iUNIT,7}];
             SolorHeatingSurfaceAzimuth = ...
-                [SolorHeatingSurfaceAzimuth; hwequipInfoCell{iUNIT,7}];
+                [SolorHeatingSurfaceAzimuth; hwequipInfoCell{iUNIT,8}];
             SolorHeatingSurfaceInclination = ...
-                [SolorHeatingSurfaceInclination; hwequipInfoCell{iUNIT,8}];
+                [SolorHeatingSurfaceInclination; hwequipInfoCell{iUNIT,9}];
         end
         
         % 機器表の記号
-        if isempty(hwequipInfoCell{iUNIT,9})
+        if isempty(hwequipInfoCell{iUNIT,10})
             equipInfo = [equipInfo; 'Null'];
         else
-            equipInfo = [equipInfo; hwequipInfoCell{iUNIT,9}];
+            equipInfo = [equipInfo; hwequipInfoCell{iUNIT,10}];
         end
         
     end

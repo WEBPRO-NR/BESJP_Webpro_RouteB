@@ -127,8 +127,10 @@ for iENVSET = 1:length(EnvList_Floor)
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'NW';
                 elseif strcmp(envListDataCell(iDB,3),'水平') || strcmp(envListDataCell(iDB,3),'屋根')
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Horizontal';
-                elseif strcmp(envListDataCell(iDB,3),'日陰') || strcmp(envListDataCell(iDB,3),'地中')
+                elseif strcmp(envListDataCell(iDB,3),'日陰')
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Shade';
+                elseif strcmp(envListDataCell(iDB,3),'地中')
+                    xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = 'Underground';
                 else
                     % newHASP用にEXPS名を直接入力できるモードをもたせる
                     xmldata.AirConditioningSystem.Envelope(iENVSET).Wall(iCOUNT).ATTRIBUTE.Direction   = envListDataCell(iDB,3);
