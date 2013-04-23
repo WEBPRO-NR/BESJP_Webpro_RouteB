@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'input_test.xml';
+INPUTFILENAME = 'input_Storage50.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -898,35 +898,36 @@ switch MODE
                             end
                         end
                 end
+            end
+            
+            % ”MŒ¹‰^“]ŽžŠÔiƒ|ƒ“ƒv‰^“]ŽžŠÔ‚Ì˜aW‡j
+            [Tref(:,iREF),refsystemOpeTime(iREF,:,:)] =...
+                mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpsystemOpeTime);
+            
+            
+            % •½‹Ï•‰‰×[kW]‚Æ‰ß•‰‰×—Ê‚ð‹‚ß‚éB
+            for dd = 1:365
                 
-                % ”MŒ¹‰^“]ŽžŠÔiƒ|ƒ“ƒv‰^“]ŽžŠÔ‚Ì˜aW‡j
-                [Tref(:,iREF),refsystemOpeTime(iREF,:,:)] =...
-                    mytfunc_REFOpeTIME(Qref(:,iREF),pumpName,REFpumpSet{iREF},pumpsystemOpeTime);
-
-                
-                % •½‹Ï•‰‰×[kW]‚Æ‰ß•‰‰×—Ê‚ð‹‚ß‚éB
-                for dd = 1:365
-                    
-                    % ’~”M‚Ìê‡: ”M‘¹Ž¸—Ê [MJ/day] ‚ð‘«‚·B‘¹Ž¸—Ê‚Í ’~”M‘…—e—Ê‚Ì3%B
-                    if Tref(dd,iREF) > 0  && REFstorage(iREF) == 1
-                        Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;
-                    end
-                    
-                    % •½‹Ï•‰‰× [kW]
-                    if Tref(dd,iREF) == 0
-                        Qref_kW(dd,iREF) = 0;
-                    else
-                        Qref_kW(dd,iREF) = Qref(dd,iREF)./Tref(dd,iREF).*1000./3600;
-                    end
-                    
-                    % ‰ß•‰‰×•ª‚ðWŒv [MJ/day]
-                    if Qref_kW(dd,iREF) > QrefrMax(iREF)
-                        Qref_OVER(dd,iREF) = (Qref_kW(dd,iREF)-QrefrMax(iREF)).*Tref(dd,iREF)*3600/1000;
-                    end
+                % ’~”M‚Ìê‡: ”M‘¹Ž¸—Ê [MJ/day] ‚ð‘«‚·B‘¹Ž¸—Ê‚Í ’~”M‘…—e—Ê‚Ì3%B
+                if Tref(dd,iREF) > 0  && REFstorage(iREF) == 1
+                    Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;
                 end
                 
+                % •½‹Ï•‰‰× [kW]
+                if Tref(dd,iREF) == 0
+                    Qref_kW(dd,iREF) = 0;
+                else
+                    Qref_kW(dd,iREF) = Qref(dd,iREF)./Tref(dd,iREF).*1000./3600;
+                end
+                
+                % ‰ß•‰‰×•ª‚ðWŒv [MJ/day]
+                if Qref_kW(dd,iREF) > QrefrMax(iREF)
+                    Qref_OVER(dd,iREF) = (Qref_kW(dd,iREF)-QrefrMax(iREF)).*Tref(dd,iREF)*3600/1000;
+                end
             end
+            
         end
+        
 end
 
 disp('”MŒ¹•‰‰×ŒvŽZŠ®—¹')
