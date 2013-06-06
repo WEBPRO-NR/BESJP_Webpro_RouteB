@@ -92,11 +92,29 @@ switch MODE
         for ich = 1:2
             
             if ich == 1 % —â–[Šú
-                La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
-                Ta = Ta_c;
+            
+                % 2013/06/06C³(—â–[’èŠi”\—Í‚Æ’g–[’èŠi”\—Í‚Åê‡•ª‚¯)
+                for dd = 1:length(Qa_c)
+                    if Qa_c(dd) >= 0
+                        La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
+                    else
+                        La = (Qa_c./Ta_c.*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
+                    end
+                    Ta = Ta_c;
+                end
+                
             elseif ich == 2 % ’g–[Šú
-                La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
-                Ta = Ta_h;
+                
+                % 2013/06/06C³(—â–[’èŠi”\—Í‚Æ’g–[’èŠi”\—Í‚Åê‡•ª‚¯)
+                for dd = 1:length(Qa_h)
+                    if Qa_h(dd) <= 0
+                        La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
+                    else
+                        La = (Qa_h./Ta_h.*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
+                    end
+                    Ta = Ta_h;
+                end
+                
             end
             
             if (Qar_c > 0) || (Qar_h > 0)  % ’èŠi”\—Í„‚O@¨@AHU or FCU ‚ª‚ ‚ê‚Î

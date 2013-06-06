@@ -434,7 +434,7 @@ for iROOM = 1:numOfRoooms
                 
             elseif SeasonMode(dd) == -1 % ’g–[Šú@ƒ’g–[Šú‚ÍŠO‹C‰·A“úŽË‚Æ‚à•â³‚µ‚È‚¢Ø•Ð‚ð“Ç‚Ýž‚Þ„
                 
-                if dd > 1 && AHUonoff(dd-1,iROOM)==1
+                if dd == 1 || (dd > 1 && AHUonoff(dd-1,iROOM)==1)
                     Qroom_CTC(dd,iROOM) = C_sta2dyn_HTC(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTC(iROOM,2);
                     Qroom_CTH(dd,iROOM) = C_sta2dyn_HTH(iROOM,1) * (Qwall_T(dd,iROOM) + Qwall_N(dd,iROOM) + Qwind_T(dd,iROOM) + Qwind_N(dd,iROOM)) + C_sta2dyn_HTH(iROOM,2);
                     Qroom_CSR(dd,iROOM) = C_sta2dyn_HSR(iROOM,1) * (Qwall_S(dd,iROOM) + Qwind_S(dd,iROOM)) +  C_sta2dyn_HSR(iROOM,2);
