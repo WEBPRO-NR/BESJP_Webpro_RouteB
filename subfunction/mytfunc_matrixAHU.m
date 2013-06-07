@@ -96,24 +96,24 @@ switch MODE
                 % 2013/06/06C³(—â–[’èŠi”\—Í‚Æ’g–[’èŠi”\—Í‚Åê‡•ª‚¯)
                 for dd = 1:length(Qa_c)
                     if Qa_c(dd) >= 0
-                        La = (Qa_c./Ta_c.*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
+                        La(dd,1) = (Qa_c(dd,1)./Ta_c(dd,1).*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
                     else
-                        La = (Qa_c./Ta_c.*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
+                        La(dd,1) = (Qa_c(dd,1)./Ta_c(dd,1).*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
                     end
-                    Ta = Ta_c;
                 end
+                Ta = Ta_c;
                 
             elseif ich == 2 % ’g–[Šú
                 
                 % 2013/06/06C³(—â–[’èŠi”\—Í‚Æ’g–[’èŠi”\—Í‚Åê‡•ª‚¯)
                 for dd = 1:length(Qa_h)
                     if Qa_h(dd) <= 0
-                        La = (Qa_h./Ta_h.*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
+                        La(dd,1) = (Qa_h(dd,1)./Ta_h(dd,1).*1000./3600)./Qar_h;  % •‰‰×—¦ [-]
                     else
-                        La = (Qa_h./Ta_h.*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
+                        La(dd,1) = (Qa_h(dd,1)./Ta_h(dd,1).*1000./3600)./Qar_c;  % •‰‰×—¦ [-]
                     end
-                    Ta = Ta_h;
                 end
+                Ta = Ta_h;
                 
             end
             
