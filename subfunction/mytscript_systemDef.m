@@ -1046,16 +1046,20 @@ for iREF = 1:numOfRefs
                     refset_MainPowerELE(iREF,iREFSUB) = (9760/3600)*refset_MainPower(iREF,iREFSUB);
                 case 'ガス'
                     refInputType(iREF,iREFSUB) = 2;
-                    refset_MainPowerELE(iREF,iREFSUB) = (45000/3600)*refset_MainPower(iREF,iREFSUB);
+                    % refset_MainPowerELE(iREF,iREFSUB) = (45000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
                 case '重油'
                     refInputType(iREF,iREFSUB) = 3;
-                    refset_MainPowerELE(iREF,iREFSUB) = (41000/3600)*refset_MainPower(iREF,iREFSUB);
+                    % refset_MainPowerELE(iREF,iREFSUB) = (41000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
                 case '灯油'
                     refInputType(iREF,iREFSUB) = 4;
-                    refset_MainPowerELE(iREF,iREFSUB) = (37000/3600)*refset_MainPower(iREF,iREFSUB);
+                    % refset_MainPowerELE(iREF,iREFSUB) = (37000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
                 case '液化石油ガス'
                     refInputType(iREF,iREFSUB) = 5;
-                    refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);
+                    % refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
                 case '蒸気'
                     refInputType(iREF,iREFSUB) = 6;
                     % エネルギー消費量＝生成熱量とする。
