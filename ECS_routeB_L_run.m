@@ -156,7 +156,7 @@ for iROOM = 1:numOfRoom
         elseif RoomIndex(iROOM) < 4.30
             hosei_RI(iROOM) = 1.00;
         else
-            hosei_RI(iROOM) = 1.1;
+            hosei_RI(iROOM) = 1.00;
         end
         
     end
