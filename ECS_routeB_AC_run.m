@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'input_Storage50.xml';
+INPUTFILENAME = 'KajimaHotel.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -911,6 +911,12 @@ switch MODE
                 % ’~”M‚Ìê‡: ”M‘¹Ž¸—Ê [MJ/day] ‚ð‘«‚·B‘¹Ž¸—Ê‚Í ’~”M‘…—e—Ê‚Ì3%B
                 if Tref(dd,iREF) > 0  && REFstorage(iREF) == 1
                     Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;
+                    
+                    % ’~”Mˆ—’Ç‰Ái’~”M‘…—e—ÊˆÈã‚Ì•‰‰×‚ðˆ—‚µ‚È‚¢‚æ‚¤‚É‚·‚éj 2013/12/16
+                    if Qref(dd,iREF) > storageEff*refsetStorageSize(iREF)
+                        Qref(dd,iREF) = storageEff*refsetStorageSize(iREF);
+                    end
+                    
                 end
                 
                 % •½‹Ï•‰‰× [kW]
