@@ -956,6 +956,19 @@ Erefr_mod = zeros(numOfRefs,10,length(ToadbC));
 
 for iREF = 1:numOfRefs
     
+    % 蓄熱槽がある場合の放熱用熱交換器の容量の補正（mytstcript_readXML_Setting.mでは8時間を想定）
+    tmpCapacityHEX = 0;
+    if REFstorage(iREF) == -1  % 放熱運転の場合
+        if strcmp(refset_Type(iREF,1),'HEX') % 熱交換器は必ず1台目
+            tmpCapacityHEX = refset_Capacity(iREF,1) *  (8/max(Tref(:,iREF)));  % 熱源運転時間の最大値で補正した容量
+            QrefrMax(iREF) = QrefrMax(iREF) +  tmpCapacityHEX - refset_Capacity(iREF,1);  % 定格容量の合計値を修正
+            refset_Capacity(iREF,1) = tmpCapacityHEX;   % 熱交換器の容量を修正
+        else
+            error('熱交換機が設定されていません')
+        end
+    end
+    
+    
     % 熱源負荷マトリックス
     switch MODE
         case {1}
