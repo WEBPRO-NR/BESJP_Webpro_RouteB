@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'KajimaHotel.xml';
+INPUTFILENAME = 'MHP蓄熱あり.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -986,30 +986,6 @@ for iREF = 1:numOfRefs
             end
     end
     
-    % 蓄熱の場合のマトリックス操作（負荷率１に集約＋外気温を１レベル変える）
-    if REFstorage(iREF) == 1
-        for iX = 1:length(ToadbC)
-            timeQmax = 0;
-            for iY = 1:length(aveL)
-                timeQmax = timeQmax + aveL(iY)*MxREF(iX,iY,iREF);
-                MxREF(iX,iY,iREF) = 0;
-            end
-            % 全負荷相当運転時間 [hour]
-            MxREF(iX,length(aveL)-1,iREF) = timeQmax./(aveL(length(aveL)-1));
-        end
-        
-        % 外気温をシフト
-        for iX = 1:length(ToadbC)
-            if iX == 1
-                MxREF(iX,:,iREF) = MxREF(iX,:,iREF) + MxREF(iX+1,:,iREF);
-            elseif iX == length(ToadbC)
-                MxREF(iX,:,iREF) = zeros(1,length(aveL));
-            else
-                MxREF(iX,:,iREF) = MxREF(iX+1,:,iREF);
-            end
-        end
-    end
-    
     
     % 最大能力、最大入力の設定
     for iREFSUB = 1:refsetRnum(iREF)   % 熱源台数分だけ繰り返す
@@ -1027,6 +1003,38 @@ for iREF = 1:numOfRefs
             
         end
     end
+    
+    
+    % 蓄熱の場合のマトリックス操作（負荷率１に集約＋外気温を１レベル変える）
+    if REFstorage(iREF) == 1
+        for iX = 1:length(ToadbC)
+            timeQmax = 0;
+            for iY = 1:length(aveL)
+                timeQmax = timeQmax + aveL(iY)*MxREF(iX,iY,iREF)*QrefrMax(iREF);
+                MxREF(iX,iY,iREF) = 0;
+            end
+            % 全負荷相当運転時間 [hour] →　各外気温帯の最大能力で運転時間を出すように変更（H25.12.25）
+            if iX ~=1
+                MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX-1)) );
+            else
+                MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX)) );
+            end
+        end
+        
+        % 外気温をシフト
+        for iX = 1:length(ToadbC)
+            if iX == 1
+                MxREF(iX,:,iREF) = MxREF(iX,:,iREF) + MxREF(iX+1,:,iREF);
+            elseif iX == length(ToadbC)
+                MxREF(iX,:,iREF) = zeros(1,length(aveL));
+            else
+                MxREF(iX,:,iREF) = MxREF(iX+1,:,iREF);
+            end
+        end
+    end
+    
+    
+
     
     
     % 運転台数
@@ -1068,6 +1076,12 @@ for iREF = 1:numOfRefs
             % [ioa,iL]における負荷率
             MxREFxL(ioa,iL,iREF) = tmpQ ./ sum(Qrefr_mod(iREF,1:MxREFnum(ioa,iL,iREF),ioa));
             
+            
+            % 蓄熱の場合のマトリックス操作（蓄熱運転時は必ず負荷率＝１）（H25.12.25）
+            if REFstorage(iREF) == 1
+               MxREFxL(ioa,iL,iREF) = 1; 
+            end
+    
             
             % 部分負荷特性と送水温度特性（各負荷率・各温度帯について）
             for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
