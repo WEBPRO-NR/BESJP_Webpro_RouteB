@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'chikunetu.xml';
+INPUTFILENAME = 'chikunetu2.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -1169,8 +1169,8 @@ for iREF = 1:numOfRefs
     
     % í~îMëÖÇéùÇ¬ÉVÉXÉeÉÄÇÃí«Ç¢ä|ÇØéûâ^ì]éûä‘ï‚ê≥Åií«Ç¢ä|ÇØâ^ì]äJénéûÇ…í~îMó Ç™Ç∑Ç◊ÇƒégÇÌÇÍÇ»Ç¢ñ‚ëËÇâè¡Åj 2014/1/10
     if REFstorage(iREF) == -1 && refsetStorageSize(iREF)>0
-        for ioa = 1:6
-            for iL = 1:11
+    for ioa = 1:length(ToadbC)
+        for iL = 1:length(mxL)
                 if MxREFnum(ioa,iL,iREF) >= 2
                     hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
                 else
@@ -1285,11 +1285,11 @@ switch MODE
         tmpQhpeak = zeros(365,1);
         
         for iREF = 1:numOfRefs
-            if REFtype(iREF) == 1 &&  REFstorage(iREF) ~= -1  % ó‚ñ[ [MJ/day] Ç≈í«Ç¢ä|ÇØâ^ì]Ç≈ÇÕÇ»Ç¢èÍçá
+            if REFtype(iREF) == 1 &&  REFstorage(iREF) ~= 1  % ó‚ñ[ [MJ/day] Ç≈í~îMâ^ì]Ç≈ÇÕÇ»Ç¢èÍçáÅi2014/1/10èCê≥Åj
                 Qctotal = Qctotal + sum(Qref(:,iREF));
                 Qcover = Qcover + sum(Qref_OVER(:,iREF));
                 tmpQcpeak = tmpQcpeak + Qref_kW(:,iREF);
-            elseif REFtype(iREF) == 2 &&  REFstorage(iREF) ~= -1  % ó‚ñ[ [MJ/day] Ç≈í«Ç¢ä|ÇØâ^ì]Ç≈ÇÕÇ»Ç¢èÍçá
+            elseif REFtype(iREF) == 2 &&  REFstorage(iREF) ~= 1  % ó‚ñ[ [MJ/day] Ç≈í~îMâ^ì]Ç≈ÇÕÇ»Ç¢èÍçáÅi2014/1/10èCê≥Åj
                 Qhtotal = Qhtotal + sum(Qref(:,iREF));
                 Qhover = Qhover + sum(Qref_OVER(:,iREF));
                 tmpQhpeak = tmpQhpeak + Qref_kW(:,iREF);
