@@ -37,10 +37,17 @@ end
 % i’~”MŠÖ˜Aj‹ó”’‚Í’¼ã‚Ìî•ñ‚ğ–„‚ß‚éB
 for iREF = 11:size(refListDataCell,1)
     if isempty(refListDataCell{iREF,4})
+        
         if iREF == 11
             refListDataCell{iREF,4} = 'None';
         else
-            refListDataCell(iREF,4) = refListDataCell(iREF-1,4);
+            
+            if strcmp( refListDataCell(iREF,1), refListDataCell(iREF-1,1) )  % ”MŒ¹ŒQ–¼Ì‚ª“¯‚¶‚Å‚ ‚ê‚Î
+                refListDataCell(iREF,4) = refListDataCell(iREF-1,4);
+            else
+                refListDataCell{iREF,4} = 'None';
+            end
+            
         end
         
     else

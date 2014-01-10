@@ -2,31 +2,31 @@
 
 <csv2xmlConfig>
 
-    <Rooms>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式1 (共通条件)室仕様入力シート_201210222007.csv</Rooms>
+    <Rooms>../InputFiles/蓄熱検証20131225/事務所8_様式2-1 (空調)空調ゾーン入力シート_case01.csv</Rooms>
 
     <AirConditioningSystem>
-	<Room>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-1 (空調)空調ゾーン入力シート_201210222007.csv</Room>
-	<WCON>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-2 (空調)外壁構成入力シート_201210222007.csv</WCON>
-	<WIND>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-3 (空調)窓仕様入力シート_201210222007.csv</WIND>
-	<Wall>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-4 (空調)外皮仕様入力シート_201210222007.csv</Wall>
-	<Ref>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-5 (空調)熱源入力シート_201210222007.csv</Ref>
-	<Pump>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-6 (空調)二次ポンプ入力シート_201210222007.csv</Pump>
-	<AHU>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式2-7 (空調)空調機入力シート_201210222007.csv</AHU>
+	<Room>../InputFiles/蓄熱検証20131225/事務所8_様式2-1 (空調)空調ゾーン入力シート_case01.csv</Room>
+	<WCON>../InputFiles/蓄熱検証20131225/事務所8_様式2-2 (空調)外壁構成入力シート_case01.csv</WCON>
+	<WIND>../InputFiles/蓄熱検証20131225/事務所8_様式2-3 (空調)窓仕様入力シート_case01.csv</WIND>
+	<Wall>../InputFiles/蓄熱検証20131225/事務所8_様式2-4 (空調)外皮仕様入力シート_case01.csv</Wall>
+	<Ref>../InputFiles/蓄熱検証20131225/事務所8_様式2-5 (空調)熱源入力シート_case12.csv</Ref>
+	<Pump>../InputFiles/蓄熱検証20131225/事務所8_様式2-6 (空調)二次ポンプ入力シート_case10.csv</Pump>
+	<AHU>../InputFiles/蓄熱検証20131225/事務所8_様式2-7 (空調)空調機入力シート_case01.csv</AHU>
     </AirConditioningSystem>
 
     <VentilationSystems>
-	<Room>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式3-1 (換気)換気対象室入力シート_201210222007.csv</Room>
-	<Fan>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式3-2 (換気)給排気送風機入力シート_201210222007.csv</Fan>
-	<AC>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式3-3 (換気)換気代替空調機入力シート_201210222007.csv</AC>	
+	<Room></Room>
+	<Fan></Fan>
+	<AC></AC>	
     </VentilationSystems>
     
     <HotwaterSystems>
-	<Room>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式4-1 (給湯)給湯対象室入力シート_201210222007.csv</Room>
-	<Boiler>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式4-2 (給湯)給湯機器入力シート_201210222007.csv</Boiler>
+	<Room></Room>
+	<Boiler></Boiler>
     </HotwaterSystems>
 
-    <LightingSystems>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式5 (照明)照明入力シート_201210222007.csv</LightingSystems>
+    <LightingSystems></LightingSystems>
 
-    <Elevators>./InputFiles/国交省営繕部/高崎公共職安/Case1/様式6 (昇降機)昇降機入力シート_201210222007.csv</Elevators>
+    <Elevators></Elevators>
 
 </csv2xmlConfig>
