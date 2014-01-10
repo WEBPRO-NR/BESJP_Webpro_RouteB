@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'hichiku.xml';
+INPUTFILENAME = 'chikunetu.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -910,7 +910,7 @@ switch MODE
                 
                 % í~îMÇÃèÍçá: îMëπé∏ó  [MJ/day] Çë´Ç∑ÅBëπé∏ó ÇÕ í~îMëÖóeó ÇÃ3%ÅB
                 if Tref(dd,iREF) > 0  && REFstorage(iREF) == 1
-                    Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;
+                    Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;  % 2014/1/10èCê≥
                     
                     % í~îMèàóùí«â¡Åií~îMëÖóeó à»è„ÇÃïââ◊ÇèàóùÇµÇ»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÅj 2013/12/16
                     if Qref(dd,iREF) > storageEff*refsetStorageSize(iREF)
@@ -953,6 +953,7 @@ MxREFSUBE = zeros(numOfRefs,10,length(mxL));
 Qrefr_mod = zeros(numOfRefs,10,length(ToadbC));
 Erefr_mod = zeros(numOfRefs,10,length(ToadbC));
 
+hoseiStorage = ones(length(ToadbC),length(mxL),numOfRefs);  % í~îMëÖÇ™Ç†ÇÈÉVÉXÉeÉÄÇÃí«Ç¢ä|ÇØéûÇÃï‚ê≥åWêî 2014/1/10
 
 for iREF = 1:numOfRefs
     
@@ -1165,6 +1166,21 @@ for iREF = 1:numOfRefs
             
         end
     end
+    
+    % í~îMëÖÇéùÇ¬ÉVÉXÉeÉÄÇÃí«Ç¢ä|ÇØéûâ^ì]éûä‘ï‚ê≥Åií«Ç¢ä|ÇØâ^ì]äJénéûÇ…í~îMó Ç™Ç∑Ç◊ÇƒégÇÌÇÍÇ»Ç¢ñ‚ëËÇâè¡Åj 2014/1/10
+    if REFstorage(iREF) == -1 && refsetStorageSize(iREF)>0
+        for ioa = 1:6
+            for iL = 1:11
+                if MxREFnum(ioa,iL,iREF) >= 2
+                    hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
+                else
+                    hoseiStorage(ioa,iL,iREF) = 1.0;
+                end
+            end
+        end
+        MxREF(:,:,iREF) = MxREF(:,:,iREF) .* hoseiStorage(:,:,iREF);  % â^ì]éûä‘Çï‚ê≥    
+    end
+
     
     MxREF_E(iREF,:)   = nansum(MxREF(:,:,iREF) .* MxREFperE(:,:,iREF)).*3600/1000;  % îMåπåQÉGÉlÉãÉMÅ[è¡îÔó   [MJ]
     MxREFACcE(iREF,:) = nansum(MxREF(:,:,iREF) .* ErefaprALL(:,:,iREF)./1000);  % ï‚ã@ìdóÕ [MWh]
