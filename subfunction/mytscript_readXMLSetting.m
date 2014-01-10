@@ -611,7 +611,7 @@ for iREF = 1:numOfRefs
             % ‰¼‘z”MŒğŠ·‹@‚ğ’Ç‰Á
             refset_Count(iREF,1)       = 1;
             refset_Type{iREF,1}        = 'HEX';
-            refset_Capacity(iREF,1)    = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkW
+            refset_Capacity(iREF,1)    = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkWib’èj
             refset_MainPower(iREF,1)   = 0;
             refset_SubPower(iREF,1)    = 0;
             refset_PrimaryPumpPower(iREF,1) = 0;

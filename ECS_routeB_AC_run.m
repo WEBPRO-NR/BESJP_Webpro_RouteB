@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'MHP’~”M‚ ‚è.xml';
+INPUTFILENAME = 'hichiku.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
