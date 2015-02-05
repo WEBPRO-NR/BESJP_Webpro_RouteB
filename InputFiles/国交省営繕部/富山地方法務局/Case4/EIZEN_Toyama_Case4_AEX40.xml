@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BuildingType="Office" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVa" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" TotalArea="100" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_1" Info="Null" RoomArea="12.96" RoomFloor="1" RoomHeight="2.6" RoomName="風除室" RoomType="廊下" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_2" Info="Null" RoomArea="16.2" RoomFloor="1" RoomHeight="2.6" RoomName="玄関ホール" RoomType="ロビー" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_3" Info="空調は1玄関ホールへ統合" RoomArea="9.72" RoomFloor="1" RoomHeight="2.6" RoomName="便所前廊下1" RoomType="廊下" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_4" Info="Null" RoomArea="7.29" RoomFloor="1" RoomHeight="2.6" RoomName="多目的便所1" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_5" Info="Null" RoomArea="9.89" RoomFloor="1" RoomHeight="2.6" RoomName="男子便所1" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_6" Info="Null" RoomArea="8.73" RoomFloor="1" RoomHeight="2.6" RoomName="女子便所1" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_7" Info="Null" RoomArea="43.74" RoomFloor="1" RoomHeight="2.75" RoomName="車庫タイヤ保管庫" RoomType="屋内駐車場" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_8" Info="Null" RoomArea="28.66" RoomFloor="1" RoomHeight="2.6" RoomName="閲覧コーナー" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_9" Info="Null" RoomArea="77.48" RoomFloor="1" RoomHeight="2.6" RoomName="待合室1" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_10" Info="Null" RoomArea="49.81" RoomFloor="1" RoomHeight="2.6" RoomName="乙号委託スペース" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_11" Info="Null" RoomArea="158.19" RoomFloor="1" RoomHeight="2.6" RoomName="登録部門" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_12" Info="Null" RoomArea="8.64" RoomFloor="1" RoomHeight="2.6" RoomName="湯沸室1" RoomType="湯沸室等" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_13" Info="Null" RoomArea="12.96" RoomFloor="1" RoomHeight="2.6" RoomName="倉庫1" RoomType="更衣室" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_14" Info="Null" RoomArea="270.54" RoomFloor="1" RoomHeight="3" RoomName="書庫1" RoomType="更衣室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_15" Info="Null" RoomArea="19.44" RoomFloor="1" RoomHeight="2.6" RoomName="休憩更衣室" RoomType="喫茶室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_16" Info="Null" RoomArea="3.24" RoomFloor="1" RoomHeight="2.6" RoomName="機械室" RoomType="機械室" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_17" Info="Null" RoomArea="24.3" RoomFloor="1" RoomHeight="3.55" RoomName="電気室" RoomType="電気室" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_18" Info="空調は1玄関ホールへ統合" RoomArea="32.76" RoomFloor="1" RoomHeight="2.6" RoomName="階段自販機室" RoomType="廊下" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_19" Info="Null" RoomArea="4.86" RoomFloor="1" RoomHeight="2.6" RoomName="倉庫2" RoomType="更衣室" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_20" Info="Null" RoomArea="16.2" RoomFloor="2" RoomHeight="2.6" RoomName="ホール" RoomType="ロビー" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_21" Info="Null" RoomArea="19.44" RoomFloor="2" RoomHeight="2.6" RoomName="待合室2" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_22" Info="Null" RoomArea="16.2" RoomFloor="2" RoomHeight="2.6" RoomName="相談室1" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_23" Info="Null" RoomArea="21.87" RoomFloor="2" RoomHeight="2.6" RoomName="人権委員室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_24" Info="Null" RoomArea="17.82" RoomFloor="2" RoomHeight="2.6" RoomName="相談室2" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_25" Info="Null" RoomArea="50.8" RoomFloor="2" RoomHeight="2.6" RoomName="会議室" RoomType="会議室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_26" Info="Null" RoomArea="95.44" RoomFloor="2" RoomHeight="2.6" RoomName="総務課" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_27" Info="Null" RoomArea="28.62" RoomFloor="2" RoomHeight="2.6" RoomName="支局長室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_28" Info="Null" RoomArea="20.01" RoomFloor="2" RoomHeight="2.6" RoomName="印刷室" RoomType="事務室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_29" Info="Null" RoomArea="14.58" RoomFloor="2" RoomHeight="2.6" RoomName="物置" RoomType="更衣室" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_30" Info="Null" RoomArea="19.44" RoomFloor="2" RoomHeight="2.6" RoomName="女子休憩更衣室" RoomType="喫茶室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_31" Info="Null" RoomArea="14.58" RoomFloor="2" RoomHeight="2.6" RoomName="男子休憩更衣室" RoomType="喫茶室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_32" Info="Null" RoomArea="7.2" RoomFloor="2" RoomHeight="2.6" RoomName="湯沸室2" RoomType="湯沸室等" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_33" Info="Null" RoomArea="14.04" RoomFloor="2" RoomHeight="2.6" RoomName="喫煙室" RoomType="ロビー" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_34" Info="Null" RoomArea="335.34" RoomFloor="2" RoomHeight="3" RoomName="書庫2" RoomType="更衣室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_35" Info="Null" RoomArea="9.89" RoomFloor="2" RoomHeight="2.6" RoomName="男子便所2" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_36" Info="Null" RoomArea="8.73" RoomFloor="2" RoomHeight="2.6" RoomName="女子便所2" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_37" Info="空調は2ホールへ統合" RoomArea="30.6" RoomFloor="2" RoomHeight="2.6" RoomName="廊下" RoomType="廊下" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_38" Info="空調は2ホールへ統合" RoomArea="9.72" RoomFloor="2" RoomHeight="2.6" RoomName="便所前廊下2" RoomType="廊下" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_39" Info="空調は2ホールへ統合" RoomArea="8.1" RoomFloor="2" RoomHeight="2.6" RoomName="通路" RoomType="廊下" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="3.7" ID="ROOM_40" Info="Null" RoomArea="7.29" RoomFloor="2" RoomHeight="2.6" RoomName="多目的便所2" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="玄関ホール" ID="Z1">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-05"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-05"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_2" RoomArea="16.2" RoomFloor="1" RoomHeight="2.6" RoomName="玄関ホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="便所前廊下1" ID="Z2">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-05"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-05"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_3" RoomArea="9.72" RoomFloor="1" RoomHeight="2.6" RoomName="便所前廊下1" RoomType="廊下"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="閲覧コーナー" ID="Z3">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-03"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-03"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_8" RoomArea="28.66" RoomFloor="1" RoomHeight="2.6" RoomName="閲覧コーナー" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="待合室1" ID="Z4">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-01"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-01"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_9" RoomArea="77.48" RoomFloor="1" RoomHeight="2.6" RoomName="待合室1" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="乙号委託スペース" ID="Z5">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-03"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-03"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_10" RoomArea="49.81" RoomFloor="1" RoomHeight="2.6" RoomName="乙号委託スペース" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="登録部門" ID="Z6">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-02"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-02"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_11" RoomArea="158.19" RoomFloor="1" RoomHeight="2.6" RoomName="登録部門" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="書庫1" ID="Z7">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-04"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-04"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_14" RoomArea="270.54" RoomFloor="1" RoomHeight="3" RoomName="書庫1" RoomType="更衣室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="休憩更衣室" ID="Z8">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-06"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-06"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_15" RoomArea="19.44" RoomFloor="1" RoomHeight="2.6" RoomName="休憩更衣室" RoomType="喫茶室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1" ACZoneName="階段自販機室" ID="Z9">
+         <AirHandlingUnitRef Load="Room" Name="AC1F-05"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F-05"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_18" RoomArea="32.76" RoomFloor="1" RoomHeight="2.6" RoomName="階段自販機室" RoomType="廊下"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="ホール" ID="Z10">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-11"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_20" RoomArea="16.2" RoomFloor="2" RoomHeight="2.6" RoomName="ホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="待合室2" ID="Z11">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-07"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-07"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_21" RoomArea="19.44" RoomFloor="2" RoomHeight="2.6" RoomName="待合室2" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="相談室1" ID="Z12">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-08"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-08"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_22" RoomArea="16.2" RoomFloor="2" RoomHeight="2.6" RoomName="相談室1" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="人権委員室" ID="Z13">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-10"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-10"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_23" RoomArea="21.87" RoomFloor="2" RoomHeight="2.6" RoomName="人権委員室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="相談室2" ID="Z14">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-09"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-09"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_24" RoomArea="17.82" RoomFloor="2" RoomHeight="2.6" RoomName="相談室2" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="会議室" ID="Z15">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-01"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-01"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_25" RoomArea="50.8" RoomFloor="2" RoomHeight="2.6" RoomName="会議室" RoomType="会議室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="総務課" ID="Z16">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-07"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-07"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_26" RoomArea="95.44" RoomFloor="2" RoomHeight="2.6" RoomName="総務課" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="支局長室" ID="Z17">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-05"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-05"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_27" RoomArea="28.62" RoomFloor="2" RoomHeight="2.6" RoomName="支局長室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="印刷室" ID="Z18">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-06"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-06"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_28" RoomArea="20.01" RoomFloor="2" RoomHeight="2.6" RoomName="印刷室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="女子休憩更衣室" ID="Z19">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-03"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-03"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_30" RoomArea="19.44" RoomFloor="2" RoomHeight="2.6" RoomName="女子休憩更衣室" RoomType="喫茶室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="男子休憩更衣室" ID="Z20">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-02"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-02"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_31" RoomArea="14.58" RoomFloor="2" RoomHeight="2.6" RoomName="男子休憩更衣室" RoomType="喫茶室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="喫煙室" ID="Z21">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-11"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_33" RoomArea="14.04" RoomFloor="2" RoomHeight="2.6" RoomName="喫煙室" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="書庫2" ID="Z22">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-04"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-04"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_34" RoomArea="335.34" RoomFloor="2" RoomHeight="3" RoomName="書庫2" RoomType="更衣室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="廊下" ID="Z23">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-11"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_37" RoomArea="30.6" RoomFloor="2" RoomHeight="2.6" RoomName="廊下" RoomType="廊下"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="便所前廊下2" ID="Z24">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-11"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_38" RoomArea="9.72" RoomFloor="2" RoomHeight="2.6" RoomName="便所前廊下2" RoomType="廊下"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2" ACZoneName="通路" ID="Z25">
+         <AirHandlingUnitRef Load="Room" Name="AC2F-11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F-11"/>
+         <RoomRef BuildingType="Office" FloorHeight="3.7" ID="ROOM_39" RoomArea="8.1" RoomFloor="2" RoomHeight="2.6" RoomName="通路" RoomType="廊下"/>
+      </AirConditioningZone>
+      <AirHandlingUnit CoolingCapacity="16" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="18" Info="ACP1-1" MinDamperOpening="Null" Name="AC1F-01" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.2" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5.6" Info="ACP1-4" MinDamperOpening="Null" Name="AC1F-01" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-2" MinDamperOpening="Null" Name="AC1F-01" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-3" MinDamperOpening="Null" Name="AC1F-01" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="7.1" Count="3" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="8" Info="ACP1-3" MinDamperOpening="Null" Name="AC1F-02" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5.6" Info="ACP1-4" MinDamperOpening="Null" Name="AC1F-02" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-2" MinDamperOpening="Null" Name="AC1F-02" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="9" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="10" Info="ACP1-2" MinDamperOpening="Null" Name="AC1F-03" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-2" MinDamperOpening="Null" Name="AC1F-03" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="3.6" Count="6" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="4" Info="ACP4-1" MinDamperOpening="Null" Name="AC1F-04" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-4" HeatingName="ACP-4"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-8" MinDamperOpening="Null" Name="AC1F-04" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="16" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="18" Info="ACP3-1" MinDamperOpening="Null" Name="AC1F-05" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.2" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-3" HeatingName="ACP-3"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="2.8" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="3.2" Info="ACP1-5" MinDamperOpening="Null" Name="AC1F-06" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-1" HeatingName="ACP-1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="250" HeatingCapacity="Null" Info="HEU-5" MinDamperOpening="Null" Name="AC1F-06" OutsideAirCutControl="False" OutsideAirFanPower="0.2" ReturnFanPower="Null" SupplyAirVolume="250" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="8" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="9" Info="ACP3-3" MinDamperOpening="Null" Name="AC2F-01" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-3" HeatingName="ACP-3"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="850" HeatingCapacity="Null" Info="HEU-1" MinDamperOpening="Null" Name="AC2F-01" OutsideAirCutControl="False" OutsideAirFanPower="0.8" ReturnFanPower="Null" SupplyAirVolume="850" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="3.6" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="4" Info="ACP2-8" MinDamperOpening="Null" Name="AC2F-02" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="350" HeatingCapacity="Null" Info="HEU-4" MinDamperOpening="Null" Name="AC2F-02" OutsideAirCutControl="False" OutsideAirFanPower="0.3" ReturnFanPower="Null" SupplyAirVolume="350" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="4.5" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5" Info="ACP2-7" MinDamperOpening="Null" Name="AC2F-03" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="350" HeatingCapacity="Null" Info="HEU-4" MinDamperOpening="Null" Name="AC2F-03" OutsideAirCutControl="False" OutsideAirFanPower="0.3" ReturnFanPower="Null" SupplyAirVolume="350" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="3.6" Count="8" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="4" Info="ACP4-1" MinDamperOpening="Null" Name="AC2F-04" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-4" HeatingName="ACP-4"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="850" HeatingCapacity="Null" Info="HEU-7" MinDamperOpening="Null" Name="AC2F-04" OutsideAirCutControl="False" OutsideAirFanPower="0.6" ReturnFanPower="Null" SupplyAirVolume="850" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="6.3" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="7.5" Info="ACP2-2" MinDamperOpening="Null" Name="AC2F-05" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="250" HeatingCapacity="Null" Info="HEU-5" MinDamperOpening="Null" Name="AC2F-05" OutsideAirCutControl="False" OutsideAirFanPower="0.2" ReturnFanPower="Null" SupplyAirVolume="250" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="4.5" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5" Info="ACP2-5" MinDamperOpening="Null" Name="AC2F-06" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="9" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="10" Info="ACP2-1" MinDamperOpening="Null" Name="AC2F-07" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="5.6" Info="ACP2-4" MinDamperOpening="Null" Name="AC2F-07" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="650" HeatingCapacity="Null" Info="HEU-3" MinDamperOpening="Null" Name="AC2F-07" OutsideAirCutControl="False" OutsideAirFanPower="0.5" ReturnFanPower="Null" SupplyAirVolume="650" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="350" HeatingCapacity="Null" Info="HEU-4" MinDamperOpening="Null" Name="AC2F-07" OutsideAirCutControl="False" OutsideAirFanPower="0.3" ReturnFanPower="Null" SupplyAirVolume="350" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5.8" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="6.3" Info="ACP2-6" MinDamperOpening="Null" Name="AC2F-08" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="200" HeatingCapacity="Null" Info="HEU-6" MinDamperOpening="Null" Name="AC2F-08" OutsideAirCutControl="False" OutsideAirFanPower="0.2" ReturnFanPower="Null" SupplyAirVolume="200" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5.8" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="6.3" Info="ACP2-6" MinDamperOpening="Null" Name="AC2F-09" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="200" HeatingCapacity="Null" Info="HEU-6" MinDamperOpening="Null" Name="AC2F-09" OutsideAirCutControl="False" OutsideAirFanPower="0.2" ReturnFanPower="Null" SupplyAirVolume="200" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="5.6" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="6.3" Info="ACP2-3" MinDamperOpening="Null" Name="AC2F-10" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-2" HeatingName="ACP-2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="200" HeatingCapacity="Null" Info="HEU-6" MinDamperOpening="Null" Name="AC2F-10" OutsideAirCutControl="False" OutsideAirFanPower="0.2" ReturnFanPower="Null" SupplyAirVolume="200" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="14" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="16" Info="ACP3-2" MinDamperOpening="Null" Name="AC2F-11" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.2" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-3" HeatingName="ACP-3"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="6.3" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="7.5" Info="ACP3-4" MinDamperOpening="Null" Name="AC2F-11" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="Null" SupplyFanPower="0.1" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP-3" HeatingName="ACP-3"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="False" HeatExchangerEfficiency="0.4" HeatExchangerPower="Null" HeatExchangerVolume="1000" HeatingCapacity="Null" Info="HEU-9" MinDamperOpening="Null" Name="AC2F-11" OutsideAirCutControl="False" OutsideAirFanPower="0.8" ReturnFanPower="Null" SupplyAirVolume="1000" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <HeatSourceSet CHmode="False" Name="ACP-1" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="68" Capacity_Heating="76.5" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="17.5" MainPower_Heating="17.5" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="False" Name="ACP-2" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="63" Capacity_Heating="69" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="15.6" MainPower_Heating="15.6" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="False" Name="ACP-3" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="63" Capacity_Heating="69" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="15.6" MainPower_Heating="15.6" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="False" Name="ACP-4" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="56" Capacity_Heating="63" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="14.1" MainPower_Heating="14.1" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <WallConfigure Name="RF1" Uvalue="0.198" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="9.5"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="グラスウール断熱材 24K相当" MaterialNumber="124" WallThickness="100"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="0.1"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="鋼" MaterialNumber="1" WallThickness="0.6"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="グラスウール断熱材 24K相当" MaterialNumber="124" WallThickness="100"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="鋼" MaterialNumber="1" WallThickness="0.8"/>
+      </WallConfigure>
+      <WallConfigure Name="OW1" Uvalue="0.615" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="12.5"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="0.1"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="グラスウール断熱材 24K相当" MaterialNumber="124" WallThickness="50"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="21"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="木毛セメント板" MaterialNumber="87" WallThickness="3"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="鋼" MaterialNumber="1" WallThickness="15"/>
+      </WallConfigure>
+      <WallConfigure Name="OF1" Uvalue="4.161" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="コンクリート" MaterialNumber="41" WallThickness="120"/>
+      </WallConfigure>
+      <WallConfigure Name="SHT" Uvalue="6.468" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="鋼" MaterialNumber="1" WallThickness="0.5"/>
+      </WallConfigure>
+      <WallConfigure Name="SD1" Uvalue="6.464" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="鋼" MaterialNumber="1" WallThickness="6"/>
+      </WallConfigure>
+      <WindowConfigure Info="" Mvalue="0.64" Name="OG1" Uvalue="2.8" WindowTypeClass="透明+透明" WindowTypeNumber="103"/>
+      <WindowConfigure Info="" Mvalue="0.83" Name="AD1" Uvalue="6.3" WindowTypeClass="透明" WindowTypeNumber="4"/>
+      <WindowConfigure Info="" Mvalue="Null" Name="Null" Uvalue="Null" WindowTypeClass="SNGL" WindowTypeNumber="1"/>
+      <Envelope ACZoneFloor="1" ACZoneID="Z3" ACZoneName="閲覧コーナー">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="39.96" WallConfigure="OW1" WindowArea="16.6" WindowType="OG1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1" ACZoneID="Z4" ACZoneName="待合室1">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="28.12" WallConfigure="OW1" WindowArea="19.4" WindowType="OG1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1" ACZoneID="Z6" ACZoneName="登録部門">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="66.6" WallConfigure="OW1" WindowArea="27.7" WindowType="OG1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1" ACZoneID="Z7" ACZoneName="書庫1">
+         <Wall Blind="True" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="59.94" WallConfigure="OW1" WindowArea="11.2" WindowType="OG1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="59.94" WallConfigure="OW1" WindowArea="11.2" WindowType="OG1"/>
+         <Wall Blind="False" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="9.99" WallConfigure="OW1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1" ACZoneID="Z8" ACZoneName="休憩更衣室">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="26.64" WallConfigure="OW1" WindowArea="5.6" WindowType="OG1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1" ACZoneID="Z9" ACZoneName="階段自販機室">
+         <Wall Blind="False" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="29.97" WallConfigure="OW1" WindowArea="21.7" WindowType="OG1"/>
+         <Wall Blind="False" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="13.32" WallConfigure="OW1" WindowArea="11.3" WindowType="OG1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z12" ACZoneName="相談室1">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="16.65" WallConfigure="OW1" WindowArea="7.65" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="16.2" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z13" ACZoneName="人権委員室">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="13.32" WallConfigure="OW1" WindowArea="5" WindowType="OG1"/>
+         <Wall Blind="True" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="19.98" WallConfigure="OW1" WindowArea="2" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="21.87" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z14" ACZoneName="相談室2">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="19.98" WallConfigure="OW1" WindowArea="9.18" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="17.82" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z15" ACZoneName="会議室">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="33.3" WallConfigure="OW1" WindowArea="13.77" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="58.8" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z16" ACZoneName="総務課">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="26.64" WallConfigure="OW1" WindowArea="12.24" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="89.49" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z17" ACZoneName="支局長室">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="19.98" WallConfigure="OW1" WindowArea="9.18" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="28.62" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z19" ACZoneName="女子休憩更衣室">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="13.32" WallConfigure="OW1" WindowArea="6.12" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="19.44" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z20" ACZoneName="男子休憩更衣室">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="9.99" WallConfigure="OW1" WindowArea="5" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="14.58" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z21" ACZoneName="喫煙室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="13.32" WallConfigure="OW1" WindowArea="6.12" WindowType="OG1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="14.04" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="1.1" WallConfigure="OF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z22" ACZoneName="書庫2">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="59.94" WallConfigure="OW1" WindowArea="11.2" WindowType="OG1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="76.59" WallConfigure="OW1" WindowArea="14" WindowType="OG1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="59.94" WallConfigure="OW1" WindowArea="11.2" WindowType="OG1"/>
+         <Wall Blind="False" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="9.99" WallConfigure="OW1" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="335.34" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z10" ACZoneName="ホール">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="16.2" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z11" ACZoneName="待合室2">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="19.44" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z18" ACZoneName="印刷室">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="20.01" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z23" ACZoneName="廊下">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="30.3" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z24" ACZoneName="便所前廊下2">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="9.72" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2" ACZoneID="Z25" ACZoneName="通路">
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="8.1" WallConfigure="RF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="" ACZoneID="" ACZoneName="">
+         <Wall/>
+      </Envelope>
+   </AirConditioningSystem>
+   <LightingSystems>
+      <LightingRoom BldgType="Office" RoomArea="12.96" RoomDepth="3.6" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_1" RoomIndex="Null" RoomName="風除室" RoomType="廊下" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_1" Power="106" UnitName="Null" UnitType="FRL12-P323PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_2" Power="19" UnitName="Null" UnitType="FRS21-H421PN26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="16.2" RoomDepth="4.5" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_2" RoomIndex="Null" RoomName="玄関ホール" RoomType="ロビー" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_3" Power="106" UnitName="Null" UnitType="FRL12-P323PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="9.72" RoomDepth="5.4" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_3" RoomIndex="Null" RoomName="便所前廊下1" RoomType="廊下" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_4" Power="50" UnitName="Null" UnitType="FRS26-162PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="7.29" RoomDepth="2.7" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_4" RoomIndex="Null" RoomName="多目的便所1" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_5" Power="19" UnitName="Null" UnitType="FRS21-H421PN26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="9.89" RoomDepth="3.6" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_5" RoomIndex="Null" RoomName="男子便所1" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_6" Power="19" UnitName="Null" UnitType="FRS21-H241PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="5" ID="LUnit_7" Power="27" UnitName="FFS8" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="8.73" RoomDepth="3.6" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_6" RoomIndex="Null" RoomName="女子便所1" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="4" ID="LUnit_8" Power="27" UnitName="Null" UnitType="FRS21-H241PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_9" Power="27" UnitName="FFS8" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="43.74" RoomDepth="5.4" RoomFloor="1" RoomHeight="2.75" RoomIDs="ROOM_7" RoomIndex="Null" RoomName="車庫タイヤ保管庫" RoomType="屋内駐車場" RoomWidth="8.1">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_10" Power="48" UnitName="Null" UnitType="FSS9-321PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="28.66" RoomDepth="2.7" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_8" RoomIndex="Null" RoomName="閲覧コーナー" RoomType="事務室" RoomWidth="10.8">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="5" ID="LUnit_11" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="77.48" RoomDepth="10.8" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_9" RoomIndex="Null" RoomName="待合室1" RoomType="事務室" RoomWidth="7.2">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="onoff" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="15" ID="LUnit_12" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="49.81" RoomDepth="4.5" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_10" RoomIndex="Null" RoomName="乙号委託スペース" RoomType="事務室" RoomWidth="10.8">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="10" ID="LUnit_13" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="158.19" RoomDepth="Null" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_11" RoomIndex="1.83" RoomName="登録部門" RoomType="事務室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="32" ID="LUnit_14" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="8.64" RoomDepth="4.5" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_12" RoomIndex="Null" RoomName="湯沸室1" RoomType="湯沸室等" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_15" Power="48" UnitName="Null" UnitType="FSS9-321PH26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_16" Power="27" UnitName="SP-1" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="12.96" RoomDepth="Null" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_13" RoomIndex="0.53" RoomName="倉庫1" RoomType="更衣室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_17" Power="48" UnitName="Null" UnitType="FSS9-322PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="270.54" RoomDepth="Null" RoomFloor="1" RoomHeight="3" RoomIDs="ROOM_14" RoomIndex="2.08" RoomName="書庫1" RoomType="更衣室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="60" ID="LUnit_18" Power="48" UnitName="Null" UnitType="FSS9-321PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="19.44" RoomDepth="2.7" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_15" RoomIndex="Null" RoomName="休憩更衣室" RoomType="喫茶室" RoomWidth="7.2">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_19" Power="95" UnitName="Null" UnitType="FSS6-322PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="3.24" RoomDepth="1.8" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_16" RoomIndex="Null" RoomName="機械室" RoomType="機械室" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_20" Power="48" UnitName="Null" UnitType="FSR2-322PN26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="24.3" RoomDepth="4.5" RoomFloor="1" RoomHeight="3.55" RoomIDs="ROOM_17" RoomIndex="Null" RoomName="電気室" RoomType="電気室" RoomWidth="5.4">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="4" ID="LUnit_21" Power="48" UnitName="Null" UnitType="FSR2-321PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="32.76" RoomDepth="3.6" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_18" RoomIndex="Null" RoomName="階段自販機室" RoomType="廊下" RoomWidth="7.2">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_22" Power="106" UnitName="Null" UnitType="FRL12-P323PX26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_23" Power="19" UnitName="FRS21" UnitType="Null"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_24" Power="35" UnitName="SP-3" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="4.86" RoomDepth="1.8" RoomFloor="1" RoomHeight="2.6" RoomIDs="ROOM_19" RoomIndex="Null" RoomName="倉庫2" RoomType="更衣室" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_25" Power="48" UnitName="Null" UnitType="FSS9-161PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="16.2" RoomDepth="4.5" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_20" RoomIndex="Null" RoomName="ホール" RoomType="ロビー" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="4" ID="LUnit_26" Power="106" UnitName="Null" UnitType="FRL12-P323PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="19.44" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_21" RoomIndex="Null" RoomName="待合室2" RoomType="事務室" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="onoff" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="6" ID="LUnit_27" Power="106" UnitName="Null" UnitType="FRL12-P323PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="16.2" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_22" RoomIndex="Null" RoomName="相談室1" RoomType="事務室" RoomWidth="4.5">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="4" ID="LUnit_28" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="21.87" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_23" RoomIndex="Null" RoomName="人権委員室" RoomType="事務室" RoomWidth="5.4">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="6" ID="LUnit_29" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="17.82" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_24" RoomIndex="Null" RoomName="相談室2" RoomType="事務室" RoomWidth="5.4">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="4" ID="LUnit_30" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="50.8" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_25" RoomIndex="Null" RoomName="会議室" RoomType="会議室" RoomWidth="9">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="12" ID="LUnit_31" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="95.44" RoomDepth="Null" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_26" RoomIndex="1.36" RoomName="総務課" RoomType="事務室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="onoff" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="18" ID="LUnit_32" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="28.62" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_27" RoomIndex="Null" RoomName="支局長室" RoomType="事務室" RoomWidth="5.4">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="onoff" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="6" ID="LUnit_33" Power="84" UnitName="Null" UnitType="FRS15F1-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="20.01" RoomDepth="Null" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_28" RoomIndex="0.62" RoomName="印刷室" RoomType="事務室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_34" Power="48" UnitName="Null" UnitType="FSS9-322PJ26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="14.58" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_29" RoomIndex="Null" RoomName="物置" RoomType="更衣室" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_35" Power="48" UnitName="Null" UnitType="FSS9-322PN26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="19.44" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_30" RoomIndex="Null" RoomName="女子休憩更衣室" RoomType="喫茶室" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="2" ID="LUnit_36" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="14.58" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_31" RoomIndex="Null" RoomName="男子休憩更衣室" RoomType="喫茶室" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="True" ControlFlag_C4="eachSideWithoutBlind" ControlFlag_C5="False" ControlFlag_C6="True" Count="2" ID="LUnit_37" Power="95" UnitName="Null" UnitType="FSS6-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="7.2" RoomDepth="2.7" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_32" RoomIndex="Null" RoomName="湯沸室2" RoomType="湯沸室等" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_38" Power="48" UnitName="Null" UnitType="FSS9-321PH26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_39" Power="27" UnitName="SP-1" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="14.04" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_33" RoomIndex="Null" RoomName="喫煙室" RoomType="ロビー" RoomWidth="3.6">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_40" Power="95" UnitName="Null" UnitType="FSL1-322PX26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="335.34" RoomDepth="16.2" RoomFloor="2" RoomHeight="3" RoomIDs="ROOM_34" RoomIndex="Null" RoomName="書庫2" RoomType="更衣室" RoomWidth="20.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="75" ID="LUnit_41" Power="48" UnitName="Null" UnitType="FSS9-321PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="9.89" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_35" RoomIndex="Null" RoomName="男子便所2" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_42" Power="19" UnitName="Null" UnitType="FRS21-H241PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="5" ID="LUnit_43" Power="27" UnitName="Null" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="8.73" RoomDepth="3.6" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_36" RoomIndex="Null" RoomName="女子便所2" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="4" ID="LUnit_44" Power="27" UnitName="Null" UnitType="FRS21-H241PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_45" Power="27" UnitName="FSS8" UnitType="Null"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="30.6" RoomDepth="18" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_37" RoomIndex="Null" RoomName="廊下" RoomType="廊下" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="6" ID="LUnit_46" Power="50" UnitName="Null" UnitType="FRS26-162PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="9.72" RoomDepth="5.4" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_38" RoomIndex="Null" RoomName="便所前廊下2" RoomType="廊下" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_47" Power="50" UnitName="Null" UnitType="FRS26-162PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="8.1" RoomDepth="4.5" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_39" RoomIndex="Null" RoomName="通路" RoomType="廊下" RoomWidth="1.8">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="2" ID="LUnit_48" Power="50" UnitName="Null" UnitType="FRS26-162PH26"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Office" RoomArea="7.29" RoomDepth="2.7" RoomFloor="2" RoomHeight="2.6" RoomIDs="ROOM_40" RoomIndex="Null" RoomName="多目的便所2" RoomType="便所" RoomWidth="2.7">
+         <LightingUnit ControlFlag_C1="onoff" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="3" ID="LUnit_49" Power="19" UnitName="Null" UnitType="FRS21-H421PN26"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="NaN" ID="LUnit_50" Power="NaN" UnitName="Null" UnitType="Null"/>
+      </LightingRoom>
+   </LightingSystems>
+   <HotwaterSystems>
+      <Boiler Capacity="1.5" Efficiency="0.37" Info="Null" Insulation="Level2" Name="WHE-1" PipeSize="20" SolarSystem="None" SolorHeatingSurfaceArea="Null" SolorHeatingSurfaceAzimuth="Null" SolorHeatingSurfaceInclination="Null"/>
+      <HotwaterRoom BuildingType="Office" RoomArea="16.2" RoomFloor="1" RoomIDs="ROOM_2" RoomName="玄関ホール" RoomType="ロビー">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="28.66" RoomFloor="1" RoomIDs="ROOM_8" RoomName="閲覧コーナー" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="77.48" RoomFloor="1" RoomIDs="ROOM_9" RoomName="待合室1" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="49.81" RoomFloor="1" RoomIDs="ROOM_10" RoomName="乙号委託スペース" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="158.19" RoomFloor="1" RoomIDs="ROOM_11" RoomName="登録部門" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="16.2" RoomFloor="2" RoomIDs="ROOM_20" RoomName="ホール" RoomType="ロビー">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="19.44" RoomFloor="2" RoomIDs="ROOM_21" RoomName="待合室2" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="16.2" RoomFloor="2" RoomIDs="ROOM_22" RoomName="相談室1" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="21.87" RoomFloor="2" RoomIDs="ROOM_23" RoomName="人権委員室" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="17.82" RoomFloor="2" RoomIDs="ROOM_24" RoomName="相談室2" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="50.8" RoomFloor="2" RoomIDs="ROOM_25" RoomName="会議室" RoomType="会議室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="95.44" RoomFloor="2" RoomIDs="ROOM_26" RoomName="総務課" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="28.62" RoomFloor="2" RoomIDs="ROOM_27" RoomName="支局長室" RoomType="事務室">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+      <HotwaterRoom BuildingType="Office" RoomArea="14.04" RoomFloor="2" RoomIDs="ROOM_33" RoomName="喫煙室" RoomType="ロビー">
+         <BoilerRef Location="Null" Name="WHE-1" WaterSaving="None"/>
+      </HotwaterRoom>
+   </HotwaterSystems>
+   <VentilationSystems>
+      <VentilationRoom BuildingType="Office" RoomArea="7.29" RoomFloor="1" RoomIDs="ROOM_4" RoomName="多目的便所1" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="9.89" RoomFloor="1" RoomIDs="ROOM_5" RoomName="男子便所1" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="8.73" RoomFloor="1" RoomIDs="ROOM_6" RoomName="女子便所1" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="43.74" RoomFloor="1" RoomIDs="ROOM_7" RoomName="車庫タイヤ保管庫" RoomType="屋内駐車場">
+         <VentilationUnitRef Name="FEW-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="12.96" RoomFloor="1" RoomIDs="ROOM_13" RoomName="倉庫1" RoomType="更衣室">
+         <VentilationUnitRef Name="FEC-1" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="3.24" RoomFloor="1" RoomIDs="ROOM_16" RoomName="機械室" RoomType="機械室">
+         <VentilationUnitRef Name="FEC-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="24.3" RoomFloor="1" RoomIDs="ROOM_17" RoomName="電気室" RoomType="電気室">
+         <VentilationUnitRef Name="FSW-1" UnitType="Supply"/>
+         <VentilationUnitRef Name="FEW-1" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="8.64" RoomFloor="1" RoomIDs="ROOM_12" RoomName="湯沸室1" RoomType="湯沸室等">
+         <VentilationUnitRef Name="FEC-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="4.86" RoomFloor="1" RoomIDs="ROOM_19" RoomName="倉庫2" RoomType="更衣室">
+         <VentilationUnitRef Name="FEC-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="14.58" RoomFloor="2" RoomIDs="ROOM_29" RoomName="物置" RoomType="更衣室">
+         <VentilationUnitRef Name="FEC-1" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="9.89" RoomFloor="2" RoomIDs="ROOM_35" RoomName="男子便所2" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="8.73" RoomFloor="2" RoomIDs="ROOM_36" RoomName="女子便所2" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="7.29" RoomFloor="2" RoomIDs="ROOM_40" RoomName="多目的便所2" RoomType="便所">
+         <VentilationUnitRef Name="FEM-2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Office" RoomArea="7.2" RoomFloor="2" RoomIDs="ROOM_32" RoomName="湯沸室2" RoomType="湯沸室等">
+         <VentilationUnitRef Name="FEC-3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationFANUnit ControlFlag_C1="True" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.2" FanVolume="1100" Name="FEM-1"/>
+      <VentilationFANUnit ControlFlag_C1="True" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.1" FanVolume="550" Name="FEM-2"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="Temprature" FanPower="0.2" FanVolume="2300" Name="FEW-1"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.1" FanVolume="800" Name="FEW-2"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="Temprature" FanPower="0.4" FanVolume="2300" Name="FSW-1"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.1" FanVolume="200" Name="FEC-1"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.1" FanVolume="65" Name="FEC-2"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.1" FanVolume="300" Name="FEC-3"/>
+   </VentilationSystems>
+   <Elevators>
+      <Elevator BldgType="Office" ControlType="VVVF" Count="1" LoadLimit="900" Name="乗用1台" RoomFloor="2" RoomIDs="ROOM_26" RoomName="総務課" RoomType="事務室" TransportCapacityFactor="1" Velocity="45"/>
+   </Elevators>
+</model>

@@ -31,7 +31,7 @@
 clear
 clc
 tic
-INPUTFILENAME = 'chikunetu2.xml';
+INPUTFILENAME = 'input_êÖó‚.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -120,6 +120,7 @@ switch climateAREA
         ToawbH = 0.9034.*ToadbH -1.4545;   % éºãÖâ∑ìx [Åé]
         
         TctwC  = ToawbC + 3;
+        
         
     case {'VI','8'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];

@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BuildingType="Office" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVb" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" TotalArea="100" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_1" Info="Null" RoomArea="85" RoomFloor="B1F" RoomHeight="4.8" RoomName="中央監視室" RoomType="中央監視室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_2" Info="Null" RoomArea="22.4" RoomFloor="B1F" RoomHeight="2.6" RoomName="清掃員控室" RoomType="更衣室又は倉庫" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_3" Info="Null" RoomArea="22.1" RoomFloor="B1F" RoomHeight="2.6" RoomName="書庫" RoomType="更衣室又は倉庫" calcAC="True" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_4" Info="Null" RoomArea="12" RoomFloor="B1F" RoomHeight="2.6" RoomName="更衣室" RoomType="更衣室又は倉庫" calcAC="True" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_5" Info="Null" RoomArea="91.2" RoomFloor="B1F" RoomHeight="5.5" RoomName="受水槽室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_6" Info="Null" RoomArea="238.5" RoomFloor="B1F" RoomHeight="5.5" RoomName="機械室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_7" Info="Null" RoomArea="70.2" RoomFloor="B1F" RoomHeight="5.5" RoomName="発電機室" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_8" Info="Null" RoomArea="79.8" RoomFloor="B1F" RoomHeight="5.5" RoomName="電気室" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_9" Info="Null" RoomArea="21.8" RoomFloor="B1F" RoomHeight="5.5" RoomName="MDF室" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_10" Info="Null" RoomArea="80.9" RoomFloor="B1F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_11" Info="Null" RoomArea="22.4" RoomFloor="B1F" RoomHeight="5.5" RoomName="階段室Ｎ" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_12" Info="Null" RoomArea="11.2" RoomFloor="B1F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_13" Info="Null" RoomArea="7" RoomFloor="B1F" RoomHeight="5.5" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_14" Info="Null" RoomArea="3.4" RoomFloor="B1F" RoomHeight="5.5" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_15" Info="Null" RoomArea="16.2" RoomFloor="B1F" RoomHeight="5.5" RoomName="倉庫1" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_16" Info="Null" RoomArea="45.2" RoomFloor="B1F" RoomHeight="5.5" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_17" Info="Null" RoomArea="3.4" RoomFloor="B1F" RoomHeight="5.5" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_18" Info="Null" RoomArea="7.8" RoomFloor="B1F" RoomHeight="2.4" RoomName="便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_19" Info="Null" RoomArea="7.7" RoomFloor="B1F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_20" Info="Null" RoomArea="8.4" RoomFloor="B1F" RoomHeight="2.4" RoomName="シャワー室" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_21" Info="Null" RoomArea="15" RoomFloor="B1F" RoomHeight="5.5" RoomName="消火ポンプ室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_22" Info="Null" RoomArea="9.4" RoomFloor="B1F" RoomHeight="5.5" RoomName="倉庫3" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="5.5" ID="ROOM_23" Info="Null" RoomArea="22.4" RoomFloor="B1F" RoomHeight="5.5" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_24" Info="Null" RoomArea="605.2" RoomFloor="1F" RoomHeight="2.6" RoomName="1F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_25" Info="Null" RoomArea="17.8" RoomFloor="1F" RoomHeight="2.6" RoomName="警備員室" RoomType="中央監視室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="8" ID="ROOM_26" Info="Null" RoomArea="201.6" RoomFloor="1F" RoomHeight="6.4" RoomName="エントランスホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_27" Info="Null" RoomArea="37.4" RoomFloor="1F" RoomHeight="2.4" RoomName="1FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_28" Info="Null" RoomArea="88.6" RoomFloor="1F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_29" Info="Null" RoomArea="22.4" RoomFloor="1F" RoomHeight="4" RoomName="階段室Ｎ" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_30" Info="Null" RoomArea="11.2" RoomFloor="1F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_31" Info="Null" RoomArea="7" RoomFloor="1F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_32" Info="Null" RoomArea="22.4" RoomFloor="1F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_33" Info="Null" RoomArea="3.4" RoomFloor="1F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_34" Info="Null" RoomArea="16.2" RoomFloor="1F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_35" Info="Null" RoomArea="6.1" RoomFloor="1F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_36" Info="Null" RoomArea="1.9" RoomFloor="1F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_37" Info="Null" RoomArea="3.4" RoomFloor="1F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_38" Info="Null" RoomArea="16.2" RoomFloor="1F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_39" Info="Null" RoomArea="4" RoomFloor="1F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_40" Info="Null" RoomArea="7" RoomFloor="1F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_41" Info="Null" RoomArea="6.6" RoomFloor="1F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_42" Info="Null" RoomArea="25.2" RoomFloor="1F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_43" Info="Null" RoomArea="22.4" RoomFloor="1F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_44" Info="Null" RoomArea="15.4" RoomFloor="1F" RoomHeight="3" RoomName="風除室" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_45" Info="Null" RoomArea="623" RoomFloor="2F" RoomHeight="2.6" RoomName="2F会議室" RoomType="会議室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_46" Info="Null" RoomArea="37.4" RoomFloor="2F" RoomHeight="2.4" RoomName="2FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_47" Info="Null" RoomArea="88.6" RoomFloor="2F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_48" Info="Null" RoomArea="22.4" RoomFloor="2F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_49" Info="Null" RoomArea="11.2" RoomFloor="2F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_50" Info="Null" RoomArea="7" RoomFloor="2F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_51" Info="Null" RoomArea="22.4" RoomFloor="2F" RoomHeight="3.8" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_52" Info="Null" RoomArea="3.4" RoomFloor="2F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_53" Info="Null" RoomArea="16.2" RoomFloor="2F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_54" Info="Null" RoomArea="6.1" RoomFloor="2F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_55" Info="Null" RoomArea="1.9" RoomFloor="2F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_56" Info="Null" RoomArea="3.4" RoomFloor="2F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_57" Info="Null" RoomArea="16.2" RoomFloor="2F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_58" Info="Null" RoomArea="4" RoomFloor="2F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_59" Info="Null" RoomArea="7" RoomFloor="2F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_60" Info="Null" RoomArea="6.6" RoomFloor="2F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_61" Info="Null" RoomArea="25.2" RoomFloor="2F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_62" Info="Null" RoomArea="22.4" RoomFloor="2F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_63" Info="Null" RoomArea="623" RoomFloor="3F" RoomHeight="2.6" RoomName="3F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_64" Info="Null" RoomArea="37.4" RoomFloor="3F" RoomHeight="2.4" RoomName="3FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_65" Info="Null" RoomArea="88.6" RoomFloor="3F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_66" Info="Null" RoomArea="22.4" RoomFloor="3F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_67" Info="Null" RoomArea="11.2" RoomFloor="3F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_68" Info="Null" RoomArea="7" RoomFloor="3F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_69" Info="Null" RoomArea="22.4" RoomFloor="3F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_70" Info="Null" RoomArea="3.4" RoomFloor="3F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_71" Info="Null" RoomArea="16.2" RoomFloor="3F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_72" Info="Null" RoomArea="6.1" RoomFloor="3F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_73" Info="Null" RoomArea="1.9" RoomFloor="3F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_74" Info="Null" RoomArea="3.4" RoomFloor="3F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_75" Info="Null" RoomArea="16.2" RoomFloor="3F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_76" Info="Null" RoomArea="4" RoomFloor="3F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_77" Info="Null" RoomArea="7" RoomFloor="3F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_78" Info="Null" RoomArea="6.6" RoomFloor="3F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_79" Info="Null" RoomArea="25.2" RoomFloor="3F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_80" Info="Null" RoomArea="22.4" RoomFloor="3F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_81" Info="Null" RoomArea="623" RoomFloor="4F" RoomHeight="2.6" RoomName="4F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_82" Info="Null" RoomArea="37.4" RoomFloor="4F" RoomHeight="2.4" RoomName="4FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_83" Info="Null" RoomArea="88.6" RoomFloor="4F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_84" Info="Null" RoomArea="22.4" RoomFloor="4F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_85" Info="Null" RoomArea="11.2" RoomFloor="4F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_86" Info="Null" RoomArea="7" RoomFloor="4F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_87" Info="Null" RoomArea="22.4" RoomFloor="4F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_88" Info="Null" RoomArea="3.4" RoomFloor="4F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_89" Info="Null" RoomArea="16.2" RoomFloor="4F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_90" Info="Null" RoomArea="6.1" RoomFloor="4F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_91" Info="Null" RoomArea="1.9" RoomFloor="4F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_92" Info="Null" RoomArea="3.4" RoomFloor="4F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_93" Info="Null" RoomArea="16.2" RoomFloor="4F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_94" Info="Null" RoomArea="4" RoomFloor="4F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_95" Info="Null" RoomArea="7" RoomFloor="4F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_96" Info="Null" RoomArea="6.6" RoomFloor="4F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_97" Info="Null" RoomArea="25.2" RoomFloor="4F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_98" Info="Null" RoomArea="22.4" RoomFloor="4F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_99" Info="Null" RoomArea="623" RoomFloor="5F" RoomHeight="2.6" RoomName="5F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_100" Info="Null" RoomArea="37.4" RoomFloor="5F" RoomHeight="2.4" RoomName="5FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_101" Info="Null" RoomArea="88.6" RoomFloor="5F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_102" Info="Null" RoomArea="22.4" RoomFloor="5F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_103" Info="Null" RoomArea="11.2" RoomFloor="5F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_104" Info="Null" RoomArea="7" RoomFloor="5F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_105" Info="Null" RoomArea="22.4" RoomFloor="5F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_106" Info="Null" RoomArea="3.4" RoomFloor="5F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_107" Info="Null" RoomArea="16.2" RoomFloor="5F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_108" Info="Null" RoomArea="6.1" RoomFloor="5F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_109" Info="Null" RoomArea="1.9" RoomFloor="5F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_110" Info="Null" RoomArea="3.4" RoomFloor="5F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_111" Info="Null" RoomArea="16.2" RoomFloor="5F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_112" Info="Null" RoomArea="4" RoomFloor="5F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_113" Info="Null" RoomArea="7" RoomFloor="5F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_114" Info="Null" RoomArea="6.6" RoomFloor="5F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_115" Info="Null" RoomArea="25.2" RoomFloor="5F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_116" Info="Null" RoomArea="22.4" RoomFloor="5F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_117" Info="Null" RoomArea="623" RoomFloor="6F" RoomHeight="2.6" RoomName="6F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_118" Info="Null" RoomArea="37.4" RoomFloor="6F" RoomHeight="2.4" RoomName="6FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_119" Info="Null" RoomArea="88.6" RoomFloor="6F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_120" Info="Null" RoomArea="22.4" RoomFloor="6F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_121" Info="Null" RoomArea="11.2" RoomFloor="6F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_122" Info="Null" RoomArea="7" RoomFloor="6F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_123" Info="Null" RoomArea="22.4" RoomFloor="6F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_124" Info="Null" RoomArea="3.4" RoomFloor="6F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_125" Info="Null" RoomArea="16.2" RoomFloor="6F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_126" Info="Null" RoomArea="6.1" RoomFloor="6F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_127" Info="Null" RoomArea="1.9" RoomFloor="6F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_128" Info="Null" RoomArea="3.4" RoomFloor="6F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_129" Info="Null" RoomArea="16.2" RoomFloor="6F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_130" Info="Null" RoomArea="4" RoomFloor="6F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_131" Info="Null" RoomArea="7" RoomFloor="6F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_132" Info="Null" RoomArea="6.6" RoomFloor="6F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_133" Info="Null" RoomArea="25.2" RoomFloor="6F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_134" Info="Null" RoomArea="22.4" RoomFloor="6F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_135" Info="Null" RoomArea="623" RoomFloor="7F" RoomHeight="2.6" RoomName="7F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_136" Info="Null" RoomArea="37.4" RoomFloor="7F" RoomHeight="2.4" RoomName="7FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_137" Info="Null" RoomArea="88.6" RoomFloor="7F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_138" Info="Null" RoomArea="22.4" RoomFloor="7F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_139" Info="Null" RoomArea="11.2" RoomFloor="7F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_140" Info="Null" RoomArea="7" RoomFloor="7F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_141" Info="Null" RoomArea="22.4" RoomFloor="7F" RoomHeight="3.8" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_142" Info="Null" RoomArea="3.4" RoomFloor="7F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_143" Info="Null" RoomArea="16.2" RoomFloor="7F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_144" Info="Null" RoomArea="6.1" RoomFloor="7F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_145" Info="Null" RoomArea="1.9" RoomFloor="7F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_146" Info="Null" RoomArea="3.4" RoomFloor="7F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_147" Info="Null" RoomArea="16.2" RoomFloor="7F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_148" Info="Null" RoomArea="4" RoomFloor="7F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_149" Info="Null" RoomArea="7" RoomFloor="7F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_150" Info="Null" RoomArea="6.6" RoomFloor="7F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_151" Info="Null" RoomArea="25.2" RoomFloor="7F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_152" Info="Null" RoomArea="22.4" RoomFloor="7F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_153" Info="Null" RoomArea="495.1" RoomFloor="8F" RoomHeight="2.6" RoomName="8F事務室" RoomType="事務室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_154" Info="Null" RoomArea="127.9" RoomFloor="8F" RoomHeight="2.6" RoomName="セミナールーム" RoomType="会議室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_155" Info="Null" RoomArea="37.4" RoomFloor="8F" RoomHeight="2.4" RoomName="8FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_156" Info="Null" RoomArea="88.6" RoomFloor="8F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_157" Info="Null" RoomArea="22.4" RoomFloor="8F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_158" Info="Null" RoomArea="11.2" RoomFloor="8F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_159" Info="Null" RoomArea="7" RoomFloor="8F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_160" Info="Null" RoomArea="22.4" RoomFloor="8F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_161" Info="Null" RoomArea="3.4" RoomFloor="8F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_162" Info="Null" RoomArea="16.2" RoomFloor="8F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_163" Info="Null" RoomArea="6.1" RoomFloor="8F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_164" Info="Null" RoomArea="1.9" RoomFloor="8F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_165" Info="Null" RoomArea="3.4" RoomFloor="8F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_166" Info="Null" RoomArea="16.2" RoomFloor="8F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_167" Info="Null" RoomArea="4" RoomFloor="8F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_168" Info="Null" RoomArea="7" RoomFloor="8F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_169" Info="Null" RoomArea="6.6" RoomFloor="8F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_170" Info="Null" RoomArea="25.2" RoomFloor="8F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_171" Info="Null" RoomArea="22.4" RoomFloor="8F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_172" Info="Null" RoomArea="520.4" RoomFloor="9F" RoomHeight="2.6" RoomName="9F食堂" RoomType="社員食堂" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_173" Info="Null" RoomArea="102.6" RoomFloor="9F" RoomHeight="2.6" RoomName="厨房" RoomType="厨房" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_174" Info="Null" RoomArea="37.4" RoomFloor="9F" RoomHeight="2.4" RoomName="9FEVホール" RoomType="ロビー" calcAC="True" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_175" Info="Null" RoomArea="88.6" RoomFloor="9F" RoomHeight="2.4" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_176" Info="Null" RoomArea="22.4" RoomFloor="9F" RoomHeight="4" RoomName="階段室N" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_177" Info="Null" RoomArea="11.2" RoomFloor="9F" RoomHeight="2.4" RoomName="乗降ロビー" RoomType="ロビー" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_178" Info="Null" RoomArea="7" RoomFloor="9F" RoomHeight="4" RoomName="DS" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_179" Info="Null" RoomArea="22.4" RoomFloor="9F" RoomHeight="4" RoomName="機械室1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_180" Info="Null" RoomArea="3.4" RoomFloor="9F" RoomHeight="4" RoomName="PS1" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_181" Info="Null" RoomArea="16.2" RoomFloor="9F" RoomHeight="2.4" RoomName="男子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_182" Info="Null" RoomArea="6.1" RoomFloor="9F" RoomHeight="4" RoomName="EPS" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_183" Info="Null" RoomArea="1.9" RoomFloor="9F" RoomHeight="4" RoomName="アラーム弁室" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_184" Info="Null" RoomArea="3.4" RoomFloor="9F" RoomHeight="4" RoomName="PS2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_185" Info="Null" RoomArea="16.2" RoomFloor="9F" RoomHeight="2.4" RoomName="女子便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_186" Info="Null" RoomArea="4" RoomFloor="9F" RoomHeight="2.4" RoomName="多目的便所" RoomType="便所" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_187" Info="Null" RoomArea="7" RoomFloor="9F" RoomHeight="2.4" RoomName="湯沸コーナー" RoomType="湯沸室等" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_188" Info="Null" RoomArea="6.6" RoomFloor="9F" RoomHeight="2.4" RoomName="倉庫2" RoomType="更衣室又は倉庫" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_189" Info="Null" RoomArea="25.2" RoomFloor="9F" RoomHeight="4" RoomName="機械室2" RoomType="機械室" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_190" Info="Null" RoomArea="22.4" RoomFloor="9F" RoomHeight="4" RoomName="階段室S" RoomType="廊下" calcAC="False" calcHW="False" calcL="True" calcV="False"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_191" Info="Null" RoomArea="48" RoomFloor="PHF" RoomHeight="4" RoomName="EV機械室" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_192" Info="Null" RoomArea="28.8" RoomFloor="PHF" RoomHeight="4" RoomName="非常用EV機械室" RoomType="電気室" calcAC="False" calcHW="False" calcL="True" calcV="True"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningZone ACZoneFloor="B1F" ACZoneName="中央監視室" ID="Z1">
+         <AirHandlingUnitRef Load="Room" Name="ACCI"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACCI"/>
+         <RoomRef BuildingType="Office" FloorHeight="5.5" ID="ROOM_1" RoomArea="85" RoomFloor="B1F" RoomHeight="4.8" RoomName="中央監視室" RoomType="中央監視室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="B1F" ACZoneName="清掃員控室" ID="Z2">
+         <AirHandlingUnitRef Load="Room" Name="FCU6"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU6"/>
+         <RoomRef BuildingType="Office" FloorHeight="5.5" ID="ROOM_2" RoomArea="22.4" RoomFloor="B1F" RoomHeight="2.6" RoomName="清掃員控室" RoomType="更衣室又は倉庫"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="B1F" ACZoneName="書庫" ID="Z3">
+         <AirHandlingUnitRef Load="Room" Name="ACSI"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACSI"/>
+         <RoomRef BuildingType="Office" FloorHeight="5.5" ID="ROOM_3" RoomArea="22.1" RoomFloor="B1F" RoomHeight="2.6" RoomName="書庫" RoomType="更衣室又は倉庫"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="B1F" ACZoneName="更衣室" ID="Z4">
+         <AirHandlingUnitRef Load="Room" Name="FCU4"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU4"/>
+         <RoomRef BuildingType="Office" FloorHeight="5.5" ID="ROOM_4" RoomArea="12" RoomFloor="B1F" RoomHeight="2.6" RoomName="更衣室" RoomType="更衣室又は倉庫"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="1F事務室" ID="Z5">
+         <AirHandlingUnitRef Load="Room" Name="AC1F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC1F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_24" RoomArea="605.2" RoomFloor="1F" RoomHeight="2.6" RoomName="1F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="警備員室" ID="Z6">
+         <AirHandlingUnitRef Load="Room" Name="ACKI"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACKI"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_25" RoomArea="17.8" RoomFloor="1F" RoomHeight="2.6" RoomName="警備員室" RoomType="中央監視室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="エントランスホール" ID="Z7">
+         <AirHandlingUnitRef Load="Room" Name="ACEN"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACEN"/>
+         <RoomRef BuildingType="Office" FloorHeight="8" ID="ROOM_26" RoomArea="201.6" RoomFloor="1F" RoomHeight="6.4" RoomName="エントランスホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="1FEVホール" ID="Z8">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_27" RoomArea="37.4" RoomFloor="1F" RoomHeight="2.4" RoomName="1FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="2F会議室" ID="Z9">
+         <AirHandlingUnitRef Load="Room" Name="AC2F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC2F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_45" RoomArea="623" RoomFloor="2F" RoomHeight="2.6" RoomName="2F会議室" RoomType="会議室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="2F" ACZoneName="2FEVホール" ID="Z10">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_46" RoomArea="37.4" RoomFloor="2F" RoomHeight="2.4" RoomName="2FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="3F事務室" ID="Z11">
+         <AirHandlingUnitRef Load="Room" Name="AC3F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC3F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_63" RoomArea="623" RoomFloor="3F" RoomHeight="2.6" RoomName="3F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="3F" ACZoneName="3FEVホール" ID="Z12">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_64" RoomArea="37.4" RoomFloor="3F" RoomHeight="2.4" RoomName="3FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="4F事務室" ID="Z13">
+         <AirHandlingUnitRef Load="Room" Name="AC4F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC4F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_81" RoomArea="623" RoomFloor="4F" RoomHeight="2.6" RoomName="4F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="4F" ACZoneName="4FEVホール" ID="Z14">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_82" RoomArea="37.4" RoomFloor="4F" RoomHeight="2.4" RoomName="4FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="5F" ACZoneName="5F事務室" ID="Z15">
+         <AirHandlingUnitRef Load="Room" Name="AC5F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC5F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_99" RoomArea="623" RoomFloor="5F" RoomHeight="2.6" RoomName="5F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="5F" ACZoneName="5FEVホール" ID="Z16">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_100" RoomArea="37.4" RoomFloor="5F" RoomHeight="2.4" RoomName="5FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="6F" ACZoneName="6F事務室" ID="Z17">
+         <AirHandlingUnitRef Load="Room" Name="AC6F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC6F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_117" RoomArea="623" RoomFloor="6F" RoomHeight="2.6" RoomName="6F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="6F" ACZoneName="6FEVホール" ID="Z18">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_118" RoomArea="37.4" RoomFloor="6F" RoomHeight="2.4" RoomName="6FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="7F" ACZoneName="7F事務室" ID="Z19">
+         <AirHandlingUnitRef Load="Room" Name="AC7F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC7F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_135" RoomArea="623" RoomFloor="7F" RoomHeight="2.6" RoomName="7F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="7F" ACZoneName="7FEVホール" ID="Z20">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_136" RoomArea="37.4" RoomFloor="7F" RoomHeight="2.4" RoomName="7FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="8F" ACZoneName="8F事務室" ID="Z21">
+         <AirHandlingUnitRef Load="Room" Name="AC8F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC8F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_153" RoomArea="495.1" RoomFloor="8F" RoomHeight="2.6" RoomName="8F事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="8F" ACZoneName="セミナールーム" ID="Z22">
+         <AirHandlingUnitRef Load="Room" Name="AC8F"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="AC8F"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_154" RoomArea="127.9" RoomFloor="8F" RoomHeight="2.6" RoomName="セミナールーム" RoomType="会議室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="8F" ACZoneName="8FEVホール" ID="Z23">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_155" RoomArea="37.4" RoomFloor="8F" RoomHeight="2.4" RoomName="8FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="9F" ACZoneName="9F食堂" ID="Z24">
+         <AirHandlingUnitRef Load="Room" Name="OCRS"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_172" RoomArea="520.4" RoomFloor="9F" RoomHeight="2.6" RoomName="9F食堂" RoomType="社員食堂"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="9F" ACZoneName="9FEVホール" ID="Z25">
+         <AirHandlingUnitRef Load="Room" Name="FCU8"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="FCU8"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_174" RoomArea="37.4" RoomFloor="9F" RoomHeight="2.4" RoomName="9FEVホール" RoomType="ロビー"/>
+      </AirConditioningZone>
+      <AirHandlingUnitSet Name="AC1F">
+         <AirHandlingUnit CoolingCapacity="52.32" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2620" HeatingCapacity="76.26" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9417.52" SupplyFanPower="3.7" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC2F">
+         <AirHandlingUnit CoolingCapacity="75.4" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="13572.3" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC3F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC4F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC5F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC6F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC7F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="AC8F">
+         <AirHandlingUnit CoolingCapacity="53.86" Count="1" ExitFanPower="0.75" FlowControl="VAV_INV" FreeCoolingControl="True" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="2700" HeatingCapacity="78.5" Info="プラグFAN直結駆動" MinDamperOpening="0.3" OutsideAirCutControl="True" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="9694.5" SupplyFanPower="5.5" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="ACEN">
+         <AirHandlingUnit CoolingCapacity="24.4" Count="1" ExitFanPower="0.1" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="880" HeatingCapacity="25.4" Info="プラグFAN直結駆動" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="4391.94" SupplyFanPower="3.7" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="OCRS">
+         <AirHandlingUnit CoolingCapacity="75.8" Count="1" ExitFanPower="0.75" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="5760" HeatingCapacity="48.38" Info="プラグFAN直結駆動" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="5760" SupplyFanPower="2.2" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="FCU4">
+         <AirHandlingUnit CoolingCapacity="1.52" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="60" HeatingCapacity="1.56" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="320" SupplyFanPower="0.07" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="FCU6">
+         <AirHandlingUnit CoolingCapacity="3.05" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="100" HeatingCapacity="3.1" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="640" SupplyFanPower="0.1" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="FCU8">
+         <AirHandlingUnit CoolingCapacity="3.05" Count="23" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="70" HeatingCapacity="3.1" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="640" SupplyFanPower="0.08" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="ACCI">
+         <AirHandlingUnit CoolingCapacity="6.1" Count="2" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="370" HeatingCapacity="6.22" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="1280" SupplyFanPower="0.17" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="ACSI">
+         <AirHandlingUnit CoolingCapacity="3.05" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="100" HeatingCapacity="3.1" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="640" SupplyFanPower="0.1" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <AirHandlingUnitSet Name="ACKI">
+         <AirHandlingUnit CoolingCapacity="2.29" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="0.1" HeatExchangerVolume="80" HeatingCapacity="2.33" Info="HEUのファン動力はローターの消費電力とした" MinDamperOpening="Null" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="480" SupplyFanPower="0.08" Type="AHU"/>
+         <SecondaryPumpRef Cooling="PC1" Heating="PH1"/>
+         <HeatSourceSetRef Cooling="AHP" Heating="AHP"/>
+      </AirHandlingUnitSet>
+      <SecondaryPumpSet Name="PC1" QuantityControl="True" deltaTemp_Cooling="10" deltaTemp_Heating="10">
+         <SecondaryPump Count="3" FlowControl="VWV_INV" Info="2次冷水" MinValveOpening="0.2" Order="1" RatedFlow="20.02" RatedPower="7.5"/>
+      </SecondaryPumpSet>
+      <SecondaryPumpSet Name="PH1" QuantityControl="True" deltaTemp_Cooling="10" deltaTemp_Heating="10">
+         <SecondaryPump Count="3" FlowControl="VWV_INV" Info="2次温水" MinValveOpening="0.2" Order="1" RatedFlow="20.02" RatedPower="7.5"/>
+      </SecondaryPumpSet>
+      <HeatSourceSet CHmode="False" Name="AHP" QuantityControl="True" StorageMode="Charge" StorageSize="5717">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-1" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-2" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="2" Order_Heating="2" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-3" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="3" Order_Heating="3" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="False" Name="AHP" QuantityControl="True" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-1" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-2" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="2" Order_Heating="2" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="265" Capacity_Heating="280" Count_Cooling="1" Count_Heating="1" Info="AHP-3" MainPower_Cooling="74" MainPower_Heating="74" Order_Cooling="3" Order_Heating="3" PrimaryPumpPower_Cooling="7.5" PrimaryPumpPower_Heating="7.5" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="7" SupplyWaterTemp_Heating="45" Type="AirSourceHP"/>
+      </HeatSourceSet>
+      <WallConfigure Name="OW1" Uvalue="Null" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="12"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="65"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="吹付け硬質ウレタンフォームA種1" MaterialNumber="203" WallThickness="20"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="コンクリート" MaterialNumber="41" WallThickness="170"/>
+      </WallConfigure>
+      <WallConfigure Name="SBW1" Uvalue="Null" WallType="Ground">
+         <MaterialRef Info="Null" Layer="1" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="12"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="吹付け硬質ウレタンフォームA種1" MaterialNumber="203" WallThickness="20"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="コンクリートブロック（軽量）" MaterialNumber="46" WallThickness="100"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="100"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="コンクリート" MaterialNumber="41" WallThickness="300"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="土壌" MaterialNumber="22" WallThickness="0"/>
+      </WallConfigure>
+      <WallConfigure Name="OR1" Uvalue="Null" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="ロックウール断熱材（ボード）" MaterialNumber="144" WallThickness="15"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="900"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="コンクリート" MaterialNumber="41" WallThickness="150"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="アスファルト類" MaterialNumber="103" WallThickness="10"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="押出法ポリスチレンフォーム 保温板 2種" MaterialNumber="182" WallThickness="50"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="コンクリート" MaterialNumber="41" WallThickness="80"/>
+      </WallConfigure>
+      <WindowConfigure Info="空気層12mm、板圧6mm" Mvalue="Null" Name="WNDW1" Uvalue="Null" WindowTypeClass="Low-E（高日射遮蔽型）+透明" WindowTypeNumber="401"/>
+      <WindowConfigure Info="" Mvalue="Null" Name="Null" Uvalue="Null" WindowTypeClass="SNGL" WindowTypeNumber="1"/>
+      <Envelope ACZoneFloor="B1F" ACZoneID="Z1" ACZoneName="中央監視室">
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="37.4" WallConfigure="OW1" WindowArea="20.57" WindowType="WNDW1"/>
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="68.8" WallConfigure="SBW1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="B1F" ACZoneID="Z2" ACZoneName="清掃員控室">
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="23.7" WallConfigure="SBW1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="B1F" ACZoneID="Z3" ACZoneName="書庫">
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="18.2" WallConfigure="SBW1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="B1F" ACZoneID="Z4" ACZoneName="更衣室">
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="12.1" WallConfigure="SBW1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z5" ACZoneName="1F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="46.4" WallConfigure="OW1" WindowArea="25.52" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z6" ACZoneName="警備員室">
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.55" Eaves_Heating="0.7" WallArea="21.6" WallConfigure="OW1" WindowArea="11.88" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z7" ACZoneName="エントランスホール">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="72" WallConfigure="OW1" WindowArea="39.6" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="72" WallConfigure="OW1" WindowArea="39.6" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="179.2" WallConfigure="OW1" WindowArea="98.56" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="2F" ACZoneID="Z9" ACZoneName="2F会議室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z11" ACZoneName="3F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="3F" ACZoneID="Z12" ACZoneName="3FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z13" ACZoneName="4F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="4F" ACZoneID="Z14" ACZoneName="4FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="5F" ACZoneID="Z15" ACZoneName="5F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="5F" ACZoneID="Z16" ACZoneName="5FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="6F" ACZoneID="Z17" ACZoneName="6F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="6F" ACZoneID="Z18" ACZoneName="6FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="7F" ACZoneID="Z19" ACZoneName="7F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="7F" ACZoneID="Z20" ACZoneName="7FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="8F" ACZoneID="Z21" ACZoneName="8F事務室">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="117.2" WallConfigure="OW1" WindowArea="64.46" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="8F" ACZoneID="Z22" ACZoneName="セミナールーム">
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="30.8" WallConfigure="OW1" WindowArea="16.94" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="8F" ACZoneID="Z23" ACZoneName="8FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+      </Envelope>
+      <Envelope ACZoneFloor="9F" ACZoneID="Z24" ACZoneName="9F食堂">
+         <Wall Blind="True" Direction="N" Eaves_Cooling="0.79" Eaves_Heating="0.78" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="E" Eaves_Cooling="0.78" Eaves_Heating="0.77" WallArea="148" WallConfigure="OW1" WindowArea="81.4" WindowType="WNDW1"/>
+         <Wall Blind="True" Direction="S" Eaves_Cooling="0.81" Eaves_Heating="0.66" WallArea="68" WallConfigure="OW1" WindowArea="37.4" WindowType="WNDW1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="520.4" WallConfigure="OR1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="9F" ACZoneID="Z25" ACZoneName="9FEVホール">
+         <Wall Blind="True" Direction="W" Eaves_Cooling="0.77" Eaves_Heating="0.77" WallArea="44" WallConfigure="OW1" WindowArea="24.2" WindowType="WNDW1"/>
+         <Wall Blind="False" Direction="Horizontal" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="37.4" WallConfigure="OR1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="" ACZoneID="" ACZoneName="">
+         <Wall/>
+      </Envelope>
+   </AirConditioningSystem>
+   <LightingSystems/>
+   <HotwaterSystems/>
+   <VentilationSystems/>
+   <Elevators/>
+   <PhotovoltaicGenerationSystems/>
+   <CogenerationSystems/>
+</model>

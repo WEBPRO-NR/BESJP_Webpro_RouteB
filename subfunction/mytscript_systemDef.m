@@ -941,7 +941,7 @@ QrefrMax  = zeros(1,numOfRefs);  % 各群の定格最大能力（全台数合計）
 REFtype   = zeros(1,numOfRefs);  % 群の運転モード（１：冷房、２：暖房）
 TC        = zeros(1,numOfRefs);  % 送水温度 [℃]
 REFnumctr = zeros(1,numOfRefs);  % 台数制御の有無（０：なし、１：あり）
-REFstrage = zeros(1,numOfRefs);  % 蓄熱制御の有無（０：なし、１：あり）
+REFstorage = zeros(1,numOfRefs);  % 蓄熱制御の有無（０：なし、１：あり）
 refS      = zeros(1,numOfRefs);  % 熱源群別の空調面積 [m2]
 REFCHmode = zeros(1,numOfRefs);  % 冷暖同時運転の有無（０：なし、１：あり）
 

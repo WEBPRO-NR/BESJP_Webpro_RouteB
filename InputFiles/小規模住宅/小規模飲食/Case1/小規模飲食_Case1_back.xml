@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BuildingType="Office" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="IVb" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" TotalArea="100" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_1" Info="Null" RoomArea="6.62" RoomFloor="1F" RoomHeight="2.7" RoomName="納戸" RoomType="食品庫等" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_2" Info="Null" RoomArea="9.1091" RoomFloor="1F" RoomHeight="2.7" RoomName="ホール" RoomType="ロビー" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_3" Info="Null" RoomArea="2.4843" RoomFloor="1F" RoomHeight="2.7" RoomName="便所" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_4" Info="Null" RoomArea="4.14" RoomFloor="1F" RoomHeight="2.7" RoomName="従業員室" RoomType="事務室" calcAC="True" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_5" Info="Null" RoomArea="13.24" RoomFloor="1F" RoomHeight="2.7" RoomName="厨房" RoomType="厨房" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_6" Info="Null" RoomArea="3.3124" RoomFloor="1F" RoomHeight="2.7" RoomName="便所（女）" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_7" Info="Null" RoomArea="3.3124" RoomFloor="1F" RoomHeight="2.7" RoomName="便所（男）" RoomType="便所" calcAC="False" calcHW="True" calcL="False" calcV="True"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_8" Info="Null" RoomArea="43.06" RoomFloor="1F" RoomHeight="2.7" RoomName="客室スペース" RoomType="喫茶店客室" calcAC="True" calcHW="True" calcL="True" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_9" Info="Null" RoomArea="1.8" RoomFloor="1F" RoomHeight="2.7" RoomName="収納" RoomType="食品庫等" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_10" Info="Null" RoomArea="1.6562" RoomFloor="1F" RoomHeight="2.7" RoomName="廊下" RoomType="廊下" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+      <Room BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_11" Info="Null" RoomArea="3.3124" RoomFloor="1F" RoomHeight="2.7" RoomName="階段室" RoomType="廊下" calcAC="False" calcHW="True" calcL="False" calcV="False"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="従業員室" ID="Z1">
+         <AirHandlingUnitRef Load="Room" Name="ACP11"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACP11"/>
+         <RoomRef BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_4" RoomArea="4.14" RoomFloor="1F" RoomHeight="2.7" RoomName="従業員室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="客室スペース" ID="Z2">
+         <AirHandlingUnitRef Load="Room" Name="ACP22"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACP22"/>
+         <RoomRef BuildingType="Restaurant" FloorHeight="3.25" ID="ROOM_8" RoomArea="43.06" RoomFloor="1F" RoomHeight="2.7" RoomName="客室スペース" RoomType="喫茶店客室"/>
+      </AirConditioningZone>
+      <AirHandlingUnit CoolingCapacity="1.1" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="1.1" Info="ACP11" MinDamperOpening="Null" Name="ACP11" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="175" SupplyFanPower="0.03" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP1" HeatingName="ACP1"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="7.15" Count="1" ExitFanPower="Null" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="False" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="7.15" Info="ACP22" MinDamperOpening="Null" Name="ACP22" OutsideAirCutControl="False" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="1075" SupplyFanPower="0.18" Type="UNIT">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="ACP2" HeatingName="ACP2"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="0.015" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="Null" HeatExchangerVolume="25" HeatingCapacity="Null" Info="HEX11" MinDamperOpening="Null" Name="ACP11" OutsideAirCutControl="False" OutsideAirFanPower="0.015" ReturnFanPower="Null" SupplyAirVolume="25" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <AirHandlingUnit CoolingCapacity="Null" Count="1" ExitFanPower="0.115" FlowControl="CAV" FreeCoolingControl="False" HeatExchanger="True" HeatExchangerBypass="True" HeatExchangerEfficiency="0.6" HeatExchangerPower="Null" HeatExchangerVolume="275" HeatingCapacity="Null" Info="HEX22" MinDamperOpening="Null" Name="ACP22" OutsideAirCutControl="False" OutsideAirFanPower="0.115" ReturnFanPower="Null" SupplyAirVolume="275" SupplyFanPower="Null" Type="AEX">
+         <SecondaryPumpRef CoolingName="Null" HeatingName="Null"/>
+         <HeatSourceSetRef CoolingName="Null" HeatingName="Null"/>
+      </AirHandlingUnit>
+      <HeatSourceSet CHmode="Each" Name="ACP1" QuantityConrol="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="1" Capacity_Heating="1" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="0.3" MainPower_Heating="0.3" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="0.05" SubPower_Heating="0.05" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="Each" Name="ACP2" QuantityConrol="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="6.5" Capacity_Heating="6.5" Count_Cooling="1" Count_Heating="1" Info="Null" MainPower_Cooling="1.75" MainPower_Heating="1.75" Order_Cooling="1" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="0.2" SubPower_Heating="0.2" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="EHP"/>
+      </HeatSourceSet>
+      <WallConfigure Name="OW1" Uvalue="Null" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="石こうボード" MaterialNumber="32" WallThickness="3"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="グラスウール" MaterialNumber="71" WallThickness="50"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="非密閉空気層" MaterialNumber="92" WallThickness="120"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="モルタル" MaterialNumber="27" WallThickness="30"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="タイル" MaterialNumber="36" WallThickness="5"/>
+      </WallConfigure>
+      <WallConfigure Name="OF1" Uvalue="Null" WallType="Ground">
+         <MaterialRef Info="Null" Layer="1" MaterialName="塩ビシート" MaterialNumber="41" WallThickness="0"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="モルタル" MaterialNumber="27" WallThickness="50"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="土間コンクリート" MaterialNumber="22" WallThickness="150"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="スタイロフォーム" MaterialNumber="82" WallThickness="30"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="防湿フィルム敷込み" MaterialNumber="44" WallThickness="3"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="クラシャラン" MaterialNumber="17" WallThickness="120"/>
+      </WallConfigure>
+      <WallConfigure Name="内壁_天井面" Uvalue="0.00" WallType="Internal">
+         <MaterialRef Layer="1" MaterialName="" MaterialNumber="75" WallThickness="12"/>
+         <MaterialRef Layer="2" MaterialName="" MaterialNumber="32" WallThickness="9"/>
+         <MaterialRef Layer="3" MaterialName="" MaterialNumber="92" WallThickness="0"/>
+         <MaterialRef Layer="4" MaterialName="" MaterialNumber="22" WallThickness="150"/>
+         <MaterialRef Layer="5" MaterialName="" MaterialNumber="41" WallThickness="3"/>
+      </WallConfigure>
+      <WallConfigure Name="内壁_床面" Uvalue="0.00" WallType="Internal">
+         <MaterialRef Layer="1" MaterialName="" MaterialNumber="41" WallThickness="3"/>
+         <MaterialRef Layer="2" MaterialName="" MaterialNumber="22" WallThickness="150"/>
+         <MaterialRef Layer="3" MaterialName="" MaterialNumber="92" WallThickness="0"/>
+         <MaterialRef Layer="4" MaterialName="" MaterialNumber="32" WallThickness="9"/>
+         <MaterialRef Layer="5" MaterialName="" MaterialNumber="75" WallThickness="12"/>
+      </WallConfigure>
+      <WindowConfigure Info="透明ﾌﾛｰﾄ8mm" Mvalue="Null" Name="WNDW1" Uvalue="Null" WindowTypeClass="SNGL" WindowTypeNumber="4"/>
+      <WindowConfigure Info="" Mvalue="0" Name="Null" Uvalue="0" WindowTypeClass="SNGL" WindowTypeNumber="1"/>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z1" ACZoneName="従業員室">
+         <Wall Blind="False" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="7.735" WallConfigure="OW1" WindowArea="3.29" WindowType="WINDW1"/>
+         <Wall Blind="False" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="6.188" WallConfigure="OW1" WindowArea="0" WindowType="Null"/>
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="4.14" WallConfigure="OF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z2" ACZoneName="客室スペース">
+         <Wall Blind="False" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="24.752" WallConfigure="OW1" WindowArea="8.21" WindowType="WINDW1"/>
+         <Wall Blind="False" Direction="E" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="24.752" WallConfigure="OW1" WindowArea="6.58" WindowType="WINDW1"/>
+         <Wall Blind="False" Direction="N" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="12.376" WallConfigure="OW1" WindowArea="3.29" WindowType="WINDW1"/>
+         <Wall Blind="False" Direction="Shade" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="43.06" WallConfigure="OF1" WindowArea="0" WindowType="Null"/>
+      </Envelope>
+      <Envelope ACZoneFloor="" ACZoneID="" ACZoneName="">
+         <Wall/>
+      </Envelope>
+   </AirConditioningSystem>
+   <LightingSystems>
+      <LightingRoom BldgType="Restaurant" RoomArea="6.62" RoomDepth="1.82" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_1" RoomIndex="Null" RoomName="納戸" RoomType="食品庫等" RoomWidth="3.64">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_1" Power="48" UnitName="7.2" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="9.1091" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_2" RoomIndex="0.411934156378601" RoomName="ホール" RoomType="ロビー" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_2" Power="109.5" UnitName="12" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="2.4843" RoomDepth="1.365" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_3" RoomIndex="Null" RoomName="便所" RoomType="便所" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="eachunit" ControlFlag_C2="onoff" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_3" Power="30" UnitName="12" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="4.14" RoomDepth="2.275" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_4" RoomIndex="Null" RoomName="従業員室" RoomType="事務室" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_4" Power="67.5" UnitName="16.3" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="13.24" RoomDepth="3.64" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_5" RoomIndex="Null" RoomName="厨房" RoomType="厨房" RoomWidth="3.64">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_5" Power="218.5" UnitName="16.5" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="3.3124" RoomDepth="1.82" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_6" RoomIndex="Null" RoomName="便所（女）" RoomType="便所" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="eachunit" ControlFlag_C2="onoff" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_6" Power="40" UnitName="12" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="3.3124" RoomDepth="1.82" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_7" RoomIndex="Null" RoomName="便所（男）" RoomType="便所" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="eachunit" ControlFlag_C2="onoff" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_7" Power="40" UnitName="12" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="43.06" RoomDepth="Null" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_8" RoomIndex="1.55653556969346" RoomName="客室スペース" RoomType="喫茶店客室" RoomWidth="Null">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_8" Power="758" UnitName="17.6" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="1.8" RoomDepth="0.91" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_9" RoomIndex="Null" RoomName="収納" RoomType="食品庫等" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_9" Power="13" UnitName="7.2" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="1.6562" RoomDepth="0.91" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_10" RoomIndex="Null" RoomName="廊下" RoomType="廊下" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_10" Power="10" UnitName="6" UnitType="Hf"/>
+      </LightingRoom>
+      <LightingRoom BldgType="Restaurant" RoomArea="3.3124" RoomDepth="1.82" RoomFloor="1F" RoomHeight="2.7" RoomIDs="ROOM_11" RoomIndex="Null" RoomName="階段室" RoomType="廊下" RoomWidth="1.82">
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="1" ID="LUnit_11" Power="20" UnitName="6" UnitType="Hf"/>
+         <LightingUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="False" ControlFlag_C4="None" ControlFlag_C5="False" ControlFlag_C6="False" Count="NaN" ID="LUnit_12" Power="NaN" UnitName="Null" UnitType="Null"/>
+      </LightingRoom>
+   </LightingSystems>
+   <HotwaterSystems>
+      <Boiler Capacity="30" Efficiency="0.37" Info="厨房" Insulation="Level0" Name="EH1" PipeSize="30" SolarSystem="None" SolorHeatingSurfaceArea="Null" SolorHeatingSurfaceAzimuth="Null" SolorHeatingSurfaceInclination="Null"/>
+      <HotwaterRoom BuildingType="Restaurant" RoomArea="43.06" RoomFloor="1F" RoomIDs="ROOM_8" RoomName="客室スペース" RoomType="喫茶店客室">
+         <BoilerRef Location="厨房" Name="EH1" WaterSaving="None"/>
+      </HotwaterRoom>
+   </HotwaterSystems>
+   <VentilationSystems>
+      <VentilationRoom BuildingType="Restaurant" RoomArea="2.4843" RoomFloor="1F" RoomIDs="ROOM_3" RoomName="便所" RoomType="便所">
+         <VentilationUnitRef Name="FE1" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Restaurant" RoomArea="13.24" RoomFloor="1F" RoomIDs="ROOM_5" RoomName="厨房" RoomType="厨房">
+         <VentilationUnitRef Name="ACP33" UnitType="Supply"/>
+         <VentilationUnitRef Name="FE2" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Restaurant" RoomArea="3.3124" RoomFloor="1F" RoomIDs="ROOM_6" RoomName="便所（女）" RoomType="便所">
+         <VentilationUnitRef Name="FE3" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationRoom BuildingType="Restaurant" RoomArea="3.3124" RoomFloor="1F" RoomIDs="ROOM_7" RoomName="便所（男）" RoomType="便所">
+         <VentilationUnitRef Name="FE4" UnitType="Exist"/>
+      </VentilationRoom>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.025" FanVolume="75" Name="FE1"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.115" FanVolume="375" Name="FE2"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.03" FanVolume="100" Name="FE3"/>
+      <VentilationFANUnit ControlFlag_C1="None" ControlFlag_C2="None" ControlFlag_C3="None" FanPower="0.03" FanVolume="100" Name="FE4"/>
+      <VentilationACUnit COP="1.25" CoolingCapacity="3.3" FanPower="0.085" Name="ACP33" PumpPower="0"/>
+   </VentilationSystems>
+   <Elevators>
+      <Elevator BldgType="Restaurant" ControlType="VVVF" Count="1" LoadLimit="1150" Name="常用EV" RoomFloor="1F" RoomIDs="ROOM_8" RoomName="客室スペース" RoomType="喫茶店客室" TransportCapacityFactor="Null" Velocity="120"/>
+   </Elevators>
+</model>
