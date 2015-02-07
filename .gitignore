@@ -1,9 +1,8 @@
-InputFiles
+InputFiles/
+šŒ‹‰Êƒrƒ…[ƒA/
 .DS_Store
-routeB_LoadSim_v3.1/
 XMLfileMake/csv2xmlexe/
 XMLfileMake/output.xml
-MATLAB_RouteB_ver201208/
 subfunction/*.back
 database/WCON.csv
 database/WIND.csv
