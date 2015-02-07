@@ -1,13 +1,10 @@
-.gitignore
-./InputFiles/*
+InputFiles
 .DS_Store
+routeB_LoadSim_v3.1/
 XMLfileMake/csv2xmlexe/
 XMLfileMake/output.xml
-XMLfileMake/csv2xml_config.xml
-csv2xml_config.xml
+MATLAB_RouteB_ver201208/
 subfunction/*.back
 database/WCON.csv
 database/WIND.csv
-./NewHASPInputGen
-./★結果ビューア/*
-run.m
+./run.m
