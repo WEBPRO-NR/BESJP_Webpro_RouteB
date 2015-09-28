@@ -68,69 +68,69 @@ end
 confW = {};
 WallType = {};
 
-% åvéZÉÇÅ[ÉhÇ™newHASPÇÃèÍçáÅAì‡ï«Çâ¡Ç¶ÇÈÅB
-switch DBWCONMODE
-    
-    case {'newHASP'}
-        if strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'ì‡ï«_ìVà‰ñ ') || ...
-            strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'ì‡ï«_è∞ñ ')
-            % Ç∑Ç≈Ç…í«â¡Ç≥ÇÍÇƒÇ¢ÇÈèÍçá
-            disp('ì‡ï«ÇÕí«â¡ÇµÇ‹ÇπÇÒ')
-        else
-            
-            % ì‡ï«í«â¡
-            lastnum = length(INPUT.AirConditioningSystem.WallConfigure);
-            
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = 'ì‡ï«_ìVà‰ñ ';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = 'Null';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = 1;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = 75;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = 12;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = 2;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = 32;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = 9;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = 3;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = 4;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = 22;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = 150;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = 5;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = 41;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = 3;
-            
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = 'ì‡ï«_è∞ñ ';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = 'Null';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = 1;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = 41;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = 3;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = 2;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = 22;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = 150;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = 3;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = 4;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = 32;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = 9;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = 5;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = 75;
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
-            INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = 12;
-           
-        end
-end
+% % åvéZÉÇÅ[ÉhÇ™newHASPÇÃèÍçáÅAì‡ï«Çâ¡Ç¶ÇÈÅB
+% switch DBWCONMODE
+%     
+%     case {'newHASP'}
+%         if strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'ì‡ï«_ìVà‰ñ ') || ...
+%             strcmp(INPUT.AirConditioningSystem.WallConfigure(end).ATTRIBUTE.Name,'ì‡ï«_è∞ñ ')
+%             % Ç∑Ç≈Ç…í«â¡Ç≥ÇÍÇƒÇ¢ÇÈèÍçá
+%             disp('ì‡ï«ÇÕí«â¡ÇµÇ‹ÇπÇÒ')
+%         else
+%             
+%             % ì‡ï«í«â¡
+%             lastnum = length(INPUT.AirConditioningSystem.WallConfigure);
+%             
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Name = 'ì‡ï«_ìVà‰ñ ';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.WallType = 'Internal';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).ATTRIBUTE.Uvalue   = 'Null';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.Layer = 1;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialNumber = 75;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(1).ATTRIBUTE.WallThickness = 12;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.Layer = 2;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialNumber = 32;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(2).ATTRIBUTE.WallThickness = 9;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.Layer = 3;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.Layer = 4;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialNumber = 22;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(4).ATTRIBUTE.WallThickness = 150;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.Layer = 5;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialNumber = 41;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+1).MaterialRef(5).ATTRIBUTE.WallThickness = 3;
+%             
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Name = 'ì‡ï«_è∞ñ ';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.WallType = 'Internal';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).ATTRIBUTE.Uvalue   = 'Null';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.Layer = 1;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialNumber = 41;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(1).ATTRIBUTE.WallThickness = 3;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.Layer = 2;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialNumber = 22;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(2).ATTRIBUTE.WallThickness = 150;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.Layer = 3;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialNumber = 92;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(3).ATTRIBUTE.WallThickness = 0;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.Layer = 4;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialNumber = 32;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(4).ATTRIBUTE.WallThickness = 9;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.Layer = 5;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialNumber = 75;
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.MaterialName = '';
+%             INPUT.AirConditioningSystem.WallConfigure(lastnum+2).MaterialRef(5).ATTRIBUTE.WallThickness = 12;
+%            
+%         end
+% end
 
 
 for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
@@ -192,6 +192,7 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
     % ÉuÉâÉCÉìÉh
     confG{2*iWIND-1,4} = '0'; % ÉuÉâÉCÉìÉhÇ»Çµ
     confG{2*iWIND,4}   = '1';   % ñæêFÉuÉâÉCÉìÉhÇ†ÇË
+    
     % Uíl
     if strcmp(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue,'Null')
         WindowUvalue(2*iWIND-1,1) = NaN;
@@ -212,40 +213,40 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
 end
 
 % WCON,WIND.csv ÇÃèoóÕ
-for iFILE=1:2
-    if iFILE == 1
-        tmp = confG;
-        filename = './database/WIND.csv';
-        header = {'ñºèÃ','ëãéÌ','ïiéÌî‘çÜ','ÉuÉâÉCÉìÉh'};
-    else
-        tmp = confW;
-        filename = './database/WCON.csv';
-        header = {'ñºèÃ','WCONñº','ëÊ1ëwçﬁî‘','ëÊ1ëwå˙','ëÊ2ëwçﬁî‘','ëÊ2ëwå˙','ëÊ3ëwçﬁî‘',...
-            'ëÊ3ëwå˙','ëÊ4ëwçﬁî‘','ëÊ4ëwå˙','ëÊ5ëwçﬁî‘','ëÊ5ëwå˙','ëÊ6ëwçﬁî‘','ëÊ6ëwå˙',...
-            'ëÊ7ëwçﬁî‘','ëÊ7ëwå˙','ëÊ8ëwçﬁî‘','ëÊ8ëwå˙','ëÊ9ëwçﬁî‘','ëÊ9ëwå˙','ëÊ10ëwçﬁî‘',...
-            'ëÊ10ëwå˙','ëÊ11ëwçﬁî‘','ëÊ11ëwå˙'};
-    end
-    
-    fid = fopen(filename,'wt'); % èëÇ´çûÇ›ópÇ…ÉtÉ@ÉCÉãÉIÅ[ÉvÉì
-    
-    % ÉwÉbÉ_Å[ÇÃèëÇ´èoÇµ
-    fprintf(fid, '%s,', header{1:end-1});
-    fprintf(fid, '%s\n', header{end});
-    
-    [rows,cols] = size(tmp);
-    for j = 1:rows
-        for k = 1:cols
-            if k < cols
-                fprintf(fid, '%s,', tmp{j,k}); % ï∂éöóÒÇÃèëÇ´èoÇµ
-            else
-                fprintf(fid, '%s\n', tmp{j,k}); % çsññÇÃï∂éöóÒÇÕÅAâ¸çsÇä‹ÇﬂÇƒèoóÕ
-            end
-        end
-    end
-    
-    y = fclose(fid);
-    
-end
+% for iFILE=1:2
+%     if iFILE == 1
+%         tmp = confG;
+%         filename = './database/WIND.csv';
+%         header = {'ñºèÃ','ëãéÌ','ïiéÌî‘çÜ','ÉuÉâÉCÉìÉh'};
+%     else
+%         tmp = confW;
+%         filename = './database/WCON.csv';
+%         header = {'ñºèÃ','WCONñº','ëÊ1ëwçﬁî‘','ëÊ1ëwå˙','ëÊ2ëwçﬁî‘','ëÊ2ëwå˙','ëÊ3ëwçﬁî‘',...
+%             'ëÊ3ëwå˙','ëÊ4ëwçﬁî‘','ëÊ4ëwå˙','ëÊ5ëwçﬁî‘','ëÊ5ëwå˙','ëÊ6ëwçﬁî‘','ëÊ6ëwå˙',...
+%             'ëÊ7ëwçﬁî‘','ëÊ7ëwå˙','ëÊ8ëwçﬁî‘','ëÊ8ëwå˙','ëÊ9ëwçﬁî‘','ëÊ9ëwå˙','ëÊ10ëwçﬁî‘',...
+%             'ëÊ10ëwå˙','ëÊ11ëwçﬁî‘','ëÊ11ëwå˙'};
+%     end
+%     
+%     fid = fopen(filename,'wt'); % èëÇ´çûÇ›ópÇ…ÉtÉ@ÉCÉãÉIÅ[ÉvÉì
+%     
+%     % ÉwÉbÉ_Å[ÇÃèëÇ´èoÇµ
+%     fprintf(fid, '%s,', header{1:end-1});
+%     fprintf(fid, '%s\n', header{end});
+%     
+%     [rows,cols] = size(tmp);
+%     for j = 1:rows
+%         for k = 1:cols
+%             if k < cols
+%                 fprintf(fid, '%s,', tmp{j,k}); % ï∂éöóÒÇÃèëÇ´èoÇµ
+%             else
+%                 fprintf(fid, '%s\n', tmp{j,k}); % çsññÇÃï∂éöóÒÇÕÅAâ¸çsÇä‹ÇﬂÇƒèoóÕ
+%             end
+%         end
+%     end
+%     
+%     y = fclose(fid);
+%     
+% end
 
 
 %----------------------------------

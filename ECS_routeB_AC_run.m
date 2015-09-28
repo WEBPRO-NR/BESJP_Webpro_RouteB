@@ -30,8 +30,9 @@
 
 clear
 clc
+
 tic
-INPUTFILENAME = 'chikunetu2.xml';
+INPUTFILENAME = './InputFiles/20150924_笹田ビル/地中熱/SasadaBldg_GroundSource.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -119,7 +120,11 @@ switch climateAREA
         ToawbC = 0.9034.*ToadbC -1.4545;   % 湿球温度 [℃]
         ToawbH = 0.9034.*ToadbH -1.4545;   % 湿球温度 [℃]
         
-        TctwC  = ToawbC + 3;
+        TctwC  = ToawbC + 3;  % 冷却水温度
+        
+        % 地中熱
+        TcgwC = 0.7759.*ToadbC + 9.5582;
+        TcgwH = 0.3853.*ToadbC + 12.114;
         
     case {'VI','8'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
@@ -174,7 +179,6 @@ mytscript_systemDef;
 disp('システム情報作成完了')
 toc
 
-
 %%-----------------------------------------------------------------------------------------------------------
 %% １）室負荷の計算
 
@@ -186,6 +190,9 @@ toc
 UAlist = zeros(numOfRoooms,1);
 % 日射侵入率×外皮面積
 MAlist = zeros(numOfRoooms,1);
+
+
+% pause
 
 switch MODE
     
@@ -211,6 +218,12 @@ end
 
 disp('負荷計算完了')
 toc
+
+
+
+
+
+
 
 %%-----------------------------------------------------------------------------------------------------------
 %% ２）空調負荷計算

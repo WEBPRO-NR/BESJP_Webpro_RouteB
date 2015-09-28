@@ -1087,6 +1087,8 @@ for iREF = 1:numOfRefs
                     refHeatSourceType(iREF,iREFSUB) = 2;
                 case '燃焼'
                     refHeatSourceType(iREF,iREFSUB) = 1;
+                case '地中熱'  % 2015/9/24追加
+                    refHeatSourceType(iREF,iREFSUB) = 3;
                 otherwise
                     error('熱源 %s の冷却方式が不正です',tmprefset)
             end
@@ -1100,6 +1102,10 @@ for iREF = 1:numOfRefs
                 xT = ToadbC;  % 乾球温度
             elseif refHeatSourceType(iREF,iREFSUB) == 2 && REFtype(iREF) == 2   % 空冷／暖房
                 xT = ToawbH;  % 湿球温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 3 && REFtype(iREF) == 1   % 地中熱／冷房
+                xT = TcgwC;   % 地盤からの還り温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 3 && REFtype(iREF) == 2   % 地中熱／暖房
+                xT = TcgwH;   % 地盤からの還り温度
             else
                 error('モードが不正です')
             end

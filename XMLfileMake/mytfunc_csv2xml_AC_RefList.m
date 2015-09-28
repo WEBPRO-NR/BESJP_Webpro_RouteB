@@ -211,6 +211,10 @@ for iREFSET = 1:length(RefListName)
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_Steam';
                 elseif strcmp(refListDataCell(iDB,6),'熱交換器')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
+                elseif strcmp(refListDataCell(iDB,6),'水熱源ヒートポンプエアコン')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterSourceHP';
+                elseif strcmp(refListDataCell(iDB,6),'地中熱ヒートポンプエアコン')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GroundSourceHP';
                 else
                     refListDataCell(iDB,6)
                     error('熱源種類が不正です。')
