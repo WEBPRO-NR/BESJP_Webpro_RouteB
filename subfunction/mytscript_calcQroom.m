@@ -271,8 +271,8 @@ for iROOM = 1:numOfRoooms
                                 else
                                     error('外壁タイプが不正です')
                                 end
-                                Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8/23.3).*(DSR_H+ISR_H);  % 日射熱取得(365日分)
-                                Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_H;          % 夜間放射(365日分)
+                                Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8*0.04).*(DSR_H+ISR_H);  % 日射熱取得(365日分)
+                                Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9*0.04).*NSR_H;          % 夜間放射(365日分)
                                 
                             case {'Shade','Underground'}
                                 
@@ -286,7 +286,7 @@ for iROOM = 1:numOfRoooms
                                 
                                 % 日射は何も足さない →　日陰の場合のみ、夜間放射を足す。（修正20130419）
                                 if strcmp(Direction{iENV,iWALL},'Shade')
-                                   Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                   Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9*0.04).*NSR_V;  % 夜間放射(365日分)
                                 end
                                 
                             otherwise
@@ -299,8 +299,8 @@ for iROOM = 1:numOfRoooms
                                     error('外壁タイプが不正です')
                                 end
                                 
-                                eval(['Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8/23.3).*(DSR_',Direction{iENV,iWALL},'+ISR_V);']);  % 日射熱取得(365日分)
-                                Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                eval(['Qwall_S(:,iROOM) = Qwall_S(:,iROOM) + WallUA.*(0.8*0.04).*(DSR_',Direction{iENV,iWALL},'+ISR_V);']);  % 日射熱取得(365日分)
+                                Qwall_N(:,iROOM) = Qwall_N(:,iROOM) - WallUA.*(0.9*0.04).*NSR_V;  % 夜間放射(365日分)
                         end
                     end
                 end
@@ -352,13 +352,13 @@ for iROOM = 1:numOfRoooms
                                     end
                                 end
                                 
-                                Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_H;  % 夜間放射(365日分)
+                                Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9*0.04).*NSR_H;  % 夜間放射(365日分)
                                 
                             case {'Shade','Underground'}
                                 
                                 % 日陰の場合のみ、夜間放射を足す。（修正20130419）
                                 if strcmp(Direction{iENV,iWALL},'Shade')
-                                    Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                    Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9*0.04).*NSR_V;  % 夜間放射(365日分)
                                 end
                                 
                             otherwise
@@ -372,7 +372,7 @@ for iROOM = 1:numOfRoooms
                                     end
                                 end
                                 
-                                Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9/23.3).*NSR_V;  % 夜間放射(365日分)
+                                Qwind_N(:,iROOM) = Qwind_N(:,iROOM) - WindowUA.*(0.9*0.04).*NSR_V;  % 夜間放射(365日分)
                         end
                         
                     end

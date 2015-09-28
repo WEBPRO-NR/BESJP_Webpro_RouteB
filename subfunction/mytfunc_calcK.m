@@ -113,7 +113,9 @@ for iWALL = 1:size(confW,1)
     % èÓïÒî≤èo
     tmp = str2double(confW(iWALL,3:end));
     
-    R = 1/9 + 1/23;
+    %     R = 1/9 + 1/23;
+    R = 0.11 + 0.04;
+
     for iELE = 1:length(tmp)/2
         
         % çﬁóøî‘çÜ
