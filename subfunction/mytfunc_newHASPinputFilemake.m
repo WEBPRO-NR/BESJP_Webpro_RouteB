@@ -1,65 +1,58 @@
-clear
-clc
-tic
+function y = mytfunc_newHASPinputFilemake(roomName,climateAREA,TypeOfBuilding,TypeOfRoom,roomArea,...
+    floorHeight,roomHeight,conf_wall,conf_window,perDB_RoomType,perDB_RoomOpeCondition)
 
 
-%% 入力
-
-% 室名
-roomName = 'S001';
-
-% 地域
-climateAREA = '6';
-
-% 建物用途・室用途
-TypeOfBuilding = 'ホテル等';
-TypeOfRoom = '客室';
-
-% 床面積、階高、天井高
-roomArea = 100;
-floorHeight = 5;
-roomHeight = 4;
-
+% %% テスト用入力
+% tic
+% clear
+% clc
+% 
+% % 室名
+% roomName = 'S01';
+% 
+% % 建物用途・室用途
+% TypeOfBuilding = '物品販売業を営む店舗等';
+% TypeOfRoom = '大型店の売場';
+% 
+% % 床面積、階高、天井高
+% roomArea = 100;
+% floorHeight = 5;
+% roomHeight = 4;
+% 
 % 壁の構成
-conf_wall(1).WCON = 'WCON W001   32 12 22150';
-conf_wall(1).EXPS = 'S';
-conf_wall(1).AREA = 40;
-
-conf_wall(2).WCON = 'WCON W002   75 12 32  9 92    22150 41  3';
-conf_wall(2).EXPS = 'E';
-conf_wall(2).AREA = 40;
-
-conf_wall(3).WCON = 'WCON W003   41  3 22150 92    32  9 75 12';
-conf_wall(3).EXPS = 'W';
-conf_wall(3).AREA = 30;
-
-conf_wall(4).WCON = 'WCON W004   32  9 92    22 15092    32  9';
-conf_wall(4).EXPS = 'HOR';
-conf_wall(4).AREA = 10;
-
-
-% 窓の構成
-conf_window(1).WNDW = 'DL06';
-conf_window(1).TYPE = '11';
-conf_window(1).BLND = '1';
-conf_window(1).EXPS = 'S';
-conf_window(1).AREA = 20;
-
-conf_window(2).WNDW = 'SNGL';
-conf_window(2).TYPE = '11';
-conf_window(2).BLND = '1';
-conf_window(2).EXPS = 'N';
-conf_window(2).AREA = 5;
+% conf_wall(1).WCON = 'WCON W001   32 12 22150';
+% conf_wall(1).EXPS = 'S';
+% conf_wall(1).AREA = 40;
+% 
+% conf_wall(2).WCON = 'WCON W002   75 12 32  9 92    22150 41  3';
+% conf_wall(2).EXPS = 'E';
+% conf_wall(2).AREA = 40;
+% 
+% conf_wall(3).WCON = 'WCON W003   41  3 22150 92    32  9 75 12';
+% conf_wall(3).EXPS = 'W';
+% conf_wall(3).AREA = 30;
+% 
+% conf_wall(4).WCON = 'WCON W004   32  9 92    22 15092    32  9';
+% conf_wall(4).EXPS = 'HOR';
+% conf_wall(4).AREA = 10;
+% 
+% 
+% % 窓の構成
+% conf_window(1).WNDW = 'DL06';
+% conf_window(1).TYPE = '11';
+% conf_window(1).BLND = '1';
+% conf_window(1).EXPS = 'S';
+% conf_window(1).AREA = 20;
+% 
+% conf_window(2).WNDW = 'SNGL';
+% conf_window(2).TYPE = '11';
+% conf_window(2).BLND = '1';
+% conf_window(2).EXPS = 'N';
+% conf_window(2).AREA = 5;
 
 
 
 %% 前処理
-
-addpath('./subfunction/')
-addpath('./database/')
-
-% データベース読み込み
-mytscript_readDBfiles;
 
 for n = 1:size(perDB_RoomType,1)
     if strcmp(perDB_RoomType(n,4),TypeOfBuilding) && strcmp(perDB_RoomType(n,5),TypeOfRoom)
@@ -77,7 +70,8 @@ for n = 1:size(perDB_RoomType,1)
             ref_Q_light = str2double(perDB_RoomType(n,9));
             ref_Q_human = str2double(perDB_RoomType(n,10));
             ref_Q_OAequ = str2double(perDB_RoomType(n,11));
-            ref_Q_action = perDB_RoomType{n,12}; % 作業強度指数
+            ref_Q_action = str2double(perDB_RoomType{n,12}); % 作業強度指数
+            OAfresh = str2double(perDB_RoomType{n,13}); % 新鮮外気導入量
             
             % 空調運転パターン
             % パターン１
@@ -197,7 +191,7 @@ end
 %% newHASP入力ファイル生成
 
 % プロジェクト名称
-inputdata{1,:} = 'WebPro';
+eval(['inputdata{1,:} = ''平成25年省エネ基準_',TypeOfBuilding,'_',TypeOfRoom,''';'])
 
 % BUILコード と　気象データファイル名
 switch climateAREA
@@ -247,6 +241,10 @@ for i = 1:length(conf_wall)
     inputdata = [inputdata; conf_wall(i).WCON];
 end
 
+% 内壁追加
+inputdata = [inputdata; 'WCON C001   47  5  6 10 92150 22150 92863 32 10 75 12                           '];
+inputdata = [inputdata; 'WCON C002   75 12 32 10 92863 22150 92150  6 10 47  5                           '];
+
 % WSCコード
 switch climateAREA
     case {'1','Ia','2','Ib'}
@@ -294,12 +292,16 @@ else
     inputdata{end}(48:48+length(schedule_AC2)-1) = schedule_AC2;
 end
 
-inputdata = [inputdata; 'OPCO OPC1              OS1 26 26 50 50  0OS1 22 22 40 40  0OS1 24 24 50 50   0.0'];
+% OPCOコード
+inputdata = [inputdata; 'OPCO OPC1              OS1 26 26 50 50  0OS1 22 22 40 40  0OS1 24 24 50 50     X'];
+inputdata{end}(80-length(num2str(OAfresh))+1:80) = num2str(OAfresh);  % 新鮮外気導入量
+
 inputdata = [inputdata; ' '];
 
 % SPACコード
-inputdata = [inputdata; 'SPAC R001   X   18.0     X     X  0  0   X'];
+eval(['inputdata = [inputdata; ''SPAC X      X   18.0     X     X  0  0   X''];'])
 
+inputdata{end}(6:6+length(roomName)-1) = roomName;  % 室ID
 inputdata{end}(10:13) = WSC_Type; % WSCタイプ
 inputdata{end}(26-length(num2str(floorHeight))+1:26) = num2str(floorHeight);  % 階高
 inputdata{end}(32-length(num2str(roomHeight))+1:32)  = num2str(roomHeight);  % 階高
@@ -316,21 +318,31 @@ for i = 1:length(conf_wall)
     inputdata{end}(42:42+length(num2str(conf_wall(i).AREA))-1) = num2str(conf_wall(i).AREA);  % 外壁面積
 end
 
+% IWALコード（床と天井）
+inputdata = [inputdata; 'IWAL C001    0     0                     X'];
+inputdata{end}(42:42+length(num2str(roomArea))-1) = num2str(roomArea);  % 床面積
+inputdata = [inputdata; 'IWAL C002    0     0                     X'];
+inputdata{end}(42:42+length(num2str(roomArea))-1) = num2str(roomArea);  % 床面積
+
 % WNDWコード
 for i = 1:length(conf_window)
-    inputdata = [inputdata; 'WNDW DL06X      X  X     0  0     0     0X'];
-    inputdata{end}(6:9) = conf_window(i).WNDW;  % 窓種類
-    inputdata{end}(10:10+length(conf_window(i).EXPS)-1) = conf_window(i).EXPS;  % 方位
-    inputdata{end}(17-length(num2str(conf_window(i).TYPE))+1:17) = num2str(conf_window(i).TYPE);  % ガラス種類
-    inputdata{end}(20) = conf_window(i).BLND;  % ブラインド有無
-    inputdata{end}(42:42+length(num2str(conf_window(i).AREA))-1) = num2str(conf_window(i).AREA);  % 窓面積
+    if conf_window(i).AREA > 0
+        inputdata = [inputdata; 'WNDW DL06X      X  X     0  0     0     0X'];
+        inputdata{end}(6:9) = conf_window(i).WNDW;  % 窓種類
+        inputdata{end}(10:10+length(conf_window(i).EXPS)-1) = conf_window(i).EXPS;  % 方位
+        inputdata{end}(17-length(num2str(conf_window(i).TYPE))+1:17) = num2str(conf_window(i).TYPE);  % ガラス種類
+        inputdata{end}(20) = conf_window(i).BLND;  % ブラインド有無
+        inputdata{end}(42:42+length(num2str(conf_window(i).AREA))-1) = num2str(conf_window(i).AREA);  % 窓面積
+    end
 end
 
-inputdata = [inputdata; 'LIGH LIT        2     X  1           0'];
+inputdata = [inputdata; 'LIGH LIT        1     X  1           0'];
 inputdata{end}(23-length(num2str(ref_Q_light))+1:23) = num2str(ref_Q_light);  % 照明発熱参照値
 
-inputdata = [inputdata; 'OCUP MAN        3     X  1'];
+inputdata = [inputdata; 'OCUP MAN        X     X  1'];
+inputdata{end}(17-length(num2str(ref_Q_action))+1:17) = num2str(ref_Q_action);  % 作業強度指数
 inputdata{end}(23-length(num2str(ref_Q_human))+1:23) = num2str(ref_Q_human);  % 人体密度参照値
+
 
 inputdata = [inputdata; 'HEAT ZER        1     X     0  1'];
 inputdata{end}(23-length(num2str(ref_Q_OAequ))+1:23) = num2str(ref_Q_OAequ);  % 機器発熱参照値
@@ -341,7 +353,7 @@ inputdata = [inputdata; 'CMPL'];
 
 
 %% HASP入力ファイル出力
-fid = fopen('newHASPinput.txt','wt'); % 書き込み用にファイルオープン
+eval(['fid = fopen(''newHASPinput_',roomName,'.txt'',''wt'');']) % 書き込み用にファイルオープン
 [rows,~] = size(inputdata);
 for i = 1:rows
     fprintf(fid, '%s,', inputdata{i,1:end-1}); % 文字列の書き出し
@@ -351,17 +363,15 @@ fclose(fid); % ファイルクローズ
 
 
 
-
 %% 設定ファイル生成
-
-settingdata{1,:} = 'newHASPinput.txt';
+eval(['settingdata{1,:} = ''newHASPinput_',roomName,'.txt'';'])
 settingdata{2,:} = climatedatafile;
 settingdata{3,:} = 'out20.dat';
 settingdata{4,:} = 'newhasp\wndwtabl.dat';
 settingdata{5,:} = 'newhasp\wcontabl.dat';
 
 
-fid = fopen('NHKsetting.txt','wt'); % 書き込み用にファイルオープン
+eval(['fid = fopen(''NHKsetting_',roomName,'.txt'',''wt'');']) % 書き込み用にファイルオープン
 [rows,~] = size(settingdata);
 for i = 1:rows
     fprintf(fid, '%s,', settingdata{i,1:end-1}); % 文字列の書き出し
@@ -369,4 +379,5 @@ for i = 1:rows
 end
 fclose(fid); % ファイルクローズ
 
-toc
+
+y = 0;
