@@ -8,7 +8,13 @@
 for iDB = 2:size(DB_climateArea,1)
     if strcmp(perDB_climateArea(iDB,1),climateAREA) ...
             || strcmp(perDB_climateArea(iDB,2),climateAREA)
+        
         climateDatabase = perDB_climateArea(iDB,6);
+        % ˆÜ“x
+        phi   = str2double(perDB_climateArea(iDB,4));
+        % Œo“x
+        longi = str2double(perDB_climateArea(iDB,5));
+        
     end
 end
 

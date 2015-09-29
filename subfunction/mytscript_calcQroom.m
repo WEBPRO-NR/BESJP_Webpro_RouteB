@@ -156,48 +156,95 @@ end
 
 
 % 気象データの読み込み（行ごと）
-DB_WEATHER = textread(cell2mat(strcat('./weathdat/',strrep(climateDatabase,'.has','_NM1D.csv'))),...
-    '%s','delimiter','\n','whitespace','');
+eval(['climatedatafile  = ''./weathdat/C1_',cell2mat(climateDatabase),''';'])
+[ToutALL,XouALL,IodALL,IosALL,InnALL] = mytfunc_climatedataRead(climatedatafile);
+[perDB_WEATHER,perDB_WEATHERita] = mytfunc_climatedataCalc(phi,longi,ToutALL,XouALL,IodALL,IosALL,InnALL);
 
-% CSVファイルのデータ読み込み（変数 perDB_WEATHER）
-for i=1:length(DB_WEATHER)
-    conma = strfind(DB_WEATHER{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            perDB_WEATHER{i,j} = DB_WEATHER{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            perDB_WEATHER{i,j}   = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
-            perDB_WEATHER{i,j+1} = DB_WEATHER{i}(conma(j)+1:end);
-        else
-            perDB_WEATHER{i,j} = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+perDB_WEATHER = perDB_WEATHERita;
 
 % 外気温 [℃]
-Toa_ave = str2double(perDB_WEATHER(3:end,4));
-Toa_day = str2double(perDB_WEATHER(3:end,5));
-Toa_ngt = str2double(perDB_WEATHER(3:end,6));
+Toa_ave = perDB_WEATHER(:,4);
+Toa_day = perDB_WEATHER(:,5);
+Toa_ngt = perDB_WEATHER(:,6);
 % 湿度 [kg/kgDA]
-Xoa_ave = str2double(perDB_WEATHER(3:end,7))./1000;
-Xoa_day = str2double(perDB_WEATHER(3:end,8))./1000;
-Xoa_ngt = str2double(perDB_WEATHER(3:end,9))./1000;
+Xoa_ave = perDB_WEATHER(:,7)./1000;
+Xoa_day = perDB_WEATHER(:,8)./1000;
+Xoa_ngt = perDB_WEATHER(:,9)./1000;
+% 直達日射量[Wh/m2]
+DSR_S   = perDB_WEATHER(:,10);
+DSR_SW  = perDB_WEATHER(:,11);
+DSR_W   = perDB_WEATHER(:,12);
+DSR_NW  = perDB_WEATHER(:,13);
+DSR_N   = perDB_WEATHER(:,14);
+DSR_NE  = perDB_WEATHER(:,15);
+DSR_E   = perDB_WEATHER(:,16);
+DSR_SE  = perDB_WEATHER(:,17);
+DSR_H   = perDB_WEATHER(:,18);
+
 % 直達日射量[Wh/m2](ガラス入射角反映・0.89で除して基準化済み)
-DSR_S   = str2double(perDB_WEATHER(3:end,10));
-DSR_SW  = str2double(perDB_WEATHER(3:end,11));
-DSR_W   = str2double(perDB_WEATHER(3:end,12));
-DSR_NW  = str2double(perDB_WEATHER(3:end,13));
-DSR_N   = str2double(perDB_WEATHER(3:end,14));
-DSR_NE  = str2double(perDB_WEATHER(3:end,15));
-DSR_E   = str2double(perDB_WEATHER(3:end,16));
-DSR_SE  = str2double(perDB_WEATHER(3:end,17));
-DSR_H   = str2double(perDB_WEATHER(3:end,18));
+DSRita_S   = perDB_WEATHERita(:,10);
+DSRita_SW  = perDB_WEATHERita(:,11);
+DSRita_W   = perDB_WEATHERita(:,12);
+DSRita_NW  = perDB_WEATHERita(:,13);
+DSRita_N   = perDB_WEATHERita(:,14);
+DSRita_NE  = perDB_WEATHERita(:,15);
+DSRita_E   = perDB_WEATHERita(:,16);
+DSRita_SE  = perDB_WEATHERita(:,17);
+DSRita_H   = perDB_WEATHERita(:,18);
+
 % 天空・反射日射量[Wh/m2](ガラス入射角反映ただし0.808は乗じていない)
-ISR_V   = str2double(perDB_WEATHER(3:end,19));  % 鉛直
-ISR_H   = str2double(perDB_WEATHER(3:end,20));  % 水平
+ISR_V   = perDB_WEATHER(:,19);  % 鉛直
+ISR_H   = perDB_WEATHER(:,20);  % 水平
 % 夜間放射[Wh/m2]
-NSR_V   = str2double(perDB_WEATHER(3:end,21));  % 鉛直
-NSR_H   = str2double(perDB_WEATHER(3:end,22));  % 水平
+NSR_V   = perDB_WEATHER(:,21);  % 鉛直
+NSR_H   = perDB_WEATHER(:,22);  % 水平
+
+
+% % 宮島さん作成ファイルを読み込む場合
+% DB_WEATHER = textread(cell2mat(strcat('./weathdat/',strrep(climateDatabase,'.has','_NM1D.csv'))),...
+%     '%s','delimiter','\n','whitespace','');
+% 
+% % CSVファイルのデータ読み込み（変数 perDB_WEATHER）
+% for i=1:length(DB_WEATHER)
+%     conma = strfind(DB_WEATHER{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             perDB_WEATHER{i,j} = DB_WEATHER{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             perDB_WEATHER{i,j}   = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
+%             perDB_WEATHER{i,j+1} = DB_WEATHER{i}(conma(j)+1:end);
+%         else
+%             perDB_WEATHER{i,j} = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
+% 
+% % 外気温 [℃]
+% Toa_ave = str2double(perDB_WEATHER(3:end,4));
+% Toa_day = str2double(perDB_WEATHER(3:end,5));
+% Toa_ngt = str2double(perDB_WEATHER(3:end,6));
+% % 湿度 [kg/kgDA]
+% Xoa_ave = str2double(perDB_WEATHER(3:end,7))./1000;
+% Xoa_day = str2double(perDB_WEATHER(3:end,8))./1000;
+% Xoa_ngt = str2double(perDB_WEATHER(3:end,9))./1000;
+% % 直達日射量[Wh/m2](ガラス入射角反映・0.89で除して基準化済み)
+% DSR_S   = str2double(perDB_WEATHER(3:end,10));
+% DSR_SW  = str2double(perDB_WEATHER(3:end,11));
+% DSR_W   = str2double(perDB_WEATHER(3:end,12));
+% DSR_NW  = str2double(perDB_WEATHER(3:end,13));
+% DSR_N   = str2double(perDB_WEATHER(3:end,14));
+% DSR_NE  = str2double(perDB_WEATHER(3:end,15));
+% DSR_E   = str2double(perDB_WEATHER(3:end,16));
+% DSR_SE  = str2double(perDB_WEATHER(3:end,17));
+% DSR_H   = str2double(perDB_WEATHER(3:end,18));
+% % 天空・反射日射量[Wh/m2](ガラス入射角反映ただし0.808は乗じていない)
+% ISR_V   = str2double(perDB_WEATHER(3:end,19));  % 鉛直
+% ISR_H   = str2double(perDB_WEATHER(3:end,20));  % 水平
+% % 夜間放射[Wh/m2]
+% NSR_V   = str2double(perDB_WEATHER(3:end,21));  % 鉛直
+% NSR_H   = str2double(perDB_WEATHER(3:end,22));  % 水平
+
+
 
 % 出力用(外気温、湿度、エンタルピー)
 OAdataAll = [Toa_ave,Xoa_ave,mytfunc_enthalpy(Toa_ave,Xoa_ave)];  % 終日平均
@@ -346,9 +393,9 @@ for iROOM = 1:numOfRoooms
                                 
                                 for dd = 1:365
                                     if SeasonMode(dd) == -1  % 暖房
-                                        Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.* (WindowSCC+WindowSCR).*(DSR_H(dd)*0.89+ISR_H(dd)*0.808); % 日射熱取得(365日分)
+                                        Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.* (WindowSCC+WindowSCR).*(DSRita_H(dd)*0.89+ISR_H(dd)*0.808); % 日射熱取得(365日分)
                                     else
-                                        Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.* (WindowSCC+WindowSCR).*(DSR_H(dd)*0.89+ISR_H(dd)*0.808); % 日射熱取得(365日分)
+                                        Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.* (WindowSCC+WindowSCR).*(DSRita_H(dd)*0.89+ISR_H(dd)*0.808); % 日射熱取得(365日分)
                                     end
                                 end
                                 
@@ -362,13 +409,14 @@ for iROOM = 1:numOfRoooms
                                 end
                                 
                             otherwise
+                                
                                 Qwind_T(:,iROOM) = Qwind_T(:,iROOM) + WindowUA.*(Toa_ave-TroomSP).*24;   % 貫流熱取得(365日分)
                                 
                                 for dd = 1:365
                                     if SeasonMode(dd) == -1  % 暖房
-                                        eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.*(WindowSCC+WindowSCR).*(DSR_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % 日射熱取得(365日分)
+                                        eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesH.*(WindowSCC+WindowSCR).*(DSRita_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % 日射熱取得(365日分)
                                     else
-                                        eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.*(WindowSCC+WindowSCR).*(DSR_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % 日射熱取得(365日分)
+                                        eval(['Qwind_S(dd,iROOM) = Qwind_S(dd,iROOM) + WindowEavesC.*(WindowSCC+WindowSCR).*(DSRita_',Direction{iENV,iWALL},'(dd)*0.89+ISR_V(dd)*0.808);']) % 日射熱取得(365日分)
                                     end
                                 end
                                 
