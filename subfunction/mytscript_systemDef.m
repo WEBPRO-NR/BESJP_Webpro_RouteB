@@ -415,6 +415,14 @@ for iAHU = 1:numOfAHUSET
             end
         end
         
+        % ‘S”MŒðŠ·Œø—¦‚Ì•â³i20150930j
+        if aexCoeffiModifyOn == 1
+            aexCeff = 1 - ((1/0.85)-1)*(1-ahuaexeff(iAHU))/ahuaexeff(iAHU);
+            aexCtol = 0.95;
+            aexCbal = 0.67;
+            ahuaexeff(iAHU) = ahuaexeff(iAHU) * aexCeff * aexCtol * aexCbal;
+        end
+        
         if sum(ahuelebypass(iAHU,:)) > 0
             AEXbypass(iAHU) = 1;
         else

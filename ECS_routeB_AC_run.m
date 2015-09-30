@@ -32,7 +32,7 @@ clear
 clc
 
 tic
-INPUTFILENAME = './InputFiles/20150924_笹田ビル/地中熱/SasadaBldg_GroundSource.xml';
+INPUTFILENAME = './InputFiles/sample_AirSource.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -58,6 +58,8 @@ DivNUM = 10;
 % 蓄熱槽効率
 storageEff = 0.8;
 
+% 全熱交換器の効率補正（１：あり、０：なし）
+aexCoeffiModifyOn = 1;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
