@@ -6,7 +6,7 @@
 %-----------------------------------------------------------------------------------
 
 for iROOM = 1:numOfRoooms
-        
+    
     
     % 建物用途
     switch buildingType{iROOM}
@@ -26,8 +26,10 @@ for iROOM = 1:numOfRoooms
             TypeOfBuilding   = '集会所等';
         case 'Factory'
             TypeOfBuilding   = '工場等';
+        case 'ApartmentHouse'
+            TypeOfBuilding   = '共同住宅';
     end
-      
+    
     % 外皮IDから該当する外皮仕様（iENV）を探す
     for iENV = 1:numOfENVs
         if strcmp(EnvelopeRef{iROOM},envelopeID{iENV}) == 1
@@ -42,7 +44,7 @@ for iROOM = 1:numOfRoooms
     for iWALL = 1:numOfWalls(iENV)
         
         if isempty(WallConfigure{iENV,iWALL}) == 0
-
+            
             % 外皮構成リスト（confW）から該当する外皮仕様を探す
             for iDB = 1:size(confW,1)
                 if strcmp(confW(iDB,1),WallConfigure{iENV,iWALL})
@@ -77,18 +79,18 @@ for iROOM = 1:numOfRoooms
                     conf_wall(iWALL).EXPS = EXPSdata{iENV,iWALL};       % 方位
             end
             conf_wall(iWALL).AREA = WallArea(iENV,iWALL) - WindowArea(iENV,iWALL);  % 外皮面積 [m2]
-        
+            
         end
         
         % 窓構成リスト（confG）から該当する窓仕様を探す
         for iDB = 1:size(confG,1)
             if strcmp(confG(iDB,1),WindowType{iENV,iWALL})
-
+                
                 if WindowArea(iENV,iWALL) > 0
                     
                     % 平成25年基準の窓番号から、newHASPの窓仕様を選択
                     [conf_window(iWALL).WNDW,conf_window(iWALL).TYPE] = mytfunc_convert_newHASPwindows(confG{iDB,3});
-        
+                    
                     conf_window(iWALL).BLND = confG{iDB,4};      % ブラインド有無
                     switch EXPSdata{iENV,iWALL}
                         case 'Horizontal'
@@ -108,16 +110,16 @@ for iROOM = 1:numOfRoooms
                 
             end
         end
-                        
+        
     end
     
     
     %% inputfileの生成
     
-    y = mytfunc_newHASPinputFilemake(roomID{iROOM},climateAREA,TypeOfBuilding,roomType(iROOM),roomArea(iROOM),...
-    roomFloorHeight(iROOM),roomHeight(iROOM),conf_wall,conf_window,perDB_RoomType,perDB_RoomOpeCondition);
-       
-
-
+    y = mytfunc_newHASPinputFilemake(roomID{iROOM},climateAREA,TypeOfBuilding,roomType{iROOM},roomArea(iROOM),...
+        roomFloorHeight(iROOM),roomHeight(iROOM),conf_wall,conf_window,perDB_RoomType,perDB_RoomOpeCondition);
+    
+    
+    
 end
 

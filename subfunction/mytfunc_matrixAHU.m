@@ -18,13 +18,21 @@
 
 function [Mxc,Mxh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUCHmode,WIN,MID,SUM,mxL)
 
-% ƒ}ƒgƒŠƒbƒNƒX
-Mxc = zeros(1,length(mxL)); % —â–[ƒ}ƒgƒŠƒbƒNƒX
-Mxh = zeros(1,length(mxL)); % ’g–[ƒ}ƒgƒŠƒbƒNƒX
 
 switch MODE
-    
-    case {1}
+
+    case {0,1}
+        
+        switch MODE
+            case {0}
+                % ŽžŒn—ñƒf[ƒ^
+                Mxc = zeros(8760,1);
+                Mxh = zeros(8760,1);
+            case {1}
+                % ƒ}ƒgƒŠƒbƒNƒX
+                Mxc = zeros(1,length(mxL)); % —â–[ƒ}ƒgƒŠƒbƒNƒX
+                Mxh = zeros(1,length(mxL)); % ’g–[ƒ}ƒgƒŠƒbƒNƒX
+        end
         
         if AHUCHmode == 1  % —â’g“¯Žž‰^“]—L
             
@@ -36,12 +44,24 @@ switch MODE
                     if Qa_c(num,1) > 0  % —â–[•‰‰×
                         
                         ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
-                        Mxc(1,ix) = Mxc(1,ix) + 1;
+                        
+                        switch MODE
+                            case {0}
+                                Mxc(num,1) = ix;
+                            case {1}
+                                Mxc(1,ix) = Mxc(1,ix) + 1;
+                        end
                         
                     elseif Qa_c(num,1) < 0  % ’g–[•‰‰×
                         
                         ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
-                        Mxh(1,ix) = Mxh(1,ix) + 1;
+                        
+                        switch MODE
+                            case {0}
+                                Mxh(num,1) = ix;
+                            case {1}
+                                Mxh(1,ix) = Mxh(1,ix) + 1;
+                        end
                         
                     end
                 end
@@ -69,13 +89,24 @@ switch MODE
                         if Qa_c(num,1) ~= 0 && (iSEASON == 2 || iSEASON == 3) % —â–[•‰‰×
                             
                             ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
-                            Mxc(1,ix) = Mxc(1,ix) + 1;
+                            
+                            switch MODE
+                                case {0}
+                                    Mxc(num,1) = ix;
+                                case {1}
+                                    Mxc(1,ix) = Mxc(1,ix) + 1;
+                            end
                             
                         elseif Qa_c(num,1) ~= 0 && iSEASON == 1  % ’g–[•‰‰×
                             
                             ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
-                            Mxh(1,ix) = Mxh(1,ix) + 1;
                             
+                            switch MODE
+                                case {0}
+                                    Mxh(num,1) = ix;
+                                case {1}
+                                    Mxh(1,ix) = Mxh(1,ix) + 1;
+                            end
                         end
                     end
                 end
@@ -85,14 +116,17 @@ switch MODE
             error('“ñŠÇŽ®^ŽlŠÇŽ®‚ÌÝ’è‚ª•s³‚Å‚·')
         end
         
-        
-        
+
     case {2,3}
+        
+        % ƒ}ƒgƒŠƒbƒNƒX
+        Mxc = zeros(1,length(mxL)); % —â–[ƒ}ƒgƒŠƒbƒNƒX
+        Mxh = zeros(1,length(mxL)); % ’g–[ƒ}ƒgƒŠƒbƒNƒX
         
         for ich = 1:2
             
             if ich == 1 % —â–[Šú
-            
+                
                 % 2013/06/06C³(—â–[’èŠi”\—Í‚Æ’g–[’èŠi”\—Í‚Åê‡•ª‚¯)
                 for dd = 1:length(Qa_c)
                     if Qa_c(dd) >= 0

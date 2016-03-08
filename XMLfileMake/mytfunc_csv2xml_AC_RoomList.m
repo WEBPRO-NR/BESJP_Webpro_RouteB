@@ -133,7 +133,7 @@ for iZONE = 1:length(ZoneList_Name)
     for iDB = 11:size(roomDefDataCell,1)
         if  strcmp(roomDefDataCell(iDB,8),ZoneList_Floor(iZONE)) && ...
                 strcmp(roomDefDataCell(iDB,9),ZoneList_Name(iZONE))
-            
+
             % é∫Çåüçı
             [RoomID,BldgType,RoomType,RoomArea,FloorHeight,RoomHeight] = ...
                 mytfunc_roomIDsearch(xmldata,roomDefDataCell(iDB,1),roomDefDataCell(iDB,2));

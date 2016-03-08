@@ -22,7 +22,7 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = './NSRI_School_IVb_Case0.xml';
+% inputfilename = 'model.xml';
 % OutputOption = 'ON';
 
 
@@ -194,7 +194,7 @@ end
 
 
 %% 各室の換気時間・基準値を探査
-timeL  = zeros(numOfRoom,1);
+timeV  = zeros(numOfRoom,1);
 kv     = zeros(numOfRoom,1);
 Vroom  = zeros(numOfRoom,1);
 Proom  = zeros(numOfRoom,1);
@@ -202,6 +202,8 @@ Eme    = zeros(numOfRoom,1);
 Es_2nd = zeros(numOfRoom,1);
 Es_1st = zeros(numOfRoom,1);
 xL     = zeros(numOfRoom,1);
+
+opeMode_Vroom = zeros(numOfRoom,365,24);
 
 for iROOM = 1:numOfRoom
     
@@ -211,7 +213,10 @@ for iROOM = 1:numOfRoom
                 strcmp(perDB_RoomType{iDB,5},RoomType{iROOM})
             
             % 換気時間 [hour]
-            timeL(iROOM) = str2double(perDB_RoomType(iDB,26));
+            timeV(iROOM) = str2double(perDB_RoomType(iDB,26));
+            
+            % 換気スケジュール（時刻別）
+            [opeMode_Vroom(iROOM,:,:),~,~] = mytfunc_getRoomCondition(perDB_RoomType,perDB_RoomOpeCondition,perDB_calendar,BldgType{iROOM},RoomType{iROOM});
             
             % 基準設定消費電力 [kW]
             if strcmp(perDB_RoomType(iDB,27),'-')
@@ -363,6 +368,8 @@ end
 opeTimeListFAN = zeros(length(UnitListFAN),1);
 AreaListFAN = zeros(length(UnitListFAN),1);
 
+opeMode_Vfan = zeros(length(UnitListFAN),365,24);
+
 for iUNIT = 1:length(UnitListFAN)
     
     % データベース検索
@@ -370,8 +377,9 @@ for iUNIT = 1:length(UnitListFAN)
         for iUNITdb = 1:size(UnitNameFAN,2)
             if strcmp(UnitListFAN(iUNIT),UnitNameFAN(iROOM,iUNITdb))
                 AreaListFAN(iUNIT,1) = AreaListFAN(iUNIT,1) + RoomArea(iROOM);
-                if opeTimeListFAN(iUNIT,1) < timeL(iROOM)
-                    opeTimeListFAN(iUNIT,1) = timeL(iROOM);
+                if opeTimeListFAN(iUNIT,1) < timeV(iROOM)
+                    opeTimeListFAN(iUNIT,1) = timeV(iROOM);
+                    opeMode_Vfan(iUNIT,:,:) = opeMode_Vroom(iROOM,:,:);
                 end
             end
         end
@@ -381,6 +389,9 @@ end
 
 opeTimeListAC = zeros(length(UnitListAC),1);
 AreaListAC = zeros(length(UnitListAC),1);
+
+opeMode_Vac = zeros(length(UnitListAC),365,24);
+
 for iUNIT = 1:length(UnitListAC)
     
     % データベース検索
@@ -388,8 +399,9 @@ for iUNIT = 1:length(UnitListAC)
         for iUNITdb = 1:size(UnitNameAC,2)
             if strcmp(UnitListAC(iUNIT),UnitNameAC(iROOM,iUNITdb))
                 AreaListAC(iUNIT,1) = AreaListAC(iUNIT,1) + RoomArea(iROOM);
-                if opeTimeListAC(iUNIT,1) < timeL(iROOM)
-                    opeTimeListAC(iUNIT,1) = timeL(iROOM);
+                if opeTimeListAC(iUNIT,1) < timeV(iROOM)
+                    opeTimeListAC(iUNIT,1) = timeV(iROOM);
+                    opeMode_Vac(iUNIT,:,:) = opeMode_Vroom(iROOM,:,:);
                 end
             end
         end
@@ -405,7 +417,6 @@ end
 
 % 機器ベースで計算
 Edesign_FAN_MWh    = opeTimeListFAN .* UnitListFANPower ./(1000*0.75);
-
 Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
@@ -419,6 +430,26 @@ Edesing_AC_Mwh = Edesign_AC_kW .* opeTimeListAC ./1000;
 Edesign_AC_MJ     = 9760.*Edesing_AC_Mwh;
 Edesign_AC_MWh_m2 = sum(nansum(Edesing_AC_Mwh))/sum(RoomArea);
 Edesign_AC_MJ_m2  = sum(nansum(Edesign_AC_MJ))/sum(RoomArea);
+
+% 時刻別の値
+Edesign_MWh_hour = zeros(8760,1);
+for iUNIT = 1:length(UnitListFAN)
+    for dd = 1:365
+        for hh = 1:24
+            num = 24*(dd-1) + hh;
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + UnitListFANPower(iUNIT).*opeMode_Vfan(iUNIT,dd,hh)./(1000*0.75);
+        end
+    end
+end
+for iUNIT = 1:length(UnitListAC)
+    for dd = 1:365
+        for hh = 1:24
+            num = 24*(dd-1) + hh;
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + Edesign_AC_kW(iUNIT).*opeMode_Vac(iUNIT,dd,hh)./1000;
+        end
+    end
+end
+
 
 % （部屋単位の評価値：面積で按分する）
 ratioP_FAN = zeros(size(UnitNameFAN));
@@ -451,7 +482,7 @@ Eme    = kv.*(10^-5.*Vroom.*Proom.*1.2./(36*0.4))./0.75; % 送風機軸動力[kW/m2]
 % 基準値（ROOM_STANDARDVALUE.csv）より値を抜き出す（最終的にはこちらを採用） [MJ]
 Estandard_MJ_CSV = mytfunc_calcStandardValue(BldgType,RoomType,RoomArea,18);
 
-Es_MWh    = Eme.*timeL./1000.*RoomArea;      % 基準年間電力消費量原単位[MWh/年]
+Es_MWh    = Eme.*timeV./1000.*RoomArea;      % 基準年間電力消費量原単位[MWh/年]
 Es_MWh_m2 = sum(Es_MWh)/sum(RoomArea);
 Es_MJ     = 9760.*Es_MWh;                    % 基準年間エネルギー消費量原単位[MJ/年]
 Es_MJ_m2  = sum(Es_MJ)/sum(RoomArea);
@@ -510,7 +541,7 @@ if OutputOptionVar == 1
                         hosei_C2_name(iROOM,iUNIT),',',...
                         hosei_C3_name(iROOM,iUNIT),',',...
                         num2str(hosei_ALL(iROOM,iUNIT)),',',...
-                        num2str(timeL(iROOM)),',',...
+                        num2str(timeV(iROOM)),',',...
                         num2str(ratioP_FAN(iROOM,iUNIT)),',',...
                         num2str(Es_MJ(iROOM)),',',...
                         num2str( (nansum(ratioP_FAN(iROOM,:)) + nansum(ratioP_AC(iROOM,:))) ./Es_MJ(iROOM)));
@@ -572,7 +603,7 @@ if OutputOptionVar == 1
                         ',',...
                         ',',...
                         ',',...
-                        num2str(timeL(iROOM)),',',...
+                        num2str(timeV(iROOM)),',',...
                         num2str(ratioP_AC(iROOM,iUNIT)),',',...
                         num2str(Es_MJ(iROOM)),',',...
                         num2str( (nansum(ratioP_FAN(iROOM,:)) + nansum(ratioP_AC(iROOM,:))) ./Es_MJ(iROOM)));
@@ -627,6 +658,46 @@ if OutputOptionVar == 1
     fclose(fid);
     
 end
+
+
+%% 時系列データの出力
+if OutputOptionVar == 1
+    
+    if isempty(strfind(inputfilename,'/'))
+        eval(['resfilenameH = ''calcREShourly_V_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+    else
+        tmp = strfind(inputfilename,'/');
+        eval(['resfilenameH = ''calcREShourly_V_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    end
+    
+    % 月：日：時
+    TimeLabel = zeros(8760,3);
+    for dd = 1:365
+        for hh = 1:24
+            % 1月1日0時からの時間数
+            num = 24*(dd-1)+hh;
+            t = datenum(2015,1,1) + (dd-1) + (hh-1)/24;
+            TimeLabel(num,1) = str2double(datestr(t,'mm'));
+            TimeLabel(num,2) = str2double(datestr(t,'dd'));
+            TimeLabel(num,3) = str2double(datestr(t,'hh'));
+        end
+    end
+    
+    RESALL = [ TimeLabel,Edesign_MWh_hour];
+    
+    rfc = {};
+    rfc = [rfc;'月,日,時,換気電力消費量[MWh]'];
+    rfc = mytfunc_oneLinecCell(rfc,RESALL);
+    
+    fid = fopen(resfilenameH,'w+');
+    for i=1:size(rfc,1)
+        fprintf(fid,'%s\r\n',rfc{i});
+    end
+    fclose(fid);
+    
+    
+end
+
 
 
 

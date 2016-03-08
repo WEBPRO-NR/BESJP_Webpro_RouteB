@@ -21,7 +21,7 @@ function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
 % clear
 % clc
-% inputfilename = './IBEC1_ivb_new.xml';
+% inputfilename = 'model.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -107,6 +107,8 @@ end
 timeL = zeros(numOfRoom,1);
 Es    = zeros(numOfRoom,1);
 
+opeMode_Lroom = zeros(numOfRoom,365,24);
+
 for iROOM = 1:numOfRoom
     
     % 標準室使用条件を探索
@@ -116,6 +118,9 @@ for iROOM = 1:numOfRoom
             
             % 照明時間 [hour]
             timeL(iROOM) = str2double(perDB_RoomType(iDB,23));
+            
+            % 換気スケジュール（時刻別）
+            [~,opeMode_Lroom(iROOM,:,:),~] = mytfunc_getRoomCondition(perDB_RoomType,perDB_RoomOpeCondition,perDB_calendar,BldgType{iROOM},RoomType{iROOM});
             
             % 基準設定消費電力 [kW]
             Es(iROOM) = str2double(perDB_RoomType(iDB,25));
@@ -265,16 +270,30 @@ end
 
 %% エネルギー消費量計算
 
-% 評価値 Edesign [MJ/年]
+% 設計値 Edesign [MJ/年]
 Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
 Edesign_noRI_MJ  = 9760.*Edesign_noRI_MWh;
 Edesign_MWh      = repmat(timeL,1,max(numofUnit)).*repmat(hosei_RI,1,max(numofUnit))...
     .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
 Edesign_MJ       = 9760.*Edesign_MWh;
 
-% 評価値 Edesign_m2 [MJ/m2年]
+% 設計値 Edesign_m2 [MJ/m2年]
 Edesign_MWh_m2 = sum(nansum(Edesign_MWh))/sum(RoomArea);
 Edesign_MJ_m2  = sum(nansum(Edesign_MJ))/sum(RoomArea);
+
+% 時刻別の値
+Edesign_MWh_hour = zeros(8760,1);
+for iROOM = 1:numOfRoom
+    for iUNIT = 1:numofUnit(iROOM)
+        for dd = 1:365
+            for hh = 1:24
+                num = 24*(dd-1) + hh;
+                Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + ...
+                    hosei_RI(iROOM)*Power(iROOM,iUNIT)*Count(iROOM,iUNIT)*hosei_ALL(iROOM,iUNIT)*opeMode_Lroom(iROOM,dd,hh)./1000000;
+            end
+        end
+    end
+end
 
 % 基準値 Estandard [MJ/年]（基準値が固まるまでの暫定措置）
 Estandard_MWh = Es.*RoomArea.*timeL./1000000;
@@ -400,6 +419,44 @@ if OutputOptionVar == 1
         fprintf(fid,'%s\r\n',rfc{i,:});
     end
     fclose(fid);
+    
+end
+
+%% 時系列データの出力
+if OutputOptionVar == 1
+    
+    if isempty(strfind(inputfilename,'/'))
+        eval(['resfilenameH = ''calcREShourly_L_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+    else
+        tmp = strfind(inputfilename,'/');
+        eval(['resfilenameH = ''calcREShourly_L_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    end
+    
+    % 月：日：時
+    TimeLabel = zeros(8760,3);
+    for dd = 1:365
+        for hh = 1:24
+            % 1月1日0時からの時間数
+            num = 24*(dd-1)+hh;
+            t = datenum(2015,1,1) + (dd-1) + (hh-1)/24;
+            TimeLabel(num,1) = str2double(datestr(t,'mm'));
+            TimeLabel(num,2) = str2double(datestr(t,'dd'));
+            TimeLabel(num,3) = str2double(datestr(t,'hh'));
+        end
+    end
+    
+    RESALL = [ TimeLabel,Edesign_MWh_hour];
+    
+    rfc = {};
+    rfc = [rfc;'月,日,時,照明電力消費量[MWh]'];
+    rfc = mytfunc_oneLinecCell(rfc,RESALL);
+    
+    fid = fopen(resfilenameH,'w+');
+    for i=1:size(rfc,1)
+        fprintf(fid,'%s\r\n',rfc{i});
+    end
+    fclose(fid);
+    
     
 end
 

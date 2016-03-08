@@ -23,7 +23,7 @@ function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 % clc
 % tic
 % 
-% inputfilename = './NSRI_School_IVb_Case0.xml';
+% inputfilename = 'ApartmentHouse.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -105,13 +105,22 @@ end
 %% 各室の照明時間を探査
 timeEV = zeros(1,numofUnit);
 
+opeMode_EVunit = zeros(numofUnit,365,24);
+
+
 for iUNIT = 1:numofUnit
     
     % 共同住宅の場合は 5480時間で固定
     if strcmp(BldgType{iUNIT},'ApartmentHouse')
         
         timeEV(iUNIT) = 5480;
-                        
+        
+        for dd = 1:365
+            for hh = 1:24
+                opeMode_EVunit(iUNIT,dd,hh) = 5480/8760;
+            end
+        end
+        
     else
         
         % 標準室使用条件を探索
@@ -122,6 +131,10 @@ for iUNIT = 1:numofUnit
                 % 昇降機運転時間 [hour] (照明時間とする)
                 timeEV(iUNIT) = str2double(perDB_RoomType(iDB,23));
                 
+                % 昇降機スケジュール（時刻別）
+                [~,opeMode_EVunit(iUNIT,:,:),~] = mytfunc_getRoomCondition(perDB_RoomType,perDB_RoomOpeCondition,perDB_calendar,BldgType{iUNIT},RoomType{iUNIT});
+                
+                
             end
         end
     end
@@ -130,6 +143,20 @@ end
 
 % エネルギー消費量計算 [MJ/年]
 Edesign_MWh   = LoadLimit.* Velocity.* kControlT.* Count.* timeEV ./860 ./1000;
+
+% 時刻別の値
+Edesign_MWh_hour = zeros(8760,1);
+for iUNIT = 1:numofUnit
+    for dd = 1:365
+        for hh = 1:24
+            num = 24*(dd-1) + hh;
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + ...
+                LoadLimit(iUNIT).* Velocity(iUNIT).* kControlT(iUNIT).* Count(iUNIT).* ...
+                opeMode_EVunit(iUNIT,dd,hh) ./860 ./1000 ;
+        end
+    end
+end
+
 Estandard_MWh = LoadLimit.* Velocity.* (1/40).* TransportCapacityFactor .* Count.* timeEV ./860 ./1000;
 Edesign_MJ   = 9760.* Edesign_MWh;
 Estandard_MJ = 9760.* Estandard_MWh;
@@ -202,3 +229,40 @@ if OutputOptionVar == 1
     
 end
 
+%% 時系列データの出力
+if OutputOptionVar == 1
+    
+    if isempty(strfind(inputfilename,'/'))
+        eval(['resfilenameH = ''calcREShourly_EV_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+    else
+        tmp = strfind(inputfilename,'/');
+        eval(['resfilenameH = ''calcREShourly_EV_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    end
+    
+    % 月：日：時
+    TimeLabel = zeros(8760,3);
+    for dd = 1:365
+        for hh = 1:24
+            % 1月1日0時からの時間数
+            num = 24*(dd-1)+hh;
+            t = datenum(2015,1,1) + (dd-1) + (hh-1)/24;
+            TimeLabel(num,1) = str2double(datestr(t,'mm'));
+            TimeLabel(num,2) = str2double(datestr(t,'dd'));
+            TimeLabel(num,3) = str2double(datestr(t,'hh'));
+        end
+    end
+    
+    RESALL = [ TimeLabel,Edesign_MWh_hour];
+    
+    rfc = {};
+    rfc = [rfc;'月,日,時,昇降機電力消費量[MWh]'];
+    rfc = mytfunc_oneLinecCell(rfc,RESALL);
+    
+    fid = fopen(resfilenameH,'w+');
+    for i=1:size(rfc,1)
+        fprintf(fid,'%s\r\n',rfc{i});
+    end
+    fclose(fid);
+    
+    
+end

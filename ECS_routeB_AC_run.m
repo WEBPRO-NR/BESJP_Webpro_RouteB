@@ -25,16 +25,65 @@
 %  y(16) : CEC/AC* [-]
 %  y(17) : 一次エネルギー消費量　基準値 [MJ/m2年]
 %  y(18) : BEI/AC (=評価値/基準値） [-]
+% 実行例
+%  ECS_routeB_AC_run('model.xml','ON','0','Read');
+%  ECS_routeB_AC_run('model.xml','OFF');
+% 計算モード
+%    0 : newHASPによる時刻別計算＋エネルギー時刻別計算）
+%    1 : newHASPによる時刻別計算＋マトリックス計算、
+%    2 : newHASPによる日別計算＋マトリックス計算
+%    3 : 簡略法による日別計算
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
+% コンパイル時には消す
 clear
 clc
+addpath('./subfunction/')
+INPUTFILENAME = 'model03_AREA8.xml';
+OutputOption = 'ON';
+varargin{1} = '3';
+varargin{2} = 'Calc';
+varargin{3} = '0';
+
+GSHPtype = 1;
 
 tic
-INPUTFILENAME = './InputFiles/sample_AirSource.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+
+%% 引き数
+
+if isempty(varargin) ~= 1
+    
+    % 計算モード
+    MODE = str2double(varargin(1));
+    
+    % 負荷計算モード（Read:読み込み）
+    LoadMode = varargin{2};
+    
+    % 地盤からの還り温度を読み込むかどうか
+    groundTWfile = cell2mat(varargin(3));
+    
+    if eval(['exist(''',groundTWfile,''',''file'')']) > 0
+        disp('地盤からの還水温度を読み込みました。')
+        groundPara = textread(groundTWfile);
+        groundTWread = 1;
+    else
+        groundTWread = 0;
+    end
+        
+else
+    % 計算モード
+    MODE = 3;
+    % 負荷計算モード（Read:読み込み）
+    LoadMode = 'calc';
+    % 地盤からの還り温度を読み込むかどうか
+    groundTWread = 0;
+end
+
+aexCoeffiModifyOn = 1;  % 全熱交換器の効率補正（１：あり、０：なし）
+
+
+%% 計算の設定
 
 switch OutputOption
     case 'ON'
@@ -45,21 +94,19 @@ switch OutputOption
         error('OutputOptionが不正です。ON か OFF で指定して下さい。')
 end
 
-% 計算モード（1:newHASPによる時刻別計算、2:newHASPによる日別計算、3:簡略法による日別計算）
-MODE = 3;
+% 建材データベース
+switch MODE
+    case {0,1,2}
+        DBWCONMODE = 'newHASP';    % newHASP用の形式に変換
+    case {3}
+        DBWCONMODE = 'Regulation';  % 基準用のファイルを使用
+end
 
-% 建材データベースのモード (newHASP or Regulation)
-DBWCONMODE = 'Regulation';
-% DBWCONMODE = 'newHASP';
-
-% 負荷分割数（5か10）
+% 負荷分割数
 DivNUM = 10;
 
 % 蓄熱槽効率
 storageEff = 0.8;
-
-% 全熱交換器の効率補正（１：あり、０：なし）
-aexCoeffiModifyOn = 1;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
@@ -111,6 +158,24 @@ switch climateAREA
         
         TctwC  = ToawbC + 3;
         
+        % 地中熱（暫定）
+        if GSHPtype == 1
+            TcgwH	=	0.182929422	.*ToadbH	+	2.420098004;
+            TcgwC	=	0.186644915 .*ToadbC	+	3.137248406;
+        elseif GSHPtype == 2
+            TcgwH	=	0.296121023	.*ToadbH	+	-0.751975914;
+            TcgwC	=	0.322031993	.*ToadbC	+	0.381251457;
+        elseif GSHPtype == 3
+            TcgwH	=	0.396627716 .*ToadbH	+	-3.156947825;
+            TcgwC	=	0.417503797	.*ToadbC	+	-1.503150699;
+        elseif GSHPtype == 4
+            TcgwH	=	0.457210895	.*ToadbH	+	-5.041624252;
+            TcgwC	=	0.489465271	.*ToadbC	+	-3.004020512;
+        elseif GSHPtype == 5
+            TcgwH	=	0.539462423	.*ToadbH	+	-6.717945074;
+            TcgwC	=	0.58884835	.*ToadbC	+	-4.477722755;
+        end
+        
     case {'II','III','IVa','IVb','V','3','4','5','6','7'}
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         
@@ -124,10 +189,24 @@ switch climateAREA
         
         TctwC  = ToawbC + 3;  % 冷却水温度
         
-        % 地中熱
-        TcgwC = 0.7759.*ToadbC + 9.5582;
-        TcgwH = 0.3853.*ToadbC + 12.114;
-        
+        % 地中熱（暫定）
+        if GSHPtype == 1
+            TcgwH	=	0.120620643	.*ToadbH	+	14.1844492;
+            TcgwC	=	0.22050598	.*ToadbC	+	14.02490619;
+        elseif GSHPtype == 2
+            TcgwH	=	0.194151159	.*ToadbH	+	13.24117192;
+            TcgwC	=	0.353407336	.*ToadbC	+	13.11197807;
+        elseif GSHPtype == 3
+            TcgwH	=	0.250632943	.*ToadbH	+	12.47016603;
+            TcgwC	=	0.47423351	.*ToadbC	+	12.10377872;
+        elseif GSHPtype == 4
+            TcgwH	=	0.29558369	.*ToadbH	+	11.68810237;
+            TcgwC	=	0.599058018	.*ToadbC	+	10.95590189;
+        elseif GSHPtype == 5
+            TcgwH	=	0.34756464	.*ToadbH	+	10.72162586;
+            TcgwC	=	0.726391665	.*ToadbC	+	9.542248065;
+        end
+
     case {'VI','8'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         
@@ -141,6 +220,31 @@ switch climateAREA
         ToawbH = 1.0372.*ToadbH -3.9758;   % 湿球温度 [℃]
         
         TctwC  = ToawbC + 3;
+        
+        % 地中熱（暫定）
+        if GSHPtype == 1
+            TcgwH	=	0.020256418	.*ToadbH	+	28.69645104;
+            TcgwC	=	0.275047886	.*ToadbC	+	26.3724137;
+        elseif GSHPtype == 2
+            TcgwH	=	0.029902613	.*ToadbH	+	32.4720929;
+            TcgwC	=	0.40394535	.*ToadbC	+	29.3222527;
+        elseif GSHPtype == 3
+            TcgwH	=	0.015471022	.*ToadbH	+	35.59983429;
+            TcgwC	=	0.565611222	.*ToadbC	+	30.20015864;
+        elseif GSHPtype == 4
+            TcgwH	=	0.035241737	.*ToadbH	+	37.03002326;
+            TcgwC	=	0.775585165	.*ToadbC	+	29.78485137;
+        elseif GSHPtype == 5
+            TcgwH	=	0.038464181	.*ToadbH	+	38.0707869;
+            TcgwC	=	0.947940354	.*ToadbC	+	28.95318153;
+        end
+
+                
+end
+
+if groundTWread == 1
+    TcgwC = groundPara(1,1).*ToadbC + groundPara(1,2);
+    TcgwH = groundPara(2,1).*ToadbC + groundPara(2,2);
 end
 
 
@@ -178,6 +282,7 @@ end
 % 機器データの加工
 mytscript_systemDef;
 
+
 disp('システム情報作成完了')
 toc
 
@@ -194,22 +299,20 @@ UAlist = zeros(numOfRoooms,1);
 MAlist = zeros(numOfRoooms,1);
 
 
-% pause
-
 switch MODE
     
-    case {1,2}
+    case {0,1,2}
         
         % newHASP設定ファイル(newHASPinput_室名.txt)自動生成
-        mytscript_newHASPinputGen_run;
+        mytscript_newHASPinputGen_MATLAB_run;
         
         % 負荷計算実行(newHASP)
         [QroomDc,QroomDh,QroomHour] = ...
-            mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar);
+            mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar,LoadMode);
         
         % 気象データ読み込み
         [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weath.dat');
-        delete weath.dat
+%         delete weath.dat
         
     case {3}
         
@@ -218,13 +321,8 @@ switch MODE
         
 end
 
-disp('負荷計算完了')
+disp('室負荷計算完了')
 toc
-
-
-
-
-
 
 
 %%-----------------------------------------------------------------------------------------------------------
@@ -241,11 +339,9 @@ Tahu_h        = zeros(365,numOfAHUSET);  % 日積算暖房運転時間 [h]
 [AHUsystemT,AHUsystemOpeTime,ahuDayMode] = ...
     mytfunc_AHUOpeTIME(ahuSetName,roomID,ahuQallSet,roomTime_start,roomTime_stop,roomDayMode);
 
-disp('STEP1')
-toc;
 
 switch MODE
-    case {1}  % 毎時計算
+    case {0,1}  % 毎時計算
         
         QroomAHUhour  = zeros(8760,numOfAHUSET); % 時刻別室負荷 [MJ/h]
         Qahu_oac_hour = zeros(8760,numOfAHUSET); % 外気冷房効果 [kW]
@@ -275,9 +371,10 @@ switch MODE
                     
                     % 時刻別の外気負荷[kW]を求める．
                     [qoaAHUhour(num,iAHU),AHUVovc_hour(num,iAHU),Qahu_oac_hour(num,iAHU),qoaAHU_CEC_hour(num,iAHU)]...
-                        = mytfunc_calcOALoad_hourly(hh,ModeOpe(dd),AHUsystemT(dd,iAHU),...
-                        ahuTime_start(dd,iAHU),ahuTime_stop(dd,iAHU),OAdataHourly(num,3),...
-                        Hroom(dd,1),ahuVoa(iAHU),ahuOAcut(iAHU),AEXbypass(iAHU),ahuaexeff(iAHU),ahuOAcool(iAHU),ahuaexV(iAHU));
+                        = mytfunc_calcOALoad_hourly(hh,ModeOpe(dd),...
+                        AHUsystemOpeTime(iAHU,dd,:),OAdataHourly(num,3),...
+                        Hroom(dd,1),ahuVoa(iAHU),ahuOAcut(iAHU),AEXbypass(iAHU),...
+                        ahuaexeff(iAHU),ahuOAcool(iAHU),ahuaexV(iAHU),QroomAHUhour(num,iAHU),ahuVsa(iAHU));
                     
                     % 空調負荷を求める．[kW] = [MJ/h]*1000/3600 + [kW]
                     Qahu_hour(num,iAHU) = QroomAHUhour(num,iAHU)*1000/3600 + qoaAHUhour(num,iAHU);
@@ -365,13 +462,25 @@ MxAHUhE   = zeros(numOfAHUSET,length(mxL));
 MxAHUkW   = zeros(numOfAHUSET,length(mxL));
 AHUaex    = zeros(1,numOfAHUSET);
 
+LtAHUc       = zeros(8760,numOfAHUSET);  % AHUの冷房負荷率帯
+LtAHUh       = zeros(8760,numOfAHUSET);  % AHUの暖房負荷率帯
+E_fan_hour  = zeros(8760,numOfAHUSET);  % AHUのエネルギー消費量
+E_fan_c_hour  = zeros(8760,numOfAHUSET);  % AHUのエネルギー消費量（冷房）
+E_fan_h_hour  = zeros(8760,numOfAHUSET);  % AHUのエネルギー消費量（暖房）
+E_AHUaex    = zeros(8760,numOfAHUSET);  % 全熱交換器のエネルギー消費量
+
 for iAHU = 1:numOfAHUSET
     
     switch MODE
+        case {0}          
+            
+             [LtAHUc(:,iAHU),LtAHUh(:,iAHU)] = ...
+                mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],AHUCHmode(iAHU),WIN,MID,SUM,mxL);           
+
         case {1}
             % 時刻別計算の場合
-                  [MxAHUc(iAHU,:),MxAHUh(iAHU,:)] = ...
-                mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],AHUCHmode(iAHU),WIN,MID,SUM,mxL);     
+            [MxAHUc(iAHU,:),MxAHUh(iAHU,:)] = ...
+                mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],AHUCHmode(iAHU),WIN,MID,SUM,mxL);
             
         case {2,3}
             % 日単位の計算の場合
@@ -380,8 +489,8 @@ for iAHU = 1:numOfAHUSET
                 Qahu_h(:,iAHU),ahuQhmax(iAHU),Tahu_h(:,iAHU),AHUCHmode(iAHU),WIN,MID,SUM,mxL);
             
     end
-          
-% エネルギー消費特性
+    
+    % エネルギー消費特性
     tmpEkW = zeros(1,length(mxL));
     for iAHUele = 1:numOfAHUele(iAHU)
         
@@ -402,23 +511,65 @@ for iAHU = 1:numOfAHUSET
         end
     end
     
-    % エネルギー計算（空調機ファン） 出現時間 * 単位エネルギー [MWh]
-    MxAHUkW(iAHU,:) = tmpEkW;  % 結果出力用[kW]
-    MxAHUcE(iAHU,:) = MxAHUc(iAHU,:).* tmpEkW./1000;
-    MxAHUhE(iAHU,:) = MxAHUh(iAHU,:).* tmpEkW./1000;
-    
-    % 全熱交換機のエネルギー消費量 [MWh] →　バイパスの影響は？
-    AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
+    % エネルギー消費量計算
+    switch MODE
+        case {1,2,3}
+            % エネルギー計算（空調機ファン） 出現時間 * 単位エネルギー [MWh]
+            MxAHUkW(iAHU,:) = tmpEkW;  % 結果出力用[kW]
+            MxAHUcE(iAHU,:) = MxAHUc(iAHU,:).* tmpEkW./1000;
+            MxAHUhE(iAHU,:) = MxAHUh(iAHU,:).* tmpEkW./1000;
+            
+            % 全熱交換機のエネルギー消費量 [MWh] →　バイパスの影響は？
+            AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
+            
+        case {0}
+            
+            for dd = 1:365
+                for hh = 1:24
+                    
+                    % 1月1日0時からの時間数
+                    num = 24*(dd-1)+hh;
+                    
+                    % 空調機のエネルギー消費量（冷房） [MWh]
+                    if LtAHUc(num,iAHU) == 0
+                        E_fan_c_hour(num,iAHU) = 0;
+                    else
+                        E_fan_c_hour(num,iAHU) = tmpEkW(LtAHUc(num,iAHU))/1000;   % ファンエネルギー消費量　MWh
+                    end
+                    % 空調機のエネルギー消費量（暖房） [MWh]
+                    if LtAHUh(num,iAHU) == 0
+                        E_fan_h_hour(num,iAHU) = 0;
+                    else
+                        E_fan_h_hour(num,iAHU) = tmpEkW(LtAHUh(num,iAHU))/1000;   % ファンエネルギー消費量　MWh
+                    end
+                    
+                    E_fan_hour = E_fan_c_hour + E_fan_h_hour;
+                    
+                    if LtAHUc(num,iAHU) > 0 || LtAHUh(num,iAHU) > 0
+                        E_AHUaex(num,iAHU) = ahuaexE(iAHU)/1000;    % 全熱交換器エネルギー消費量　MWh
+                    end
+                    
+                end
+            end
+            
+    end
     
 end
 
-% 空調機のエネルギー消費量 [MWh]
-E_fun = sum(sum(MxAHUcE+MxAHUhE));
-E_aex = sum(AHUaex);
-
-% 積算運転時間(システム毎)
-TcAHU = sum(MxAHUc,2);
-ThAHU = sum(MxAHUh,2);
+% 空調機のエネルギー消費量 [MWh] 及び 積算運転時間(システム毎)
+switch MODE
+    case {0}
+        E_fun = sum(sum(E_fan_hour));   % E_fan のスペルミス・・・
+        E_aex = sum(sum(E_AHUaex));
+        TcAHU = sum(LtAHUc>0,1)';
+        ThAHU = sum(LtAHUh>0,1)';
+        
+    case {1,2,3}
+        E_fun = sum(sum(MxAHUcE+MxAHUhE));
+        E_aex = sum(AHUaex);
+        TcAHU = sum(MxAHUc,2);
+        ThAHU = sum(MxAHUh,2);
+end
 
 
 %------------------------------
@@ -426,7 +577,7 @@ ThAHU = sum(MxAHUh,2);
 
 % 未処理負荷 [MJ/day] の集計
 switch MODE
-    case {1}
+    case {0,1}
         
         Qahu_remainChour = zeros(8760,numOfAHUSET);
         Qahu_remainHhour = zeros(8760,numOfAHUSET);
@@ -498,7 +649,8 @@ toc
 
 switch MODE
     
-    case {1}
+    case {0,1}
+        
         Qpsahu_fan_hour = zeros(8760,numOfPumps);  % ファン発熱量 [kW]
         Qpsahu_hour     = zeros(8760,numOfPumps);  % ポンプ負荷 [kW]
         
@@ -515,11 +667,17 @@ switch MODE
                             if PUMPtype(iPUMP) == 1 % 冷水ポンプ
                                 
                                 % ファン発熱量 [kW]
-                                tmp = 0;
+                                fanHeatup = 0;
                                 if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                     if Qahu_hour(num,iAHU) > 0
-                                        tmp = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*1000;
-                                        Qpsahu_fan_hour(num,iAHU) = Qpsahu_fan_hour(num,iAHU) + tmp;
+                                        switch MODE
+                                            case {0}
+                                                fanHeatup = E_fan_hour(num,iAHU) * k_heatup .* 1000;
+                                            case {1}
+                                                fanHeatup = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*1000;
+                                        end
+                                        
+                                        Qpsahu_fan_hour(num,iPUMP) = Qpsahu_fan_hour(num,iPUMP) + fanHeatup;
                                     end
                                 end
                                 
@@ -531,23 +689,29 @@ switch MODE
                                             Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + Qahu_hour(num,iAHU) - Qahu_oac_hour(num,iAHU);
                                         end
                                     else
-                                        Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + Qahu_hour(num,iAHU) - Qahu_oac_hour(num,iAHU) + tmp;
+                                        Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + Qahu_hour(num,iAHU) - Qahu_oac_hour(num,iAHU) + fanHeatup;
                                     end
                                 end
                                 
                             elseif PUMPtype(iPUMP) == 2 % 温水ポンプ
                                 
                                 % ファン発熱量 [kW]
-                                tmp = 0;
+                                fanHeatup = 0;
                                 if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                     if Qahu_hour(num,iAHU) < 0
-                                        tmp = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*1000;
-                                        Qpsahu_fan_hour(num,iAHU) = Qpsahu_fan_hour(num,iAHU) + tmp;
+                                        switch MODE
+                                            case {0}
+                                                fanHeatup = E_fan_hour(num,iAHU) * k_heatup .* 1000;
+                                            case {1}
+                                                fanHeatup = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*1000;
+                                        end
+                                        
+                                        Qpsahu_fan_hour(num,iPUMP) = Qpsahu_fan_hour(num,iPUMP) + fanHeatup;
                                     end
                                 end
                                 
                                 if Qahu_hour(num,iAHU) < 0
-                                    Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + (-1)*(Qahu_hour(num,iAHU)+tmp);
+                                    Qpsahu_hour(num,iPUMP) = Qpsahu_hour(num,iPUMP) + (-1)*(Qahu_hour(num,iAHU)+fanHeatup);
                                 end
                             end
                         end
@@ -666,12 +830,17 @@ MxPUMPE   = zeros(numOfPumps,length(mxL));
 % 部分負荷特性
 PUMPvwvfac = ones(numOfPumps,length(mxL));
 
+LtPUMP = zeros(8760,numOfPumps);  % ポンプの負荷率区分
+E_pump_hour = zeros(8760,numOfPumps);  % ポンプのエネルギー消費量
+
 for iPUMP = 1:numOfPumps
     
     if Qpsr(iPUMP) ~= 0 % ビルマル用仮想ポンプは除く
         
         % ポンプ負荷マトリックス作成
         switch MODE
+            case {0}
+                LtPUMP(:,iPUMP) = mytfunc_matrixPUMP(MODE,Qpsahu_hour(:,iPUMP),Qpsr(iPUMP),[],mxL);
             case {1}
                 MxPUMP(iPUMP,:) = mytfunc_matrixPUMP(MODE,Qpsahu_hour(:,iPUMP),Qpsr(iPUMP),[],mxL);
             case {2,3}
@@ -785,17 +954,48 @@ for iPUMP = 1:numOfPumps
             
         end
         
-        % ポンプエネルギー消費量 [MWh]
-        MxPUMPE(iPUMP,:) = MxPUMP(iPUMP,:).*MxPUMPPower(iPUMP,:)./1000;
+        
+        % 消費電力（部分負荷特性×定格消費電力）[kW]
+        switch MODE
+            
+            case {1,2,3}
+                % ポンプエネルギー消費量 [MWh]
+                MxPUMPE(iPUMP,:) = MxPUMP(iPUMP,:).*MxPUMPPower(iPUMP,:)./1000;
+                
+            case {0}
+                
+                for dd = 1:365
+                    for hh = 1:24
+                        
+                        % 1月1日0時からの時間数
+                        num = 24*(dd-1)+hh;
+                        
+                        % ポンプのエネルギー消費量 [MWh]
+                        if LtPUMP(num,iPUMP) == 0
+                            E_pump_hour(num,iPUMP) = 0;
+                        else
+                            E_pump_hour(num,iPUMP) =  MxPUMPPower(iPUMP,LtPUMP(num,iPUMP))./1000;   % ポンプエネルギー消費量  MWh
+                        end
+                    end
+                end
+                
+        end
         
     end
 end
 
-% エネルギー消費量 [MWh]
-E_pump = sum(sum(MxPUMPE));
-% 積算運転時間(システム毎)
-TcPUMP = sum(MxPUMP,2);
-
+% 二次ポンプのエネルギー消費量 [MWh] 及び 積算運転時間(システム毎)
+switch MODE
+    case {0}
+        E_pump = sum(sum(E_pump_hour));
+        TcPUMP = sum(E_pump_hour>0,1)';
+        
+    case {1,2,3}
+        % エネルギー消費量 [MWh]
+        E_pump = sum(sum(MxPUMPE));
+        % 積算運転時間(システム毎)
+        TcPUMP = sum(MxPUMP,2);
+end
 
 disp('ポンプエネルギー計算完了')
 toc
@@ -805,7 +1005,7 @@ toc
 %% 熱源系統の計算
 
 switch MODE
-    case {1}
+    case {0,1}
         
         Qref_hour = zeros(8760,numOfRefs);   % 時刻別熱源負荷 [kW]
         Qref_OVER_hour = zeros(8760,numOfRefs);   % 過負荷 [MJ/h]
@@ -816,24 +1016,34 @@ switch MODE
             for iPUMP = 1:numOfPumps
                 switch pumpName{iPUMP}
                     case REFpumpSet{iREF}
-                        % ポンプ発熱量 [kW]
-                        if TcPUMP(iPUMP,1) ~= 0
-                            pumpHeatup(iPUMP) = sum(MxPUMPE(iPUMP,:)).*(k_heatup)./TcPUMP(iPUMP,1).*1000;
-                        else
-                            pumpHeatup(iPUMP) = 0;  % 仮想ポンプ用
-                        end
                         
                         for num=1:8760
+                            
+                            % ポンプ発熱量 [kW]
+                            pumpHeatup = 0;
+                            
+                            if TcPUMP(iPUMP,1) ~= 0
+                                switch MODE
+                                    case {0}
+                                        pumpHeatup = E_pump_hour(num,iPUMP) .* k_heatup .*1000;
+                                    case {1}
+                                        pumpHeatup = sum(MxPUMPE(iPUMP,:)).*(k_heatup)./TcPUMP(iPUMP,1).*1000;
+                                end
+                            else
+                                pumpHeatup = 0;  % 仮想ポンプ用
+                            end
+                            
+                            
                             if Qpsahu_hour(num,iPUMP) ~= 0  % 停止時除く
                                 
                                 if REFtype(iREF) == 1 % 冷房負荷→冷房熱源に
                                     
-                                    tmp = Qpsahu_hour(num,iPUMP) + pumpHeatup(iPUMP);
+                                    tmp = Qpsahu_hour(num,iPUMP) + pumpHeatup;
                                     Qref_hour(num,iREF) = Qref_hour(num,iREF) + tmp;
                                     
                                 elseif REFtype(iREF) == 2 % 暖房負荷→暖房熱源に
                                     
-                                    tmp = Qpsahu_hour(num,iPUMP) - pumpHeatup(iPUMP);
+                                    tmp = Qpsahu_hour(num,iPUMP) - pumpHeatup;
                                     if tmp<0
                                         tmp = 0;
                                     end
@@ -861,12 +1071,7 @@ switch MODE
             for dd = 1:365
                 for hh = 1:24
                     num = 24*(dd-1) + hh;
-                    
-                    % 蓄熱の場合: 熱損失量 [MJ/hour] を足す。損失量は 3%。
-                    if Qref_hour(num,iREF) > 0  && REFstorage(iREF) == 1
-                        Qref_hour(num,iREF) = Qref_hour(num,iREF) + refsetStorageSize(iREF)*0.03./opetimeTemp(dd);
-                    end
-                    
+                                        
                     % 過負荷分を抜き出す [MJ/hour]
                     if Qref_hour(num,iREF) > QrefrMax(iREF)
                         Qref_OVER_hour(num,iREF) = (Qref_hour(num,iREF)-QrefrMax(iREF)) *3600/1000;
@@ -875,6 +1080,122 @@ switch MODE
                 end
             end
         end
+        
+        % 蓄熱の処理(2016/01/11追加)
+        [Qref_hour,Qref_hour_discharge] = mytfunc_thermalstorage_Qrefhour(Qref_hour,REFstorage,storageEff,refsetStorageSize,numOfRefs,refset_Capacity,refsetID,QrefrMax);
+        
+        % 放熱用熱交換器を削除
+        for iREF = 1:numOfRefs
+            if REFstorage(iREF) == -1  % 採熱＋追掛け
+                
+                % 放熱運転時の補機
+                refset_PrimaryPumpPower_discharge(iREF,1) = refset_PrimaryPumpPower(iREF,1);
+                
+                % 熱交換器を削除
+                refset_Count(iREF,1:10)       = [refset_Count(iREF,2:10),0];
+                refset_Type(iREF,1:10)        = [refset_Type(iREF,2:10),0];
+                refset_Capacity(iREF,1:10)    = [refset_Capacity(iREF,2:10),0];
+                refset_MainPower(iREF,1:10)   = [refset_MainPower(iREF,2:10),0];
+                refset_SubPower(iREF,1:10)    = [refset_SubPower(iREF,2:10),0];
+                refset_PrimaryPumpPower(iREF,1:10) = [refset_PrimaryPumpPower(iREF,2:10),0];
+                refset_CTCapacity(iREF,1:10)  = [refset_CTCapacity(iREF,2:10),0];
+                refset_CTFanPower(iREF,1:10)  = [refset_CTFanPower(iREF,2:10),0];
+                refset_CTPumpPower(iREF,1:10) = [refset_CTPumpPower(iREF,2:10),0];
+                refset_SupplyTemp(iREF,1:10)  = [refset_SupplyTemp(iREF,2:10),0];
+          
+                for iREFSUB = 1:refsetRnum(iREF)
+                    if iREFSUB ~= refsetRnum(iREF)
+                        
+                        refInputType(iREF,iREFSUB) = refInputType(iREF,iREFSUB+1);
+                        refset_MainPowerELE(iREF,iREFSUB) = refset_MainPowerELE(iREF,iREFSUB+1);
+                        refHeatSourceType(iREF,iREFSUB) = refHeatSourceType(iREF,iREFSUB+1);
+                        
+                        xTALL(iREF,iREFSUB,:) =  xTALL(iREF,iREFSUB+1,:);
+                        xQratio(iREF,iREFSUB,:) = xQratio(iREF,iREFSUB+1,:);
+                        xPratio(iREF,iREFSUB,:) = xPratio(iREF,iREFSUB+1,:);
+                        xXratioMX(iREF,iREFSUB,:) = xXratioMX(iREF,iREFSUB+1,:);
+                        
+                        RerPerC_x_min(iREF,iREFSUB,:) = RerPerC_x_min(iREF,iREFSUB+1,:);
+                        RerPerC_x_max(iREF,iREFSUB,:) = RerPerC_x_max(iREF,iREFSUB+1,:);
+                        RerPerC_x_coeffi(iREF,iREFSUB,:,:) = RerPerC_x_coeffi(iREF,iREFSUB+1,:,:);
+                        
+                        RerPerC_w_min(iREF,iREFSUB,:) = RerPerC_w_min(iREF,iREFSUB+1,:);
+                        RerPerC_w_max(iREF,iREFSUB,:) = RerPerC_w_max(iREF,iREFSUB+1,:);
+                        RerPerC_w_coeffi(iREF,iREFSUB,:,:) = RerPerC_w_coeffi(iREF,iREFSUB+1,:,:);
+                        
+                    else
+                        
+                        refInputType(iREF,refsetRnum(iREF)) = 0;
+                        refset_MainPowerELE(iREF,refsetRnum(iREF)) = 0;
+                        refHeatSourceType(iREF,refsetRnum(iREF)) = 0;
+                        
+                        xTALL(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xTALL,3));
+                        xQratio(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xQratio,3));
+                        xPratio(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xPratio,3));
+                        xXratioMX(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xXratioMX,3));
+                        
+                        RerPerC_x_min(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_x_min,3));
+                        RerPerC_x_max(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_x_max,3));
+                        RerPerC_x_coeffi(iREF,refsetRnum(iREF),:,:) = zeros(1,1,size(RerPerC_x_max,3),size(RerPerC_x_max,4));
+                        
+                        RerPerC_w_min(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_w_min,3));
+                        RerPerC_w_max(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_w_max,3));
+                        RerPerC_w_coeffi(iREF,refsetRnum(iREF),:,:) = zeros(1,1,size(RerPerC_w_coeffi,3),size(RerPerC_w_coeffi,4));
+                        
+                    end
+                end
+
+
+%                 for iREFSUB = refsetRnum(iREF):-1:1
+%                     if iREFSUB ~= 1
+%                         
+%                         refInputType(iREF,iREFSUB-1) = refInputType(iREF,iREFSUB);
+%                         refset_MainPowerELE(iREF,iREFSUB-1) = refset_MainPowerELE(iREF,iREFSUB);
+%                         refHeatSourceType(iREF,iREFSUB-1) = refHeatSourceType(iREF,iREFSUB);
+%                         
+%                         xTALL(iREF,iREFSUB-1,:) =  xTALL(iREF,iREFSUB,:);
+%                         xQratio(iREF,iREFSUB-1,:) = xQratio(iREF,iREFSUB,:);
+%                         xPratio(iREF,iREFSUB-1,:) = xPratio(iREF,iREFSUB,:);
+%                         xXratioMX(iREF,iREFSUB-1,:) = xXratioMX(iREF,iREFSUB,:);
+%                         
+%                         RerPerC_x_min(iREF,iREFSUB-1,:) = RerPerC_x_min(iREF,iREFSUB,:);
+%                         RerPerC_x_max(iREF,iREFSUB-1,:) = RerPerC_x_max(iREF,iREFSUB,:);
+%                         RerPerC_x_coeffi(iREF,iREFSUB-1,:,:) = RerPerC_x_coeffi(iREF,iREFSUB,:,:);
+%                         
+%                         RerPerC_w_min(iREF,iREFSUB-1,:) = RerPerC_w_min(iREF,iREFSUB,:);
+%                         RerPerC_w_max(iREF,iREFSUB-1,:) = RerPerC_w_max(iREF,iREFSUB,:);
+%                         RerPerC_w_coeffi(iREF,iREFSUB-1,:,:) = RerPerC_w_coeffi(iREF,iREFSUB,:,:);
+%                         
+%                     else
+%                         
+%                         refInputType(iREF,refsetRnum(iREF)) = 0;
+%                         refset_MainPowerELE(iREF,refsetRnum(iREF)) = 0;
+%                         refHeatSourceType(iREF,refsetRnum(iREF)) = 0;
+%                         
+%                         xTALL(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xTALL,3));
+%                         xQratio(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xQratio,3));
+%                         xPratio(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xPratio,3));
+%                         xXratioMX(iREF,refsetRnum(iREF),:) = zeros(1,1,size(xXratioMX,3));
+%                         
+%                         RerPerC_x_min(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_x_min,3));
+%                         RerPerC_x_max(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_x_max,3));
+%                         RerPerC_x_coeffi(iREF,refsetRnum(iREF),:,:) = zeros(1,1,size(RerPerC_x_max,3),size(RerPerC_x_max,4));
+%                         
+%                         RerPerC_w_min(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_w_min,3));
+%                         RerPerC_w_max(iREF,refsetRnum(iREF),:) = zeros(1,1,size(RerPerC_w_max,3));
+%                         RerPerC_w_coeffi(iREF,refsetRnum(iREF),:,:) = zeros(1,1,size(RerPerC_w_coeffi,3),size(RerPerC_w_coeffi,4));
+%                         
+%                     end
+%                 end
+                
+                
+                
+                % 台数を減じる
+                refsetRnum(iREF) = refsetRnum(iREF) - 1;
+                
+            end
+        end
+        
 
     case {2,3}
         
@@ -964,29 +1285,55 @@ MxREFperE = zeros(length(ToadbC),length(mxL),numOfRefs);
 MxREF_E   = zeros(numOfRefs,length(mxL));
 
 MxREFSUBperE = zeros(length(ToadbC),length(mxL),numOfRefs,10);
+MxREFSUBperQ = zeros(length(ToadbC),length(mxL),numOfRefs,10);
 MxREFSUBE = zeros(numOfRefs,10,length(mxL));
 Qrefr_mod = zeros(numOfRefs,10,length(ToadbC));
 Erefr_mod = zeros(numOfRefs,10,length(ToadbC));
 
 hoseiStorage = ones(length(ToadbC),length(mxL),numOfRefs);  % 蓄熱槽があるシステムの追い掛け時の補正係数 2014/1/10
 
+LtREF = zeros(8760,numOfRefs);  % 熱源の負荷率区分
+TtREF = zeros(8760,numOfRefs);  % 熱源の温度区分
+E_ref_hour = zeros(8760,numOfRefs);      % 熱源主機のエネルギー消費量
+E_ref_ACc_hour = zeros(8760,numOfRefs);  % 補機電力 [MWh]
+E_PPc_hour = zeros(8760,numOfRefs);      % 一次ポンプ電力 [MWh]
+E_CTfan_hour = zeros(8760,numOfRefs);    % 冷却塔ファン電力 [MWh]
+E_CTpump_hour = zeros(8760,numOfRefs);   % 冷却水ポンプ電力 [MWh]
+E_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとのエネルギー消費量
+Q_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとの処理熱量[kW]
+
 for iREF = 1:numOfRefs
     
     % 蓄熱槽がある場合の放熱用熱交換器の容量の補正（mytstcript_readXML_Setting.mでは8時間を想定）
-    tmpCapacityHEX = 0;
-    if REFstorage(iREF) == -1  % 放熱運転の場合
-        if strcmp(refset_Type(iREF,1),'HEX') % 熱交換器は必ず1台目
-            tmpCapacityHEX = refset_Capacity(iREF,1) *  (8/max(Tref(:,iREF)));  % 熱源運転時間の最大値で補正した容量
-            QrefrMax(iREF) = QrefrMax(iREF) +  tmpCapacityHEX - refset_Capacity(iREF,1);  % 定格容量の合計値を修正
-            refset_Capacity(iREF,1) = tmpCapacityHEX;   % 熱交換器の容量を修正
-        else
-            error('熱交換機が設定されていません')
-        end
+    switch MODE
+        case {1,2,3}
+            tmpCapacityHEX = 0;
+            if REFstorage(iREF) == -1  % 放熱運転の場合
+                if strcmp(refset_Type(iREF,1),'HEX') % 熱交換器は必ず1台目
+                    tmpCapacityHEX = refset_Capacity(iREF,1) *  (8/max(Tref(:,iREF)));  % 熱源運転時間の最大値で補正した容量
+                    QrefrMax(iREF) = QrefrMax(iREF) +  tmpCapacityHEX - refset_Capacity(iREF,1);  % 定格容量の合計値を修正
+                    refset_Capacity(iREF,1) = tmpCapacityHEX;   % 熱交換器の容量を修正
+                else
+                    error('熱交換機が設定されていません')
+                end
+            end
     end
-    
     
     % 熱源負荷マトリックス
     switch MODE
+        case {0}
+
+            % 時刻別の外気温度に変更（2016/2/3）
+            if REFtype(iREF) == 1
+                tmp = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataHourly,mxTC,mxL);  % 冷房
+                LtREF(:,iREF) = tmp(:,1);
+                TtREF(:,iREF) = tmp(:,2);               
+            else
+                tmp = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataHourly,mxTH,mxL);  % 暖房
+                LtREF(:,iREF) = tmp(:,1);
+                TtREF(:,iREF) = tmp(:,2);              
+            end
+            
         case {1}
             if REFtype(iREF) == 1
                 MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref_hour(:,iREF),QrefrMax(iREF),[],OAdataAll,mxTC,mxL);  % 冷房
@@ -1000,6 +1347,7 @@ for iREF = 1:numOfRefs
             else
                 MxREF(:,:,iREF)  = mytfunc_matrixREF(MODE,Qref(:,iREF),QrefrMax(iREF),Tref(:,iREF),OAdataAll,mxTH,mxL);  % 暖房
             end
+            
     end
     
     
@@ -1022,37 +1370,48 @@ for iREF = 1:numOfRefs
     
     
     % 蓄熱の場合のマトリックス操作（負荷率１に集約＋外気温を１レベル変える）
-    if REFstorage(iREF) == 1
-        for iX = 1:length(ToadbC)
-            timeQmax = 0;
-            for iY = 1:length(aveL)
-                timeQmax = timeQmax + aveL(iY)*MxREF(iX,iY,iREF)*QrefrMax(iREF);
-                MxREF(iX,iY,iREF) = 0;
+    switch MODE
+        case {0}
+            
+            % 外気温をシフト
+            if REFstorage(iREF) == 1
+                for hh = 1:8760
+                    if TtREF(hh,iREF) > 1
+                        TtREF(hh,iREF) = TtREF(hh,iREF) - 1;
+                    end
+                end
             end
-            % 全負荷相当運転時間 [hour] →　各外気温帯の最大能力で運転時間を出すように変更（H25.12.25）
-            if iX ~=1
-                MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX-1)) );
-            else
-                MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX)) );
+
+        case {1,2,3}
+            if REFstorage(iREF) == 1
+                for iX = 1:length(ToadbC)
+                    timeQmax = 0;
+                    for iY = 1:length(aveL)
+                        timeQmax = timeQmax + aveL(iY)*MxREF(iX,iY,iREF)*QrefrMax(iREF);
+                        MxREF(iX,iY,iREF) = 0;
+                    end
+                    % 全負荷相当運転時間 [hour] →　各外気温帯の最大能力で運転時間を出すように変更（H25.12.25）
+                    if iX ~=1
+                        MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX-1)) );
+                    else
+                        MxREF(iX,length(aveL)-1,iREF) = timeQmax./( sum(Qrefr_mod(iREF,:,iX)) );
+                    end
+                end
+                
+                % 外気温をシフト
+                for iX = 1:length(ToadbC)
+                    if iX == 1
+                        MxREF(iX,:,iREF) = MxREF(iX,:,iREF) + MxREF(iX+1,:,iREF);
+                    elseif iX == length(ToadbC)
+                        MxREF(iX,:,iREF) = zeros(1,length(aveL));
+                    else
+                        MxREF(iX,:,iREF) = MxREF(iX+1,:,iREF);
+                    end
+                end
             end
-        end
-        
-        % 外気温をシフト
-        for iX = 1:length(ToadbC)
-            if iX == 1
-                MxREF(iX,:,iREF) = MxREF(iX,:,iREF) + MxREF(iX+1,:,iREF);
-            elseif iX == length(ToadbC)
-                MxREF(iX,:,iREF) = zeros(1,length(aveL));
-            else
-                MxREF(iX,:,iREF) = MxREF(iX+1,:,iREF);
-            end
-        end
     end
     
-    
 
-    
-    
     % 運転台数
     if REFnumctr(iREF) == 0  % 台数制御なし
         
@@ -1094,10 +1453,13 @@ for iREF = 1:numOfRefs
             
             
             % 蓄熱の場合のマトリックス操作（蓄熱運転時は必ず負荷率＝１）（H25.12.25）
-            if REFstorage(iREF) == 1
-               MxREFxL(ioa,iL,iREF) = 1; 
+            switch MODE
+                case {1,2,3}
+                    if REFstorage(iREF) == 1
+                        MxREFxL(ioa,iL,iREF) = 1;
+                    end
             end
-    
+            
             
             % 部分負荷特性と送水温度特性（各負荷率・各温度帯について）
             for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
@@ -1118,14 +1480,16 @@ for iREF = 1:numOfRefs
                 end
                 
                 % 部分負荷特性の上下限
+                MxREFxL_real = MxREFxL;
+                
                 if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB,xCurveNum)
                     MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB,xCurveNum);
                 elseif MxREFxL(ioa,iL,iREF) > RerPerC_x_max(iREF,iREFSUB,xCurveNum) || iL == length(mxL)
                     MxREFxL(ioa,iL,iREF) = RerPerC_x_max(iREF,iREFSUB,xCurveNum);
                 end
-                
                 tmpL = MxREFxL(ioa,iL,iREF);
                 
+ 
                 % 部分負荷特性
                 coeff_x(iREFSUB) = ...
                     RerPerC_x_coeffi(iREF,iREFSUB,xCurveNum,1).*tmpL.^4 + ...
@@ -1156,10 +1520,22 @@ for iREF = 1:numOfRefs
             
             
             % エネルギー消費量 [kW] (1次エネルギー換算後の値であることに注意）
-            for rr = 1:MxREFnum(ioa,iL,iREF)
-                MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
-                MxREFperE(ioa,iL,iREF) = MxREFperE(ioa,iL,iREF) + MxREFSUBperE(ioa,iL,iREF,rr);
+            switch MODE
+                case {0}
+                    for rr = 1:MxREFnum(ioa,iL,iREF)
+                        % エネルギー消費量
+                        MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
+                        % 処理熱量
+                        MxREFSUBperQ(ioa,iL,iREF,rr) = Qrefr_mod(iREF,rr,ioa).* MxREFxL_real(ioa,iL,iREF);
+                    end
+                case {1,2,3}
+                    for rr = 1:MxREFnum(ioa,iL,iREF)
+                        % エネルギー消費量
+                        MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
+                        MxREFperE(ioa,iL,iREF) = MxREFperE(ioa,iL,iREF) + MxREFSUBperE(ioa,iL,iREF,rr);
+                    end
             end
+
             
         end
     end
@@ -1167,7 +1543,7 @@ for iREF = 1:numOfRefs
     % 補機群のエネルギー消費量
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
-                        
+            
             % 補機電力(負荷に比例させる)
             if mxL(iL) <= 0.3
                 ErefaprALL(ioa,iL,iREF)  = 0.3 * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
@@ -1183,71 +1559,178 @@ for iREF = 1:numOfRefs
     end
     
     % 蓄熱槽を持つシステムの追い掛け時運転時間補正（追い掛け運転開始時に蓄熱量がすべて使われない問題を解消） 2014/1/10
-    if REFstorage(iREF) == -1 && refsetStorageSize(iREF)>0
-    for ioa = 1:length(ToadbC)
-        for iL = 1:length(mxL)
-                if MxREFnum(ioa,iL,iREF) >= 2
-                    hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
-                else
-                    hoseiStorage(ioa,iL,iREF) = 1.0;
+    switch MODE
+        case {1,2,3}
+            if REFstorage(iREF) == -1 && refsetStorageSize(iREF)>0
+                for ioa = 1:length(ToadbC)
+                    for iL = 1:length(mxL)
+                        if MxREFnum(ioa,iL,iREF) >= 2
+                            hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
+                        else
+                            hoseiStorage(ioa,iL,iREF) = 1.0;
+                        end
+                    end
+                end
+                MxREF(:,:,iREF) = MxREF(:,:,iREF) .* hoseiStorage(:,:,iREF);  % 運転時間を補正
+            end
+    end
+    
+    switch MODE
+        case {0}
+            
+            for dd = 1:365
+                for hh = 1:24
+                    
+                    % 1月1日0時からの時間数
+                    num = 24*(dd-1)+hh;
+                    
+                    % 熱源のエネルギー消費量 [MJ]（一次エネ換算値）
+                    if LtREF(num,iREF) == 0 && (REFstorage(iREF) == -1 && Qref_hour_discharge(num,iREF) > 0) % 放熱のみ
+                        E_ref_hour(num,iREF)     =  0;
+                        E_ref_ACc_hour(num,iREF) =  0;   % 補機電力 [MWh]
+                        E_PPc_hour(num,iREF)     =  refset_PrimaryPumpPower_discharge(iREF,1)./1000;   % 一次ポンプ電力 [MWh]
+                        E_CTfan_hour(num,iREF)   =  0;   % 冷却塔ファン電力 [MWh]
+                        E_CTpump_hour(num,iREF)  =  0;   % 冷却水ポンプ電力 [MWh]
+                        
+                    elseif LtREF(num,iREF) == 0
+                        E_ref_hour(num,iREF)     =  0;
+                        E_ref_ACc_hour(num,iREF) =  0;   % 補機電力 [MWh]
+                        E_PPc_hour(num,iREF)     =  0;   % 一次ポンプ電力 [MWh]
+                        E_CTfan_hour(num,iREF)   =  0;   % 冷却塔ファン電力 [MWh]
+                        E_CTpump_hour(num,iREF)  =  0;   % 冷却水ポンプ電力 [MWh]
+                        
+                    else
+                        
+                        % サブ機器ごとに解くように変更　2016/02/04
+                        % 熱源群エネルギー消費量  MJ
+                        %  E_ref_hour(num,iREF)     =  MxREFperE(TtREF(num,iREF),LtREF(num,iREF),iREF).*3600/1000;
+                        for rr = 1:refsetRnum(iREF) 
+                            E_refsys_hour(num,iREF,rr) = MxREFSUBperE(TtREF(num,iREF),LtREF(num,iREF),iREF,rr).*3600./1000;
+                            E_ref_hour(num,iREF)       = E_ref_hour(num,iREF) + E_refsys_hour(num,iREF,rr);
+                            
+                            % サブ機器ごとの熱負荷　←　マトリックスを使っているので、厳密にQrefと一致しないので注意
+                            Q_refsys_hour(num,iREF,rr) = MxREFSUBperQ(TtREF(num,iREF),LtREF(num,iREF),iREF,rr);
+                        end
+                        
+                        E_ref_ACc_hour(num,iREF) =  ErefaprALL(TtREF(num,iREF),LtREF(num,iREF),iREF)./1000;   % 補機電力 [MWh]
+                        E_PPc_hour(num,iREF) =  EpprALL(TtREF(num,iREF),LtREF(num,iREF),iREF)./1000;   % 一次ポンプ電力 [MWh]
+                        
+                        if REFstorage(iREF) == -1 && Qref_hour_discharge(num,iREF) > 0  % 放熱運転時
+                            E_PPc_hour(num,iREF) =  E_PPc_hour(num,iREF) + refset_PrimaryPumpPower_discharge(iREF,1)./1000;  % 放熱用ポンプ
+                        end
+                        
+                        E_CTfan_hour(num,iREF) =  EctfanrALL(TtREF(num,iREF),LtREF(num,iREF),iREF)./1000;   % 冷却塔ファン電力 [MWh]
+                        E_CTpump_hour(num,iREF) =  EctpumprALL(TtREF(num,iREF),LtREF(num,iREF),iREF)./1000;   % 冷却水ポンプ電力 [MWh]
+                    end
+                    
+                    
                 end
             end
-        end
-        MxREF(:,:,iREF) = MxREF(:,:,iREF) .* hoseiStorage(:,:,iREF);  % 運転時間を補正    
+            
+            
+        case {1,2,3}
+            
+            MxREF_E(iREF,:)   = nansum(MxREF(:,:,iREF) .* MxREFperE(:,:,iREF)).*3600/1000;  % 熱源群エネルギー消費量  [MJ]
+            MxREFACcE(iREF,:) = nansum(MxREF(:,:,iREF) .* ErefaprALL(:,:,iREF)./1000);  % 補機電力 [MWh]
+            MxPPcE(iREF,:)    = nansum(MxREF(:,:,iREF) .* EpprALL(:,:,iREF)./1000);     % 一次ポンプ電力 [MWh]
+            MxCTfan(iREF,:)   = nansum(MxREF(:,:,iREF) .* EctfanrALL(:,:,iREF)./1000);  % 冷却塔ファン電力 [MWh]
+            MxCTpump(iREF,:)  = nansum(MxREF(:,:,iREF) .* EctpumprALL(:,:,iREF)./1000); % 冷却水ポンプ電力 [MWh]
+            
+            % 熱源別エネルギー消費量 [MJ]
+            for iREFSUB = 1:refsetRnum(iREF)
+                MxREFSUBE(iREF,iREFSUB,:) = nansum(MxREF(:,:,iREF) .* MxREFSUBperE(:,:,iREF,iREFSUB).*3600)./1000;
+            end
     end
-
-    
-    MxREF_E(iREF,:)   = nansum(MxREF(:,:,iREF) .* MxREFperE(:,:,iREF)).*3600/1000;  % 熱源群エネルギー消費量  [MJ]
-    MxREFACcE(iREF,:) = nansum(MxREF(:,:,iREF) .* ErefaprALL(:,:,iREF)./1000);  % 補機電力 [MWh]
-    MxPPcE(iREF,:)    = nansum(MxREF(:,:,iREF) .* EpprALL(:,:,iREF)./1000);     % 一次ポンプ電力 [MWh]
-    MxCTfan(iREF,:)   = nansum(MxREF(:,:,iREF) .* EctfanrALL(:,:,iREF)./1000);  % 冷却塔ファン電力 [MWh]
-    MxCTpump(iREF,:)  = nansum(MxREF(:,:,iREF) .* EctpumprALL(:,:,iREF)./1000); % 冷却水ポンプ電力 [MWh]
-    
-    % 熱源別エネルギー消費量 [MJ]
-    for iREFSUB = 1:refsetRnum(iREF)
-        MxREFSUBE(iREF,iREFSUB,:) = nansum(MxREF(:,:,iREF) .* MxREFSUBperE(:,:,iREF,iREFSUB).*3600)./1000;
-    end
-    
     
 end
 
-% 熱源エネルギー消費量 [*] （各燃料の単位に戻す）
-E_ref = zeros(1,8);
-E_refsysr = sum(MxREF_E,2);
-
-for iREF = 1:numOfRefs
-    for iREFSUB = 1:refsetRnum(iREF)
+% 熱源群のエネルギー消費量
+switch MODE
+    case {0}
         
-        if refInputType(iREF,iREFSUB) == 1
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(9760);      % [MWh]
-        elseif refInputType(iREF,iREFSUB) == 2
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(45000/1000); % [m3/h]
-        elseif refInputType(iREF,iREFSUB) == 3
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(41000/1000);
-        elseif refInputType(iREF,iREFSUB) == 4
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(37000/1000);
-        elseif refInputType(iREF,iREFSUB) == 5
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(50000/1000);
-        elseif refInputType(iREF,iREFSUB) == 6
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
-        elseif refInputType(iREF,iREFSUB) == 7
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
-        elseif refInputType(iREF,iREFSUB) == 8
-            E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+        % 熱源主機のエネルギー消費量 [MJ]
+        E_refsysr = sum(E_ref_hour,1);  
+        
+        % 熱源主機のエネルギー消費量 [*] （各燃料の単位に戻す）
+        E_ref_source_hour = zeros(8760,8);
+        
+        for iREF = 1:numOfRefs
+            for iREFSUB = 1:refsetRnum(iREF)
+                
+                if refInputType(iREF,iREFSUB) == 1
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(9760);      % [MWh]
+                elseif refInputType(iREF,iREFSUB) == 2
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(45000/1000); % [m3/h]
+                elseif refInputType(iREF,iREFSUB) == 3
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(41000/1000);
+                elseif refInputType(iREF,iREFSUB) == 4
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(37000/1000);
+                elseif refInputType(iREF,iREFSUB) == 5
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(50000/1000);
+                elseif refInputType(iREF,iREFSUB) == 6
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                elseif refInputType(iREF,iREFSUB) == 7
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                elseif refInputType(iREF,iREFSUB) == 8
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                end
+                
+            end
         end
         
-    end
+        E_ref = sum(E_ref_source_hour,1);
+        
+        % 熱源補機電力消費量 [MWh]
+        E_refac = sum(sum(E_ref_ACc_hour));
+        % 一次ポンプ電力消費量 [MWh]
+        E_pumpP = sum(sum(E_PPc_hour));
+        % 冷却塔ファン電力消費量 [MWh]
+        E_ctfan = sum(sum(E_CTfan_hour));
+        % 冷却水ポンプ電力消費量 [MWh]
+        E_ctpump = sum(sum(E_CTpump_hour));
+        
+    case {1,2,3}
+        
+        % 熱源主機のエネルギー消費量 [MJ]
+        E_refsysr = sum(MxREF_E,2);
+        
+        % 熱源主機のエネルギー消費量 [*] （各燃料の単位に戻す）
+        E_ref = zeros(1,8);
+        
+        for iREF = 1:numOfRefs
+            for iREFSUB = 1:refsetRnum(iREF)
+                
+                if refInputType(iREF,iREFSUB) == 1
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(9760);      % [MWh]
+                elseif refInputType(iREF,iREFSUB) == 2
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(45000/1000); % [m3/h]
+                elseif refInputType(iREF,iREFSUB) == 3
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(41000/1000);
+                elseif refInputType(iREF,iREFSUB) == 4
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(37000/1000);
+                elseif refInputType(iREF,iREFSUB) == 5
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(50000/1000);
+                elseif refInputType(iREF,iREFSUB) == 6
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                elseif refInputType(iREF,iREFSUB) == 7
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                elseif refInputType(iREF,iREFSUB) == 8
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                end
+                
+            end
+        end
+        
+        % 熱源補機電力消費量 [MWh]
+        E_refac = sum(sum(MxREFACcE));
+        % 一次ポンプ電力消費量 [MWh]
+        E_pumpP = sum(sum(MxPPcE));
+        % 冷却塔ファン電力消費量 [MWh]
+        E_ctfan = sum(sum(MxCTfan));
+        % 冷却水ポンプ電力消費量 [MWh]
+        E_ctpump = sum(sum(MxCTpump));
+        
 end
-
-% 熱源補機電力消費量 [MWh]
-E_refac = sum(sum(MxREFACcE));
-% 一次ポンプ電力消費量 [MWh]
-E_pumpP = sum(sum(MxPPcE));
-% 冷却塔ファン電力消費量 [MWh]
-E_ctfan = sum(sum(MxCTfan));
-% 冷却水ポンプ電力消費量 [MWh]
-E_ctpump = sum(sum(MxCTpump));
-
 
 disp('熱源エネルギー計算完了')
 toc
@@ -1270,7 +1753,9 @@ E1st_total = [E1st_total,sum(E1st_total,2)];
 E1st_total = [E1st_total;E1st_total(end,:)/roomAreaTotal];
 
 
-%% 負荷合計
+
+%% 負荷集計
+
 Qctotal = 0;
 Qhtotal = 0;
 Qcpeak = 0;
@@ -1279,6 +1764,21 @@ Qcover = 0;
 Qhover = 0;
 
 switch MODE
+    case {0}
+        tmpQcpeak = zeros(8760,1);
+        tmpQhpeak = zeros(8760,1);
+        for iREF = 1:numOfRefs
+            if REFtype(iREF) == 1 % 冷房 [kW]→[MJ/day]
+                Qctotal = Qctotal + sum(Qref_hour(:,iREF)).*3600./1000;
+                Qcover = Qcover + sum(Qref_OVER_hour(:,iREF));
+                tmpQcpeak = tmpQcpeak + Qref_hour(:,iREF);
+            elseif REFtype(iREF) == 2
+                Qhtotal = Qhtotal + sum(Qref_hour(:,iREF)).*3600./1000;
+                Qhover = Qhover + sum(Qref_OVER_hour(:,iREF));
+                tmpQhpeak = tmpQhpeak + Qref_hour(:,iREF);
+            end
+        end
+        
     case {1}
         tmpQcpeak = zeros(8760,1);
         tmpQhpeak = zeros(8760,1);
@@ -1359,8 +1859,8 @@ end
 standardValue = mytfunc_calcStandardValue(buildingType,roomType,roomArea,stdLineNum)/sum(roomArea);
 
 
-%----------------------------
-% 計算結果取りまとめ
+
+%% 計算結果取りまとめ
 
 y(1)  = E1st_total(end,end);  % 一次エネルギー消費量合計 [MJ/m2]
 y(2)  = Qctotal/roomAreaTotal; % 年間冷房負荷[MJ/m2・年]
@@ -1377,7 +1877,7 @@ y(11) = E1st_total(8,end)/roomAreaTotal;  % 冷却水ポンプ [MJ/m2]
 
 % CEC/ACのようなもの（未処理負荷は差し引く）
 switch MODE
-    case {1}
+    case {0,1}
         % 未処理負荷[MJ/m2]
         y(12) = nansum(sum(abs(Qahu_remainChour)))./roomAreaTotal;
         y(13) = nansum(sum(abs(Qahu_remainHhour)))./roomAreaTotal;
@@ -1442,20 +1942,24 @@ y(28) = y(3)/(y(24)/1000000*3600); % 暖房
 disp('計算結果取り纏め完了')
 toc
 
-%%-----------------------------------------------------------------------------------------------------------
-%% 詳細出力
-if OutputOptionVar == 1 && (MODE == 2 || MODE == 3)
-    mytscript_result2csv;
+
+%% 出力
+
+% 詳細出力
+if OutputOptionVar == 1
+    switch MODE
+        case {0}
+            mytscript_result2csv_hourly;
+            mytscript_result_for_GHSP;
+        case {2,3}
+            mytscript_result2csv;
+    end
 end
 
-disp('詳細出力完了')
-toc
-
-%% 簡易出力
-
+% 簡易出力
 rfcS = {};
 rfcS = [rfcS;'---------'];
-eval(['rfcS = [rfcS;''一次エネルギー消費量 評価値： ', num2str(y(1)) ,'  MJ/m2・年''];'])
+eval(['rfcS = [rfcS;''一次エネルギー消費量 設計値： ', num2str(y(1)) ,'  MJ/m2・年''];'])
 eval(['rfcS = [rfcS;''一次エネルギー消費量 基準値： ', num2str(y(17)) ,'  MJ/m2・年''];'])
 rfcS = [rfcS;'---------'];
 eval(['rfcS = [rfcS;''年間冷房負荷  ： ', num2str(y(2)) ,'  MJ/m2・年''];'])
@@ -1488,6 +1992,8 @@ eval(['rfcS = [rfcS;''夏季日射取得係数* ： ', num2str(y(22)) ,'  ''];'])
 eval(['rfcS = [rfcS;''熱源容量（冷）： ', num2str(y(23)) ,'  W/m2''];'])
 eval(['rfcS = [rfcS;''熱源容量（暖）： ', num2str(y(24)) ,'  W/m2''];'])
 rfcS = [rfcS;'---------'];
+eval(['rfcS = [rfcS;''計算モード： ', num2str(MODE) ,' ''];'])
+
 
 % 出力するファイル名
 if isempty(strfind(INPUTFILENAME,'/'))
@@ -1503,8 +2009,5 @@ end
 fclose(fid);
 
 
-disp('簡易出力完了')
+disp('出力完了')
 toc
-
-toc
-

@@ -16,7 +16,7 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = 'output.xml';
+% inputfilename = 'ApartmentHouse.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -254,7 +254,7 @@ for iROOM = 1:length(roomArea)
             if strcmp(perDB_RoomType{iDB,31},'[L/人日]') || strcmp(perDB_RoomType{iDB,31},'[L/床日]')
                 Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,10)) *...
                     str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
-            elseif strcmp(perDB_RoomType{iDB,31},'[L/㎡日]')
+            elseif strcmp(perDB_RoomType{iDB,31},'[L/m2日]')
                 Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
             else
                 bldgType{iROOM}
@@ -446,6 +446,17 @@ for iEQP = 1:length(equipName)
     
 end
 
+% 時刻別の値 [MJ]
+Edesign_MWh_hour = zeros(8760,1);
+for iEQP = 1:length(equipName)
+    for dd = 1:365
+        for hh = 1:24
+            num = 24*(dd-1) + hh;
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000;
+        end
+    end
+end
+
 % 評価値（給湯原単位） [MJ/m2年]
 E_eqpSUM        = sum(E_eqp)/1000;
 E_eqpSUMperAREA = sum(sum(E_eqp))/sum(roomArea)/1000;
@@ -574,6 +585,44 @@ if OutputOptionVar == 1
         fprintf(fid,'%s\r\n',rfc{i});
     end
     fclose(fid);
+    
+end
+
+%% 時系列データの出力
+if OutputOptionVar == 1
+    
+    if isempty(strfind(inputfilename,'/'))
+        eval(['resfilenameH = ''calcREShourly_HW_',inputfilename(1:end-4),'_',datestr(now,30),'.csv'';'])
+    else
+        tmp = strfind(inputfilename,'/');
+        eval(['resfilenameH = ''calcREShourly_HW_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
+    end
+    
+    % 月：日：時
+    TimeLabel = zeros(8760,3);
+    for dd = 1:365
+        for hh = 1:24
+            % 1月1日0時からの時間数
+            num = 24*(dd-1)+hh;
+            t = datenum(2015,1,1) + (dd-1) + (hh-1)/24;
+            TimeLabel(num,1) = str2double(datestr(t,'mm'));
+            TimeLabel(num,2) = str2double(datestr(t,'dd'));
+            TimeLabel(num,3) = str2double(datestr(t,'hh'));
+        end
+    end
+    
+    RESALL = [ TimeLabel,Edesign_MWh_hour];
+    
+    rfc = {};
+    rfc = [rfc;'月,日,時,給湯一次エネルギー消費量[MJ]'];
+    rfc = mytfunc_oneLinecCell(rfc,RESALL);
+    
+    fid = fopen(resfilenameH,'w+');
+    for i=1:size(rfc,1)
+        fprintf(fid,'%s\r\n',rfc{i});
+    end
+    fclose(fid);
+    
     
 end
 

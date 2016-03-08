@@ -43,38 +43,8 @@ for sysa=1:length(AHUsystemName) % ‹ó’²Œn“‚²‚Æ
         end
         
     end
-    
-    
-    %     for dd = 1:365 % “ú‚Ìƒ‹[ƒv
-    %
-    %         % ˜aW‡‚ğ‚Æ‚éD
-    %         if isempty(tmpStart)
-    %             ahuTime_start(dd,sysa) = 0;
-    %         else
-    %             ahuTime_start(dd,sysa) = min(tmpStart(dd,:)); % ˆê”Ô‘‚¢ŠÔ‚ªŠJn
-    %         end
-    %         if isempty(tmpStop)
-    %             ahuTime_stop(dd,sysa) = 0;
-    %         else
-    %             ahuTime_stop(dd,sysa)  = max(tmpStop(dd,:));  % ˆê”Ô’x‚¢ŠÔ‚ªI—¹
-    %         end
-    %
-    %         % ‹ó’²ŠÔ
-    %         if isempty(tmpStart) == 0 && isempty(tmpStop) == 0
-    %             if max(tmpStop(dd,:)) >= min(tmpStart(dd,:))
-    %                 % “ú‚ğŒ×‚ª‚È‚¢ê‡
-    %                 AHUsystemT(dd,sysa) = max(tmpStop(dd,:))-min(tmpStart(dd,:));
-    %             else
-    %                 % “ú‚ğŒ×‚®ê‡
-    %                 AHUsystemT(dd,sysa) = min(tmpStart(dd,:))+(24-max(tmpStop(dd,:)));
-    %             end
-    %         else
-    %             AHUsystemT(dd,sysa) = 0;
-    %         end
-    %
-    %     end
-    
-    % ‰^“]ŠÔ‚ğZo systemOpeTime ‚Í 365~24‚Ìs—ñ
+        
+    % ‰^“]ŠÔ‚ğZo systemOpeTime ‚Í 365~24‚Ìs—ñi‰Ò“­‚Í‚Pj
     systemOpeTime = mytfunc_calcOpeTime(tmpStart,tmpStop);
     
     % Še“ú‚Ì‰^“]ŠÔ

@@ -421,6 +421,15 @@ for iAHU = 1:numOfAHUSET
             aexCtol = 0.95;
             aexCbal = 0.67;
             ahuaexeff(iAHU) = ahuaexeff(iAHU) * aexCeff * aexCtol * aexCbal;
+            
+%         elseif aexCoeffiModifyOn == 2  % 検証用
+%             aexCeff = 1 - ((1/0.85)-1)*(1-ahuaexeff(iAHU))/ahuaexeff(iAHU);
+%             aexCtol = 0.95;
+%             aexCbal = 1.00;
+%             ahuaexeff(iAHU) = ahuaexeff(iAHU) * aexCeff * aexCtol * aexCbal;
+%             
+%         elseif aexCoeffiModifyOn == 3  % 検証用
+%             ahuaexeff(iAHU) = 0;
         end
         
         if sum(ahuelebypass(iAHU,:)) > 0
@@ -1174,10 +1183,10 @@ for iREF = 1:numOfRefs
                                 
                 % 係数（基整促係数込み）
                 if iPQXW == 1 || iPQXW == 2
-                    for i = 1:6
+                    for i = 1:length(ToadbC)
                         eval(['',Vname,'(iREF,iREFSUB,i) = mytfunc_REFparaSET(tmpdata,xT(i));'])
                     end
-                    
+                                        
                 elseif iPQXW == 3
                     if isempty(tmpdata) == 0
                         for iX = 1:size(tmpdata,1)

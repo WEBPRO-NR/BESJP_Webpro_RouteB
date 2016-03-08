@@ -9,10 +9,10 @@
 function [y,yita] = mytfunc_climatedataCalc(phi,longi,ToutALL,XouALL,IodALL,IosALL,InnALL)
 
 % テスト用
-% filename = './weathdat/C1_0598195.has';
+% filename = './weathdat/C1_6158195.has';
 % [ToutALL,XouALL,IodALL,IosALL,InnALL] = mytfunc_climatedataRead(filename);
-% phi   = 43.21;
-% longi = 141.788;
+% phi   = 34.658;
+% longi = 133.918;
 
 y    = zeros(365,22);
 
@@ -94,7 +94,7 @@ for alp = [0,45,90,135,180,225,270,315,360] % 日射量を求める面の方位角
                 
                 % 太陽高度の正弦を求める(HASP教科書 P25 (2.25)参照 )
                 sinh   = sinPhi * sinDel + cosPhi * cosDel * cosTim;
-                
+                               
                 % 太陽高度の余弦、太陽方位の正弦・余弦を求める(HASP 教科書P25 (2.25)参照)
                 cosh   = sqrt(1 - sinh^2);                           % 太陽高度の余弦
                 sinA   = cosDel * sinTim / cosh;                     % 太陽方位の正弦
@@ -102,10 +102,12 @@ for alp = [0,45,90,135,180,225,270,315,360] % 日射量を求める面の方位角
                 
                 % 傾斜壁から見た太陽高度を求める(HASP 教科書 P26(2.26)参照)
                 sinh2  = sinh * cosBet + cosh * sinBet * (cosA * cosAlp + sinA * sinAlp);
-                
+
                 if sinh2 < 0
                     sinh2 = 0;
                 end
+                
+                tmp(DN,hour)=sinh2;
                 
                 % 入射角特性
                 ita(DN,hour) = 2.392 * sinh2 - 3.8636 * sinh2^3 + 3.7568 * sinh2^5 - 1.3952 * sinh2^7;

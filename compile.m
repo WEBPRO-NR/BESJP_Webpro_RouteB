@@ -2,12 +2,20 @@ clear
 clc
 
 addpath('./subfunction')
+addpath('./XMLfileMake')
 
-% mcc -m ECS_routeB_run_v10.m ./subfunction/xml_read.m ./subfunction/xml_write.m -d ./routeB_v10exe
-% mcc -m ECS_routeB_AC_run_v10.m xml_read.m xml_write.m mytscript_readDBfiles.m -d ./routeB_v10exe
-% mcc -m ECS_routeB_HW_run_v2.m xml_read.m xml_write.m mytscript_readDBfiles.m -d ./routeB_v10exe
+% mcc -m ECS_XMLfileMake_run -d ./compiled
 
-mcc -m ECS_routeB_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./MATLAB_RouteB_ver201208
+mcc -m ECS_routeB_AC_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+% mcc -m ECS_routeB_V_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+% mcc -m ECS_routeB_L_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+% mcc -m ECS_routeB_HW_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+% mcc -m ECS_routeB_EV_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+
+% addpath('./groundModel')
+% mcc -m ECS_routeB_GroundModel_run.m xml_read.m xml_write.m mytscript_readDBfiles.m mytfunc_REFparaSET.m -d ./compiled
+% rmpath('./groundModel')
 
 
 rmpath('./subfunction/')
+rmpath('./XMLfileMake')

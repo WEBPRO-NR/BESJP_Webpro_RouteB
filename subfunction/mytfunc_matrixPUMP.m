@@ -14,12 +14,34 @@
 
 function [Mxc] = mytfunc_matrixPUMP(MODE,Qps,Qpsr,Tps,mxL)
 
-% マトリックス
-Mxc = zeros(1,length(mxL)); % 冷房マトリックス
 
 switch MODE
     
+    case {0}
+        
+        % 時系列データ
+        Mxc = zeros(8760,1);
+        
+        for dd = 1:365
+            for hh = 1:24
+                
+                % 1月1日0時からの時間数
+                num = 24*(dd-1)+hh;
+                
+                tmp = Qps(num,1)/Qpsr; % 負荷率
+                
+                if tmp > 0    
+                    ix = mytfunc_countMX(tmp,mxL);
+                    Mxc(num,1) = ix;
+                end
+                
+            end
+        end
+        
     case {1}
+        
+        % マトリックス
+        Mxc = zeros(1,length(mxL)); % 冷房マトリックス
         
         % 時刻別にマトリックスに格納していく
         for dd = 1:365
@@ -37,6 +59,9 @@ switch MODE
         end
         
     case {2,3}
+        
+        % マトリックス
+        Mxc = zeros(1,length(mxL)); % 冷房マトリックス
         
         Lpump = (Qps./Tps.*1000./3600)./Qpsr;
         Tpump = Tps;

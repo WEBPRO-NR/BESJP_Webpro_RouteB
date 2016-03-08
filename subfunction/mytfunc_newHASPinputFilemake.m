@@ -187,7 +187,6 @@ end
 
 
 
-
 %% newHASP入力ファイル生成
 
 % プロジェクト名称
@@ -238,7 +237,21 @@ inputdata{13,:} = 'EXPS SE      90.0315.00  0  0     0     0     0     0   0.0  
 
 % 外壁構成
 for i = 1:length(conf_wall)
-    inputdata = [inputdata; conf_wall(i).WCON];
+    
+    % 重複を削除
+    check = 0;
+    if i > 1
+        for ipre = 1:i-1
+            if strcmp(conf_wall(i).WCON(1:8),conf_wall(ipre).WCON(1:8))
+                check = 1;
+            end
+        end
+    end
+  
+    if check == 0
+        inputdata = [inputdata; conf_wall(i).WCON];
+    end
+    
 end
 
 % 内壁追加
@@ -250,7 +263,7 @@ switch climateAREA
     case {'1','Ia','2','Ib'}
         inputdata = [inputdata; 'SEAS         2  2  2  2  3  3  1  1  1  3  2  2'];
     case {'3','II','4','III','5','IVa','6','IVb','7','V'}
-        inputdata = [inputdata; 'SEAS         2  2  2  3  3  1  1  1  1  3  2  2'];
+        inputdata = [inputdata; 'SEAS         2  2  2  3  3  1  1  1  1  3  3  2'];
     case {'8','VI'}
         inputdata = [inputdata; 'SEAS         2  2  2  3  1  1  1  1  1  1  3  3'];
 end
@@ -364,20 +377,20 @@ fclose(fid); % ファイルクローズ
 
 
 %% 設定ファイル生成
-eval(['settingdata{1,:} = ''newHASPinput_',roomName,'.txt'';'])
-settingdata{2,:} = climatedatafile;
-settingdata{3,:} = 'out20.dat';
-settingdata{4,:} = 'newhasp\wndwtabl.dat';
-settingdata{5,:} = 'newhasp\wcontabl.dat';
-
-
-eval(['fid = fopen(''NHKsetting_',roomName,'.txt'',''wt'');']) % 書き込み用にファイルオープン
-[rows,~] = size(settingdata);
-for i = 1:rows
-    fprintf(fid, '%s,', settingdata{i,1:end-1}); % 文字列の書き出し
-    fprintf(fid, '%s\n', settingdata{i,end}); % 行末の文字列は、改行を含めて出力
-end
-fclose(fid); % ファイルクローズ
+% eval(['settingdata{1,:} = ''newHASPinput_',roomName,'.txt'';'])
+% settingdata{2,:} = climatedatafile;
+% settingdata{3,:} = 'out20.dat';
+% settingdata{4,:} = 'newhasp\wndwtabl.dat';
+% settingdata{5,:} = 'newhasp\wcontabl.dat';
+% 
+% 
+% eval(['fid = fopen(''NHKsetting_',roomName,'.txt'',''wt'');']) % 書き込み用にファイルオープン
+% [rows,~] = size(settingdata);
+% for i = 1:rows
+%     fprintf(fid, '%s,', settingdata{i,1:end-1}); % 文字列の書き出し
+%     fprintf(fid, '%s\n', settingdata{i,end}); % 行末の文字列は、改行を含めて出力
+% end
+% fclose(fid); % ファイルクローズ
 
 
 y = 0;

@@ -160,7 +160,7 @@ eval(['climatedatafile  = ''./weathdat/C1_',cell2mat(climateDatabase),''';'])
 [ToutALL,XouALL,IodALL,IosALL,InnALL] = mytfunc_climatedataRead(climatedatafile);
 [perDB_WEATHER,perDB_WEATHERita] = mytfunc_climatedataCalc(phi,longi,ToutALL,XouALL,IodALL,IosALL,InnALL);
 
-perDB_WEATHER = perDB_WEATHERita;
+% perDB_WEATHER = perDB_WEATHERita;
 
 % äOãCâ∑ [Åé]
 Toa_ave = perDB_WEATHER(:,4);

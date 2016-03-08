@@ -42,7 +42,7 @@ for iRoom = 11:size(commonDataCell,1)
     
     if isempty(commonDataCell{iRoom,1}) && isempty(commonDataCell{iRoom,2})
         
-%         eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iRoom),'行目'')'])
+        %         eval(['disp(''空白行を飛ばします： ',filename,'　の ',int2str(iRoom),'行目'')'])
         
     else
         
@@ -74,6 +74,8 @@ for iRoom = 11:size(commonDataCell,1)
                 roomBuildingType   = [roomBuildingType; 'MeetingPlace'];
             case '工場等'
                 roomBuildingType   = [roomBuildingType; 'Factory'];
+            case '共同住宅'
+                roomBuildingType   = [roomBuildingType; 'ApartmentHouse'];
             otherwise
                 error('建物用途 %s は無効です',commonDataCell{iRoom,3})
         end

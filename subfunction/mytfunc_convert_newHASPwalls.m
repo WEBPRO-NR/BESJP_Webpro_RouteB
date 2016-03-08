@@ -17,6 +17,10 @@ switch WNUM
         Mnum = '22';
     case '44'  % 気泡コンクリート
         Mnum = '24';
+    case '45'  % コンクリートブロック（重量）
+        Mnum = '25';
+    case '46'  % コンクリートブロック（軽量）
+        Mnum = '26';
     case '47'  % セメント・モルタル
         Mnum = '27';
     case '103'  % アスファルト類
@@ -27,6 +31,11 @@ switch WNUM
         Mnum = '36';
     case '203'  % 吹付け硬質ウレタンフォームＡ種１
         Mnum = '85';
+    case '101'  % ビニル系床材
+        Mnum = '41';
+    case '22'  % 土壌
+        Mnum = '15';
+        
     otherwise
         error('mytfunc_convert_newHASPwalls：建材が登録されていません')
 end

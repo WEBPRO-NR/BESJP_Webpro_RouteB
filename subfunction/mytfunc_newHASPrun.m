@@ -14,7 +14,7 @@
 %   QroomHour：時刻別室負荷　　　[MJ/h]
 %-----------------------------------------------------------------------------------------------------------
 
-function [QroomDc,QroomDh,QroomHour] = mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar)
+function [QroomDc,QroomDh,QroomHour] = mytfunc_newHASPrun(roomID,climateDatabase,roomClarendarNum,roomArea,OutputOptionVar,LoadMode)
 
 % 負荷計算結果格納用変数
 QroomDc   = zeros(365,length(roomID));    % 日積算冷房負荷 [MJ/day]
@@ -23,21 +23,27 @@ QroomHour = zeros(8760,length(roomID));   % 時刻別室負荷 [MJ/h]
 
 for iROOM = 1:length(roomID)
     
-    % 設定ファイル（NHKsetting.txt）の生成
-    eval(['NHKsetting{1} = ''newHASPinput_',roomID{iROOM},'.txt'';'])
-    eval(['NHKsetting{2} = ''./weathdat/C',num2str(roomClarendarNum(iROOM)),'_',cell2mat(climateDatabase),''';'])
-    NHKsetting{3} = 'out20.dat';
-    NHKsetting{4} = 'newhasp\wndwtabl.dat';
-    NHKsetting{5} = 'newhasp\wcontabl.dat';
-    
-    fid = fopen('NHKsetting.txt','w+');
-    for i=1:5
-        fprintf(fid,'%s\r\n',NHKsetting{i});
+    if strcmp(LoadMode,'Read') == 0
+        
+        % 設定ファイル（NHKsetting.txt）の生成
+        eval(['NHKsetting{1} = ''newHASPinput_',roomID{iROOM},'.txt'';'])
+        eval(['NHKsetting{2} = ''./weathdat/C',num2str(roomClarendarNum(iROOM)),'_',cell2mat(climateDatabase),''';'])
+        NHKsetting{3} = 'out20.dat';
+        NHKsetting{4} = 'newhasp\wndwtabl.dat';
+        NHKsetting{5} = 'newhasp\wcontabl.dat';
+        
+        fid = fopen('NHKsetting.txt','w+');
+        for i=1:5
+            fprintf(fid,'%s\r\n',NHKsetting{i});
+        end
+        fclose(fid);
+        
+        % newHASPを実行
+        system('RunHasp.bat');
+        
+    else
+        disp('負荷計算結果を読み込みます')
     end
-    fclose(fid);
-    
-    % newHASPを実行
-    system('RunHasp.bat');
     
     % 結果ファイル読み込み
     % 1)年，2)月，3)日，4)曜日，5)時，6)分

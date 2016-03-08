@@ -1,5 +1,6 @@
 InputFiles/
 ★結果ビューア/
+★参考/
 .DS_Store
 XMLfileMake/csv2xmlexe/
 XMLfileMake/output.xml
@@ -7,3 +8,5 @@ subfunction/*.back
 database/WCON.csv
 database/WIND.csv
 ./run.m
+compiled/
+
