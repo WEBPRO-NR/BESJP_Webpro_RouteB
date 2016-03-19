@@ -17,13 +17,13 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_L_run(inputfilename,OutputOption)
+% function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% inputfilename = 'model.xml';
-% addpath('./subfunction/')
-% OutputOption = 'ON';
+clear
+clc
+inputfilename = 'model.xml';
+addpath('./subfunction/')
+OutputOption = 'ON';
 
 
 %% 設定
@@ -92,11 +92,8 @@ for iROOM = 1:numOfRoom
         ControlFlag_C2{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C2;
         ControlFlag_C3{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C3;
         ControlFlag_C4{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C4;
-        ControlFlag_C5{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C5;
-        ControlFlag_C6{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.ControlFlag_C6;
         
-        % ユニットタイプ
-        UnitType{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.UnitType;
+        % 器具名称
         UnitName{iROOM,iUNIT} = model.LightingSystems.LightingRoom(iROOM).LightingUnit(iUNIT).ATTRIBUTE.UnitName;
         
     end
@@ -179,91 +176,71 @@ for iROOM = 1:numOfRoom
             hosei_C1_name{iROOM,iUNIT} = ' ';
         elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'dimmer')
             hosei_C1(iROOM,iUNIT) = 0.80;
-            hosei_C1_name{iROOM,iUNIT} = '廊下(減)';
+            hosei_C1_name{iROOM,iUNIT} = '減光方式';
         elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'onoff')
             hosei_C1(iROOM,iUNIT) = 0.70;
-            hosei_C1_name{iROOM,iUNIT} = '廊下(点滅)';
-        elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'sensing64')
+            hosei_C1_name{iROOM,iUNIT} = '点滅方式';
+        elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'limitedVariable')
             hosei_C1(iROOM,iUNIT) = 0.95;
-            hosei_C1_name{iROOM,iUNIT} = '事(6.4m)';
-        elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'sensing32')
-            hosei_C1(iROOM,iUNIT) = 0.85;
-            hosei_C1_name{iROOM,iUNIT} = '事(3.2m)';
-        elseif strcmp(ControlFlag_C1(iROOM,iUNIT),'eachunit')
-            hosei_C1(iROOM,iUNIT) = 0.80;
-            hosei_C1_name{iROOM,iUNIT} = '事(個)';
+            hosei_C1_name{iROOM,iUNIT} = '下限調光方式';
         else
             error('在室検知制御の方式が不正です')
         end
         
-        % タイムスケジュール制御
+        % 明るさ検知制御
         if strcmp(ControlFlag_C2(iROOM,iUNIT),'None')
             hosei_C2(iROOM,iUNIT) = 1.0;
             hosei_C2_name{iROOM,iUNIT} = ' ';
-        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'dimmer')
-            hosei_C2(iROOM,iUNIT) = 0.95;
-            hosei_C2_name{iROOM,iUNIT} = '減光';
-        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'onoff')
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable')
             hosei_C2(iROOM,iUNIT) = 0.90;
-            hosei_C2_name{iROOM,iUNIT} = '点滅';
+            hosei_C2_name{iROOM,iUNIT} = '調光方式';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variableWithBlind')
+            hosei_C2(iROOM,iUNIT) = 0.85;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式(自動制御ブラインド併用)';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'onoff')
+            hosei_C2(iROOM,iUNIT) = 0.80;
+            hosei_C2_name{iROOM,iUNIT} = '点滅方式';
+        else
+            error('昼光利用制御の方式が不正です')
+        end
+        
+        % タイムスケジュール制御
+        if strcmp(ControlFlag_C3(iROOM,iUNIT),'None')
+            hosei_C3(iROOM,iUNIT) = 1.0;
+            hosei_C3_name{iROOM,iUNIT} = ' ';
+        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'dimmer')
+            hosei_C3(iROOM,iUNIT) = 0.95;
+            hosei_C3_name{iROOM,iUNIT} = '減光';
+        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'onoff')
+            hosei_C3(iROOM,iUNIT) = 0.90;
+            hosei_C3_name{iROOM,iUNIT} = '点滅';
         else
             error('タイムスケジュール制御の方式が不正です')
         end
         
         % 初期照度補正制御
-        if strcmp(ControlFlag_C3(iROOM,iUNIT),'False')
-            hosei_C3(iROOM,iUNIT) = 1.0;
-            hosei_C3_name{iROOM,iUNIT} = ' ';
-        elseif strcmp(ControlFlag_C3(iROOM,iUNIT),'True')
-            hosei_C3(iROOM,iUNIT) = 0.85;
-            hosei_C3_name{iROOM,iUNIT} = '有';
+        if strcmp(ControlFlag_C4(iROOM,iUNIT),'False')
+            hosei_C4(iROOM,iUNIT) = 1.0;
+            hosei_C4_name{iROOM,iUNIT} = ' ';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'timerLED')
+            hosei_C4(iROOM,iUNIT) = 0.95;
+            hosei_C4_name{iROOM,iUNIT} = 'タイマ方式(LED)';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'timerFLU')
+            hosei_C4(iROOM,iUNIT) = 0.85;
+            hosei_C4_name{iROOM,iUNIT} = 'タイマ方式(蛍光灯)';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'sensorLED')
+            hosei_C4(iROOM,iUNIT) = 0.95;
+            hosei_C4_name{iROOM,iUNIT} = 'センサ方式(LED)';
+        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'sensorFLU')
+            hosei_C4(iROOM,iUNIT) = 0.85;
+            hosei_C4_name{iROOM,iUNIT} = 'センサ方式(蛍光灯)';
         else
-            ControlFlag_C3(iROOM,iUNIT)
+            ControlFlag_C4(iROOM,iUNIT)
             error('初期照度補正制御の方式が不正です')
         end
         
-        % 昼光利用制御
-        if strcmp(ControlFlag_C4(iROOM,iUNIT),'None')
-            hosei_C4(iROOM,iUNIT) = 1.0;
-            hosei_C4_name{iROOM,iUNIT} = ' ';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithBlind')
-            hosei_C4(iROOM,iUNIT) = 0.85;
-            hosei_C4_name{iROOM,iUNIT} = '昼片VB有';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'eachSideWithoutBlind')
-            hosei_C4(iROOM,iUNIT) = 0.90;
-            hosei_C4_name{iROOM,iUNIT} = '昼片VB無';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'bothSidesWithBlind')
-            hosei_C4(iROOM,iUNIT) = 0.75;
-            hosei_C4_name{iROOM,iUNIT} = '昼両VB有';
-        elseif strcmp(ControlFlag_C4(iROOM,iUNIT),'bothSidesWithoutBlind')
-            hosei_C4(iROOM,iUNIT) = 0.80;
-            hosei_C4_name{iROOM,iUNIT} = '昼両VB無';
-        else
-            error('昼光利用制御の方式が不正です')
-        end
-        
-        if strcmp(ControlFlag_C5(iROOM,iUNIT),'False')
-            hosei_C5(iROOM,iUNIT) = 1;
-            hosei_C5_name{iROOM,iUNIT} = '　';
-        elseif strcmp(ControlFlag_C5(iROOM,iUNIT),'True')
-            hosei_C5(iROOM,iUNIT) = 0.8;
-            hosei_C5_name{iROOM,iUNIT} = '有';
-        else
-            error('明るさ感知制御の方式が不正です')
-        end
-        
-        if strcmp(ControlFlag_C6(iROOM,iUNIT),'False')
-            hosei_C6(iROOM,iUNIT) = 1;
-            hosei_C6_name{iROOM,iUNIT} = '　';
-        elseif strcmp(ControlFlag_C6(iROOM,iUNIT),'True')
-            hosei_C6(iROOM,iUNIT) = 0.95;
-            hosei_C6_name{iROOM,iUNIT} = '有';
-        else
-            error('照度調整調光制御の方式が不正です')
-        end
-        
         hosei_ALL(iROOM,iUNIT) = hosei_C1(iROOM,iUNIT)*hosei_C2(iROOM,iUNIT)*...
-            hosei_C3(iROOM,iUNIT)*hosei_C4(iROOM,iUNIT)*hosei_C5(iROOM,iUNIT)*hosei_C6(iROOM,iUNIT);
+            hosei_C3(iROOM,iUNIT)*hosei_C4(iROOM,iUNIT);
         
     end
 end
@@ -271,10 +248,10 @@ end
 %% エネルギー消費量計算
 
 % 設計値 Edesign [MJ/年]
-Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
+Edesign_noRI_MWh = repmat(timeL,1,max(numofUnit)).*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4) ./1000000;
 Edesign_noRI_MJ  = 9760.*Edesign_noRI_MWh;
 Edesign_MWh      = repmat(timeL,1,max(numofUnit)).*repmat(hosei_RI,1,max(numofUnit))...
-    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4.*hosei_C5.*hosei_C6) ./1000000;
+    .*Power.*Count.*(hosei_C1.*hosei_C2.*hosei_C3.*hosei_C4) ./1000000;
 Edesign_MJ       = 9760.*Edesign_MWh;
 
 % 設計値 Edesign_m2 [MJ/m2年]
@@ -349,7 +326,6 @@ if OutputOptionVar == 1
                     num2str(RoomArea(iROOM)),',',...
                     num2str(RoomIndex(iROOM)),',',...
                     num2str(hosei_RI(iROOM)),',',...
-                    UnitType(iROOM,iUNIT),',',...
                     UnitName(iROOM,iUNIT),',',...
                     num2str(Power(iROOM,iUNIT)),',',...
                     num2str(Count(iROOM,iUNIT)),',',...
@@ -359,8 +335,6 @@ if OutputOptionVar == 1
                     hosei_C2_name(iROOM,iUNIT),',',...
                     hosei_C3_name(iROOM,iUNIT),',',...
                     hosei_C4_name(iROOM,iUNIT),',',...
-                    hosei_C5_name(iROOM,iUNIT),',',...
-                    hosei_C6_name(iROOM,iUNIT),',',...
                     num2str(hosei_ALL(iROOM,iUNIT)),',',...
                     num2str(timeL(iROOM)),',',...
                     num2str(Edesign_MJ(iROOM,iUNIT)),',',...
@@ -379,7 +353,6 @@ if OutputOptionVar == 1
                     ',',...
                     ',',...
                     ',',...
-                    UnitType(iROOM,iUNIT),',',...
                     UnitName(iROOM,iUNIT),',',...
                     num2str(Power(iROOM,iUNIT)),',',...
                     num2str(Count(iROOM,iUNIT)),',',...
@@ -389,8 +362,6 @@ if OutputOptionVar == 1
                     hosei_C2_name(iROOM,iUNIT),',',...
                     hosei_C3_name(iROOM,iUNIT),',',...
                     hosei_C4_name(iROOM,iUNIT),',',...
-                    hosei_C5_name(iROOM,iUNIT),',',...
-                    hosei_C6_name(iROOM,iUNIT),',',...
                     num2str(hosei_ALL(iROOM,iUNIT)),',',...
                     ',',...
                     num2str(Edesign_MJ(iROOM,iUNIT)),',',...

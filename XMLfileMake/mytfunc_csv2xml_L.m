@@ -85,40 +85,29 @@ for iUNIT = 11:size(LightDataCell,1)
     else
         LightRoomIndex  = [LightRoomIndex;LightDataCell{iUNIT,10}];
     end
-   
-    % 照明器具形式
-    if isempty(LightDataCell{iUNIT,11})
-        LightUnitType   = [LightUnitType;'Null'];
-    else
-        LightUnitType   = [LightUnitType;LightDataCell{iUNIT,11}];
-    end
-    
+       
     % 照明器具名称
-    if isempty(LightDataCell{iUNIT,12})
+    if isempty(LightDataCell{iUNIT,11})
         LightUnitName   = [LightUnitName;'Null'];
     else
-        LightUnitName   = [LightUnitName;LightDataCell(iUNIT,12)];
+        LightUnitName   = [LightUnitName;LightDataCell(iUNIT,11)];
     end
     
     % 消費電力
-    LightPower = [LightPower;str2double(LightDataCell(iUNIT,13))];
+    LightPower = [LightPower;str2double(LightDataCell(iUNIT,12))];
     
     % 台数
-    LightCount = [LightCount;str2double(LightDataCell(iUNIT,14))];
+    LightCount = [LightCount;str2double(LightDataCell(iUNIT,13))];
     
-    % 在室検知制御
-    if isempty(LightDataCell{iUNIT,15}) == 0
-        if strcmp(LightDataCell(iUNIT,15),'減光')
+    % 在室検知制御（Ver2から選択肢変更）
+    if isempty(LightDataCell{iUNIT,14}) == 0
+        if strcmp(LightDataCell(iUNIT,14),'減光方式')
             LightControlFlag_C1 = [LightControlFlag_C1;'dimmer'];
-        elseif strcmp(LightDataCell(iUNIT,15),'一括点滅')
+        elseif strcmp(LightDataCell(iUNIT,14),'点滅方式')
             LightControlFlag_C1 = [LightControlFlag_C1;'onoff'];
-        elseif strcmp(LightDataCell(iUNIT,15),'6.4m角点滅')
-            LightControlFlag_C1 = [LightControlFlag_C1;'sensing64'];
-        elseif strcmp(LightDataCell(iUNIT,15),'3.2m角点滅）')
-            LightControlFlag_C1 = [LightControlFlag_C1;'sensing32'];
-        elseif strcmp(LightDataCell(iUNIT,15),'器具毎点滅')
-            LightControlFlag_C1 = [LightControlFlag_C1;'eachunit'];
-        elseif strcmp(LightDataCell(iUNIT,15),'無')
+        elseif strcmp(LightDataCell(iUNIT,14),'下限調光方式')
+            LightControlFlag_C1 = [LightControlFlag_C1;'limitedVariable'];
+        elseif strcmp(LightDataCell(iUNIT,14),'無')
             LightControlFlag_C1 = [LightControlFlag_C1;'None'];
         else
             error('照明制御C1: 不正な選択肢です')
@@ -127,13 +116,15 @@ for iUNIT = 11:size(LightDataCell,1)
         LightControlFlag_C1 = [LightControlFlag_C1;'None'];
     end
     
-    % タイムスケジュール制御
-    if isempty(LightDataCell{iUNIT,16}) == 0
-        if strcmp(LightDataCell(iUNIT,16),'減光')
-            LightControlFlag_C2 = [LightControlFlag_C2;'dimmer'];
-        elseif strcmp(LightDataCell(iUNIT,16),'消灯')
+    % 昼光利用制御（Ver2から選択肢変更）
+    if isempty(LightDataCell{iUNIT,15}) == 0
+        if strcmp(LightDataCell(iUNIT,15),'調光方式')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式(自動制御ブラインド併用)')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variableWithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,15),'点滅方式')
             LightControlFlag_C2 = [LightControlFlag_C2;'onoff'];
-        elseif strcmp(LightDataCell(iUNIT,16),'無')
+        elseif strcmp(LightDataCell(iUNIT,15),'無')
             LightControlFlag_C2 = [LightControlFlag_C2;'None'];
         else
             error('照明制御C2: 不正な選択肢です')
@@ -142,64 +133,39 @@ for iUNIT = 11:size(LightDataCell,1)
         LightControlFlag_C2 = [LightControlFlag_C2;'None'];
     end
     
-    % 初期照度補正
-    if isempty(LightDataCell{iUNIT,17}) == 0
-        if strcmp(LightDataCell(iUNIT,17),'有')
-            LightControlFlag_C3 = [LightControlFlag_C3;'True'];
-        elseif strcmp(LightDataCell(iUNIT,17),'無')
-            LightControlFlag_C3 = [LightControlFlag_C3;'False'];
+    
+    % タイムスケジュール制御
+    if isempty(LightDataCell{iUNIT,16}) == 0
+        if strcmp(LightDataCell(iUNIT,16),'減光方式')
+            LightControlFlag_C3 = [LightControlFlag_C3;'dimmer'];
+        elseif strcmp(LightDataCell(iUNIT,16),'点滅方式')
+            LightControlFlag_C3 = [LightControlFlag_C3;'onoff'];
+        elseif strcmp(LightDataCell(iUNIT,16),'無')
+            LightControlFlag_C3 = [LightControlFlag_C3;'None'];
         else
             error('照明制御C3: 不正な選択肢です')
         end
     else
-        LightControlFlag_C3 = [LightControlFlag_C3;'False'];
+        LightControlFlag_C3 = [LightControlFlag_C3;'None'];
     end
     
-    % 昼光利用制御
-    if isempty(LightDataCell{iUNIT,18}) == 0
-        if strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御なし')
-            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithoutBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'片側採光かつブラインド自動制御あり')
-            LightControlFlag_C4 = [LightControlFlag_C4;'eachSideWithBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御なし')
-            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithoutBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'両側採光かつブラインド自動制御あり')
-            LightControlFlag_C4 = [LightControlFlag_C4;'bothSidesWithBlind'];
-        elseif strcmp(LightDataCell(iUNIT,18),'無')
-            LightControlFlag_C4 = [LightControlFlag_C4;'None'];
+    % 初期照度補正機能
+    if isempty(LightDataCell{iUNIT,17}) == 0
+        if strcmp(LightDataCell(iUNIT,17),'タイマ方式(LED)')
+            LightControlFlag_C4 = [LightControlFlag_C4;'timerLED'];
+        elseif strcmp(LightDataCell(iUNIT,17),'タイマ方式(蛍光灯)')
+            LightControlFlag_C4 = [LightControlFlag_C4;'timerFLU'];
+        elseif strcmp(LightDataCell(iUNIT,17),'センサ方式(LED)')
+            LightControlFlag_C4 = [LightControlFlag_C4;'sensorLED'];
+        elseif strcmp(LightDataCell(iUNIT,17),'センサ方式(蛍光灯)')
+            LightControlFlag_C4 = [LightControlFlag_C4;'sensorFLU'];
+        elseif strcmp(LightDataCell(iUNIT,17),'無')
+            LightControlFlag_C4 = [LightControlFlag_C4;'False'];
         else
-            LightDataCell(iUNIT,18)
             error('照明制御C4: 不正な選択肢です')
         end
     else
-        LightControlFlag_C4 = [LightControlFlag_C4;'None'];
-    end
-    
-    
-    % 明るさ感知制御
-    if isempty(LightDataCell{iUNIT,19}) == 0
-        if strcmp(LightDataCell(iUNIT,19),'有')
-            LightControlFlag_C5 = [LightControlFlag_C5;'True'];
-        elseif strcmp(LightDataCell(iUNIT,19),'無')
-            LightControlFlag_C5 = [LightControlFlag_C5;'False'];
-        else
-            error('照明制御C5: 不正な選択肢です')
-        end
-    else
-        LightControlFlag_C5 = [LightControlFlag_C5;'False'];
-    end
-    
-    % 照度調整調光制御
-    if isempty(LightDataCell{iUNIT,20}) == 0
-        if strcmp(LightDataCell(iUNIT,20),'有')
-            LightControlFlag_C6 = [LightControlFlag_C6;'True'];
-        elseif strcmp(LightDataCell(iUNIT,20),'無')
-            LightControlFlag_C6 = [LightControlFlag_C6;'False'];
-        else
-            error('照明制御C6: 不正な選択肢です')
-        end
-    else
-        LightControlFlag_C6 = [LightControlFlag_C6;'False'];
+        LightControlFlag_C4 = [LightControlFlag_C4;'False'];
     end
     
 end
@@ -287,7 +253,6 @@ for iROOM = 1:numOfRoom
                     Count = Count + 1;
        
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ID              = UnitID(iDB);
-                    xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.UnitType        = LightUnitType{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.UnitName        = LightUnitName{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.Power           = LightPower{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.Count           = LightCount{iDB};
@@ -295,8 +260,6 @@ for iROOM = 1:numOfRoom
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C2  = LightControlFlag_C2{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C3  = LightControlFlag_C3{iDB};
                     xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C4  = LightControlFlag_C4{iDB};
-                    xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C5  = LightControlFlag_C5{iDB};
-                    xmldata.LightingSystems.LightingRoom(iROOM).LightingUnit(Count).ATTRIBUTE.ControlFlag_C6  = LightControlFlag_C6{iDB};
                     
                 end
             end
