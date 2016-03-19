@@ -40,7 +40,7 @@
 clear
 clc
 addpath('./subfunction/')
-INPUTFILENAME = 'model03_AREA8.xml';
+INPUTFILENAME = 'model.xml';
 OutputOption = 'ON';
 varargin{1} = '3';
 varargin{2} = 'Calc';
@@ -289,7 +289,7 @@ toc
 %%-----------------------------------------------------------------------------------------------------------
 %% １）室負荷の計算
 
-% 熱貫流率、日射侵入率、SCC、SCRの計算 (庇の効果は見込んでいない)
+% 熱貫流率、日射熱取得率、SCC、SCRの計算 (庇の効果は見込んでいない)
 [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,...
     WindowSCCList,WindowSCRList] = ...
     mytfunc_calcK(DBWCONMODE,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
@@ -312,7 +312,7 @@ switch MODE
         
         % 気象データ読み込み
         [OAdataAll,OAdataDay,OAdataNgt,OAdataHourly] = mytfunc_weathdataRead('weath.dat');
-%         delete weath.dat
+        delete weath.dat
         
     case {3}
         

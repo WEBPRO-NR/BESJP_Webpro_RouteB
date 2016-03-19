@@ -111,7 +111,7 @@ for iWALL = 1:length(INPUT.AirConditioningSystem.WallConfigure)
     end
 end
 
-% WIND.csv の生成
+% WIND.csv の生成（2016/3/20更新）
 confG = {};
 
 for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
@@ -119,17 +119,23 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
     % 名称
     confG{2*iWIND-1,1} = strcat(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Name,'_0');
     confG{2*iWIND,1}   = strcat(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Name,'_1');
-    % 窓種類
-    confG{2*iWIND-1,2} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass;
-    confG{2*iWIND,2}   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeClass;
-    % 窓番号
-    confG{2*iWIND-1,3} = int2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber);
-    confG{2*iWIND,3}   = int2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.WindowTypeNumber);
+    % 建具の種類
+    confG{2*iWIND-1,2} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType;
+    confG{2*iWIND,2}   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType;
+    % ガラス番号
+    confG{2*iWIND-1,3} = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassTypeNumber;
+    confG{2*iWIND,3}   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassTypeNumber;
     % ブラインド
-    confG{2*iWIND-1,4} = '0'; % ブラインドなし
-    confG{2*iWIND,4}   = '1';   % 明色ブラインドあり
+    confG{2*iWIND-1,4} = '0';  % ブラインドなし
+    confG{2*iWIND,4}   = '1';  % 明色ブラインドあり
+    % ガラスU値
+    confG{2*iWIND-1,5} = num2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassUvalue);
+    confG{2*iWIND,5}   = num2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassUvalue);
+    % ガラスη値
+    confG{2*iWIND-1,6} = num2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassMvalue);
+    confG{2*iWIND,6}   = num2str(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassMvalue);
     
-    % U値
+    % 窓の熱貫流率（U値）
     if strcmp(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue,'Null')
         WindowUvalue(2*iWIND-1,1) = NaN;
         WindowUvalue(2*iWIND,1)   = NaN;
@@ -137,7 +143,8 @@ for iWIND = 1:length(INPUT.AirConditioningSystem.WindowConfigure)
         WindowUvalue(2*iWIND-1,1) = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue;
         WindowUvalue(2*iWIND,1)   = INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Uvalue;
     end
-    % μ値
+    
+    % 窓の日射熱取得率（η値）
     if strcmp(INPUT.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Mvalue,'Null')
         WindowMvalue(2*iWIND-1,1) = NaN;
         WindowMvalue(2*iWIND,1)   = NaN;
