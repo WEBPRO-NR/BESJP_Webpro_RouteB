@@ -137,84 +137,141 @@ for iREFSET = 1:length(RefListName)
                 
                 iCOUNT = iCOUNT + 1;
                 
-                if strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP';
-                elseif strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ(圧縮機台数制御)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_MultiCompressor';
-                elseif strcmp(refListDataCell(iDB,6),'水冷式スクリューチラー')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw';
-                elseif strcmp(refListDataCell(iDB,6),'水冷式スクロールチラー')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll';
+                if strcmp(refListDataCell(iDB,6),'空冷ヒートポンプ')  % 平成25年版用（基準値計算用に残す）
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_AirSource';    
+                elseif strcmp(refListDataCell(iDB,6),'ビル用マルチエアコン(電気式)')  % 平成25年版用（基準値計算用に残す）
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_AirSource';
+                elseif strcmp(refListDataCell(iDB,6),'ビル用マルチエアコン(都市ガス式)')  % 平成25年版用（基準値計算用に残す）
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'ルームエアコン')  % 平成25年版用（基準値計算用に残す）
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'RoomAirConditioner';
+                elseif strcmp(refListDataCell(iDB,6),'FF式暖房機(都市ガス)')  % 平成25年版用（基準値計算用に残す）
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'FFtypeHeater_CityGas';                
+                    
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(空冷式)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_AirSource';
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(空冷式モジュール形)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_AirSource_Module';
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_WaterSource';
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式地中熱タイプ1)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_GroundSource_T1';              
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式地中熱タイプ2)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_GroundSource_T2';                 
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式地中熱タイプ3)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_GroundSource_T3';              
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式地中熱タイプ4)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_GroundSource_T4';         
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(水冷式地中熱タイプ5)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_GroundSource_T5';
+                    
+                elseif strcmp(refListDataCell(iDB,6),'スクリュー冷凍機')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'ScrewChiller';
                 elseif strcmp(refListDataCell(iDB,6),'ターボ冷凍機')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboChiller';
                 elseif strcmp(refListDataCell(iDB,6),'インバータターボ冷凍機')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_INV';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboChiller_INV';
                 elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機(蓄熱時)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine_Storage';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'BrineTurboChiller_Storage';        
                 elseif strcmp(refListDataCell(iDB,6),'ブラインターボ冷凍機(追掛時)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'TurboREF_Brine_nonStorage';
-                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式ヒートポンプ')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_ICE';
-                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用空冷式ヒートポンプ(圧縮機台数制御)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AirSourceHP_MultiCompresor_ICE';
-                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷式スクリューチラー')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Screw_ICE';
-                elseif strcmp(refListDataCell(iDB,6),'氷蓄熱用水冷式スクロールチラー')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterCoolingChiller_Scroll_ICE';
-                elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機(都市ガス)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機(LPG)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF_LPG';
-                elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機(重油)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF_Oil';
-                elseif strcmp(refListDataCell(iDB,6),'直焚吸収冷温水機(灯油)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionWCB_DF_Kerosene';
-                elseif strcmp(refListDataCell(iDB,6),'蒸気吸収冷凍機')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_Steam';
-                elseif strcmp(refListDataCell(iDB,6),'温水焚吸収冷凍機')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbsorptionChiller_HotWater';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'BrineTurboChiller';      
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(空冷式氷蓄熱用)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_AirSource_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'ウォータチリングユニット(空冷式モジュール形氷蓄熱用)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterChillingUnit_AirSource_Module_ICE';
+                elseif strcmp(refListDataCell(iDB,6),'スクリュー冷凍機(氷蓄熱用)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'ScrewChiller_ICE';            
+                    
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(都市ガス)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(冷却水変流量、都市ガス)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_CityGas_CTVWV';    
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(LPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_LPG';
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(冷却水変流量、LPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_LPG_CTVWV';
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(重油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Oil';          
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(冷却水変流量、重油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Oil_CTVWV';
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(灯油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Kerosene';   
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(冷却水変流量、灯油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Kerosene_CTVWV';           
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(蒸気)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Steam';        
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(温水)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_HotWater';        
                 elseif strcmp(refListDataCell(iDB,6),'小型貫流ボイラ(都市ガス)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_CityGas';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_CityGas';            
                 elseif strcmp(refListDataCell(iDB,6),'小型貫流ボイラ(LPG)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_LPG';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_LPG';        
                 elseif strcmp(refListDataCell(iDB,6),'小型貫流ボイラ(重油)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_Oil';
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_Oil'; 
                 elseif strcmp(refListDataCell(iDB,6),'小型貫流ボイラ(灯油)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'OnePassBoiler_Kerosene';
-                elseif strcmp(refListDataCell(iDB,6),'真空温水ヒータ(都市ガス)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'VacuumBoiler_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'真空温水ヒータ(LPG)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'VacuumBoiler_LPG';
-                elseif strcmp(refListDataCell(iDB,6),'真空温水ヒータ(重油)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'VacuumBoiler_Oil';
-                elseif strcmp(refListDataCell(iDB,6),'真空温水ヒータ(灯油)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'VacuumBoiler_Kerosene';
-                elseif strcmp(refListDataCell(iDB,6),'ビル用マルチエアコン(電気式)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'EHP';
-                elseif strcmp(refListDataCell(iDB,6),'ビル用マルチエアコン(都市ガス式)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GHP_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'ビル用マルチエアコン(LPG)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GHP_LPG';
-                elseif strcmp(refListDataCell(iDB,6),'ルームエアコン')
+                    
+                elseif strcmp(refListDataCell(iDB,6),'温水発生機(都市ガス)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HotWaterGenerator_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'温水発生機(LPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HotWaterGenerator_LPG';
+                elseif strcmp(refListDataCell(iDB,6),'温水発生機(重油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HotWaterGenerator_Oil';
+                elseif strcmp(refListDataCell(iDB,6),'温水発生機(灯油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HotWaterGenerator_Kerosene';
+                    
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(空冷式)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_AirSource';  
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式熱回収形)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_WaterSource_HR';         
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_WaterSource';
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式地中熱タイプ1)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_GroundSource_T1';        
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式地中熱タイプ2)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_GroundSource_T2';                    
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式地中熱タイプ3)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_GroundSource_T3';                
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式地中熱タイプ4)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_GroundSource_T4';                
+                elseif strcmp(refListDataCell(iDB,6),'パッケージエアコンディショナ(水冷式地中熱タイプ5)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'PackagedAirConditioner_GroundSource_T5';               
+                    
+                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(都市ガス)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(LPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_LPG';
+                    
+                elseif strcmp(refListDataCell(iDB,6),'ルームエアコンディショナ')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'RoomAirConditioner';
-                elseif strcmp(refListDataCell(iDB,6),'FF式暖房機(都市ガス)')
+                elseif strcmp(refListDataCell(iDB,6),'FF式ガス暖房機(都市ガス)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'FFtypeHeater_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'FF式暖房機(LPG)')
+                elseif strcmp(refListDataCell(iDB,6),'FF式ガス暖房機(LPG)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'FFtypeHeater_LPG';
-                elseif strcmp(refListDataCell(iDB,6),'FF式暖房機(灯油)')
+                elseif strcmp(refListDataCell(iDB,6),'FF式石油暖房機')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'FFtypeHeater_Kerosene';
+                    
                 elseif strcmp(refListDataCell(iDB,6),'地域熱供給(冷水)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_CoolingWater';
                 elseif strcmp(refListDataCell(iDB,6),'地域熱供給(温水)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_HeatingWater';
                 elseif strcmp(refListDataCell(iDB,6),'地域熱供給(蒸気)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'DHC_Steam';
+                    
                 elseif strcmp(refListDataCell(iDB,6),'熱交換器')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'HEX';
-                elseif strcmp(refListDataCell(iDB,6),'水熱源ヒートポンプエアコン')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WaterSourceHP';
-                elseif strcmp(refListDataCell(iDB,6),'地中熱ヒートポンプエアコン')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GroundSourceHP';
+                elseif strcmp(refListDataCell(iDB,6),'電気式ヒーター')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'ElectricalHeater';
+                elseif strcmp(refListDataCell(iDB,6),'電気蓄熱暖房器')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'ElectricalHeater_Storage';
+                elseif strcmp(refListDataCell(iDB,6),'温風暖房機(都市ガス)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'温風暖房機(LPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_LPG';
+                elseif strcmp(refListDataCell(iDB,6),'温風暖房機(重油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Oil';
+                elseif strcmp(refListDataCell(iDB,6),'温風暖房機(灯油)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Kerosene';                    
                 else
                     refListDataCell(iDB,6)
                     error('熱源種類が不正です。')

@@ -34,17 +34,17 @@
 %    2 : newHASPによる日別計算＋マトリックス計算
 %    3 : 簡略法による日別計算
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'model.xml';
-OutputOption = 'ON';
-varargin{1} = '3';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = 'model_Area6_Case01.xml';
+% OutputOption = 'ON';
+% varargin{1} = '3';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -156,26 +156,10 @@ switch climateAREA
         ToawbC = 0.8921.*ToadbC -1.0759;   % 湿球温度 [℃]
         ToawbH = 0.8921.*ToadbH -1.0759;   % 湿球温度 [℃]
         
-        TctwC  = ToawbC + 3;
+        TctwC  = ToawbC + 3;  % 冷却水温度 [℃]
+        TctwH  = 15.5.*ones(1,6);   % 水冷式の暖房時熱源水温度（暫定） [℃]
         
-        % 地中熱（暫定）
-        if GSHPtype == 1
-            TcgwH	=	0.182929422	.*ToadbH	+	2.420098004;
-            TcgwC	=	0.186644915 .*ToadbC	+	3.137248406;
-        elseif GSHPtype == 2
-            TcgwH	=	0.296121023	.*ToadbH	+	-0.751975914;
-            TcgwC	=	0.322031993	.*ToadbC	+	0.381251457;
-        elseif GSHPtype == 3
-            TcgwH	=	0.396627716 .*ToadbH	+	-3.156947825;
-            TcgwC	=	0.417503797	.*ToadbC	+	-1.503150699;
-        elseif GSHPtype == 4
-            TcgwH	=	0.457210895	.*ToadbH	+	-5.041624252;
-            TcgwC	=	0.489465271	.*ToadbC	+	-3.004020512;
-        elseif GSHPtype == 5
-            TcgwH	=	0.539462423	.*ToadbH	+	-6.717945074;
-            TcgwC	=	0.58884835	.*ToadbC	+	-4.477722755;
-        end
-        
+                
     case {'II','III','IVa','IVb','V','3','4','5','6','7'}
         WIN = [1:90,335:365]; MID = [91:151,274:334]; SUM = [152:273];
         
@@ -187,26 +171,10 @@ switch climateAREA
         ToawbC = 0.9034.*ToadbC -1.4545;   % 湿球温度 [℃]
         ToawbH = 0.9034.*ToadbH -1.4545;   % 湿球温度 [℃]
         
-        TctwC  = ToawbC + 3;  % 冷却水温度
-        
-        % 地中熱（暫定）
-        if GSHPtype == 1
-            TcgwH	=	0.120620643	.*ToadbH	+	14.1844492;
-            TcgwC	=	0.22050598	.*ToadbC	+	14.02490619;
-        elseif GSHPtype == 2
-            TcgwH	=	0.194151159	.*ToadbH	+	13.24117192;
-            TcgwC	=	0.353407336	.*ToadbC	+	13.11197807;
-        elseif GSHPtype == 3
-            TcgwH	=	0.250632943	.*ToadbH	+	12.47016603;
-            TcgwC	=	0.47423351	.*ToadbC	+	12.10377872;
-        elseif GSHPtype == 4
-            TcgwH	=	0.29558369	.*ToadbH	+	11.68810237;
-            TcgwC	=	0.599058018	.*ToadbC	+	10.95590189;
-        elseif GSHPtype == 5
-            TcgwH	=	0.34756464	.*ToadbH	+	10.72162586;
-            TcgwC	=	0.726391665	.*ToadbC	+	9.542248065;
-        end
+        TctwC  = ToawbC + 3;  % 冷却水温度 [℃]
+        TctwH  = 15.5.*ones(1,6);   % 水冷式の暖房時熱源水温度（暫定） [℃]
 
+        
     case {'VI','8'}
         WIN = [1:90]; MID = [91:120,305:365]; SUM = [121:304];
         
@@ -219,27 +187,9 @@ switch climateAREA
         ToawbC = 1.0372.*ToadbC -3.9758;   % 湿球温度 [℃]
         ToawbH = 1.0372.*ToadbH -3.9758;   % 湿球温度 [℃]
         
-        TctwC  = ToawbC + 3;
-        
-        % 地中熱（暫定）
-        if GSHPtype == 1
-            TcgwH	=	0.020256418	.*ToadbH	+	28.69645104;
-            TcgwC	=	0.275047886	.*ToadbC	+	26.3724137;
-        elseif GSHPtype == 2
-            TcgwH	=	0.029902613	.*ToadbH	+	32.4720929;
-            TcgwC	=	0.40394535	.*ToadbC	+	29.3222527;
-        elseif GSHPtype == 3
-            TcgwH	=	0.015471022	.*ToadbH	+	35.59983429;
-            TcgwC	=	0.565611222	.*ToadbC	+	30.20015864;
-        elseif GSHPtype == 4
-            TcgwH	=	0.035241737	.*ToadbH	+	37.03002326;
-            TcgwC	=	0.775585165	.*ToadbC	+	29.78485137;
-        elseif GSHPtype == 5
-            TcgwH	=	0.038464181	.*ToadbH	+	38.0707869;
-            TcgwC	=	0.947940354	.*ToadbC	+	28.95318153;
-        end
-
-                
+        TctwC  = ToawbC + 3;  % 冷却水温度 [℃]
+        TctwH  = 15.5.*ones(1,6);   % 水冷式の暖房時熱源水温度（暫定） [℃]
+ 
 end
 
 if groundTWread == 1
@@ -1274,6 +1224,293 @@ end
 
 disp('熱源負荷計算完了')
 toc
+
+
+%% 熱源特性を抜き出す（2016/3/21 mytscript_systemDef.m より移動）
+
+% 地中熱ヒートポンプ用係数
+gshp_ah = [8.0278, 13.0253, 16.7424, 19.3145, 21.2833];   % 地盤モデル：暖房時パラメータa
+gshp_bh = [-1.1462, -1.8689, -2.4651, -3.091, -3.8325];   % 地盤モデル：暖房時パラメータb
+gshp_ch = [-0.1128, -0.1846, -0.2643, -0.2926, -0.3474];  % 地盤モデル：暖房時パラメータc
+gshp_dh = [0.1256, 0.2023, 0.2623, 0.3085, 0.3629];       % 地盤モデル：暖房時パラメータd
+gshp_ac = [8.0633, 12.6226, 16.1703, 19.6565, 21.8702];   % 地盤モデル：冷房時パラメータa
+gshp_bc = [2.9083, 4.7711, 6.3128, 7.8071, 9.148];        % 地盤モデル：冷房時パラメータb
+gshp_cc = [0.0613, 0.0568, 0.1027, 0.1984, 0.249];        % 地盤モデル：冷房時パラメータc
+gshp_dc = [0.2178, 0.3509, 0.4697, 0.5903, 0.7154];       % 地盤モデル：冷房時パラメータd
+
+ghspToa_ave = [5.8, 7.5, 10.2, 11.6, 13.3, 15.7, 17.4, 22.7]; % 地盤モデル：年平均外気温
+gshpToa_h   = [-3, -0.8, 0, 1.1, 3.6, 6, 9.3, 17.5];          % 地盤モデル：暖房時平均外気温
+gshpToa_c   = [16.8,17,18.9,19.6,20.5,22.4,22.1,24.6];        % 地盤モデル：冷房時平均外気温
+
+% 冷房負荷と暖房負荷の比率（地中熱ヒートポンプ用）　← 冷房用と暖房用熱源は順に並んでいる
+ghsp_Rq = zeros(1,numOfRefs);
+for iREFc = 1:numOfRefs/2
+    Qcmax = abs( max(Qref(:,2*iREFc-1))); % 先に冷房
+    Qhmax = abs( max(Qref(:,2*iREFc)));   % 次に暖房
+    ghsp_Rq(2*iREFc-1) = (Qcmax-Qhmax)/(Qcmax+Qhmax);
+    ghsp_Rq(2*iREFc)   = (Qcmax-Qhmax)/(Qcmax+Qhmax);  
+end
+
+switch climateAREA
+    case {'Ia','1'}
+        iAREA = 1;
+    case {'Ib','2'}  
+        iAREA = 2;
+    case {'II','3'}
+        iAREA = 3;
+    case {'III','4'}
+        iAREA = 4;
+    case {'IVa','5'}
+        iAREA = 5;
+    case {'IVb','6'}
+        iAREA = 6;
+    case {'V','7'}
+        iAREA = 7;
+    case {'VI','8'}
+        iAREA = 8;
+    otherwise
+        error('地域区分が不正です')
+end
+
+
+for iREF = 1:numOfRefs
+    % 熱源機器別の設定
+    for iREFSUB = 1:refsetRnum(iREF)
+        
+        % 熱源種類
+        tmprefset = refset_Type{iREF,iREFSUB};
+        
+        refmatch = 0; % チェック用
+        
+        % データベースを検索
+        if isempty(tmprefset) == 0
+            
+            % 該当する箇所をすべて抜き出す
+            refParaSetALL = {};
+            for iDB = 2:size(perDB_refList,1)
+                if strcmp(perDB_refList(iDB,1),tmprefset)
+                    refParaSetALL = [refParaSetALL;perDB_refList(iDB,:)];
+                end
+            end
+            
+            % データベースファイルに熱源機器の特性がない場合
+            if isempty(refParaSetALL)
+                error('熱源 %s の特性が見つかりません',tmprefset)
+            end
+            
+            % 燃料種類＋一次エネルギー換算 [kW]
+            switch refParaSetALL{1,3}
+                case '電力'
+                    refInputType(iREF,iREFSUB) = 1;
+                    refset_MainPowerELE(iREF,iREFSUB) = (9760/3600)*refset_MainPower(iREF,iREFSUB);
+                case 'ガス'
+                    refInputType(iREF,iREFSUB) = 2;
+                    % refset_MainPowerELE(iREF,iREFSUB) = (45000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
+                case '重油'
+                    refInputType(iREF,iREFSUB) = 3;
+                    % refset_MainPowerELE(iREF,iREFSUB) = (41000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
+                case '灯油'
+                    refInputType(iREF,iREFSUB) = 4;
+                    % refset_MainPowerELE(iREF,iREFSUB) = (37000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
+                case '液化石油ガス'
+                    refInputType(iREF,iREFSUB) = 5;
+                    % refset_MainPowerELE(iREF,iREFSUB) = (50000/3600)*refset_MainPower(iREF,iREFSUB);  % 20130607 燃料消費量に変更
+                    refset_MainPowerELE(iREF,iREFSUB) = refset_MainPower(iREF,iREFSUB);
+                case '蒸気'
+                    refInputType(iREF,iREFSUB) = 6;
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                case '温水'
+                    refInputType(iREF,iREFSUB) = 7;
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                case '冷水'
+                    refInputType(iREF,iREFSUB) = 8;
+                    % エネルギー消費量＝生成熱量とする。
+                    refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
+                    refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                otherwise
+                    error('熱源 %s の燃料種別が不正です',tmprefset)
+            end
+            
+            % 冷却方式
+            switch refParaSetALL{1,4}
+                case '水'
+                    refHeatSourceType(iREF,iREFSUB) = 1;
+                case '空気'
+                    refHeatSourceType(iREF,iREFSUB) = 2;
+                case '不要'
+                    refHeatSourceType(iREF,iREFSUB) = 4;
+                case {'地盤1'}
+                    refHeatSourceType(iREF,iREFSUB) = 3;
+                    igsType = 1;
+                case {'地盤2'}
+                    refHeatSourceType(iREF,iREFSUB) = 3;
+                    igsType = 2;
+                case {'地盤3'}
+                    refHeatSourceType(iREF,iREFSUB) = 3;
+                    igsType = 3;
+                case {'地盤4'}
+                    refHeatSourceType(iREF,iREFSUB) = 3;
+                    igsType = 4;
+                case {'地盤5'}
+                    refHeatSourceType(iREF,iREFSUB) = 3;
+                    igsType = 5;
+                otherwise
+                    error('熱源 %s の冷却方式が不正です',tmprefset)
+            end
+            
+            % 能力比、入力比の変数
+            if refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 1   % 水冷／冷房
+                xT = TctwC;   % 冷却水温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 1 && REFtype(iREF) == 2   % 水冷／暖房
+                xT = TctwH;   % 冷却水温度
+                
+            elseif refHeatSourceType(iREF,iREFSUB) == 2 && REFtype(iREF) == 1   % 空冷／冷房
+                xT = ToadbC;  % 乾球温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 2 && REFtype(iREF) == 2   % 空冷／暖房
+                xT = ToawbH;  % 湿球温度
+                
+            elseif refHeatSourceType(iREF,iREFSUB) == 4 && REFtype(iREF) == 1   % 不要／冷房
+                xT = ToadbC;  % 乾球温度
+            elseif refHeatSourceType(iREF,iREFSUB) == 4 && REFtype(iREF) == 2   % 不要／暖房
+                xT = ToadbH;  % 乾球温度
+                
+            elseif refHeatSourceType(iREF,iREFSUB) == 3 && REFtype(iREF) == 1   % 地中熱／冷房
+
+                % 地盤からの還り温度（冷房）
+                xT = ( gshp_cc(igsType) * ghsp_Rq(iREF) + gshp_dc(igsType) ) .* ( ToadbC - gshpToa_c(iAREA) ) + ...
+                    (ghspToa_ave(iAREA) + gshp_ac(igsType) * ghsp_Rq(iREF) + gshp_bc(igsType));
+                
+            elseif refHeatSourceType(iREF,iREFSUB) == 3 && REFtype(iREF) == 2   % 地中熱／暖房
+                
+                % 地盤からの還り温度（暖房）
+                xT = ( gshp_ch(igsType) * ghsp_Rq(iREF) + gshp_dh(igsType) ) .* ( ToadbH - gshpToa_h(iAREA) ) + ...
+                    (ghspToa_ave(iAREA) + gshp_ah(igsType) * ghsp_Rq(iREF) + gshp_bh(igsType));           
+                                
+            else
+                error('モードが不正です')
+            end
+            
+            % 外気温度の軸（マトリックスの縦軸）
+            xTALL(iREF,iREFSUB,:) = xT;
+            
+            % 能力比と入力比
+            for iPQXW = 1:4
+                
+                if iPQXW == 1
+                    PQname = '能力比';
+                    Vname  = 'xQratio';
+                elseif iPQXW == 2
+                    PQname = '入力比';
+                    Vname  = 'xPratio';
+                elseif iPQXW == 3
+                    PQname = '部分負荷特性';
+                elseif iPQXW == 4
+                    PQname = '送水温度特性';
+                end
+                
+                % データベースから該当箇所を抜き出し（特性が2つ以上の式で表現されている場合、該当箇所が複数ある）
+                paraQ = {};
+                for iDB = 1:size(refParaSetALL,1)
+                    if strcmp(refParaSetALL(iDB,5),refsetMode{iREF}) && strcmp(refParaSetALL(iDB,6),PQname)
+                        paraQ = [paraQ;  refParaSetALL(iDB,:)];
+                    end
+                end
+                
+                % 値の抜き出し
+                tmpdata   = [];
+                tmpdataMX = [];
+                if isempty(paraQ) == 0
+                    for iDBQ = 1:size(paraQ,1)
+                        
+                        % 機器特性データベース perDB_refCurve を探査
+                        for iLIST = 2:size(perDB_refCurve,1)
+                            if strcmp(paraQ(iDBQ,9),perDB_refCurve(iLIST,2))
+                                % 最小値、最大値、基整促係数、パラメータ（x4,x3,x2,x1,a）
+                                tmpdata = [tmpdata;str2double(paraQ(iDBQ,[7,8,10])),str2double(perDB_refCurve(iLIST,4:8))];
+                                
+                                if iPQXW == 3
+                                    tmpdataMX = [tmpdataMX; str2double(paraQ(iDBQ,12))];  % 当該特性の冷却水温度適用最大値（該当機器のみ）
+                                end
+                                
+                            end
+                        end
+                    end
+                end
+                                
+                % 係数（基整促係数込み）
+                if iPQXW == 1 || iPQXW == 2
+                    for i = 1:length(ToadbC)
+                        eval(['',Vname,'(iREF,iREFSUB,i) = mytfunc_REFparaSET(tmpdata,xT(i));'])
+                    end
+                                        
+                elseif iPQXW == 3
+                    if isempty(tmpdata) == 0
+                        for iX = 1:size(tmpdata,1)
+                            RerPerC_x_min(iREF,iREFSUB,iX)    = tmpdata(iX,1);
+                            RerPerC_x_max(iREF,iREFSUB,iX)    = tmpdata(iX,2);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,1)  = tmpdata(iX,4);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,2)  = tmpdata(iX,5);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,3)  = tmpdata(iX,6);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,4)  = tmpdata(iX,7);
+                            RerPerC_x_coeffi(iREF,iREFSUB,iX,5)  = tmpdata(iX,8);
+                        end
+                    else
+                        disp('特性が見つからないため、デフォルト特性を適用')
+                        RerPerC_x_min(iREF,iREFSUB,1)    = 0;
+                        RerPerC_x_max(iREF,iREFSUB,1)    = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,1)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,2)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,3)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,4)  = 0;
+                        RerPerC_x_coeffi(iREF,iREFSUB,1,5)  = 1;
+                    end
+                    if isempty(tmpdataMX) == 0
+                        % 当該特性の冷却水温度適用最大値（該当機器のみ）
+                        for iMX = 1:length(tmpdataMX)
+                            xXratioMX(iREF,iREFSUB,iMX) = tmpdataMX(iMX);
+                        end
+                    end
+                    
+                elseif iPQXW == 4
+                    if isempty(tmpdata) == 0
+                        RerPerC_w_min(iREF,iREFSUB)    = tmpdata(1,1);
+                        RerPerC_w_max(iREF,iREFSUB)    = tmpdata(1,2);
+                        RerPerC_w_coeffi(iREF,iREFSUB,1)  = tmpdata(1,4);
+                        RerPerC_w_coeffi(iREF,iREFSUB,2)  = tmpdata(1,5);
+                        RerPerC_w_coeffi(iREF,iREFSUB,3)  = tmpdata(1,6);
+                        RerPerC_w_coeffi(iREF,iREFSUB,4)  = tmpdata(1,7);
+                        RerPerC_w_coeffi(iREF,iREFSUB,5)  = tmpdata(1,8);
+                    else
+                        RerPerC_w_min(iREF,iREFSUB)       = 0;
+                        RerPerC_w_max(iREF,iREFSUB)       = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,1)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,2)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,3)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,4)  = 0;
+                        RerPerC_w_coeffi(iREF,iREFSUB,5)  = 1;
+                    end
+                    
+                end
+                
+            end
+            
+            refmatch = 1; % 処理済みの証拠
+            
+        end
+        
+        if isempty(tmprefset)== 0 && refmatch == 0
+            error('熱源名称 %s は不正です',tmprefset);
+        end
+        
+    end
+end
 
 
 %% 熱源エネルギー計算
