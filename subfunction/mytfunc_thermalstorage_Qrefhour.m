@@ -4,7 +4,7 @@
 % ’~”M•‰‰×ŒvZiŒn—ñŒvZ—pj
 %--------------------------------------------------------------------------
 
-function [Qref_hour,Qref_hour_discharge] = mytfunc_thermalstorage_Qrefhour(Qref_hour,REFstorage,storageEff,refsetStorageSize,numOfRefs,refset_Capacity,refsetID,QrefrMax)
+function [Qref_hour,Qref_hour_discharge] = mytfunc_thermalstorage_Qrefhour(Qref_hour,REFstorage,storageEffratio,refsetStorageSize,numOfRefs,refset_Capacity,refsetID,QrefrMax)
 
 Qref_hour_discharge = zeros(8760,numOfRefs);
 
@@ -15,7 +15,7 @@ for iREF = 1:numOfRefs
         % ˆêŠÔ‚ ‚½‚è‚ÌÌ”MÅ‘å—Êi”MŒğŠ·Ší‚Ì—e—Êj [kW]
         Qmax   = refset_Capacity(iREF,1);
         % Å‘å’~”M—Êi’~”M‘…Œø—¦‚ğ‰Á–¡‚µ‚½³–¡‚Ì—˜—p‰Â”\—Êj [MJ]
-        Qlimit = storageEff * refsetStorageSize(iREF);
+        Qlimit = storageEffratio(iREF) * refsetStorageSize(iREF);
 
         % ˆê“ú–ˆ‚ÉØ‚èo‚·
         for dd = 1:365

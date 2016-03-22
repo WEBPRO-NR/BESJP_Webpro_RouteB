@@ -34,17 +34,17 @@
 %    2 : newHASPによる日別計算＋マトリックス計算
 %    3 : 簡略法による日別計算
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'model_Area6_Case01.xml';
-OutputOption = 'ON';
-varargin{1} = '3';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = 'model_Area6_Case01.xml';
+% OutputOption = 'ON';
+% varargin{1} = '3';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -105,8 +105,8 @@ end
 % 負荷分割数
 DivNUM = 10;
 
-% 蓄熱槽効率
-storageEff = 0.8;
+% % 蓄熱槽効率
+% storageEff = 0.8;
 
 % 夏、中間期、冬の順番、-1：暖房、+1：冷房
 SeasonMODE = [1,1,-1];
@@ -1032,7 +1032,7 @@ switch MODE
         end
         
         % 蓄熱の処理(2016/01/11追加)
-        [Qref_hour,Qref_hour_discharge] = mytfunc_thermalstorage_Qrefhour(Qref_hour,REFstorage,storageEff,refsetStorageSize,numOfRefs,refset_Capacity,refsetID,QrefrMax);
+        [Qref_hour,Qref_hour_discharge] = mytfunc_thermalstorage_Qrefhour(Qref_hour,REFstorage,storageEffratio,refsetStorageSize,numOfRefs,refset_Capacity,refsetID,QrefrMax);
         
         % 放熱用熱交換器を削除
         for iREF = 1:numOfRefs
@@ -1199,8 +1199,8 @@ switch MODE
                     Qref(dd,iREF) = Qref(dd,iREF) + refsetStorageSize(iREF)*0.03;  % 2014/1/10修正
                     
                     % 蓄熱処理追加（蓄熱槽容量以上の負荷を処理しないようにする） 2013/12/16
-                    if Qref(dd,iREF) > storageEff*refsetStorageSize(iREF)
-                        Qref(dd,iREF) = storageEff*refsetStorageSize(iREF);
+                    if Qref(dd,iREF) > storageEffratio(iREF)*refsetStorageSize(iREF)
+                        Qref(dd,iREF) = storageEffratio(iREF)*refsetStorageSize(iREF);
                     end
                     
                 end
@@ -1287,6 +1287,14 @@ for iREF = 1:numOfRefs
                 checkCTVWV(iREF,iREFSUB) = 1;
             otherwise
                 checkCTVWV(iREF,iREFSUB) = 0;
+        end
+        
+        % 発電機能の有無
+        switch tmprefset
+            case {'GasHeatPumpAirConditioner_GE_CityGas','GasHeatPumpAirConditioner_GE_LPG'}
+                checkGEGHP(iREF,iREFSUB) = 1;
+            otherwise
+                checkGEGHP(iREF,iREFSUB) = 0;
         end
         
         refmatch = 0; % チェック用
@@ -1549,6 +1557,7 @@ E_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとのエネ
 Q_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとの処理熱量[kW]
 
 EctpumprALL = zeros(length(ToadbC),length(mxL),numOfRefs); 
+ErefaprALL = zeros(length(ToadbC),length(mxL),numOfRefs); 
 
 for iREF = 1:numOfRefs
     
@@ -1792,11 +1801,44 @@ for iREF = 1:numOfRefs
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
             
-            % 補機電力(負荷に比例させる)
-            if mxL(iL) <= 0.3
-                ErefaprALL(ioa,iL,iREF)  = 0.3 * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+            % 補機電力
+            if sum(checkGEGHP(iREF,:)) >= 1
+                
+                for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
+                   if checkGEGHP(iREF,iREFSUB) == 1
+                       
+                       % 発電機能ありの機種
+                       if REFtype(iREF) == 1  % 冷房
+                           E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.017;  % 非発電時の消費電力 [kW]
+                       elseif REFtype(iREF) == 2  % 暖房
+                           E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.012;  % 非発電時の消費電力 [kW]
+                       end
+                       
+                       E_GE = refset_SubPower(iREF,iREFSUB); % 発電時の消費電力 [kW]
+                       
+                       if mxL(iL) <= 0.3
+                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + ( 0.3 * E_nonGE - (E_nonGE - E_GE) * mxL(iL) );
+                       else
+                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + mxL(iL) * E_GE;
+                       end
+                       
+                   else
+                       % 発電機能なしの機種
+                       if mxL(iL) <= 0.3
+                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + 0.3 * refset_SubPower(iREF,iREFSUB);
+                       else
+                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + mxL(iL) * refset_SubPower(iREF,iREFSUB);
+                       end
+                   end
+                end
+
             else
-                ErefaprALL(ioa,iL,iREF)  = mxL(iL) * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+                % 負荷に比例させる（発電機能なし）
+                if mxL(iL) <= 0.3
+                    ErefaprALL(ioa,iL,iREF)  = 0.3 * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+                else
+                    ErefaprALL(ioa,iL,iREF)  = mxL(iL) * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+                end
             end
             
             EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ

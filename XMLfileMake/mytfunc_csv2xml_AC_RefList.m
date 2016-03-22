@@ -53,7 +53,13 @@ for iREF = 11:size(refListDataCell,1)
     else
         
         if strcmp(refListDataCell(iREF,4),'’~”M')
-            refListDataCell{iREF,4} = 'Charge';
+            refListDataCell{iREF,4} = 'Charge_others';
+        elseif strcmp(refListDataCell(iREF,4),'…’~”M(¬‡Œ^)')
+            refListDataCell{iREF,4} = 'Charge_water_mixing';
+        elseif strcmp(refListDataCell(iREF,4),'…’~”M(¬‘wŒ^)')
+            refListDataCell{iREF,4} = 'Charge_water_stratificated';
+        elseif strcmp(refListDataCell(iREF,4),'•X’~”M')
+            refListDataCell{iREF,4} = 'Charge_ice';
         elseif strcmp(refListDataCell(iREF,4),'•ú”M') || strcmp(refListDataCell(iREF,4),'’ÇŠ|')  
             refListDataCell{iREF,4} = 'Discharge';
         else
@@ -271,7 +277,14 @@ for iREFSET = 1:length(RefListName)
                 elseif strcmp(refListDataCell(iDB,6),'‰·•—’g–[‹@(d–û)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Oil';
                 elseif strcmp(refListDataCell(iDB,6),'‰·•—’g–[‹@(“”–û)')
-                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Kerosene';                    
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Kerosene';     
+                    
+                elseif strcmp(refListDataCell(iDB,6),'ƒKƒXƒq[ƒgƒ|ƒ“ƒv—â’g–[‹@(Á”ï“d—Í‹‹‘•’u•tA“ssƒKƒX)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_GE_CityGas';
+                elseif strcmp(refListDataCell(iDB,6),'ƒKƒXƒq[ƒgƒ|ƒ“ƒv—â’g–[‹@(Á”ï“d—Í‹‹‘•’u•tALPG)')
+                    xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_GE_LPG';
+                    
+                    
                 else
                     refListDataCell(iDB,6)
                     error('”MŒ¹í—Ş‚ª•s³‚Å‚·B')

@@ -394,6 +394,8 @@ refset_CTFanPower       = zeros(numOfRefs,10); % refset_CTFanPower: —â‹p“ƒƒtƒ@ƒ“
 refset_CTPumpPower      = zeros(numOfRefs,10); % refset_CTPumpPower: —â‹p“ƒƒ|ƒ“ƒv‚Ì’èŠiÁ”ï“d—Í
 refset_SupplyTemp       = zeros(numOfRefs,10); % refset_SupplyTemp: ‘—…‰·“x
 
+storageEffratio =  zeros(1,numOfRefs);        % ’~”M‘…Œø—¦
+
 for iREF = 1:numOfRefs/2
     
     refsetMode{2*iREF-1}         = 'Cooling';             % ‰^“]ƒ‚[ƒh
@@ -407,7 +409,7 @@ for iREF = 1:numOfRefs/2
     refsetStorage{2*iREF-1}      = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;        % ’~”M§Œä
     refsetStorage{2*iREF}        = INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageMode;        % ’~”M§Œä
     refsetStorageSize(2*iREF-1)  = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageSize,0);        % ’~”M—e—Ê [MJ]
-    refsetStorageSize(2*iREF)    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageSize,0);        % ’~”M—e—Ê [MJ]
+    refsetStorageSize(2*iREF)    = mytfunc_null2value(INPUT.AirConditioningSystem.HeatSourceSet(iREF).ATTRIBUTE.StorageSize,0);        % ’~”M—e—Ê [MJ]    
     
     if length(INPUT.AirConditioningSystem.HeatSourceSet(iREF).HeatSource) > 10
         disp('”MŒ¹‹@Ší‚ª10‘äˆÈã‚ ‚è‚Ü‚·B')
@@ -469,6 +471,21 @@ for iREF = 1:numOfRefs/2
         
 end
 
+% ’~”M‘…Œø—¦
+for iREF = 1:numOfRefs
+    switch refsetStorage{iREF}
+        case {'Charge_others','Charge_water_mixing'}
+            storageEffratio(iREF) = 0.80;
+        case {'Charge_water_stratificated'}
+            storageEffratio(iREF) = 0.90;
+        case {'Charge_ice'}
+            storageEffratio(iREF) = 1.0;
+        case {'Discharge','None'}
+            storageEffratio(iREF) = NaN;  % ‰¼’u‚«iŸ‚Ìˆ—‚Å’u‚«Š·‚¦j
+        otherwise
+            error('’~”M‘…ƒ^ƒCƒv‚ª•s³‚Å‚·')
+    end
+end
 
 % ’~”M‚ ‚è‚Åu•ú”Mvƒ‚[ƒh‚Å‚ ‚éê‡
 % ”MŒ¹‹@í‚É”MŒğŠ·‹@(HEX)‚ª‚ ‚é‚©‚ğŒŸõ‚µA‚È‚¯‚ê‚Î’Ç‰ÁB
@@ -480,10 +497,19 @@ for iREF = 1:numOfRefs
         % •ú”M‚É‚ÍA•K‚¸u‘ä”§Œä‚ ‚èv‚É‚·‚éB(2013/04/18’Ç‰Á)
         refsetQuantityCtrl{iREF} = 'True';
         
+        % ’~”M‘…Œø—¦‚ğŒˆ’è
+        for iDB = 1:numOfRefs
+            if strcmp(refsetID(iDB),refsetID(iREF)) && ...
+                    ( strcmp(refsetStorage(iDB),'Charge_others') || strcmp(refsetStorage(iDB),'Charge_water_mixing') || strcmp(refsetStorage(iDB),'Charge_water_stratificated') || strcmp(refsetStorage(iDB),'Charge_ice') )
+                storageEffratio(iREF) = storageEffratio(iDB);    % ’~”M‘…Œø—¦XV
+            end
+        end
+        
         % ’~”M—e—Ê‚ª‹ó”’‚Å‚ ‚Á‚½ê‡‚ÍŒŸõ‚µ‚Ä‘ã“ü
         if refsetStorageSize(iREF) == 0
             for iDB = 1:numOfRefs
-                if strcmp(refsetID(iDB),refsetID(iREF)) && strcmp(refsetStorage(iDB),'Charge')
+                if strcmp(refsetID(iDB),refsetID(iREF)) && ...
+                        ( strcmp(refsetStorage(iDB),'Charge_others') || strcmp(refsetStorage(iDB),'Charge_water_mixing') || strcmp(refsetStorage(iDB),'Charge_water_stratificated') || strcmp(refsetStorage(iDB),'Charge_ice') )
                     refsetStorageSize(iREF) = refsetStorageSize(iDB);
                 end
             end
@@ -494,7 +520,7 @@ for iREF = 1:numOfRefs
             if strcmp(refset_Type(iREF,iREFSUB),'HEX')
                 
                 % ”MŒğŠ·‹@‚Ì‘å‚«‚³‚ğƒ`ƒFƒbƒN
-                tmpCapacity = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkW
+                tmpCapacity = (storageEffratio(iREF))*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkW
                 if refset_Capacity(iREF,iREFSUB) > tmpCapacity
                     refset_Capacity(iREF,iREFSUB) = tmpCapacity;
                 end
@@ -519,7 +545,7 @@ for iREF = 1:numOfRefs
             % ‰¼‘z”MŒğŠ·‹@‚ğ’Ç‰Á
             refset_Count(iREF,1)       = 1;
             refset_Type{iREF,1}        = 'HEX';
-            refset_Capacity(iREF,1)    = (storageEff)*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkWib’èj
+            refset_Capacity(iREF,1)    = (storageEffratio(iREF))*refsetStorageSize(iREF)/8*(1000/3600);  % 8ŠÔ‰^“]‚µ‚½Û‚ÌkWib’èj
             refset_MainPower(iREF,1)   = 0;
             refset_SubPower(iREF,1)    = 0;
             refset_PrimaryPumpPower(iREF,1) = 0;

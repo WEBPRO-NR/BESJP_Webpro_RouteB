@@ -682,7 +682,8 @@ for iREF = 1:numOfRefs
     
     % í~îMêßå‰
     switch refsetStorage{iREF}
-        case 'Charge'
+        case {'Charge_others','Charge_water_mixing',...
+                'Charge_water_stratificated','Charge_ice'}
             REFstorage(iREF) = 1;
         case 'Discharge'
             REFstorage(iREF) = -1;
