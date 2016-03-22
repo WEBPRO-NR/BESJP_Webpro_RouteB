@@ -34,17 +34,17 @@
 %    2 : newHASPによる日別計算＋マトリックス計算
 %    3 : 簡略法による日別計算
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-% clear
-% clc
-% addpath('./subfunction/')
-% INPUTFILENAME = 'model_Area6_Case01.xml';
-% OutputOption = 'ON';
-% varargin{1} = '3';
-% varargin{2} = 'Calc';
-% varargin{3} = '0';
+clear
+clc
+addpath('./subfunction/')
+INPUTFILENAME = 'model_Area6_Case01.xml';
+OutputOption = 'ON';
+varargin{1} = '3';
+varargin{2} = 'Calc';
+varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -1280,6 +1280,15 @@ for iREF = 1:numOfRefs
         % 熱源種類
         tmprefset = refset_Type{iREF,iREFSUB};
         
+        % 冷却水変流量制御の有無
+        switch tmprefset
+            case {'AbcorptionChiller_CityGas_CTVWV','AbcorptionChiller_LPG_CTVWV',...
+                    'AbcorptionChiller_Oil_CTVWV','AbcorptionChiller_Kerosene_CTVWV'}
+                checkCTVWV(iREF,iREFSUB) = 1;
+            otherwise
+                checkCTVWV(iREF,iREFSUB) = 0;
+        end
+        
         refmatch = 0; % チェック用
         
         % データベースを検索
@@ -1539,6 +1548,8 @@ E_CTpump_hour = zeros(8760,numOfRefs);   % 冷却水ポンプ電力 [MWh]
 E_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとのエネルギー消費量
 Q_refsys_hour = zeros(8760,numOfRefs,max(refsetRnum));      % 熱源機器ごとの処理熱量[kW]
 
+EctpumprALL = zeros(length(ToadbC),length(mxL),numOfRefs); 
+
 for iREF = 1:numOfRefs
     
     % 蓄熱槽がある場合の放熱用熱交換器の容量の補正（mytstcript_readXML_Setting.mでは8時間を想定）
@@ -1790,7 +1801,27 @@ for iREF = 1:numOfRefs
             
             EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ
             EctfanrALL(ioa,iL,iREF)  = sum( refset_CTFanPower(iREF,1:MxREFnum(ioa,iL,iREF)));        % 冷却塔ファン
-            EctpumprALL(ioa,iL,iREF) = sum( refset_CTPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));       % 冷却水ポンプ
+            
+            % 冷却水ポンプ
+            if sum(checkCTVWV(iREF,:)) >= 1  % 変流量制御あり
+
+                for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
+                    if checkCTVWV(iREF,iREFSUB) == 1
+                        % 変流量ありの機種
+                        if mxL(iL) <= 0.5
+                        EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + 0.5 * refset_CTPumpPower(iREF,iREFSUB);
+                        else
+                           EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + mxL(iL) * refset_CTPumpPower(iREF,iREFSUB); 
+                        end
+                    else
+                        % 変流量なしの機種
+                        EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + refset_CTPumpPower(iREF,iREFSUB);   
+                    end
+                end
+                
+            else
+                EctpumprALL(ioa,iL,iREF) = sum( refset_CTPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+            end
             
         end
     end
