@@ -144,10 +144,10 @@ for iWIND = 1:size(confG,1)
                 Mfg = WindowMvalue(iWIND);
                 
                 dR   = 0.021/Ug + 0.022;  % ブラインド
-                WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（樹脂）
+                WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具
                 
                 Mgs = -0.1331 * Mg^2 + 0.8258 * Mg;  % ブラインド
-                WindowMyuList(iWIND) = (Mfg/Mg) * Mgs;   % ブラインド ＋ 建具（樹脂）
+                WindowMyuList(iWIND) = (Mfg/Mg) * Mgs;   % ブラインド ＋ 建具
                 
             else
                 WindowUvalueList(iWIND) = WindowUvalue(iWIND);
@@ -227,7 +227,7 @@ for iWIND = 1:size(confG,1)
                 elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'0')  % 複合、ブラインド無
 
                     dR   = 0;  % ブラインド
-                    Ufg  = 0.7623 * Ug + 1.2369;  % 建具（複合）
+                    Ufg  = 0.7623 * Ug + 1.2363;  % 建具（複合）
                     WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（複合）
                     
                     Mgs =  Mg;  % ブラインド
@@ -236,7 +236,7 @@ for iWIND = 1:size(confG,1)
                 elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'1')  % 複合、ブラインド有
 
                     dR   = 0.021/Ug + 0.022;  % ブラインド
-                    Ufg  = 0.7623 * Ug + 1.2369;  % 建具（複合）
+                    Ufg  = 0.7623 * Ug + 1.2363;  % 建具（複合）
                     WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（複合）
                     
                     Mgs = -0.1331 * Mg^2 + 0.8258 * Mg;  % ブラインド
@@ -270,7 +270,6 @@ for iWIND = 1:size(confG,1)
             
         end
     end
-
 
 % 遮蔽係数（SCCに押し込む）
 WindowSCCList(iWIND) = WindowMyuList(iWIND)./0.88;
