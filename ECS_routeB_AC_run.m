@@ -34,17 +34,17 @@
 %    2 : newHASPによる日別計算＋マトリックス計算
 %    3 : 簡略法による日別計算
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'model_Area6_Case01.xml';
-OutputOption = 'ON';
-varargin{1} = '3';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = 'model_Area6_Case07.xml';
+% OutputOption = 'ON';
+% varargin{1} = '3';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -1740,7 +1740,7 @@ for iREF = 1:numOfRefs
                 end
                 
                 % 部分負荷特性の上下限
-                MxREFxL_real = MxREFxL;
+                MxREFxL_real(ioa,iL,iREF) = MxREFxL(ioa,iL,iREF);
                 
                 if MxREFxL(ioa,iL,iREF) < RerPerC_x_min(iREF,iREFSUB,xCurveNum)
                     MxREFxL(ioa,iL,iREF) = RerPerC_x_min(iREF,iREFSUB,xCurveNum);
@@ -1806,45 +1806,53 @@ for iREF = 1:numOfRefs
     for ioa = 1:length(ToadbC)
         for iL = 1:length(mxL)
             
+            % 一台あたりの負荷率
+            aveLperU = MxREFxL_real(ioa,iL,iREF);
+            
+            if iL == length(mxL)
+                aveLperU = 1.2;
+            end
+            
             % 補機電力
             if sum(checkGEGHP(iREF,:)) >= 1
                 
                 for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
-                   if checkGEGHP(iREF,iREFSUB) == 1
-                       
-                       % 発電機能ありの機種
-                       if REFtype(iREF) == 1  % 冷房
-                           E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.017;  % 非発電時の消費電力 [kW]
-                       elseif REFtype(iREF) == 2  % 暖房
-                           E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.012;  % 非発電時の消費電力 [kW]
-                       end
-                       
-                       E_GE = refset_SubPower(iREF,iREFSUB); % 発電時の消費電力 [kW]
-                       
-                       if mxL(iL) <= 0.3
-                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + ( 0.3 * E_nonGE - (E_nonGE - E_GE) * aveL(iL) );
-                       else
-                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + aveL(iL) * E_GE;
-                       end
-                       
-                   else
-                       % 発電機能なしの機種
-                       if mxL(iL) <= 0.3
-                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + 0.3 * refset_SubPower(iREF,iREFSUB);
-                       else
-                           ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + aveL(iL) * refset_SubPower(iREF,iREFSUB);
-                       end
-                   end
+                    if checkGEGHP(iREF,iREFSUB) == 1
+                        
+                        % 発電機能ありの機種
+                        if REFtype(iREF) == 1  % 冷房
+                            E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.017;  % 非発電時の消費電力 [kW]
+                        elseif REFtype(iREF) == 2  % 暖房
+                            E_nonGE = refset_Capacity(iREF,iREFSUB) * 0.012;  % 非発電時の消費電力 [kW]
+                        end
+                        
+                        E_GE = refset_SubPower(iREF,iREFSUB); % 発電時の消費電力 [kW]
+                        
+                        if aveLperU <= 0.3
+                            ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + ( 0.3 * E_nonGE - (E_nonGE - E_GE) * aveLperU );
+                        else
+                            ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + aveLperU * E_GE;
+                        end
+                        
+                    else
+                        % 発電機能なしの機種
+                        if aveLperU <= 0.3
+                            ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + 0.3 * refset_SubPower(iREF,iREFSUB);
+                        else
+                            ErefaprALL(ioa,iL,iREF)  = ErefaprALL(ioa,iL,iREF) + aveLperU * refset_SubPower(iREF,iREFSUB);
+                        end
+                    end
                 end
-
+                
             else
+                
                 % 負荷に比例させる（発電機能なし）
-                if mxL(iL) <= 0.3
+                if aveLperU <= 0.3
                     ErefaprALL(ioa,iL,iREF)  = 0.3 * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
                 else
-                    aveL(iL)
-                    ErefaprALL(ioa,iL,iREF)  = aveL(iL) * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
+                    ErefaprALL(ioa,iL,iREF)  = aveLperU * sum( refset_SubPower(iREF,1:MxREFnum(ioa,iL,iREF)));
                 end
+                
             end
             
             EpprALL(ioa,iL,iREF)     = sum( refset_PrimaryPumpPower(iREF,1:MxREFnum(ioa,iL,iREF)));  % 一次ポンプ
@@ -1856,10 +1864,10 @@ for iREF = 1:numOfRefs
                 for iREFSUB = 1:MxREFnum(ioa,iL,iREF)
                     if checkCTVWV(iREF,iREFSUB) == 1
                         % 変流量ありの機種
-                        if mxL(iL) <= 0.5
-                        EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + 0.5 * refset_CTPumpPower(iREF,iREFSUB);
+                        if aveLperU <= 0.5
+                            EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + 0.5 * refset_CTPumpPower(iREF,iREFSUB);
                         else
-                           EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + aveL(iL) * refset_CTPumpPower(iREF,iREFSUB); 
+                            EctpumprALL(ioa,iL,iREF) = EctpumprALL(ioa,iL,iREF) + aveLperU * refset_CTPumpPower(iREF,iREFSUB);
                         end
                     else
                         % 変流量なしの機種
