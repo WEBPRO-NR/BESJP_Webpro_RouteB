@@ -7,7 +7,7 @@
 % データベースファイル
 filename_calendar             = './database/CALENDAR.csv';   % カレンダー
 filename_ClimateArea          = './database/AREA.csv';       % 地域区分
-filename_RoomTypeList         = './database/ROOM_SPEC.csv';  % 室用途リスト
+filename_RoomTypeList         = './database/ROOM_SPEC_H28.csv';  % 室用途リスト
 filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
 filename_refList              = './database/REFLIST_H28.csv';    % 熱源機器リスト
 filename_performanceCurve     = './database/REFCURVE_H28.csv';   % 熱源特性
