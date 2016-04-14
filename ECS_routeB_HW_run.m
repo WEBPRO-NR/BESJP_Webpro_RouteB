@@ -16,9 +16,9 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = 'ApartmentHouse.xml';
+% inputfilename = 'model_Area6_Case07.xml';
 % addpath('./subfunction/')
-% OutputOption = 'ON';
+% OutputOption = 'OFF';
 
 
 %% 設定
@@ -235,13 +235,16 @@ end
 %% 各室の給湯量[L/day]を求める。
 
 Qsr_std      = zeros(1,length(roomArea));
+Qsr_std_perUse = zeros(length(roomArea),4);
 wscType      = zeros(1,length(roomArea));
 calenderP2   = zeros(1,length(roomArea));
 calenderType = zeros(365,length(roomArea));
 scheduleHW   = zeros(365,length(roomArea));
 Qsr_daily    = zeros(365,length(roomArea));
+Qsr_daily_perUse    = zeros(365,length(roomArea),4);
 Qs_daily     = zeros(365,length(roomArea));
 Qs_save      = zeros(365,length(roomArea));
+
 
 for iROOM = 1:length(roomArea)
     
@@ -252,10 +255,27 @@ for iROOM = 1:length(roomArea)
             
             % 標準日積算給湯量　Qs_std_day [L/day]
             if strcmp(perDB_RoomType{iDB,31},'[L/人日]') || strcmp(perDB_RoomType{iDB,31},'[L/床日]')
-                Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,10)) *...
-                    str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
+                
+                % 日積算湯使用量（人員密度×湯使用量×床面積）
+                Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,10)) * str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
+                
+                % 用途別日積算湯使用量（人員密度×湯使用量×床面積）
+                Qsr_std_perUse(iROOM,1) = str2double(perDB_RoomType(iDB,10)) * str2double(perDB_RoomType(iDB,37)) * roomArea(iROOM);  % 洗面
+                Qsr_std_perUse(iROOM,2) = str2double(perDB_RoomType(iDB,10)) * str2double(perDB_RoomType(iDB,38)) * roomArea(iROOM);  % シャワー
+                Qsr_std_perUse(iROOM,3) = str2double(perDB_RoomType(iDB,10)) * str2double(perDB_RoomType(iDB,39)) * roomArea(iROOM);  % 厨房
+                Qsr_std_perUse(iROOM,4) = str2double(perDB_RoomType(iDB,10)) * str2double(perDB_RoomType(iDB,40)) * roomArea(iROOM);  % その他
+                
             elseif strcmp(perDB_RoomType{iDB,31},'[L/m2日]')
+                
+                % 日積算湯使用量（湯使用量×床面積）
                 Qsr_std(iROOM) = str2double(perDB_RoomType(iDB,30)) * roomArea(iROOM);
+                
+                % 用途別日積算湯使用量（人員密度×湯使用量×床面積）
+                Qsr_std_perUse(iROOM,1) = str2double(perDB_RoomType(iDB,37)) * roomArea(iROOM);
+                Qsr_std_perUse(iROOM,2) = str2double(perDB_RoomType(iDB,38)) * roomArea(iROOM);
+                Qsr_std_perUse(iROOM,3) = str2double(perDB_RoomType(iDB,39)) * roomArea(iROOM);
+                Qsr_std_perUse(iROOM,4) = str2double(perDB_RoomType(iDB,40)) * roomArea(iROOM);
+                
             else
                 bldgType{iROOM}
                 roomType{iROOM}
@@ -319,6 +339,12 @@ for iROOM = 1:length(roomArea)
             % 標準日積算給湯量 [L/day]
             Qsr_daily(:,iROOM) = scheduleHW(:,iROOM).* Qsr_std(iROOM);
             
+            % 用途別標準日積算給湯量 [L/day]
+            Qsr_daily_perUse(:,iROOM,1) = scheduleHW(:,iROOM).* Qsr_std_perUse(iROOM,1);  % 洗面
+            Qsr_daily_perUse(:,iROOM,2) = scheduleHW(:,iROOM).* Qsr_std_perUse(iROOM,2);  % シャワー
+            Qsr_daily_perUse(:,iROOM,3) = scheduleHW(:,iROOM).* Qsr_std_perUse(iROOM,3);  % 厨房
+            Qsr_daily_perUse(:,iROOM,4) = scheduleHW(:,iROOM).* Qsr_std_perUse(iROOM,4);  % その他
+            
         end
     end
     if Qsr_std(iROOM) == 0
@@ -365,6 +391,7 @@ Qs_solargain  = zeros(365,length(equipName));
 Qh_eqp_daily  = zeros(365,length(equipName));
 Qp_eqp        = zeros(365,length(equipName));
 E_eqp         = zeros(365,length(equipName));
+Q_eqp         = zeros(365,length(equipName));
 connect_Name   = cell(length(equipName));
 connect_Power  = cell(length(equipName));
 
@@ -380,16 +407,33 @@ for iEQP = 1:length(equipName)
                 % 標準日積算給湯量 [L/day]
                 Qsr_eqp_daily(:,iEQP) = Qsr_eqp_daily(:,iEQP) + Qsr_daily(:,iROOM).*roomPowerRatio(iROOM,iEQPLIST);
                 
-                % 節湯を考慮した日積算給湯量[L/day]
+                % 節湯を考慮した日積算給湯量[L/day]　　給湯用途別に演算（2016/4/13）
                 if strcmp(roomWsave{iROOM}(iEQPLIST),'MixingTap')
-                    k_Wsave = 1-0.40;
-                elseif strcmp(roomWsave{iROOM}(iEQPLIST),'WaterSavingShowerHead')
-                    k_Wsave = 1-0.25;
-                else
-                    k_Wsave = 1;
-                end
-                Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + Qsr_daily(:,iROOM).*k_Wsave.*roomPowerRatio(iROOM,iEQPLIST);
                 
+                    Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + ...
+                        Qsr_daily_perUse(:,iROOM,1) .* 0.6 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,2) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,3) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,4) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST);
+                    
+                elseif strcmp(roomWsave{iROOM}(iEQPLIST),'B1')  % 選択肢を更新（2016/4/13）
+                    
+                    Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + ...
+                        Qsr_daily_perUse(:,iROOM,1) .* 1.0  .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,2) .* 0.75 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,3) .* 1.0  .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,4) .* 1.0  .* roomPowerRatio(iROOM,iEQPLIST);
+                
+                else
+                    
+                    Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + ...
+                        Qsr_daily_perUse(:,iROOM,1) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,2) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,3) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
+                        Qsr_daily_perUse(:,iROOM,4) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST);
+                    
+                end
+                                 
                 % 室接続保存
                 tmpconnectName  = [tmpconnectName,roomName{iROOM}];
                 tmpconnectPower = [tmpconnectPower,num2str(roomPowerRatio(iROOM,iEQPLIST))];
@@ -441,18 +485,23 @@ for iEQP = 1:length(equipName)
         end
     end
     
-    % 年間消費エネルギー消費量 [kJ/day]
+    % 日別消費エネルギー消費量 [kJ/day]
     E_eqp(:,iEQP) = (Qh_eqp_daily(:,iEQP) + Qp_eqp(:,iEQP)*2.5 ) ./ equipEffi(iEQP);
+    
+    % 日別給湯負荷 [kJ/day]
+    Q_eqp(:,iEQP) = Qh_eqp_daily(:,iEQP) + Qp_eqp(:,iEQP)*2.5 ;
     
 end
 
 % 時刻別の値 [MJ]
 Edesign_MWh_hour = zeros(8760,1);
+Q_eqp_hour = zeros(8760,1);
 for iEQP = 1:length(equipName)
     for dd = 1:365
         for hh = 1:24
             num = 24*(dd-1) + hh;
-            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000;
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000; % エネルギー
+            Q_eqp_hour(num,1)       = Q_eqp_hour(num,1)       + Q_eqp(dd,iEQP)/24/1000; % 給湯負荷
         end
     end
 end
@@ -611,10 +660,10 @@ if OutputOptionVar == 1
         end
     end
     
-    RESALL = [ TimeLabel,Edesign_MWh_hour];
+    RESALL = [ TimeLabel,Edesign_MWh_hour,Q_eqp_hour];
     
     rfc = {};
-    rfc = [rfc;'月,日,時,給湯一次エネルギー消費量[MJ]'];
+    rfc = [rfc;'月,日,時,給湯一次エネルギー消費量[MJ],給湯負荷[MJ]'];
     rfc = mytfunc_oneLinecCell(rfc,RESALL);
     
     fid = fopen(resfilenameH,'w+');

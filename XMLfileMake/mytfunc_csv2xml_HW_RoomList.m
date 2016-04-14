@@ -62,8 +62,8 @@ for iUNIT = 11:size(hwRoomInfoCell,1)
         if isempty(hwRoomInfoCell{iUNIT,7}) == 0
             if strcmp(hwRoomInfoCell(iUNIT,7),'©“®‹‹“’ğ')
                 equipWaterSaving = [equipWaterSaving; 'MixingTap'];
-            elseif strcmp(hwRoomInfoCell(iUNIT,7),'ß…Œ^ƒVƒƒƒ[')
-                equipWaterSaving = [equipWaterSaving; 'WaterSavingShowerHead'];
+            elseif strcmp(hwRoomInfoCell(iUNIT,7),'ß“’B1')
+                equipWaterSaving = [equipWaterSaving; 'B1'];
             elseif strcmp(hwRoomInfoCell(iUNIT,7),'–³')
                 equipWaterSaving = [equipWaterSaving; 'None'];
             else
