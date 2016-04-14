@@ -22,8 +22,8 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = 'model.xml';
-% OutputOption = 'ON';
+% inputfilename = 'model_Area6_Case01.xml';
+% OutputOption = 'OFF';
 
 
 %% 設定
@@ -40,6 +40,26 @@ end
 
 % データベース読み込み
 mytscript_readDBfiles;
+
+climateAREA  = num2str(model.ATTRIBUTE.Region);   % 地域区分
+switch climateAREA
+    case {'1'}
+        Toa_ave_design = 22.7;
+    case {'2'}
+        Toa_ave_design = 22.5;
+    case {'3'}
+        Toa_ave_design = 24.7;
+    case {'4'}
+        Toa_ave_design = 27.1;
+    case {'5'}
+        Toa_ave_design = 26.7;
+    case {'6'}
+        Toa_ave_design = 27.5;
+    case {'7'}
+        Toa_ave_design = 25.8;
+    case {'8'}
+        Toa_ave_design = 26.2;
+end
 
 
 %% 情報抽出
@@ -130,7 +150,7 @@ for iROOM = 1:numOfRoom
                         
                         % 機器名称
                         UnitNameAC{iROOM,numOfVac(iROOM)} = unitName;
-                        UnitTypeAC{iROOM,numOfVac(iROOM)} = unitType;
+                        UnitTypeAC{iROOM,numOfVac(iROOM)} = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.roomType;
                         
                         % 必要冷却能力
                         if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.CoolingCapacity,'Null') == 0
@@ -146,13 +166,6 @@ for iROOM = 1:numOfRoom
                             COPAC(iROOM,numOfVac(iROOM)) = 0;
                         end
                         
-                        % 送風機消費電力
-                        if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.FanPower,'Null') == 0
-                            FanPowerAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.FanPower;
-                        else
-                            FanPowerAC(iROOM,numOfVac(iROOM)) = 0;
-                        end
-                        
                         % ポンプ消費電力
                         if strcmp(model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.PumpPower,'Null') == 0
                             PumpPowerAC(iROOM,numOfVac(iROOM)) = model.VentilationSystems.VentilationACUnit(iDB).ATTRIBUTE.PumpPower;
@@ -160,6 +173,26 @@ for iROOM = 1:numOfRoom
                             PumpPowerAC(iROOM,numOfVac(iROOM)) = 0;
                         end
                         
+                        % 送風機の数
+                        if isfield(model.VentilationSystems.VentilationACUnit(iDB), 'Fan') == 0
+                            
+                            numFacAC(iROOM,numOfVac(iROOM)) = 0;
+                            
+                        else
+                            numFacAC(iROOM,numOfVac(iROOM)) = length(model.VentilationSystems.VentilationACUnit(iDB).Fan);
+                            
+                            for iFanAC = 1:numFacAC(iROOM,numOfVac(iROOM))
+                                
+                                FanTypeAC{iROOM,numOfVac(iROOM),iFanAC}    = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.FanType;
+                                FanVolumeAC(iROOM,numOfVac(iROOM),iFanAC)  = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.FanVolume;
+                                FanPowerAC(iROOM,numOfVac(iROOM),iFanAC)   = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.FanPower;
+                                FanCtrlAC_C1{iROOM,numOfVac(iROOM),iFanAC} = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.ControlFlag_C1;
+                                FanCtrlAC_C2{iROOM,numOfVac(iROOM),iFanAC} = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.ControlFlag_C2;
+                                FanCtrlAC_C3{iROOM,numOfVac(iROOM),iFanAC} = model.VentilationSystems.VentilationACUnit(iDB).Fan(iFanAC).ATTRIBUTE.ControlFlag_C3;
+                                
+                            end
+                        end
+
                     end
                 end
             end
@@ -187,6 +220,7 @@ for iROOM = 1:numOfRoom
             COPAC(iROOM,1)       = 0;
             FanPowerAC(iROOM,1)  = 0;
             PumpPowerAC(iROOM,1) = 0;
+            numFacAC(iROOM,1) = 0;
         end
         
     end
@@ -235,14 +269,14 @@ for iROOM = 1:numOfRoom
                 % 基準設定全圧損失 [Pa]
                 Proom(iROOM) = str2double(perDB_RoomType(iDB,29));
                 
-                % 負荷率
-                if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室')
-                    xL(iROOM) = 0.6;
-                elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室')
-                    xL(iROOM) = 0.6;
-                else
-                    xL(iROOM) = 1;
-                end
+%                 % 負荷率
+%                 if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室')
+%                     xL(iROOM) = 0.6;
+%                 elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室')
+%                     xL(iROOM) = 0.6;
+%                 else
+%                     xL(iROOM) = 1;
+%                 end
                 
             end
         end
@@ -295,6 +329,48 @@ for iROOM = 1:numOfRoom
             
         end
     end
+    
+    % 換気代替空調機に属するファンの制御（2016/4/13追加）
+    if numOfVac(iROOM) > 0
+        for iAC = 1:numOfVac(iROOM)
+            
+            if  numFacAC(iROOM,iAC) > 0
+                
+                for iFanAC = 1:numFacAC(iROOM,iAC)
+                    
+                    if strcmp(FanCtrlAC_C1(iROOM,iAC,iFanAC),'None')
+                        hoseiAC_C1(iROOM,iAC,iFanAC) = 1;
+                    elseif strcmp(FanCtrlAC_C1(iROOM,iAC,iFanAC),'True')
+                        hoseiAC_C1(iROOM,iAC,iFanAC) = 0.95;
+                    else
+                        error('高効率モータの設定が不正です。')
+                    end
+                    
+                    if strcmp(FanCtrlAC_C2(iROOM,iAC,iFanAC),'None')
+                        hoseiAC_C2(iROOM,iAC,iFanAC) = 1;
+                    elseif strcmp(FanCtrlAC_C2(iROOM,iAC,iFanAC),'True')
+                        hoseiAC_C2(iROOM,iAC,iFanAC) = 0.6;
+                    else
+                        error('インバータの設定が不正です。')
+                    end
+                    
+                    if strcmp(FanCtrlAC_C3(iROOM,iAC,iFanAC),'None')
+                        hoseiAC_C3(iROOM,iAC,iFanAC) = 1;
+                    elseif strcmp(FanCtrlAC_C3(iROOM,iAC,iFanAC),'COconcentration')
+                        hoseiAC_C3(iROOM,iAC,iFanAC) = 0.6;
+                    elseif strcmp(FanCtrlAC_C3(iROOM,iAC,iFanAC),'Temprature')
+                        hoseiAC_C3(iROOM,iAC,iFanAC) = 0.7;
+                    else
+                        error('送風量制御の設定が不正です。')
+                    end
+                    
+                    hoseiAC_ALL(iROOM,iAC,iFanAC) = hoseiAC_C1(iROOM,iAC,iFanAC) * hoseiAC_C2(iROOM,iAC,iFanAC) * hoseiAC_C3(iROOM,iAC,iFanAC);
+                    
+                end
+            end
+        end
+    end
+    
 end
 
 %% 機器リストの作成
@@ -331,38 +407,94 @@ UnitListAC_COP = [];
 UnitListAC_FanPower = [];
 UnitListAC_PumpPower = [];
 
+UnitListAC_Power = [];
+
 for iUNITx = 1:size(UnitNameAC,1)
     for iUNITy = 1:size(UnitNameAC,2)
+        
         if isempty(UnitNameAC{iUNITx,iUNITy}) == 0
+            
+            % 変数UnitListを検索（重複を調べる）
             if iUNITx == 1 && iUNITy == 1
-                UnitListAC = [UnitListAC;UnitNameAC(iUNITx,iUNITy)];  % 初期値
-                UnitListAC_CoolingCapacity = [UnitListAC_CoolingCapacity;CoolingCapacityAC(iUNITx,iUNITy).*xL(iUNITx)];  % 初期値
-                UnitListAC_COP             = [UnitListAC_COP;COPAC(iUNITx,iUNITy)];  % 初期値
-                UnitListAC_FanPower        = [UnitListAC_FanPower;FanPowerAC(iUNITx,iUNITy)];  % 初期値
-                UnitListAC_PumpPower       = [UnitListAC_PumpPower;PumpPowerAC(iUNITx,iUNITy)];  % 初期値
-                
+                check = 0;
             else
-                
-                % 変数UnitListを検索
                 check = 0;
                 for iUNITdb = 1:length(UnitListAC)
                     if strcmp(UnitListAC(iUNITdb),UnitNameAC(iUNITx,iUNITy))
                         check = 1;
                     end
-                end
-                if check == 0
-                    UnitListAC = [UnitListAC;UnitNameAC(iUNITx,iUNITy)];  % 追加
-                    UnitListAC_CoolingCapacity = [UnitListAC_CoolingCapacity;CoolingCapacityAC(iUNITx,iUNITy).*xL(iUNITx)];  % 追加
-                    UnitListAC_COP             = [UnitListAC_COP;COPAC(iUNITx,iUNITy)];  % 追加
-                    UnitListAC_FanPower        = [UnitListAC_FanPower;FanPowerAC(iUNITx,iUNITy)];  % 追加
-                    UnitListAC_PumpPower       = [UnitListAC_PumpPower;PumpPowerAC(iUNITx,iUNITy)];  % 追加
+                end            
+            end
+            
+            if check == 0
+                
+                UnitListAC = [UnitListAC; UnitNameAC(iUNITx,iUNITy)];
+                               
+                % ファンを分類
+                FanPowerAC_ac = 0;
+                FanPowerAC_fan = 0;
+                for iFanAC = 1:length(FanTypeAC(iUNITx,iUNITy,:))        
+                    if strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'AC')
+                        FanPowerAC_ac = FanPowerAC_ac + FanPowerAC(iUNITx,iUNITy,iFanAC) .* hoseiAC_ALL(iUNITx,iUNITy,iFanAC);
+                    else
+                        FanPowerAC_fan = FanPowerAC_fan + FanPowerAC(iUNITx,iUNITy,iFanAC) .* hoseiAC_ALL(iUNITx,iUNITy,iFanAC);
+                    end
                 end
                 
+                FanVolumeAC_supply = 0;
+                FanVolumeAC_exit   = 0;
+                for iFanAC = 1:length(FanTypeAC(iUNITx,iUNITy,:))
+                    if strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'supply')
+                        FanVolumeAC_supply = FanVolumeAC_supply + FanVolumeAC(iUNITx,iUNITy,iFanAC);
+                    else
+                        FanVolumeAC_exit   = FanVolumeAC_exit   + FanVolumeAC(iUNITx,iUNITy,iFanAC);
+                    end
+                end
+                FanVolumeAC_check = 0;
+                if FanVolumeAC_supply > 0
+                    FanVolumeAC_check = FanVolumeAC_supply;
+                elseif FanVolumeAC_exit > 0
+                    FanVolumeAC_check = FanVolumeAC_exit;
+                else
+                    FanVolumeAC_check = 0;
+                end
+                
+                % 外気冷房に必要な外気導入量
+                Vfmin = 1000 * CoolingCapacityAC(iUNITx,iUNITy) / (0.33*(40-Toa_ave_design));
+                
+                % 年間稼働率
+                if FanVolumeAC_check > Vfmin
+                    Cac  = 0.35;
+                    Cfan = 0.65;
+                else
+                    Cac  = 1.00;
+                    Cfan = 1.00;
+                end
+                
+                % 負荷率
+                if strcmp(UnitTypeAC(iUNITx,iUNITy),'elevator')
+                    xL = 0.3;
+                elseif strcmp(UnitTypeAC(iUNITx,iUNITy),'powerRoom')
+                    xL = 0.6;
+                elseif strcmp(UnitTypeAC(iUNITx,iUNITy),'machineRoom')
+                    xL = 0.6;
+                elseif strcmp(UnitTypeAC(iUNITx,iUNITy),'others')
+                    xL = 1.0;
+                end
+                
+                
+                tmp = CoolingCapacityAC(iUNITx,iUNITy) * xL / (2.71 * COPAC(iUNITx,iUNITy) ) * Cac ...
+                    + PumpPowerAC(iUNITx,iUNITy)/0.75 * Cac ...
+                    + FanPowerAC_ac/0.75 * Cac ...
+                    + FanPowerAC_fan/0.75 * Cfan;
+                    
+                UnitListAC_Power = [UnitListAC_Power; tmp];
+                
             end
+            
         end
     end
 end
-
 
 %% 機器別の運転時間の計算(最大値とする)
 opeTimeListFAN = zeros(length(UnitListFAN),1);
@@ -416,15 +548,19 @@ end
 %% エネルギー消費量計算
 
 % 機器ベースで計算
-Edesign_FAN_MWh    = opeTimeListFAN .* UnitListFANPower ./(1000*0.75);
+if isempty(UnitListFANPower)
+    Edesign_FAN_MWh = 0;
+else
+    Edesign_FAN_MWh    = opeTimeListFAN .* UnitListFANPower ./(1000*0.75);
+end
 Edesign_FAN_MJ     = 9760.*Edesign_FAN_MWh;
 Edesign_FAN_MWh_m2 = sum(nansum(Edesign_FAN_MWh))/sum(RoomArea);
 Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
 
 % % COPを一次換算で入れた場合
-Edesign_AC_kW_ROOM     = CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75;
-
-Edesign_AC_kW  = UnitListAC_CoolingCapacity ./(2.71.*UnitListAC_COP) + (UnitListAC_FanPower + UnitListAC_PumpPower) ./0.75;
+% Edesign_AC_kW_ROOM     = CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75;
+Edesign_AC_kW_ROOM = UnitListAC_Power';
+Edesign_AC_kW  = UnitListAC_Power;
 Edesing_AC_Mwh = Edesign_AC_kW .* opeTimeListAC ./1000;
 
 Edesign_AC_MJ     = 9760.*Edesing_AC_Mwh;
@@ -492,10 +628,12 @@ y(1) = sum(nansum(Edesign_FAN_MWh)) + sum(nansum(Edesing_AC_Mwh));
 y(2) = Edesign_FAN_MWh_m2 + Edesign_AC_MWh_m2;
 y(3) = sum(nansum(Edesign_FAN_MJ))  + sum(nansum(Edesign_AC_MJ));
 y(4) = Edesign_FAN_MJ_m2  + Edesign_AC_MJ_m2;
+
 y(5) = nansum(Es_MWh);
 y(6) = Es_MWh_m2;
-y(7) = nansum(Es_MJ);
-y(8) = Es_MJ_m2;
+y(7) = Estandard_MJ_CSV;
+y(8) = Estandard_MJ_CSV/sum(RoomArea);
+
 y(9) = y(4)/y(8);
 
 

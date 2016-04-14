@@ -219,50 +219,124 @@ end
 
 % 情報の抜出
 venACUnitName = {};
+venACroomType = {};  % 2016/4/13 追加
 venACCoolingCapacity = {};
 venACCOP        = {};
 venACFanPower   = {};
 venACPumpPower  = {};
 
+ACnum = 0;
+
 for iUNIT = 11:size(venACDataCell,1)
         
     if isempty(venACDataCell{iUNIT,1}) == 0
         
+        ACnum = ACnum + 1;
+        
         % 器具名称
-        venACUnitName  = [venACUnitName;venACDataCell{iUNIT,1}];
+        venACUnitName{ACnum,1} = venACDataCell{iUNIT,1};
+        
+        % 換気対象室の用途
+        if strcmp(venACDataCell{iUNIT,2},'エレベータ機械室')
+            venACroomType{ACnum,1} = 'elevator';
+        elseif strcmp(venACDataCell{iUNIT,2},'電気室')
+            venACroomType{ACnum,1} = 'powerRoom';
+        elseif strcmp(venACDataCell{iUNIT,2},'機械室')
+            venACroomType{ACnum,1} = 'machineRoom';
+        else
+            venACroomType{ACnum,1} = 'others';
+        end
         
         % 冷却能力
-        if isempty(venACDataCell{iUNIT,2})
-            venACCoolingCapacity  = [venACCoolingCapacity;'Null'];
+        if isempty(venACDataCell{iUNIT,3})
+            venACCoolingCapacity{ACnum,1}  = 'Null';
         else
-            venACCoolingCapacity  = [venACCoolingCapacity;venACDataCell{iUNIT,2}];
+            venACCoolingCapacity{ACnum,1}  = venACDataCell{iUNIT,3};
         end
         
         % COP
-        if isempty(venACDataCell{iUNIT,3})
-            venACCOP  = [venACCOP;'Null'];
-        else
-            venACCOP  = [venACCOP;venACDataCell{iUNIT,3}];
-        end
-        
-        % 送風機動力
         if isempty(venACDataCell{iUNIT,4})
-            venACFanPower  = [venACFanPower;'0'];
+            venACCOP{ACnum,1}  = 'Null';
         else
-            venACFanPower  = [venACFanPower;venACDataCell{iUNIT,4}];
+            venACCOP{ACnum,1}  = venACDataCell{iUNIT,4};
         end
         
         % ポンプ動力
         if isempty(venACDataCell{iUNIT,5})
-            venACPumpPower  = [venACPumpPower;'0'];
+            venACPumpPower{ACnum,1}  = 'Null';
         else
-            venACPumpPower  = [venACPumpPower;venACDataCell{iUNIT,5}];
+            venACPumpPower{ACnum,1}  = venACDataCell{iUNIT,5};
+        end
+        
+        
+        % ファンが何台あるかを調べる
+        for iFan = 1 : size(venACDataCell,1)
+            if iUNIT + iFan > size(venACDataCell,1) 
+                break
+            end
+            if isempty(venACDataCell{iUNIT+iFan,1}) == 0
+                break
+            end
+        end
+        venACfanNUM(ACnum) = iFan;
+        
+        for iFan = 1:venACfanNUM(ACnum)
+            
+            % 送風機 の 種類
+            if strcmp(venACDataCell{iUNIT+iFan-1,6},'空調')
+                venACFanType{ACnum,iFan} = 'AC';
+            elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'給気')
+                venACFanType{ACnum,iFan} = 'Supply';
+            elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'排気')
+                venACFanType{ACnum,iFan} = 'Exit';
+            elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'循環')
+                venACFanType{ACnum,iFan} = 'Circulation';
+            else
+                venACFanType{ACnum,iFan} = 'Null';
+            end
+            
+            % 送風機 の 設計風量
+            if isempty(venACDataCell{iUNIT+iFan-1,7})
+                venACFanVolume{ACnum,iFan} = 'Null';
+            else
+                venACFanVolume{ACnum,iFan} = venACDataCell{iUNIT+iFan-1,7};
+            end
+            
+            % 送風機 の 電動機出力
+            if isempty(venACDataCell{iUNIT+iFan-1,8})
+                venACFanPower{ACnum,iFan} = 'Null';
+            else
+                venACFanPower{ACnum,iFan} = venACDataCell{iUNIT+iFan-1,8};
+            end
+            
+            % 送風機 の 高効率電動機の有無
+            if strcmp(venACDataCell{iUNIT+iFan-1,9},'有')
+                venACFanControlFlag_C1{ACnum,iFan} = 'True';
+            else
+                venACFanControlFlag_C1{ACnum,iFan} = 'None';
+            end
+            
+            % 送風機 の インバータの有無
+            if strcmp(venACDataCell{iUNIT+iFan-1,10},'有')
+                venACFanControlFlag_C2{ACnum,iFan} = 'True';
+            else
+                venACFanControlFlag_C2{ACnum,iFan} = 'None';
+            end
+            
+            % 送風機 の 送風量制御の有無
+            if strcmp(venACDataCell{iUNIT+iFan-1,11},'CO濃度制御')
+                venACFanControlFlag_C3{ACnum,iFan} = 'COconcentration';
+            elseif strcmp(venACDataCell{iUNIT+iFan-1,11},'温度制御')
+                venACFanControlFlag_C3{ACnum,iFan} = 'Temprature';
+            else
+                venACFanControlFlag_C3{ACnum,iFan} = 'None';
+            end
+            
         end
         
     end
     
 end
-
 
 
 %% XMLファイル生成
@@ -315,10 +389,29 @@ end
 for iUNIT = 1:length(venACUnitName)
     
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.Name             = venACUnitName{iUNIT};
+    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.roomType         = venACroomType{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.CoolingCapacity  = venACCoolingCapacity{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.COP              = venACCOP{iUNIT};
-    xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.FanPower         = venACFanPower{iUNIT};
     xmldata.VentilationSystems.VentilationACUnit(iUNIT).ATTRIBUTE.PumpPower        = venACPumpPower{iUNIT};
     
+    for iFan = 1:venACfanNUM(iUNIT)
+        
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.FanType = venACFanType{iUNIT,iFan};
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.FanVolume = venACFanVolume{iUNIT,iFan};
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.FanPower = venACFanPower{iUNIT,iFan};
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.ControlFlag_C1 = venACFanControlFlag_C1{iUNIT,iFan};
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.ControlFlag_C2 = venACFanControlFlag_C2{iUNIT,iFan};
+        xmldata.VentilationSystems.VentilationACUnit(iUNIT).Fan(iFan).ATTRIBUTE.ControlFlag_C3 = venACFanControlFlag_C3{iUNIT,iFan};
+        
+    end
 end
+
+
+
+
+
+
+
+
+
 
