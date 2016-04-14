@@ -289,7 +289,7 @@ y(3) = sum(nansum(Edesign_MJ));
 y(4) = Edesign_MJ_m2;
 y(5) = sum(nansum(Estandard_MWh));
 y(6) = Estandard_MWh_m2;
-y(7) = nansum(Estandard_MJ);
+y(7) = nansum(Estandard_MJ_CSV);  % 告示の基準値に合わせる（2016/04/08）
 y(8) = Estandard_MJ_m2;
 y(9) = y(4)/y(8);
 
@@ -302,8 +302,7 @@ else
     tmp = strfind(inputfilename,'/');
     eval(['resfilenameS = ''calcRES_L_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
 end
-csvwrite(resfilenameS,y);
-
+dlmwrite(resfilenameS,y,'precision',20);  % 有効数字を指定
 
 %% 詳細出力
 
