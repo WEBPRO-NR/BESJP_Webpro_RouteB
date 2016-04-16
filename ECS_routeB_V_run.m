@@ -22,7 +22,7 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = 'model_Area6_Case01.xml';
+% inputfilename = 'model_Area6_Case07.xml';
 % OutputOption = 'OFF';
 
 
@@ -444,10 +444,15 @@ for iUNITx = 1:size(UnitNameAC,1)
                 FanVolumeAC_supply = 0;
                 FanVolumeAC_exit   = 0;
                 for iFanAC = 1:length(FanTypeAC(iUNITx,iUNITy,:))
-                    if strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'supply')
+                    if strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'Supply')
                         FanVolumeAC_supply = FanVolumeAC_supply + FanVolumeAC(iUNITx,iUNITy,iFanAC);
-                    else
+                    elseif strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'Exist')
                         FanVolumeAC_exit   = FanVolumeAC_exit   + FanVolumeAC(iUNITx,iUNITy,iFanAC);
+                    elseif strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'AC')
+                    elseif strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'Circulation')
+                    else
+                        FanTypeAC(iUNITx,iUNITy,iFanAC)
+                        error('換気代替空調機のタイプが不正です')
                     end
                 end
                 FanVolumeAC_check = 0;

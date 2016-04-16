@@ -288,7 +288,7 @@ for iUNIT = 11:size(venACDataCell,1)
             elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'ãããC')
                 venACFanType{ACnum,iFan} = 'Supply';
             elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'îrãC')
-                venACFanType{ACnum,iFan} = 'Exit';
+                venACFanType{ACnum,iFan} = 'Exist';
             elseif strcmp(venACDataCell{iUNIT+iFan-1,6},'èzä¬')
                 venACFanType{ACnum,iFan} = 'Circulation';
             else
