@@ -36,7 +36,7 @@
 %----------------------------------------------------------------------
 function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
-% コンパイル時には消す
+% % コンパイル時には消す
 % clear
 % clc
 % addpath('./subfunction/')
@@ -1762,8 +1762,6 @@ for iREF = 1:numOfRefs
                     coeff_x(iREFSUB) = coeff_x(iREFSUB).* 1.2;  % 過負荷時のペナルティ（要検討）
                 end
                 
-                AAA(iREFSUB,iL,iREF) = coeff_x(iREFSUB);
-                
                 % 送水温度特性の上下限
                 if refset_SupplyTemp(iREF,iREFSUB) < RerPerC_w_min(iREF,iREFSUB)
                     TCtmp = RerPerC_w_min(iREF,iREFSUB);
@@ -1777,7 +1775,7 @@ for iREF = 1:numOfRefs
                 coeff_tw(iREFSUB) = RerPerC_w_coeffi(iREF,iREFSUB,1).*TCtmp.^4 + ...
                     RerPerC_w_coeffi(iREF,iREFSUB,2).*TCtmp.^3 + RerPerC_w_coeffi(iREF,iREFSUB,3).*TCtmp.^2 +...
                     RerPerC_w_coeffi(iREF,iREFSUB,4).*TCtmp + RerPerC_w_coeffi(iREF,iREFSUB,5);
-                
+
             end
             
             
@@ -1889,7 +1887,8 @@ for iREF = 1:numOfRefs
                 for ioa = 1:length(ToadbC)
                     for iL = 1:length(mxL)
                         if MxREFnum(ioa,iL,iREF) >= 2
-                            hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
+                            % hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL(ioa,iL,iREF)) / (MxREFxL(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
+                            hoseiStorage(ioa,iL,iREF) = 1 - ( Qrefr_mod(iREF,1,ioa)*(1-MxREFxL_real(ioa,iL,iREF)) / (MxREFxL_real(ioa,iL,iREF)*sum( Qrefr_mod(iREF,2:MxREFnum(ioa,iL,iREF),ioa) )) );
                         else
                             hoseiStorage(ioa,iL,iREF) = 1.0;
                         end
