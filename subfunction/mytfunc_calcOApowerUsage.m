@@ -1,33 +1,34 @@
-% mytscript_calcOAusage.m
+% mytscript_calcOApowerUsage.m
 %                                             by Masato Miyata
 %---------------------------------------------------------------
-% 省エネ基準：OA機器の消費電力量を集計する
+% 省エネ基準：OA機器の消費電力量を計算する [MJ/m2]
 %---------------------------------------------------------------
-
-clear
-clc
-tic
-addpath('./subfunction/')
+function y = mytfunc_calcOApowerUsage(BldgType,RoomType,perDB_RoomType,perDB_calendar)
 
 % データベースの読み込み
 mytscript_readDBfiles;     % CSVファイル読み込み
 
-% 室用途リスト
-RoomTypeKey  = cell(size(perDB_RoomType,1)-1,1);
-RoomTypeBLDG = cell(size(perDB_RoomType,1)-1,1);
-RoomTypeNAME = cell(size(perDB_RoomType,1)-1,1);
-RoomTypeCLND = cell(size(perDB_RoomType,1)-1,1);
-RoomTypeOA   = zeros(size(perDB_RoomType,1)-1,1);
-for iROOM = 2:size(perDB_RoomType,1)
+check = 0;
+
+% 室用途検索
+for iDB = 1:length(perDB_RoomType)
     
-    RoomTypeKey(iROOM-1,1)  = perDB_RoomType(iROOM,1);  % 室用途キー
-    RoomTypeBLDG(iROOM-1,1) = perDB_RoomType(iROOM,2);  % 建物用途名称
-    RoomTypeNAME(iROOM-1,1) = perDB_RoomType(iROOM,5);  % 室用途名称
-    
-    RoomTypeCLNDPTN(iROOM-1,1) = perDB_RoomType(iROOM,7);  % カレンダー
-    RoomTypeOA(iROOM-1,1)   = str2double(perDB_RoomType(iROOM,11)); % OA機器発熱量 [W/m2]
-    
+    if strcmp(BldgType,perDB_RoomType(iDB,2)) && strcmp(RoomType,perDB_RoomType(iDB,5))
+        
+        check = 1;
+        RoomTypeKey  = perDB_RoomType(iDB,1);  % 室用途キー
+        RoomTypeBLDG = perDB_RoomType(iDB,2);  % 建物用途名称
+        RoomTypeNAME = perDB_RoomType(iDB,5);  % 室用途名称
+        RoomTypeCLNDPTN = perDB_RoomType(iDB,7);  % カレンダー
+        RoomTypeOA   = str2double(perDB_RoomType(iDB,11)); % OA機器発熱量 [W/m2]
+        
+    end
 end
+
+if check == 0
+    error('建物用途・室用途が不正です')
+end
+
 
 % カレンダーパターン
 RoomTypeCLND = zeros(365,length(RoomTypeNAME));
@@ -97,6 +98,6 @@ for iROOM = 1:length(RoomTypeNAME)
     end
 end
 
-rmpath('./subfunction/')
-toc
+% 一次エネ換算 MJ/m2
+y = round(RoomOAComsumption .* 9760/3600);
 
