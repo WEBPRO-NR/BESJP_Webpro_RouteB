@@ -95,10 +95,14 @@ for iWIND = 1:size(WINDList,1)
         xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.glassMvalue = 'Null';
     end
     
-    % 備考ガラスの日射熱取得率（様式2-3 ⑧）
-    if isempty(windListDataCell{WINDNum(iWIND),8}) == 0
-        xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = ...
-            windListDataCell{WINDNum(iWIND),8};
+    % 備考（様式2-3 ⑧）
+    if size(windListDataCell,2) > 7
+        if isempty(windListDataCell{WINDNum(iWIND),8}) == 0
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = ...
+                windListDataCell{WINDNum(iWIND),8};
+        else
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = '';
+        end
     else
         xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.Info = '';
     end
