@@ -252,6 +252,15 @@ for iAHU = 1:numOfAHUSET
             % 風量制御方式（0: 定風量、1: 変風量）
             ahuFanVAV(iAHU,iAHUele) = 1;
             
+            % 最小開度
+            if ahueleMinDamperOpening(iAHU,iAHUele) >= 0 && ahueleMinDamperOpening(iAHU,iAHUele) < 1
+                ahuFanVAVmin(iAHU,iAHUele) = ahueleMinDamperOpening(iAHU,iAHUele);  % VAV最小風量比 [-]
+            elseif ahueleMinDamperOpening(iAHU,iAHUele) == 1
+                ahuFanVAVmin(iAHU,iAHUele)    = 1;
+            else
+                error('VAV最小開度の設定が不正です')
+            end
+            
             % エネルギー消費特性 ahuFanVAVfunc
             check = 0;
             for iDB = 2:size(perDB_flowControl,1)
@@ -263,8 +272,16 @@ for iAHU = 1:numOfAHUSET
                     a1 = str2double(perDB_flowControl(iDB,7));
                     a0 = str2double(perDB_flowControl(iDB,8));
                     
-                    ahuFanVAVfunc(iAHU,iAHUele,:) = ...
-                        a4 .* aveL.^4 + a3 .* aveL.^3 + a2 .* aveL.^2 + a1 .* aveL + a0;
+                    for iL = 1:length(aveL)
+                        if aveL(iL) < ahuFanVAVmin(iAHU,iAHUele)
+                            ahuFanVAVfunc(iAHU,iAHUele,iL) = ...
+                                a4 .* ahuFanVAVmin(iAHU,iAHUele).^4 + a3 .* ahuFanVAVmin(iAHU,iAHUele).^3 + ...
+                                a2 .* ahuFanVAVmin(iAHU,iAHUele).^2 + a1 .* ahuFanVAVmin(iAHU,iAHUele) + a0;
+                        else
+                            ahuFanVAVfunc(iAHU,iAHUele,iL) = ...
+                                a4 .* aveL(iL).^4 + a3 .* aveL(iL).^3 + a2 .* aveL(iL).^2 + a1 .* aveL(iL) + a0;
+                        end
+                    end
                     
                     % 過負荷の際の処理
                     ahuFanVAVfunc(iAHU,iAHUele,end) = 1.2;
@@ -274,15 +291,10 @@ for iAHU = 1:numOfAHUSET
             end
             
             % 最小開度
-            if ahueleMinDamperOpening(iAHU,iAHUele) >= 0 && ahueleMinDamperOpening(iAHU,iAHUele) < 1
-                ahuFanVAVmin(iAHU,iAHUele) = ahueleMinDamperOpening(iAHU,iAHUele);  % VAV最小風量比 [-]
-            elseif ahueleMinDamperOpening(iAHU,iAHUele) == 1
+            if ahueleMinDamperOpening(iAHU,iAHUele) == 1
                 % 最小開度が1の時はVAVとはみなさない。
-                ahuFanVAVfunc(iAHU,iAHUele,:) = ones(1,length(aveL));
                 ahuFanVAVfunc(iAHU,iAHUele,end) = 1.2;
-                ahuFanVAVmin(iAHU,iAHUele)    = 1;
-            else
-                error('VAV最小開度の設定が不正です')
+                ahuFanVAVmin(iAHU,iAHUele)      = 1;
             end
             
             if check == 0

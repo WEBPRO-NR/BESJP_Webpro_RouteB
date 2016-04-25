@@ -37,11 +37,11 @@
 %----------------------------------------------------------------------
 function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
-% % コンパイル時には消す
+% コンパイル時には消す
 % clear
 % clc
 % addpath('./subfunction/')
-% INPUTFILENAME = 'model_Area6_Case07.xml';
+% INPUTFILENAME = 'model_Case13_Area6_Case04.xml';
 % OutputOption = 'ON';
 % varargin{1} = '3';
 % varargin{2} = 'Calc';
@@ -474,17 +474,17 @@ for iAHU = 1:numOfAHUSET
     tmpEkW = zeros(1,length(mxL));
     for iAHUele = 1:numOfAHUele(iAHU)
         
-        % VAV最小開度
-        if ahuFanVAV(iAHU,iAHUele) == 1
-            for i=1:length(mxL)
-                if aveL(length(mxL)+1-i) < ahuFanVAVmin(iAHU,iAHUele) % VAV最小開度
-                    ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i) = ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i+1);
-                end
-            end
-        end
-        
-        % 過負荷の扱い
-        AHUvavfac(iAHU,iAHUele,length(mxL)) = 1.2;
+%         % VAV最小開度  →　systemDef.m に移行
+%         if ahuFanVAV(iAHU,iAHUele) == 1
+%             for i=1:length(mxL)
+%                 if aveL(length(mxL)+1-i) < ahuFanVAVmin(iAHU,iAHUele) % VAV最小開度
+%                     ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i) = ahuFanVAVfunc(iAHU,iAHUele,length(mxL)+1-i+1);
+%                 end
+%             end
+%         end
+%         
+%         % 過負荷の扱い
+%         AHUvavfac(iAHU,iAHUele,length(mxL)) = 1.2;
         
         for iL = 1:length(mxL)
             tmpEkW(iL) = tmpEkW(iL) + ahuEfan(iAHU,iAHUele).*ahuFanVAVfunc(iAHU,iAHUele,iL);
