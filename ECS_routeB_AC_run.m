@@ -29,10 +29,11 @@
 %  ECS_routeB_AC_run('model.xml','ON','0','Read');
 %  ECS_routeB_AC_run('model.xml','OFF');
 % 計算モード
-%    0 : newHASPによる時刻別計算＋エネルギー時刻別計算）
+%    0 : newHASPによる時刻別計算＋エネルギー時刻別計算
 %    1 : newHASPによる時刻別計算＋マトリックス計算、
 %    2 : newHASPによる日別計算＋マトリックス計算
-%    3 : 簡略法による日別計算
+%    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード）
+%    4 : 簡略法による日別計算＋エネルギー時刻別計算
 %----------------------------------------------------------------------
 function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
@@ -98,7 +99,7 @@ end
 switch MODE
     case {0,1,2}
         DBWCONMODE = 'newHASP';    % newHASP用の形式に変換
-    case {3}
+    case {3,4}
         DBWCONMODE = 'Regulation';  % 基準用のファイルを使用
 end
 
@@ -249,6 +250,8 @@ UAlist = zeros(numOfRoooms,1);
 MAlist = zeros(numOfRoooms,1);
 
 
+QroomHour = zeros(8760,numOfRoooms);
+
 switch MODE
     
     case {0,1,2}
@@ -268,12 +271,39 @@ switch MODE
         
         % 負荷簡略計算法
         mytscript_calcQroom;
+       
+    case {4}
         
+        % 負荷簡略計算法
+        mytscript_calcQroom;
+        
+        for iROOM = 1:numOfRoooms
+            
+            roomMatrix = mytfunc_calcOpeTime(roomTime_start(:,iROOM),roomTime_stop(:,iROOM));
+            
+            for id = 1:365
+                for ih = 1:24
+                    if roomMatrix(id,ih) == 0
+                        QroomHour(24*(id-1)+ih,iROOM) = 0;
+                    else
+                        QroomHour(24*(id-1)+ih,iROOM) = roomMatrix(id,ih) * QroomDc(id,iROOM)/ sum(roomMatrix(id,:)) - roomMatrix(id,ih) * QroomDh(id,iROOM)/ sum(roomMatrix(id,:));
+                    end
+                end
+            end
+        end
+        
+        for id = 1:365
+            OAdataAll_hour(24*(id-1)+1:24*(id-1)+24,:) = ones(24,1)*OAdataAll(id,1:3); % 終日平均
+            OAdataDay_hour(24*(id-1)+1:24*(id-1)+24,:) = ones(24,1)*OAdataDay(id,1:3); % 昼間平均
+            OAdataNgt_hour(24*(id-1)+1:24*(id-1)+24,:) = ones(24,1)*OAdataNgt(id,1:3); % 夜間平均
+        end
+        
+        % 暫定（本当は空調機ごとに運転モードをみて判断する必要がある）
+        OAdataHourly = OAdataAll_hour;
 end
 
 disp('室負荷計算完了')
 toc
-
 
 %%-----------------------------------------------------------------------------------------------------------
 %% ２）空調負荷計算
@@ -291,7 +321,7 @@ Tahu_h        = zeros(365,numOfAHUSET);  % 日積算暖房運転時間 [h]
 
 
 switch MODE
-    case {0,1}  % 毎時計算
+    case {0,1,4}  % 毎時計算
         
         QroomAHUhour  = zeros(8760,numOfAHUSET); % 時刻別室負荷 [MJ/h]
         Qahu_oac_hour = zeros(8760,numOfAHUSET); % 外気冷房効果 [kW]
@@ -422,7 +452,7 @@ E_AHUaex    = zeros(8760,numOfAHUSET);  % 全熱交換器のエネルギー消費量
 for iAHU = 1:numOfAHUSET
     
     switch MODE
-        case {0}          
+        case {0,4}          
             
              [LtAHUc(:,iAHU),LtAHUh(:,iAHU)] = ...
                 mytfunc_matrixAHU(MODE,Qahu_hour(:,iAHU),ahuQcmax(iAHU),[],[],ahuQhmax(iAHU),[],AHUCHmode(iAHU),WIN,MID,SUM,mxL);           
@@ -472,7 +502,7 @@ for iAHU = 1:numOfAHUSET
             % 全熱交換機のエネルギー消費量 [MWh] →　バイパスの影響は？
             AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
             
-        case {0}
+        case {0,4}
             
             for dd = 1:365
                 for hh = 1:24
@@ -508,7 +538,7 @@ end
 
 % 空調機のエネルギー消費量 [MWh] 及び 積算運転時間(システム毎)
 switch MODE
-    case {0}
+    case {0,4}
         E_fun = sum(sum(E_fan_hour));   % E_fan のスペルミス・・・
         E_aex = sum(sum(E_AHUaex));
         TcAHU = sum(LtAHUc>0,1)';
@@ -527,7 +557,7 @@ end
 
 % 未処理負荷 [MJ/day] の集計
 switch MODE
-    case {0,1}
+    case {0,1,4}
         
         Qahu_remainChour = zeros(8760,numOfAHUSET);
         Qahu_remainHhour = zeros(8760,numOfAHUSET);
@@ -599,7 +629,7 @@ toc
 
 switch MODE
     
-    case {0,1}
+    case {0,1,4}
         
         Qpsahu_fan_hour = zeros(8760,numOfPumps);  % ファン発熱量 [kW]
         Qpsahu_hour     = zeros(8760,numOfPumps);  % ポンプ負荷 [kW]
@@ -621,7 +651,7 @@ switch MODE
                                 if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                     if Qahu_hour(num,iAHU) > 0
                                         switch MODE
-                                            case {0}
+                                            case {0,4}
                                                 fanHeatup = E_fan_hour(num,iAHU) * k_heatup .* 1000;
                                             case {1}
                                                 fanHeatup = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*1000;
@@ -650,7 +680,7 @@ switch MODE
                                 if ahuTypeNum(iAHU) == 1  % 空調機であれば
                                     if Qahu_hour(num,iAHU) < 0
                                         switch MODE
-                                            case {0}
+                                            case {0,4}
                                                 fanHeatup = E_fan_hour(num,iAHU) * k_heatup .* 1000;
                                             case {1}
                                                 fanHeatup = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*1000;
@@ -673,6 +703,8 @@ switch MODE
     case {2,3}
         
         Qpsahu_fan = zeros(365,numOfPumps);   % ファン発熱量 [MJ/day]
+        Qpsahu_fan_AHU_C = zeros(365,numOfAHUSET);   % ファン発熱量 [MJ/day]
+        Qpsahu_fan_AHU_H = zeros(365,numOfAHUSET);   % ファン発熱量 [MJ/day]
         Tps        = zeros(365,numOfPumps);
         pumpTime_Start = zeros(365,numOfPumps);
         pumpTime_Stop  = zeros(365,numOfPumps);
@@ -700,10 +732,12 @@ switch MODE
                                         if Qahu_c(dd,iAHU) > 0
                                             tmpC = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
                                             Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpC;
+                                            Qpsahu_fan_AHU_C(dd,iAHU) = Qpsahu_fan_AHU_C(dd,iAHU) + tmpC;
                                         end
                                         if Qahu_h(dd,iAHU) > 0
                                             tmpH = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
                                             Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpH;
+                                            Qpsahu_fan_AHU_C(dd,iAHU) = Qpsahu_fan_AHU_C(dd,iAHU) + tmpH;
                                         end
                                     end
                                     
@@ -732,10 +766,12 @@ switch MODE
                                         if Qahu_c(dd,iAHU) < 0
                                             tmpC = sum(MxAHUcE(iAHU,:))*(k_heatup)./TcAHU(iAHU,1).*Tahu_c(dd,iAHU).*3600;
                                             Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpC;
+                                            Qpsahu_fan_AHU_H(dd,iAHU) = Qpsahu_fan_AHU_H(dd,iAHU) + tmpC;
                                         end
                                         if Qahu_h(dd,iAHU) < 0
                                             tmpH = sum(MxAHUhE(iAHU,:))*(k_heatup)./ThAHU(iAHU,1).*Tahu_h(dd,iAHU).*3600;
                                             Qpsahu_fan(dd,iPUMP) = Qpsahu_fan(dd,iPUMP) + tmpH;
+                                            Qpsahu_fan_AHU_H(dd,iAHU) = Qpsahu_fan_AHU_H(dd,iAHU) + tmpH;
                                         end
                                     end
                                     
@@ -789,7 +825,7 @@ for iPUMP = 1:numOfPumps
         
         % ポンプ負荷マトリックス作成
         switch MODE
-            case {0}
+            case {0,4}
                 LtPUMP(:,iPUMP) = mytfunc_matrixPUMP(MODE,Qpsahu_hour(:,iPUMP),Qpsr(iPUMP),[],mxL);
             case {1}
                 MxPUMP(iPUMP,:) = mytfunc_matrixPUMP(MODE,Qpsahu_hour(:,iPUMP),Qpsr(iPUMP),[],mxL);
@@ -912,7 +948,7 @@ for iPUMP = 1:numOfPumps
                 % ポンプエネルギー消費量 [MWh]
                 MxPUMPE(iPUMP,:) = MxPUMP(iPUMP,:).*MxPUMPPower(iPUMP,:)./1000;
                 
-            case {0}
+            case {0,4}
                 
                 for dd = 1:365
                     for hh = 1:24
@@ -936,7 +972,7 @@ end
 
 % 二次ポンプのエネルギー消費量 [MWh] 及び 積算運転時間(システム毎)
 switch MODE
-    case {0}
+    case {0,4}
         E_pump = sum(sum(E_pump_hour));
         TcPUMP = sum(E_pump_hour>0,1)';
         
@@ -950,12 +986,11 @@ end
 disp('ポンプエネルギー計算完了')
 toc
 
-
 %%-----------------------------------------------------------------------------------------------------------
 %% 熱源系統の計算
 
 switch MODE
-    case {0,1}
+    case {0,1,4}
         
         Qref_hour = zeros(8760,numOfRefs);   % 時刻別熱源負荷 [kW]
         Qref_OVER_hour = zeros(8760,numOfRefs);   % 過負荷 [MJ/h]
@@ -974,7 +1009,7 @@ switch MODE
                             
                             if TcPUMP(iPUMP,1) ~= 0
                                 switch MODE
-                                    case {0}
+                                    case {0,4}
                                         pumpHeatup = E_pump_hour(num,iPUMP) .* k_heatup .*1000;
                                     case {1}
                                         pumpHeatup = sum(MxPUMPE(iPUMP,:)).*(k_heatup)./TcPUMP(iPUMP,1).*1000;
@@ -1156,6 +1191,7 @@ switch MODE
         Tref          = zeros(365,numOfRefs);
         refTime_Start = zeros(365,numOfRefs);
         refTime_Stop  = zeros(365,numOfRefs);
+        Qpsahu_pump_save =  zeros(365,numOfRefs); % ポンプ発熱量 保存 [MJ]
         
         for iREF = 1:numOfRefs
             
@@ -1175,13 +1211,18 @@ switch MODE
                                 % 日積算熱源負荷  [MJ/day]
                                 if Qps(dd,iPUMP) > 0
                                     Qref(dd,iREF)  = Qref(dd,iREF) + Qps(dd,iPUMP) + Qpsahu_pump(iPUMP).*Tps(dd,iPUMP).*3600/1000;
+                                    % ポンプ発熱保存
+                                    Qpsahu_pump_save(dd,iREF) = Qpsahu_pump_save(dd,iREF) + Qpsahu_pump(iPUMP).*Tps(dd,iPUMP).*3600/1000;
                                 end
                             elseif REFtype(iREF) == 2 % 温熱生成モード
                                 % 日積算熱源負荷  [MJ/day] (Qpsの符号が変わっていることに注意)
                                 if Qps(dd,iPUMP) + (-1).*Qpsahu_pump(iPUMP).*Tps(dd,iPUMP).*3600/1000 > 0
                                     Qref(dd,iREF)  = Qref(dd,iREF) + Qps(dd,iPUMP) + (-1).*Qpsahu_pump(iPUMP).*Tps(dd,iPUMP).*3600/1000;
+                                    % ポンプ発熱保存
+                                    Qpsahu_pump_save(dd,iREF) = Qpsahu_pump_save(dd,iREF) - (-1).*Qpsahu_pump(iPUMP).*Tps(dd,iPUMP).*3600/1000;
                                 end
                             end
+                            
                         end
                 end
             end
@@ -1228,50 +1269,54 @@ toc
 
 %% 熱源特性を抜き出す（2016/3/21 mytscript_systemDef.m より移動）
 
-% 地中熱ヒートポンプ用係数
-gshp_ah = [8.0278, 13.0253, 16.7424, 19.3145, 21.2833];   % 地盤モデル：暖房時パラメータa
-gshp_bh = [-1.1462, -1.8689, -2.4651, -3.091, -3.8325];   % 地盤モデル：暖房時パラメータb
-gshp_ch = [-0.1128, -0.1846, -0.2643, -0.2926, -0.3474];  % 地盤モデル：暖房時パラメータc
-gshp_dh = [0.1256, 0.2023, 0.2623, 0.3085, 0.3629];       % 地盤モデル：暖房時パラメータd
-gshp_ac = [8.0633, 12.6226, 16.1703, 19.6565, 21.8702];   % 地盤モデル：冷房時パラメータa
-gshp_bc = [2.9083, 4.7711, 6.3128, 7.8071, 9.148];        % 地盤モデル：冷房時パラメータb
-gshp_cc = [0.0613, 0.0568, 0.1027, 0.1984, 0.249];        % 地盤モデル：冷房時パラメータc
-gshp_dc = [0.2178, 0.3509, 0.4697, 0.5903, 0.7154];       % 地盤モデル：冷房時パラメータd
-
-ghspToa_ave = [5.8, 7.5, 10.2, 11.6, 13.3, 15.7, 17.4, 22.7]; % 地盤モデル：年平均外気温
-gshpToa_h   = [-3, -0.8, 0, 1.1, 3.6, 6, 9.3, 17.5];          % 地盤モデル：暖房時平均外気温
-gshpToa_c   = [16.8,17,18.9,19.6,20.5,22.4,22.1,24.6];        % 地盤モデル：冷房時平均外気温
-
-% 冷房負荷と暖房負荷の比率（地中熱ヒートポンプ用）　← 冷房用と暖房用熱源は順に並んでいる
-ghsp_Rq = zeros(1,numOfRefs);
-for iREFc = 1:numOfRefs/2
-    Qcmax = abs( max(Qref(:,2*iREFc-1))); % 先に冷房
-    Qhmax = abs( max(Qref(:,2*iREFc)));   % 次に暖房
-    ghsp_Rq(2*iREFc-1) = (Qcmax-Qhmax)/(Qcmax+Qhmax);
-    ghsp_Rq(2*iREFc)   = (Qcmax-Qhmax)/(Qcmax+Qhmax);  
+switch MODE
+    case {3}
+        
+        % 地中熱ヒートポンプ用係数
+        gshp_ah = [8.0278, 13.0253, 16.7424, 19.3145, 21.2833];   % 地盤モデル：暖房時パラメータa
+        gshp_bh = [-1.1462, -1.8689, -2.4651, -3.091, -3.8325];   % 地盤モデル：暖房時パラメータb
+        gshp_ch = [-0.1128, -0.1846, -0.2643, -0.2926, -0.3474];  % 地盤モデル：暖房時パラメータc
+        gshp_dh = [0.1256, 0.2023, 0.2623, 0.3085, 0.3629];       % 地盤モデル：暖房時パラメータd
+        gshp_ac = [8.0633, 12.6226, 16.1703, 19.6565, 21.8702];   % 地盤モデル：冷房時パラメータa
+        gshp_bc = [2.9083, 4.7711, 6.3128, 7.8071, 9.148];        % 地盤モデル：冷房時パラメータb
+        gshp_cc = [0.0613, 0.0568, 0.1027, 0.1984, 0.249];        % 地盤モデル：冷房時パラメータc
+        gshp_dc = [0.2178, 0.3509, 0.4697, 0.5903, 0.7154];       % 地盤モデル：冷房時パラメータd
+        
+        ghspToa_ave = [5.8, 7.5, 10.2, 11.6, 13.3, 15.7, 17.4, 22.7]; % 地盤モデル：年平均外気温
+        gshpToa_h   = [-3, -0.8, 0, 1.1, 3.6, 6, 9.3, 17.5];          % 地盤モデル：暖房時平均外気温
+        gshpToa_c   = [16.8,17,18.9,19.6,20.5,22.4,22.1,24.6];        % 地盤モデル：冷房時平均外気温
+        
+        % 冷房負荷と暖房負荷の比率（地中熱ヒートポンプ用）　← 冷房用と暖房用熱源は順に並んでいる
+        ghsp_Rq = zeros(1,numOfRefs);
+        for iREFc = 1:numOfRefs/2
+            Qcmax = abs( max(Qref(:,2*iREFc-1))); % 先に冷房
+            Qhmax = abs( max(Qref(:,2*iREFc)));   % 次に暖房
+            ghsp_Rq(2*iREFc-1) = (Qcmax-Qhmax)/(Qcmax+Qhmax);
+            ghsp_Rq(2*iREFc)   = (Qcmax-Qhmax)/(Qcmax+Qhmax);
+        end
+        
+        switch climateAREA
+            case {'Ia','1'}
+                iAREA = 1;
+            case {'Ib','2'}
+                iAREA = 2;
+            case {'II','3'}
+                iAREA = 3;
+            case {'III','4'}
+                iAREA = 4;
+            case {'IVa','5'}
+                iAREA = 5;
+            case {'IVb','6'}
+                iAREA = 6;
+            case {'V','7'}
+                iAREA = 7;
+            case {'VI','8'}
+                iAREA = 8;
+            otherwise
+                error('地域区分が不正です')
+        end
+        
 end
-
-switch climateAREA
-    case {'Ia','1'}
-        iAREA = 1;
-    case {'Ib','2'}  
-        iAREA = 2;
-    case {'II','3'}
-        iAREA = 3;
-    case {'III','4'}
-        iAREA = 4;
-    case {'IVa','5'}
-        iAREA = 5;
-    case {'IVb','6'}
-        iAREA = 6;
-    case {'V','7'}
-        iAREA = 7;
-    case {'VI','8'}
-        iAREA = 8;
-    otherwise
-        error('地域区分が不正です')
-end
-
 
 for iREF = 1:numOfRefs
     % 熱源機器別の設定
@@ -1581,7 +1626,7 @@ for iREF = 1:numOfRefs
     
     % 熱源負荷マトリックス
     switch MODE
-        case {0}
+        case {0,4}
 
             % 時刻別の外気温度に変更（2016/2/3）
             if REFtype(iREF) == 1
@@ -1631,7 +1676,7 @@ for iREF = 1:numOfRefs
     
     % 蓄熱の場合のマトリックス操作（負荷率１に集約＋外気温を１レベル変える）
     switch MODE
-        case {0}
+        case {0,4}
             
             % 外気温をシフト
             if REFstorage(iREF) == 1
@@ -1781,7 +1826,7 @@ for iREF = 1:numOfRefs
             
             % エネルギー消費量 [kW] (1次エネルギー換算後の値であることに注意）
             switch MODE
-                case {0}
+                case {0,4}
                     for rr = 1:MxREFnum(ioa,iL,iREF)
                         % エネルギー消費量
                         MxREFSUBperE(ioa,iL,iREF,rr) = Erefr_mod(iREF,rr,ioa).*coeff_x(rr).*coeff_tw(rr);
@@ -1899,7 +1944,7 @@ for iREF = 1:numOfRefs
     end
     
     switch MODE
-        case {0}
+        case {0,4}
             
             for dd = 1:365
                 for hh = 1:24
@@ -1969,7 +2014,7 @@ end
 
 % 熱源群のエネルギー消費量
 switch MODE
-    case {0}
+    case {0,4}
         
         % 熱源主機のエネルギー消費量 [MJ]
         E_refsysr = sum(E_ref_hour,1);  
@@ -2087,7 +2132,7 @@ Qcover = 0;
 Qhover = 0;
 
 switch MODE
-    case {0}
+    case {0,4}
         tmpQcpeak = zeros(8760,1);
         tmpQhpeak = zeros(8760,1);
         for iREF = 1:numOfRefs
@@ -2200,7 +2245,7 @@ y(11) = E1st_total(8,end)/roomAreaTotal;  % 冷却水ポンプ [MJ/m2]
 
 % CEC/ACのようなもの（未処理負荷は差し引く）
 switch MODE
-    case {0,1}
+    case {0,1,4}
         % 未処理負荷[MJ/m2]
         y(12) = nansum(sum(abs(Qahu_remainChour)))./roomAreaTotal;
         y(13) = nansum(sum(abs(Qahu_remainHhour)))./roomAreaTotal;
@@ -2271,7 +2316,7 @@ toc
 % 詳細出力
 if OutputOptionVar == 1
     switch MODE
-        case {0}
+        case {0,4}
             mytscript_result2csv_hourly;
             mytscript_result_for_GHSP;
         case {2,3}

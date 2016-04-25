@@ -17,7 +17,7 @@ function [Mxc] = mytfunc_matrixPUMP(MODE,Qps,Qpsr,Tps,mxL)
 
 switch MODE
     
-    case {0}
+    case {0,4}
         
         % éûånóÒÉfÅ[É^
         Mxc = zeros(8760,1);

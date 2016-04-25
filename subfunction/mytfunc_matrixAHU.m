@@ -21,10 +21,10 @@ function [Mxc,Mxh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUC
 
 switch MODE
 
-    case {0,1}
+    case {0,1,4}
         
         switch MODE
-            case {0}
+            case {0,4}
                 % éûånóÒÉfÅ[É^
                 Mxc = zeros(8760,1);
                 Mxh = zeros(8760,1);
@@ -46,7 +46,7 @@ switch MODE
                         ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
                         
                         switch MODE
-                            case {0}
+                            case {0,4}
                                 Mxc(num,1) = ix;
                             case {1}
                                 Mxc(1,ix) = Mxc(1,ix) + 1;
@@ -57,7 +57,7 @@ switch MODE
                         ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
                         
                         switch MODE
-                            case {0}
+                            case {0,4}
                                 Mxh(num,1) = ix;
                             case {1}
                                 Mxh(1,ix) = Mxh(1,ix) + 1;
@@ -91,7 +91,7 @@ switch MODE
                             ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
                             
                             switch MODE
-                                case {0}
+                                case {0,4}
                                     Mxc(num,1) = ix;
                                 case {1}
                                     Mxc(1,ix) = Mxc(1,ix) + 1;
@@ -102,7 +102,7 @@ switch MODE
                             ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
                             
                             switch MODE
-                                case {0}
+                                case {0,4}
                                     Mxh(num,1) = ix;
                                 case {1}
                                     Mxh(1,ix) = Mxh(1,ix) + 1;

@@ -16,7 +16,7 @@ function [Mx] = mytfunc_matrixREF(MODE,Qref_c,Qrefr_c,Tref,OAdata,mxT,mxL)
 
 switch MODE
     
-    case {0}
+    case {0,4}
         
         % 時系列データ
         Mx = zeros(8760,2);  % 負荷率帯, 外気温帯
