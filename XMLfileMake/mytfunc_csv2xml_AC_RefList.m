@@ -279,9 +279,9 @@ for iREFSET = 1:length(RefListName)
                 elseif strcmp(refListDataCell(iDB,6),'温風暖房機(灯油)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'WarmAirHeater_Kerosene';     
                     
-                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(消費電力時給装置付、都市ガス)')
+                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(消費電力自給装置付、都市ガス)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_GE_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(消費電力時給装置付、LPG)')
+                elseif strcmp(refListDataCell(iDB,6),'ガスヒートポンプ冷暖房機(消費電力自給装置付、LPG)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'GasHeatPumpAirConditioner_GE_LPG';
                     
                     
