@@ -9,13 +9,13 @@
 % 出力
 %  y(1) : その他電力 [MJ/年]
 %----------------------------------------------------------------------
-function y = ECS_routeB_Others_run(inputfilename)
+% function y = ECS_routeB_Others_run(inputfilename)
 
-% clear
-% clc
-% tic
-% inputfilename = 'model_Area6_Case01.xml';
-% addpath('./subfunction/')
+clear
+clc
+tic
+inputfilename = 'model_Area6_Case01.xml';
+addpath('./subfunction/')
 
 
 %% データベース読み込み

@@ -101,3 +101,9 @@ end
 % ˆêŸƒGƒlŠ·Z MJ/m2
 y = round(RoomOAComsumption .* 9760/3600);
 
+% ‹¤“¯Z‘î‚É‚Â‚¢‚Ä‚Í‚O‚É‚·‚éB
+if strcmp(RoomTypeBLDG,'ApartmentHouse')
+    y = 0;
+end
+
+
