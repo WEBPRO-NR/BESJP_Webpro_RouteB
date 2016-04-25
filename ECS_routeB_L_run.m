@@ -21,7 +21,7 @@
 
 clear
 clc
-inputfilename = 'model.xml';
+inputfilename = 'model_Area6_Case01.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -67,13 +67,13 @@ for iROOM = 1:numOfRoom
     RoomArea(iROOM)  = model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomArea;
     
     if strcmp(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomWidth,'Null') == 0
-        RoomWidth(iROOM)    = model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomWidth;
+        RoomWidth(iROOM)    = round(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomWidth,1);
     end
     if strcmp(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomDepth,'Null') == 0
-        RoomDepth(iROOM)    = model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomDepth;
+        RoomDepth(iROOM)    = round(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomDepth,1);
     end
     if strcmp(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomHeight,'Null') == 0
-        RoomHeight(iROOM)   = model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomHeight;
+        RoomHeight(iROOM)   = round(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomHeight,1);
     end
     if strcmp(model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomIndex,'Null') == 0
         RoomIndex(iROOM)    = model.LightingSystems.LightingRoom(iROOM).ATTRIBUTE.RoomIndex;
