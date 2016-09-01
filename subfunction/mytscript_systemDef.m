@@ -241,7 +241,7 @@ for iAHU = 1:numOfAHUSET
         % 冷房能力、暖房能力、給気風量を足す
         ahuQcmax(iAHU) = ahuQcmax(iAHU) + ahueleQcmax(iAHU,iAHUele);
         ahuQhmax(iAHU) = ahuQhmax(iAHU) + ahueleQhmax(iAHU,iAHUele);
-        ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHU,iAHUele);
+        ahuVsa(iAHU)   = ahuVsa(iAHU)   + ahueleVsa(iAHU,iAHUele);   % [m3/h]
         
         % 風量制御方式の効果率
         if isempty(ahueleFlowControl{iAHU,iAHUele}) == 0 && ...

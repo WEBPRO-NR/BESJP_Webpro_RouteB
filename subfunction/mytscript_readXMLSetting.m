@@ -305,7 +305,7 @@ for iAHUSET = 1:numOfAHUSET
         % ‘S”MŒð“®—Í
         ahueleHeatExchangePower(iAHUSET,iAHU)  = ...
             ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerPower,0);
-        % ‘S”MŒð•——Ê
+        % ‘S”MŒð•——Ê [m3/h]
         ahueleHeatExchangeVolume(iAHUSET,iAHU) = ...
             ahueleCount(iAHUSET,iAHU) .* mytfunc_null2value(INPUT.AirConditioningSystem.AirHandlingUnitSet(iAHUSET).AirHandlingUnit(iAHU).ATTRIBUTE.HeatExchangerVolume,0);
         

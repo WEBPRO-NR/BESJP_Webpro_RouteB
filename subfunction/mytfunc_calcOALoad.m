@@ -18,9 +18,11 @@ if AHUsystemT == 0
     
 else
     
-    % 全熱交換機風量 [kg/s]
-    if ahuaexV > ahuVoa
+    % 全熱交換機風量 [m3/h] → [kg/s]
+    if ahuaexV*1.293/3600 > ahuVoa
         ahuaexV = ahuVoa;
+    else
+        ahuaexV = ahuaexV*1.293/3600;
     end
     
     % 外気負荷の算出
