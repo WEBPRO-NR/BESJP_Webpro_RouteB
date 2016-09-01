@@ -21,6 +21,8 @@ else
     % ‘S”MŒðŠ·‹@•——Ê [m3/h] ¨ [kg/s]
     if ahuaexV*1.293/3600 > ahuVoa
         ahuaexV = ahuVoa;
+    elseif ahuaexV <= 0
+        ahuaexV = 0;
     else
         ahuaexV = ahuaexV*1.293/3600;
     end
