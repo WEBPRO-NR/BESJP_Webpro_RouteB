@@ -19,22 +19,24 @@ function xmldata = mytfunc_csv2xml_EFI_PV(xmldata,filename)
 
 
 % CSVファイルの読み込み
-PVData = textread(filename,'%s','delimiter','\n','whitespace','');
+PVDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 照明定義ファイルの読み込み
-for i=1:length(PVData)
-    conma = strfind(PVData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            PVDataCell{i,j} = PVData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            PVDataCell{i,j}   = PVData{i}(conma(j-1)+1:conma(j)-1);
-            PVDataCell{i,j+1} = PVData{i}(conma(j)+1:end);
-        else
-            PVDataCell{i,j} = PVData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% PVData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 照明定義ファイルの読み込み
+% for i=1:length(PVData)
+%     conma = strfind(PVData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             PVDataCell{i,j} = PVData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             PVDataCell{i,j}   = PVData{i}(conma(j-1)+1:conma(j)-1);
+%             PVDataCell{i,j+1} = PVData{i}(conma(j)+1:end);
+%         else
+%             PVDataCell{i,j} = PVData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 情報の抽出
 PV_Name = {};

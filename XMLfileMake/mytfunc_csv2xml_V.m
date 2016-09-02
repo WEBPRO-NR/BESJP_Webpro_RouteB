@@ -14,54 +14,58 @@
 function xmldata = mytfunc_csv2xml_V(xmldata,filenameRoom,filenameFAN,filenameAC)
 
 % CSVファイルの読み込み
-roomData  = textread(filenameRoom,'%s','delimiter','\n','whitespace','');
-venData   = textread(filenameFAN,'%s','delimiter','\n','whitespace','');
-venACData = textread(filenameAC,'%s','delimiter','\n','whitespace','');
+roomDataCell = mytfunc_CSVfile2Cell(filenameRoom);
+venDataCell = mytfunc_CSVfile2Cell(filenameFAN);
+venACDataCell = mytfunc_CSVfile2Cell(filenameAC);
 
-% 換気（室）定義ファイルの読み込み
-for i=1:length(roomData)
-    conma = strfind(roomData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            roomDataCell{i,j} = roomData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            roomDataCell{i,j}   = roomData{i}(conma(j-1)+1:conma(j)-1);
-            roomDataCell{i,j+1} = roomData{i}(conma(j)+1:end);
-        else
-            roomDataCell{i,j} = roomData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
-
-% 換気（送風機）定義ファイルの読み込み
-for i=1:length(venData)
-    conma = strfind(venData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            venDataCell{i,j} = venData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            venDataCell{i,j}   = venData{i}(conma(j-1)+1:conma(j)-1);
-            venDataCell{i,j+1} = venData{i}(conma(j)+1:end);
-        else
-            venDataCell{i,j} = venData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
-
-% 換気（空調機）定義ファイルの読み込み
-for i=1:length(venACData)
-    conma = strfind(venACData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            venACDataCell{i,j} = venACData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            venACDataCell{i,j}   = venACData{i}(conma(j-1)+1:conma(j)-1);
-            venACDataCell{i,j+1} = venACData{i}(conma(j)+1:end);
-        else
-            venACDataCell{i,j} = venACData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% roomData  = textread(filenameRoom,'%s','delimiter','\n','whitespace','');
+% venData   = textread(filenameFAN,'%s','delimiter','\n','whitespace','');
+% venACData = textread(filenameAC,'%s','delimiter','\n','whitespace','');
+% 
+% % 換気（室）定義ファイルの読み込み
+% for i=1:length(roomData)
+%     conma = strfind(roomData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             roomDataCell{i,j} = roomData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             roomDataCell{i,j}   = roomData{i}(conma(j-1)+1:conma(j)-1);
+%             roomDataCell{i,j+1} = roomData{i}(conma(j)+1:end);
+%         else
+%             roomDataCell{i,j} = roomData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
+% 
+% % 換気（送風機）定義ファイルの読み込み
+% for i=1:length(venData)
+%     conma = strfind(venData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             venDataCell{i,j} = venData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             venDataCell{i,j}   = venData{i}(conma(j-1)+1:conma(j)-1);
+%             venDataCell{i,j+1} = venData{i}(conma(j)+1:end);
+%         else
+%             venDataCell{i,j} = venData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
+% 
+% % 換気（空調機）定義ファイルの読み込み
+% for i=1:length(venACData)
+%     conma = strfind(venACData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             venACDataCell{i,j} = venACData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             venACDataCell{i,j}   = venACData{i}(conma(j-1)+1:conma(j)-1);
+%             venACDataCell{i,j+1} = venACData{i}(conma(j)+1:end);
+%         else
+%             venACDataCell{i,j} = venACData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 %% 換気（室）の処理
 roomFloor = {};

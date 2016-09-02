@@ -6,22 +6,24 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_RefList(xmldata,filename)
 
-refListData = textread(filename,'%s','delimiter','\n','whitespace','');
+refListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 熱源群定義ファイルの読み込み
-for i=1:length(refListData)
-    conma = strfind(refListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            refListDataCell{i,j} = refListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            refListDataCell{i,j}   = refListData{i}(conma(j-1)+1:conma(j)-1);
-            refListDataCell{i,j+1} = refListData{i}(conma(j)+1:end);
-        else
-            refListDataCell{i,j} = refListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% refListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 熱源群定義ファイルの読み込み
+% for i=1:length(refListData)
+%     conma = strfind(refListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             refListDataCell{i,j} = refListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             refListDataCell{i,j}   = refListData{i}(conma(j-1)+1:conma(j)-1);
+%             refListDataCell{i,j+1} = refListData{i}(conma(j)+1:end);
+%         else
+%             refListDataCell{i,j} = refListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % （最初の3列の）空白は直上の情報を埋める。
 for iREF = 11:size(refListDataCell,1)

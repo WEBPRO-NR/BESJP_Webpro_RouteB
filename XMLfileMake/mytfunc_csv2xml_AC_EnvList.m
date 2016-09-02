@@ -7,22 +7,24 @@
 
 function xmldata = mytfunc_csv2xml_AC_EnvList(xmldata,filename)
 
-envListData = textread(filename,'%s','delimiter','\n','whitespace','');
+envListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 外皮仕様定義ファイルの読み込み
-for i=1:length(envListData)
-    conma = strfind(envListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            envListDataCell{i,j} = envListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            envListDataCell{i,j}   = envListData{i}(conma(j-1)+1:conma(j)-1);
-            envListDataCell{i,j+1} = envListData{i}(conma(j)+1:end);
-        else
-            envListDataCell{i,j} = envListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% envListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 外皮仕様定義ファイルの読み込み
+% for i=1:length(envListData)
+%     conma = strfind(envListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             envListDataCell{i,j} = envListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             envListDataCell{i,j}   = envListData{i}(conma(j-1)+1:conma(j)-1);
+%             envListDataCell{i,j+1} = envListData{i}(conma(j)+1:end);
+%         else
+%             envListDataCell{i,j} = envListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 空白は直上の情報を埋める。
 for iENV = 11:size(envListDataCell,1)

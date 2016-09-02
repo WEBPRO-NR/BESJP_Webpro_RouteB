@@ -6,22 +6,24 @@
 function xmldata = mytfunc_csv2xml_EV(xmldata,filename)
 
 % データの読み込み
-EVData = textread(filename,'%s','delimiter','\n','whitespace','');
+EVDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 空調室定義ファイルの読み込み
-for i=1:length(EVData)
-    conma = strfind(EVData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            EVDataCell{i,j} = EVData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            EVDataCell{i,j}   = EVData{i}(conma(j-1)+1:conma(j)-1);
-            EVDataCell{i,j+1} = EVData{i}(conma(j)+1:end);
-        else
-            EVDataCell{i,j} = EVData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% EVData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 空調室定義ファイルの読み込み
+% for i=1:length(EVData)
+%     conma = strfind(EVData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             EVDataCell{i,j} = EVData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             EVDataCell{i,j}   = EVData{i}(conma(j-1)+1:conma(j)-1);
+%             EVDataCell{i,j+1} = EVData{i}(conma(j)+1:end);
+%         else
+%             EVDataCell{i,j} = EVData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 情報の抜出
 roomFloor     = {};

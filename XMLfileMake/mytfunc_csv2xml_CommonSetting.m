@@ -6,22 +6,24 @@
 function xmldata = mytfunc_csv2xml_CommonSetting(xmldata,filename)
 
 % データの読み込み
-commonData = textread(filename,'%s','delimiter','\n','whitespace','');
+commonDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 空調室定義ファイルの読み込み
-for i=1:length(commonData)
-    conma = strfind(commonData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            commonDataCell{i,j} = commonData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            commonDataCell{i,j}   = commonData{i}(conma(j-1)+1:conma(j)-1);
-            commonDataCell{i,j+1} = commonData{i}(conma(j)+1:end);
-        else
-            commonDataCell{i,j} = commonData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% commonData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 空調室定義ファイルの読み込み
+% for i=1:length(commonData)
+%     conma = strfind(commonData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             commonDataCell{i,j} = strrep(commonData{i}(1:conma(j)-1),'"','');
+%         elseif j == length(conma)
+%             commonDataCell{i,j}   = strrep(commonData{i}(conma(j-1)+1:conma(j)-1),'"','');
+%             commonDataCell{i,j+1} = strrep(commonData{i}(conma(j)+1:end),'"','');
+%         else
+%             commonDataCell{i,j} = strrep(commonData{i}(conma(j-1)+1:conma(j)-1),'"','');
+%         end
+%     end
+% end
 
 
 % 情報の抜出

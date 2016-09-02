@@ -6,22 +6,24 @@
 function xmldata = mytfunc_csv2xml_HW_RoomList(xmldata,filename)
 
 % ããìíé∫Ç…ä÷Ç∑ÇÈèÓïÒ
-hwRoomInfoCSV = textread(filename,'%s','delimiter','\n','whitespace','');
-
-hwRoomInfoCell = {};
-for i=1:length(hwRoomInfoCSV)
-    conma = strfind(hwRoomInfoCSV{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            hwRoomInfoCell{i,j} = hwRoomInfoCSV{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            hwRoomInfoCell{i,j}   = hwRoomInfoCSV{i}(conma(j-1)+1:conma(j)-1);
-            hwRoomInfoCell{i,j+1} = hwRoomInfoCSV{i}(conma(j)+1:end);
-        else
-            hwRoomInfoCell{i,j} = hwRoomInfoCSV{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+hwRoomInfoCell = mytfunc_CSVfile2Cell(filename);
+% 
+% hwRoomInfoCSV = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% hwRoomInfoCell = {};
+% for i=1:length(hwRoomInfoCSV)
+%     conma = strfind(hwRoomInfoCSV{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             hwRoomInfoCell{i,j} = hwRoomInfoCSV{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             hwRoomInfoCell{i,j}   = hwRoomInfoCSV{i}(conma(j-1)+1:conma(j)-1);
+%             hwRoomInfoCell{i,j+1} = hwRoomInfoCSV{i}(conma(j)+1:end);
+%         else
+%             hwRoomInfoCell{i,j} = hwRoomInfoCSV{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % é∫ñºÇ™ãÛîíÇ≈Ç†ÇÍÇŒÅAÇ–Ç∆Ç¬è„ÇÃèÓïÒÇñÑÇﬂÇÈÅB
 for iUNIT = 11:size(hwRoomInfoCell,1)

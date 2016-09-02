@@ -6,22 +6,24 @@
 function xmldata = mytfunc_csv2xml_HW_UnitList(xmldata,filename)
 
 % ããìíã@äÌÇ…ä÷Ç∑ÇÈèÓïÒ
-hwequipInfoCSV = textread(filename,'%s','delimiter','\n','whitespace','');
-
-hwequipInfoCell = {};
-for i=1:length(hwequipInfoCSV)
-    conma = strfind(hwequipInfoCSV{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            hwequipInfoCell{i,j} = hwequipInfoCSV{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            hwequipInfoCell{i,j}   = hwequipInfoCSV{i}(conma(j-1)+1:conma(j)-1);
-            hwequipInfoCell{i,j+1} = hwequipInfoCSV{i}(conma(j)+1:end);
-        else
-            hwequipInfoCell{i,j} = hwequipInfoCSV{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+hwequipInfoCell = mytfunc_CSVfile2Cell(filename);
+% 
+% hwequipInfoCSV = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% hwequipInfoCell = {};
+% for i=1:length(hwequipInfoCSV)
+%     conma = strfind(hwequipInfoCSV{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             hwequipInfoCell{i,j} = hwequipInfoCSV{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             hwequipInfoCell{i,j}   = hwequipInfoCSV{i}(conma(j-1)+1:conma(j)-1);
+%             hwequipInfoCell{i,j+1} = hwequipInfoCSV{i}(conma(j)+1:end);
+%         else
+%             hwequipInfoCell{i,j} = hwequipInfoCSV{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 equipInfo = {};
 equipName = {};

@@ -6,22 +6,23 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_RoomList(xmldata,filename)
 
-roomDefData = textread(filename,'%s','delimiter','\n','whitespace','');
-
 % 空調室定義ファイルの読み込み
-for i=1:length(roomDefData)
-    conma = strfind(roomDefData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            roomDefDataCell{i,j} = roomDefData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            roomDefDataCell{i,j}   = roomDefData{i}(conma(j-1)+1:conma(j)-1);
-            roomDefDataCell{i,j+1} = roomDefData{i}(conma(j)+1:end);
-        else
-            roomDefDataCell{i,j} = roomDefData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+roomDefDataCell = mytfunc_CSVfile2Cell(filename);
+
+% roomDefData = textread(filename,'%s','delimiter','\n','whitespace','');
+% for i=1:length(roomDefData)
+%     conma = strfind(roomDefData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             roomDefDataCell{i,j} = strrep(roomDefData{i}(1:conma(j)-1),'"','');
+%         elseif j == length(conma)
+%             roomDefDataCell{i,j}   = strrep(roomDefData{i}(conma(j-1)+1:conma(j)-1),'"','');
+%             roomDefDataCell{i,j+1} = strrep(roomDefData{i}(conma(j)+1:end),'"','');
+%         else
+%             roomDefDataCell{i,j} = strrep(roomDefData{i}(conma(j-1)+1:conma(j)-1),'"','');
+%         end
+%     end
+% end
 
 % 室名が空白であれば直前の室名情報をコピーする。
 for iROOM = 11:size(roomDefDataCell,1)

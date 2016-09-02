@@ -6,22 +6,24 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_PumpList(xmldata,filename)
 
-pumpListData = textread(filename,'%s','delimiter','\n','whitespace','');
+pumpListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% ポンプ群定義ファイルの読み込み
-for i=1:length(pumpListData)
-    conma = strfind(pumpListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            pumpListDataCell{i,j} = pumpListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            pumpListDataCell{i,j}   = pumpListData{i}(conma(j-1)+1:conma(j)-1);
-            pumpListDataCell{i,j+1} = pumpListData{i}(conma(j)+1:end);
-        else
-            pumpListDataCell{i,j} = pumpListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% pumpListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % ポンプ群定義ファイルの読み込み
+% for i=1:length(pumpListData)
+%     conma = strfind(pumpListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             pumpListDataCell{i,j} = pumpListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             pumpListDataCell{i,j}   = pumpListData{i}(conma(j-1)+1:conma(j)-1);
+%             pumpListDataCell{i,j+1} = pumpListData{i}(conma(j)+1:end);
+%         else
+%             pumpListDataCell{i,j} = pumpListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 空白は直上の情報を埋める。
 for iPUMP = 11:size(pumpListDataCell,1)

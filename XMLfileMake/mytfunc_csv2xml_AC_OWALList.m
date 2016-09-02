@@ -7,22 +7,24 @@
 
 function xmldata = mytfunc_csv2xml_AC_OWALList(xmldata,filename)
 
-owalListData = textread(filename,'%s','delimiter','\n','whitespace','');
+owalListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 外壁定義ファイルの読み込み
-for i=1:length(owalListData)
-    conma = strfind(owalListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            owalListDataCell{i,j} = owalListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            owalListDataCell{i,j}   = owalListData{i}(conma(j-1)+1:conma(j)-1);
-            owalListDataCell{i,j+1} = owalListData{i}(conma(j)+1:end);
-        else
-            owalListDataCell{i,j} = owalListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% owalListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 外壁定義ファイルの読み込み
+% for i=1:length(owalListData)
+%     conma = strfind(owalListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             owalListDataCell{i,j} = owalListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             owalListDataCell{i,j}   = owalListData{i}(conma(j-1)+1:conma(j)-1);
+%             owalListDataCell{i,j+1} = owalListData{i}(conma(j)+1:end);
+%         else
+%             owalListDataCell{i,j} = owalListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 外壁名称の読み込み
 OWALList = {};

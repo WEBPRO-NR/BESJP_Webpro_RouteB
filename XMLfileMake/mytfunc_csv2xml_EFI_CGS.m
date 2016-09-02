@@ -19,21 +19,23 @@ function xmldata = mytfunc_csv2xml_EFI_CGS(xmldata,filename)
 
 
 % CSVファイルの読み込み
-CGSData = textread(filename,'%s','delimiter','\n','whitespace','');
+CGSDataCell = mytfunc_CSVfile2Cell(filename);
 
-for i=1:length(CGSData)
-    conma = strfind(CGSData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            CGSDataCell{i,j} = CGSData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            CGSDataCell{i,j}   = CGSData{i}(conma(j-1)+1:conma(j)-1);
-            CGSDataCell{i,j+1} = CGSData{i}(conma(j)+1:end);
-        else
-            CGSDataCell{i,j} = CGSData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% CGSData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% for i=1:length(CGSData)
+%     conma = strfind(CGSData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             CGSDataCell{i,j} = CGSData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             CGSDataCell{i,j}   = CGSData{i}(conma(j-1)+1:conma(j)-1);
+%             CGSDataCell{i,j+1} = CGSData{i}(conma(j)+1:end);
+%         else
+%             CGSDataCell{i,j} = CGSData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % コジェネレーションシステム名称が空欄である場合、直上の値をコピーする
 for iSYS = 11:size(CGSDataCell,1)

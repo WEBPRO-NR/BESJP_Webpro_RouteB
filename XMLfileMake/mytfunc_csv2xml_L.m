@@ -12,22 +12,24 @@
 function xmldata = mytfunc_csv2xml_L(xmldata,filename)
 
 % CSVファイルの読み込み
-LightData = textread(filename,'%s','delimiter','\n','whitespace','');
-
-% 照明定義ファイルの読み込み
-for i=1:length(LightData)
-    conma = strfind(LightData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            LightDataCell{i,j} = LightData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            LightDataCell{i,j}   = LightData{i}(conma(j-1)+1:conma(j)-1);
-            LightDataCell{i,j+1} = LightData{i}(conma(j)+1:end);
-        else
-            LightDataCell{i,j} = LightData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+LightDataCell = mytfunc_CSVfile2Cell(filename);
+% 
+% LightData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 照明定義ファイルの読み込み
+% for i=1:length(LightData)
+%     conma = strfind(LightData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             LightDataCell{i,j} = LightData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             LightDataCell{i,j}   = LightData{i}(conma(j-1)+1:conma(j)-1);
+%             LightDataCell{i,j+1} = LightData{i}(conma(j)+1:end);
+%         else
+%             LightDataCell{i,j} = LightData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 情報の抜出
 roomFloor = {};

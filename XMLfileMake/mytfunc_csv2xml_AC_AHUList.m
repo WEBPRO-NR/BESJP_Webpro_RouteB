@@ -6,22 +6,24 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_AHUList(xmldata,filename)
 
-ahuListData = textread(filename,'%s','delimiter','\n','whitespace','');
+ahuListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 空調機定義ファイルの読み込み
-for i=1:length(ahuListData)
-    conma = strfind(ahuListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            ahuListDataCell{i,j} = ahuListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            ahuListDataCell{i,j}   = ahuListData{i}(conma(j-1)+1:conma(j)-1);
-            ahuListDataCell{i,j+1} = ahuListData{i}(conma(j)+1:end);
-        else
-            ahuListDataCell{i,j} = ahuListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% ahuListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 空調機定義ファイルの読み込み
+% for i=1:length(ahuListData)
+%     conma = strfind(ahuListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             ahuListDataCell{i,j} = ahuListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             ahuListDataCell{i,j}   = ahuListData{i}(conma(j-1)+1:conma(j)-1);
+%             ahuListDataCell{i,j+1} = ahuListData{i}(conma(j)+1:end);
+%         else
+%             ahuListDataCell{i,j} = ahuListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 空白は直上の情報を埋める。
 for iAHU = 11:size(ahuListDataCell,1)

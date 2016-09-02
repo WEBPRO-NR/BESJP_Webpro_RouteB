@@ -6,22 +6,24 @@
 %------------------------------------------------------------------------
 function xmldata = mytfunc_csv2xml_AC_WINDList(xmldata, filename)
 
-windListData = textread(filename,'%s','delimiter','\n','whitespace','');
+windListDataCell = mytfunc_CSVfile2Cell(filename);
 
-% 窓定義ファイルの読み込み
-for i=1:length(windListData)
-    conma = strfind(windListData{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            windListDataCell{i,j} = windListData{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            windListDataCell{i,j}   = windListData{i}(conma(j-1)+1:conma(j)-1);
-            windListDataCell{i,j+1} = windListData{i}(conma(j)+1:end);
-        else
-            windListDataCell{i,j} = windListData{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
+% windListData = textread(filename,'%s','delimiter','\n','whitespace','');
+% 
+% % 窓定義ファイルの読み込み
+% for i=1:length(windListData)
+%     conma = strfind(windListData{i},',');
+%     for j = 1:length(conma)
+%         if j == 1
+%             windListDataCell{i,j} = windListData{i}(1:conma(j)-1);
+%         elseif j == length(conma)
+%             windListDataCell{i,j}   = windListData{i}(conma(j-1)+1:conma(j)-1);
+%             windListDataCell{i,j+1} = windListData{i}(conma(j)+1:end);
+%         else
+%             windListDataCell{i,j} = windListData{i}(conma(j-1)+1:conma(j)-1);
+%         end
+%     end
+% end
 
 % 窓名称の読み込み
 WINDList = {};
