@@ -17,13 +17,13 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-function y = ECS_routeB_V_run(inputfilename,OutputOption)
+% function y = ECS_routeB_V_run(inputfilename,OutputOption)
 
-% clear
-% clc
-% addpath('./subfunction')
-% inputfilename = 'model_Area6_Case07.xml';
-% OutputOption = 'OFF';
+clear
+clc
+addpath('./subfunction')
+inputfilename = 'model.xml';
+OutputOption = 'ON';
 
 
 %% 設定
@@ -496,7 +496,8 @@ for iUNITx = 1:size(UnitNameAC,1)
                 UnitListAC_Power = [UnitListAC_Power; tmp];
                 
             end
-            
+        else
+            UnitListAC_Power = [UnitListAC_Power; 0];
         end
     end
 end
@@ -564,7 +565,7 @@ Edesign_FAN_MJ_m2  = sum(nansum(Edesign_FAN_MJ))/sum(RoomArea);
 
 % % COPを一次換算で入れた場合
 % Edesign_AC_kW_ROOM     = CoolingCapacityAC .* repmat(xL,1,size(FanPowerAC,2))./(2.71.*COPAC) + (FanPowerAC+PumpPowerAC) ./0.75;
-Edesign_AC_kW_ROOM = UnitListAC_Power';
+Edesign_AC_kW_ROOM = UnitListAC_Power;
 Edesign_AC_kW  = UnitListAC_Power;
 Edesing_AC_Mwh = Edesign_AC_kW .* opeTimeListAC ./1000;
 
