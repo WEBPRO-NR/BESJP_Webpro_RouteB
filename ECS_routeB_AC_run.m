@@ -41,7 +41,7 @@
 clear
 clc
 addpath('./subfunction/')
-INPUTFILENAME = 'model_desicaVRX.xml';
+INPUTFILENAME = 'model_routeB_sample01.xml';
 OutputOption = 'ON';
 varargin{1} = '3';
 varargin{2} = 'Calc';
@@ -1295,7 +1295,7 @@ switch MODE
             % 冷熱・温熱に分けて熱源群を作成したときの例外処理（2017/3/7）
             if Qcmax == 0
                 Qcmax = Qhmax;
-            elseif Qhmac == 0
+            elseif Qhmax == 0
                 Qhmax = Qcmax;
             end
             
