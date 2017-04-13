@@ -7,6 +7,8 @@
 function [Mnum] = mytfunc_convert_newHASPwalls(WNUM)
 
 switch WNUM
+    case '1'  % 鋼
+        Mnum = '5';
     case '70'  % ロックウール化粧吸音板
         Mnum = '75';
     case '62'  % せっこうボード
@@ -35,8 +37,22 @@ switch WNUM
         Mnum = '41';
     case '22'  % 土壌
         Mnum = '15';
-        
+    case '102'  % FRP
+        Mnum = '42';
+    case '183'  % 押出法ポリスチレンフォーム保温板３種
+        Mnum = '83';
+    case '107'  % カーペット
+        Mnum = '47';
+    case '2'  % アルミニウム
+        Mnum = '6';
+    case '73'  % ケイ酸カルシウム板1.0mm
+        Mnum = '32';
+    case '204'  % 吹付け硬質ウレタンフォームＡ種３
+        Mnum = '85';
+    case '124'  % グラスウール断熱材２４Ｋ相当（0.036）
+        Mnum = '72';
     otherwise
+        WNUM
         error('mytfunc_convert_newHASPwalls：建材が登録されていません')
 end
 

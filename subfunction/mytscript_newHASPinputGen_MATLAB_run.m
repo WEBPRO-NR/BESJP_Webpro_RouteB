@@ -52,8 +52,8 @@ for iROOM = 1:numOfRoooms
                     % newHASPのWCON生成
                     tmp = 'WCON X     ';
                     tmp(6:6+length(confW{iDB,2})-1) = confW{iDB,2};  % WCON名
-                    
-                    for iWCON = 1:9
+
+                    for iWCON = 1:(size(confW,2)-2)/2
                         if  isempty(confW{iDB,2+2*iWCON-1}) == 0
                             
                             % 平成25年基準の窓番号から、newHASPの窓仕様を選択

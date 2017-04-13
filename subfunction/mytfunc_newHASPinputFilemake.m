@@ -55,7 +55,8 @@ function y = mytfunc_newHASPinputFilemake(roomName,climateAREA,TypeOfBuilding,Ty
 %% ‘Oˆ—
 
 for n = 1:size(perDB_RoomType,1)
-    if strcmp(perDB_RoomType(n,4),TypeOfBuilding) && strcmp(perDB_RoomType(n,5),TypeOfRoom)
+    if (strcmp(perDB_RoomType(n,4),TypeOfBuilding) && strcmp(perDB_RoomType(n,5),TypeOfRoom)) || ...
+            strcmp(perDB_RoomType(n,4),TypeOfBuilding) && strcmp(perDB_RoomType(n,6),TypeOfRoom)
         
         if isempty(perDB_RoomType(n,14))
             error('‹ó’²İ”õF”ñ‹ó’²º‚ÍŒvZ‘ÎÛ‚Æ‚Å‚«‚Ü‚¹‚ñ')
