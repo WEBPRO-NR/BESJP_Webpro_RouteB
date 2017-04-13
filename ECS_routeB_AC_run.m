@@ -35,17 +35,17 @@
 %    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード）
 %    4 : 簡略法による日別計算＋エネルギー時刻別計算
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-% clear
-% clc
-% addpath('./subfunction/')
-% INPUTFILENAME = 'model_Case13_Area6_Case04.xml';
-% OutputOption = 'ON';
-% varargin{1} = '3';
-% varargin{2} = 'Calc';
-% varargin{3} = '0';
+clear
+clc
+addpath('./subfunction/')
+INPUTFILENAME = 'model_desicaVRX.xml';
+OutputOption = 'ON';
+varargin{1} = '3';
+varargin{2} = 'Calc';
+varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -1291,8 +1291,16 @@ switch MODE
         for iREFc = 1:numOfRefs/2
             Qcmax = abs( max(Qref(:,2*iREFc-1))); % 先に冷房
             Qhmax = abs( max(Qref(:,2*iREFc)));   % 次に暖房
-            ghsp_Rq(2*iREFc-1) = (Qcmax-Qhmax)/(Qcmax+Qhmax);
-            ghsp_Rq(2*iREFc)   = (Qcmax-Qhmax)/(Qcmax+Qhmax);
+            
+            % 冷熱・温熱に分けて熱源群を作成したときの例外処理（2017/3/7）
+            if Qcmax == 0
+                Qcmax = Qhmax;
+            elseif Qhmac == 0
+                Qhmax = Qcmax;
+            end
+            
+            ghsp_Rq(2*iREFc-1) = (Qcmax-Qhmax)/(Qcmax+Qhmax); % 冷房
+            ghsp_Rq(2*iREFc)   = (Qcmax-Qhmax)/(Qcmax+Qhmax); % 暖房
         end
         
         switch climateAREA
