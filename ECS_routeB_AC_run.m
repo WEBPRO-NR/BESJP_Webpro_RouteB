@@ -41,8 +41,8 @@
 clear
 clc
 addpath('./subfunction/')
-INPUTFILENAME = 'model_routeB_sample01.xml';
-OutputOption = 'ON';
+INPUTFILENAME = 'model_routeB_case01.xml';
+OutputOption = 'OFF';
 varargin{1} = '3';
 varargin{2} = 'Calc';
 varargin{3} = '0';
@@ -2054,7 +2054,7 @@ switch MODE
             end
         end
         
-        E_ref = sum(E_ref_source_hour,1);
+        E_ref = sum(E_ref_source_hour,1); % 使わない
         
         % 熱源補機電力消費量 [MWh]
         E_refac = sum(sum(E_ref_ACc_hour));
@@ -2327,6 +2327,17 @@ if OutputOptionVar == 1
         case {0,4}
             mytscript_result2csv_hourly;
             mytscript_result_for_GHSP;
+            
+            % コージェネレーション用
+            if isfield(INPUT.CogenerationSystems,'CGUnit')
+                
+                % 様式7-3に記されている「熱源群」を探す
+                CGS_refName_C = INPUT.CogenerationSystems.CGUnit(1).ATTRIBUTE.RefCooling;
+                CGS_refName_H = INPUT.CogenerationSystems.CGUnit(1).ATTRIBUTE.RefHeating;
+                
+                mytscript_result2csv_hourly_for_CGS;
+            end
+            
         case {2,3}
             mytscript_result2csv;
     end
