@@ -115,6 +115,10 @@ SeasonMODE = [1,1,-1];
 % ファン・ポンプの発熱比率
 k_heatup = 0.84;
 
+% 他人から供給された熱の換算係数 20170913追加
+copDHC_cooling = 0.6;
+copDHC_heating = 0.6;
+
 
 %% データベース読み込み
 
@@ -1395,17 +1399,17 @@ for iREF = 1:numOfRefs
                         refInputType(iREF,iREFSUB) = 6;
                         % エネルギー消費量＝生成熱量とする。
                         refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
-                        refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                        refset_MainPowerELE(iREF,iREFSUB) = (copDHC_heating)*refset_MainPower(iREF,iREFSUB);
                     case '温水'
                         refInputType(iREF,iREFSUB) = 7;
                         % エネルギー消費量＝生成熱量とする。
                         refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
-                        refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                        refset_MainPowerELE(iREF,iREFSUB) = (copDHC_heating)*refset_MainPower(iREF,iREFSUB);
                     case '冷水'
                         refInputType(iREF,iREFSUB) = 8;
                         % エネルギー消費量＝生成熱量とする。
                         refset_MainPower(iREF,iREFSUB) = refset_Capacity(iREF,iREFSUB);
-                        refset_MainPowerELE(iREF,iREFSUB) = (1.36)*refset_MainPower(iREF,iREFSUB);
+                        refset_MainPowerELE(iREF,iREFSUB) = (copDHC_cooling)*refset_MainPower(iREF,iREFSUB);
                     otherwise
                         error('熱源 %s の燃料種別が不正です',tmprefset)
                 end
@@ -2044,11 +2048,11 @@ switch MODE
                 elseif refInputType(iREF,iREFSUB) == 5
                     E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(50000/1000);
                 elseif refInputType(iREF,iREFSUB) == 6
-                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(copDHC_heating);   % [MJ]
                 elseif refInputType(iREF,iREFSUB) == 7
-                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(copDHC_heating);   % [MJ]
                 elseif refInputType(iREF,iREFSUB) == 8
-                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(1.36);   % [MJ]
+                    E_ref_source_hour(:,refInputType(iREF,iREFSUB)) = E_ref_source_hour(:,refInputType(iREF,iREFSUB)) + E_refsys_hour(:,iREF,iREFSUB)./(copDHC_cooling);   % [MJ]
                 end
                 
             end
@@ -2087,11 +2091,11 @@ switch MODE
                 elseif refInputType(iREF,iREFSUB) == 5
                     E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(50000/1000);
                 elseif refInputType(iREF,iREFSUB) == 6
-                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(copDHC_heating);   % [MJ]
                 elseif refInputType(iREF,iREFSUB) == 7
-                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(copDHC_heating);   % [MJ]
                 elseif refInputType(iREF,iREFSUB) == 8
-                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(1.36);   % [MJ]
+                    E_ref(1,refInputType(iREF,iREFSUB)) = E_ref(1,refInputType(iREF,iREFSUB)) + sum(sum(MxREFSUBE(iREF,iREFSUB,:)))./(copDHC_cooling);   % [MJ]
                 end
                 
             end
@@ -2121,7 +2125,7 @@ E2nd_total =[E_aex,zeros(1,7);E_fun,zeros(1,7);E_pump,zeros(1,7);E_ref;E_refac,z
 E2nd_total = [E2nd_total;sum(E2nd_total)];
 
 % 1次エネルギー [MJ]
-unitE = [9760,45,41,37,50,1.36,1.36,1.36];
+unitE = [9760,45,41,37,50,copDHC_heating,copDHC_heating,copDHC_cooling];
 for i=1:size(E2nd_total,1)
     E1st_total(i,:) = E2nd_total(i,:) .* unitE;
 end
