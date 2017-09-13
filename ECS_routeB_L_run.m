@@ -21,7 +21,7 @@
 
 clear
 clc
-inputfilename = 'model_Area6_Case01.xml';
+inputfilename = 'model_routeB_case01.xml';
 addpath('./subfunction/')
 OutputOption = 'ON';
 
@@ -196,7 +196,27 @@ for iROOM = 1:numOfRoom
             hosei_C2_name{iROOM,iUNIT} = '調光方式';
         elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variableWithBlind')
             hosei_C2(iROOM,iUNIT) = 0.85;
-            hosei_C2_name{iROOM,iUNIT} = '調光方式(自動制御ブラインド併用)';
+            hosei_C2_name{iROOM,iUNIT} = '調光方式BL';
+            
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W15')
+            hosei_C2(iROOM,iUNIT) = 0.85;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W15';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W15_WithBlind')
+            hosei_C2(iROOM,iUNIT) = 0.78;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W15BL';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W20')
+            hosei_C2(iROOM,iUNIT) = 0.80;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W20';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W20_WithBlind')
+            hosei_C2(iROOM,iUNIT) = 0.70;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W20BL';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W25')
+            hosei_C2(iROOM,iUNIT) = 0.75;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W25';
+        elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'variable_W25_WithBlind')
+            hosei_C2(iROOM,iUNIT) = 0.63;
+            hosei_C2_name{iROOM,iUNIT} = '調光方式W25BL';
+            
         elseif strcmp(ControlFlag_C2(iROOM,iUNIT),'onoff')
             hosei_C2(iROOM,iUNIT) = 0.80;
             hosei_C2_name{iROOM,iUNIT} = '点滅方式';

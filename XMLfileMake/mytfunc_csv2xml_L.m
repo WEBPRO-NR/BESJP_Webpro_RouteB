@@ -13,23 +13,6 @@ function xmldata = mytfunc_csv2xml_L(xmldata,filename)
 
 % CSVファイルの読み込み
 LightDataCell = mytfunc_CSVfile2Cell(filename);
-% 
-% LightData = textread(filename,'%s','delimiter','\n','whitespace','');
-% 
-% % 照明定義ファイルの読み込み
-% for i=1:length(LightData)
-%     conma = strfind(LightData{i},',');
-%     for j = 1:length(conma)
-%         if j == 1
-%             LightDataCell{i,j} = LightData{i}(1:conma(j)-1);
-%         elseif j == length(conma)
-%             LightDataCell{i,j}   = LightData{i}(conma(j-1)+1:conma(j)-1);
-%             LightDataCell{i,j+1} = LightData{i}(conma(j)+1:end);
-%         else
-%             LightDataCell{i,j} = LightData{i}(conma(j-1)+1:conma(j)-1);
-%         end
-%     end
-% end
 
 % 情報の抜出
 roomFloor = {};
@@ -118,16 +101,33 @@ for iUNIT = 11:size(LightDataCell,1)
         LightControlFlag_C1 = [LightControlFlag_C1;'None'];
     end
     
-    % 昼光利用制御（Ver2から選択肢変更）
+    % 明るさ検知制御（Ver2から選択肢変更、Ver.2.4で更に追加）
     if isempty(LightDataCell{iUNIT,15}) == 0
         if strcmp(LightDataCell(iUNIT,15),'調光方式')
             LightControlFlag_C2 = [LightControlFlag_C2;'variable'];
         elseif strcmp(LightDataCell(iUNIT,15),'調光方式(自動制御ブラインド併用)')
             LightControlFlag_C2 = [LightControlFlag_C2;'variableWithBlind'];
+            
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式BL')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variableWithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W15')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W15'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W15BL')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W15_WithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W20')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W20'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W20BL')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W20_WithBlind'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W25')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W25'];
+        elseif strcmp(LightDataCell(iUNIT,15),'調光方式W25BL')
+            LightControlFlag_C2 = [LightControlFlag_C2;'variable_W25_WithBlind'];
+            
         elseif strcmp(LightDataCell(iUNIT,15),'点滅方式')
             LightControlFlag_C2 = [LightControlFlag_C2;'onoff'];
         elseif strcmp(LightDataCell(iUNIT,15),'無')
             LightControlFlag_C2 = [LightControlFlag_C2;'None'];
+            
         else
             error('照明制御C2: 不正な選択肢です')
         end
