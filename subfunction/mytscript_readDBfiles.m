@@ -12,6 +12,8 @@ filename_roomOperateCondition = './database/ROOM_COND.csv';  % 標準室使用条件
 filename_refList              = './database/REFLIST_H28.csv';    % 熱源機器リスト
 filename_performanceCurve     = './database/REFCURVE_H28.csv';   % 熱源特性
 filename_flowControl          = './database/FLOWCONTROL.csv'; % 搬送系の効果係数
+filename_HeatThermalConductivity = './database/HeatThermalConductivity.csv';  % 建材物性値
+filename_WindowHeatTransferPerformance = './database/WindowHeatTransferPerformance_H28.csv';  % 窓の物性値
 
 
 % データベースファイル読込み（地域）
@@ -28,6 +30,10 @@ DB_refList = textread(filename_refList,'%s','delimiter','\n','whitespace','');
 DB_refCurve = textread(filename_performanceCurve,'%s','delimiter','\n','whitespace','');
 % データベースファイル読込み（搬送系の効果係数）
 DB_flowControl = textread(filename_flowControl,'%s','delimiter','\n','whitespace','');
+% データベースファイル読込み（建材物性値）
+DB_WCON = textread(filename_HeatThermalConductivity,'%s','delimiter','\n','whitespace','');
+% データベースファイル読込み（窓の物性値）
+DB_WIND = textread(filename_WindowHeatTransferPerformance,'%s','delimiter','\n','whitespace','');
 
 
 %----------------------------------
@@ -140,6 +146,40 @@ for i=1:length(DB_flowControl)
             perDB_flowControl{i,j+1} = DB_flowControl{i}(conma(j)+1:end);
         else
             perDB_flowControl{i,j} = DB_flowControl{i}(conma(j-1)+1:conma(j)-1);
+        end
+    end
+end
+
+
+%----------------------------------
+% 結果の格納 perDB_WCON(材料番号、材料名、熱伝導率、容積比熱、比熱、密度)
+for i=1:length(DB_WCON)
+    conma = strfind(DB_WCON{i},',');
+    for j = 1:length(conma)
+        if j == 1
+            perDB_WCON{i,j} = str2double(DB_WCON{i}(1:conma(j)-1));
+        elseif j == length(conma)
+            perDB_WCON{i,j}   = str2double(DB_WCON{i}(conma(j-1)+1:conma(j)-1));
+            perDB_WCON{i,j+1} = str2double(DB_WCON{i}(conma(j)+1:end));
+        else
+            perDB_WCON{i,j} = str2double(DB_WCON{i}(conma(j-1)+1:conma(j)-1));
+        end
+    end
+end
+
+
+%----------------------------------
+% 結果の格納 perDB_WCON(材料番号、単位、熱伝導率、容積比熱)
+for i=1:length(DB_WIND)
+    conma = strfind(DB_WIND{i},',');
+    for j = 1:length(conma)
+        if j == 1
+            perDB_WIND{i,j} = (DB_WIND{i}(1:conma(j)-1));
+        elseif j == length(conma)
+            perDB_WIND{i,j}   = (DB_WIND{i}(conma(j-1)+1:conma(j)-1));
+            perDB_WIND{i,j+1} = (DB_WIND{i}(conma(j)+1:end));
+        else
+            perDB_WIND{i,j} = (DB_WIND{i}(conma(j-1)+1:conma(j)-1));
         end
     end
 end

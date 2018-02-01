@@ -35,17 +35,17 @@
 %    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード）
 %    4 : 簡略法による日別計算＋エネルギー時刻別計算
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'model_routeB_case01.xml';
-OutputOption = 'OFF';
-varargin{1} = '3';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = 'model_routeB_case01.xml';
+% OutputOption = 'OFF';
+% varargin{1} = '3';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -245,9 +245,9 @@ toc
 %% １）室負荷の計算
 
 % 熱貫流率、日射熱取得率、SCC、SCRの計算 (庇の効果は見込んでいない)
-[WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,...
-    WindowSCCList,WindowSCRList] = ...
-    mytfunc_calcK(DBWCONMODE,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+[WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,WindowSCCList,WindowSCRList] = ...
+    mytfunc_calcK(DBWCONMODE,perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
 % 熱貫流率×外皮面積
 UAlist = zeros(numOfRoooms,1);
 % 日射侵入率×外皮面積

@@ -74,6 +74,18 @@ for iWIND = 1:size(WINDList,1)
             xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'complex';
         elseif strcmp(windListDataCell{WINDNum(iWIND),4},'アルミ')
             xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'aluminum';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'樹脂製(単層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'resin_single';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'金属樹脂複合製(単層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'complex_single';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'金属製(単層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'aluminum_single';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'樹脂製(複層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'resin_double';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'金属樹脂複合製(複層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'complex_double';
+        elseif strcmp(windListDataCell{WINDNum(iWIND),4},'金属製(複層)')
+            xmldata.AirConditioningSystem.WindowConfigure(iWIND).ATTRIBUTE.frameType = 'aluminum_double';
         else
             error('建具の種類（様式2-3 ④）: 不正な選択肢です')
         end

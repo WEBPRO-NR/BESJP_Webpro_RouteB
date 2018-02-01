@@ -18,44 +18,7 @@
 %----------------------------------------------------------------------------
 function [WallNameList,WallUvalueList,WindowNameList,WindowUvalueList,WindowMyuList,...
     WindowSCCList,WindowSCRList] = ...
-    mytfunc_calcK(DBWCONMODE,confW,confG,WallUvalue,WindowUvalue,WindowMvalue)
-
-
-% WCONデータベースの読み込み（HeatThermalConductivity.csv）
-DB_WCON = textread('./database/HeatThermalConductivity.csv','%s','delimiter','\n','whitespace','');
-
-% 結果の格納 perDB_WCON(材料番号、材料名、熱伝導率、容積比熱、比熱、密度)
-for i=1:length(DB_WCON)
-    conma = strfind(DB_WCON{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            perDB_WCON{i,j} = str2double(DB_WCON{i}(1:conma(j)-1));
-        elseif j == length(conma)
-            perDB_WCON{i,j}   = str2double(DB_WCON{i}(conma(j-1)+1:conma(j)-1));
-            perDB_WCON{i,j+1} = str2double(DB_WCON{i}(conma(j)+1:end));
-        else
-            perDB_WCON{i,j} = str2double(DB_WCON{i}(conma(j-1)+1:conma(j)-1));
-        end
-    end
-end
-
-% WINDデータベースの読み込み
-DB_WIND = textread('./database/WindowHeatTransferPerformance_H28.csv','%s','delimiter','\n','whitespace','');
-
-% 結果の格納 perDB_WCON(材料番号、単位、熱伝導率、容積比熱)
-for i=1:length(DB_WIND)
-    conma = strfind(DB_WIND{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            perDB_WIND{i,j} = (DB_WIND{i}(1:conma(j)-1));
-        elseif j == length(conma)
-            perDB_WIND{i,j}   = (DB_WIND{i}(conma(j-1)+1:conma(j)-1));
-            perDB_WIND{i,j+1} = (DB_WIND{i}(conma(j)+1:end));
-        else
-            perDB_WIND{i,j} = (DB_WIND{i}(conma(j-1)+1:conma(j)-1));
-        end
-    end
-end
+    mytfunc_calcK(DBWCONMODE,perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue)
 
 
 %% 壁の熱貫流率
@@ -121,7 +84,7 @@ end
 
 WindowNameList = confG(:,1);               % 窓名称リスト
 WindowUvalueList = zeros(size(confG,1),1); % 窓の熱貫流率
-WindowMyuList = zeros(size(confG,1),1);    % 窓の熱貫流率
+WindowMyuList = zeros(size(confG,1),1);    % 窓の日射熱取得率
 
 for iWIND = 1:size(confG,1)
     
@@ -133,7 +96,7 @@ for iWIND = 1:size(confG,1)
             WindowUvalueList(iWIND) = WindowUvalue(iWIND);
             WindowMyuList(iWIND) = WindowMvalue(iWIND);
             
-        elseif strcmp(confG(iWIND,4),'1')
+        elseif strcmp(confG(iWIND,4),'1')  % ブラインド有
             
             % ガラスの熱貫流率と日射熱取得率が入力されている場合は、ブラインドの効果を見込む
             if strcmp(confG(iWIND,5),'Null') == 0 && strcmp(confG(iWIND,6),'Null') == 0
@@ -173,22 +136,22 @@ for iWIND = 1:size(confG,1)
                 error('ガラス記号が不正です')
             else
                 
-                if strcmp(confG(iWIND,2),'resin') && strcmp(confG(iWIND,4),'0')  % 樹脂、ブラインド無
+                if (strcmp(confG(iWIND,2),'resin')||strcmp(confG(iWIND,2),'resin_single')||strcmp(confG(iWIND,2),'resin_double')) && strcmp(confG(iWIND,4),'0')  % 樹脂、ブラインド無
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,3));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,5));
-                elseif strcmp(confG(iWIND,2),'resin') && strcmp(confG(iWIND,4),'1')  % 樹脂、ブラインド有
+                elseif (strcmp(confG(iWIND,2),'resin')||strcmp(confG(iWIND,2),'resin_single')||strcmp(confG(iWIND,2),'resin_double')) && strcmp(confG(iWIND,4),'1')  % 樹脂、ブラインド有
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,4));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,6));
-                elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'0')  % 複合、ブラインド無
+                elseif (strcmp(confG(iWIND,2),'complex')||strcmp(confG(iWIND,2),'complex_single')||strcmp(confG(iWIND,2),'complex_double')) && strcmp(confG(iWIND,4),'0')  % 複合、ブラインド無
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,7));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,9));
-                elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'1')  % 複合、ブラインド有
+                elseif (strcmp(confG(iWIND,2),'complex')||strcmp(confG(iWIND,2),'complex_single')||strcmp(confG(iWIND,2),'complex_double')) && strcmp(confG(iWIND,4),'1')  % 複合、ブラインド有
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,8));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,10));
-                elseif strcmp(confG(iWIND,2),'aluminum') && strcmp(confG(iWIND,4),'0')  % アルミ、ブラインド無
+                elseif (strcmp(confG(iWIND,2),'aluminum')||strcmp(confG(iWIND,2),'aluminum_single')||strcmp(confG(iWIND,2),'aluminum_double')) && strcmp(confG(iWIND,4),'0')  % アルミ、ブラインド無
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,11));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,13));
-                elseif strcmp(confG(iWIND,2),'aluminum') && strcmp(confG(iWIND,4),'1')  % アルミ、ブラインド有
+                elseif (strcmp(confG(iWIND,2),'aluminum')||strcmp(confG(iWIND,2),'aluminum_single')||strcmp(confG(iWIND,2),'aluminum_double')) && strcmp(confG(iWIND,4),'1')  % アルミ、ブラインド有
                     WindowUvalueList(iWIND) = str2double(perDB_WIND(iDBfind,12));
                     WindowMyuList(iWIND)    = str2double(perDB_WIND(iDBfind,14));
                 else
@@ -202,68 +165,52 @@ for iWIND = 1:size(confG,1)
             % ガラスの熱貫流率と日射熱取得率が入力されている場合（ルート２）
             if strcmp(confG(iWIND,5),'Null') == 0 && strcmp(confG(iWIND,6),'Null') == 0
                 
-                Ug = str2double(confG(iWIND,5));
-                Mg = str2double(confG(iWIND,6));
+                Ug = str2double(confG(iWIND,5)); % ガラスの熱貫流率
+                Mg = str2double(confG(iWIND,6)); % ガラスの日射熱取得率
                 
-                if strcmp(confG(iWIND,2),'resin') && strcmp(confG(iWIND,4),'0')  % 樹脂、ブラインド無
-                    
-                    dR   = 0;  % ブラインド
-                    Ufg  = 0.6435 * Ug + 1.0577;  % 建具（樹脂）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（樹脂）
-                    
-                    Mgs =  Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.72 * Mgs;   % ブラインド ＋ 建具（樹脂）
-
-                   
-                elseif strcmp(confG(iWIND,2),'resin') && strcmp(confG(iWIND,4),'1')  % 樹脂、ブラインド有
-                    
-                    dR   = 0.021/Ug + 0.022;  % ブラインド
-                    Ufg  = 0.6435 * Ug + 1.0577;  % 建具（樹脂）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（樹脂）
-                    
-                    Mgs = -0.1331 * Mg^2 + 0.8258 * Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.72 * Mgs;   % ブラインド ＋ 建具（樹脂）
-                    
-                elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'0')  % 複合、ブラインド無
-
-                    dR   = 0;  % ブラインド
-                    Ufg  = 0.7623 * Ug + 1.2363;  % 建具（複合）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（複合）
-                    
-                    Mgs =  Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.80 * Mgs;   % ブラインド ＋ 建具
-                    
-                elseif strcmp(confG(iWIND,2),'complex') && strcmp(confG(iWIND,4),'1')  % 複合、ブラインド有
-
-                    dR   = 0.021/Ug + 0.022;  % ブラインド
-                    Ufg  = 0.7623 * Ug + 1.2363;  % 建具（複合）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（複合）
-                    
-                    Mgs = -0.1331 * Mg^2 + 0.8258 * Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.80 * Mgs;   % ブラインド ＋ 建具（複合）
-                    
-                elseif strcmp(confG(iWIND,2),'aluminum') && strcmp(confG(iWIND,4),'0')  % アルミ、ブラインド無
-
-                    dR   = 0;  % ブラインド
-                    Ufg  = 0.7699 * Ug + 1.5782;  % 建具（アルミ）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（アルミ）
-                    
-                    Mgs =  Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.80 * Mgs;   % ブラインド ＋ 建具（アルミ）
-                    
-                elseif strcmp(confG(iWIND,2),'aluminum') && strcmp(confG(iWIND,4),'1')  % アルミ、ブラインド有
-
-                    dR   = 0.021/Ug + 0.022;  % ブラインド
-                    Ufg  = 0.7699 * Ug + 1.5782;  % 建具（アルミ）
-                    WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % ブラインド ＋ 建具（アルミ）
-                    
-                    Mgs = -0.1331 * Mg^2 + 0.8258 * Mg;  % ブラインド
-                    WindowMyuList(iWIND) = 0.80 * Mgs;   % ブラインド ＋ 建具（アルミ）
-                    
-                else
-                    error('建具種類の入力が不正です')
+                % ブラインドの熱抵抗と日射熱取得率
+                if strcmp(confG(iWIND,4),'0') 
+                    dR  =  0;
+                    Mgs =  Mg;  % 日射熱取得率
+                elseif strcmp(confG(iWIND,4),'1')
+                    dR   = 0.021/Ug + 0.022;
+                    Mgs  = -0.1331 * Mg^2 + 0.8258 * Mg;  % 日射熱取得率
                 end
                 
+                % 係数
+                if strcmp(confG(iWIND,2),'resin_single')
+                    kua = 1.531000/2.325000;
+                    kub = 1.888926/2.325000;
+                    kita = 0.72;
+                elseif strcmp(confG(iWIND,2),'resin_double') || strcmp(confG(iWIND,2),'resin') 
+                    kua = 1.531000/2.325000;
+                    kub = 2.398526/2.325000;
+                    kita = 0.72;
+                elseif strcmp(confG(iWIND,2),'complex_single')
+                    kua = 1.853000/2.317000;
+                    kub = 2.026288/2.317000;
+                    kita = 0.80;
+                elseif strcmp(confG(iWIND,2),'complex_double') || strcmp(confG(iWIND,2),'complex')
+                    kua = 1.853000/2.317000;
+                    kub = 2.659888/2.317000;
+                    kita = 0.80;
+                elseif strcmp(confG(iWIND,2),'aluminum_single')
+                    kua = 1.883000/2.321000;
+                    kub = 3.218862/2.321000;
+                    kita = 0.80;
+                elseif strcmp(confG(iWIND,2),'aluminum_double') || strcmp(confG(iWIND,2),'aluminum')
+                    kua = 1.883000/2.321000;
+                    kub = 3.498862/2.321000;
+                    kita = 0.80;
+                end
+                
+                Ufg  = kua * Ug + kub;  % 窓のU値（ブラインドなし）
+                
+                WindowUvalueList(iWIND) = 1/(1/Ufg + dR);  % 窓のU値（ブラインド込み）
+                
+                WindowMyuList(iWIND) = kita * Mgs;  % 窓のη値（ブラインド込み）
+                
+  
             else
                 error('ガラスの物性値の入力が不正です')
             end
