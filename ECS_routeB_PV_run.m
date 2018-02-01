@@ -13,7 +13,7 @@ function y = ECS_routeB_PV_run(inputfilename,OutputOption)
 
 % clear
 % clc
-% inputfilename = './output.xml';
+% inputfilename = './model_routeB_sample01.xml';
 % addpath('./subfunction/')
 % OutputOption = 'OFF';
 
@@ -37,11 +37,11 @@ end
 mytscript_readDBfiles;
 
 % 地域区分
-climateAREA = model.ATTRIBUTE.Region;
+climateAREA = num2str(model.ATTRIBUTE.Region);
 
 check = 0;
 for iDB = 1:length(perDB_climateArea(:,2))
-    if strcmp(perDB_climateArea(iDB,2),num2str(climateAREA))
+    if strcmp(perDB_climateArea(iDB,1),climateAREA) || strcmp(perDB_climateArea(iDB,2),climateAREA)
         % 気象データファイル名
         eval(['climatedatafile  = ''./weathdat/C1_',perDB_climateArea{iDB,6},''';'])
         % 緯度
