@@ -109,30 +109,30 @@ for iUNIT = 11:size(PVDataCell,1)
             error('太陽光発電：パネルの傾斜角が空欄です')
         end
         
-        % 年間日射量地域区分
-        if isempty(PVDataCell{iUNIT,8}) == 0
-            if strcmp(PVDataCell(iUNIT,8),'A地域')
-                PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'A'];
-            elseif strcmp(PVDataCell(iUNIT,8),'B地域')
-                PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'B'];
-            elseif strcmp(PVDataCell(iUNIT,8),'C地域')
-                PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'C'];
-            elseif strcmp(PVDataCell(iUNIT,8),'D地域')
-                PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'D'];
-            elseif strcmp(PVDataCell(iUNIT,8),'E地域')
-                PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'E'];
-            else
-                error('太陽光発電: 年間日射量地域区分の選択肢が不正です')
-            end
-        else
-            error('太陽光発電：年間日射量地域区分が空欄です')
-        end
+%         % 年間日射量地域区分
+%         if isempty(PVDataCell{iUNIT,8}) == 0
+%             if strcmp(PVDataCell(iUNIT,8),'A地域')
+%                 PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'A'];
+%             elseif strcmp(PVDataCell(iUNIT,8),'B地域')
+%                 PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'B'];
+%             elseif strcmp(PVDataCell(iUNIT,8),'C地域')
+%                 PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'C'];
+%             elseif strcmp(PVDataCell(iUNIT,8),'D地域')
+%                 PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'D'];
+%             elseif strcmp(PVDataCell(iUNIT,8),'E地域')
+%                 PV_SolorIrradiationRegion = [PV_SolorIrradiationRegion;'E'];
+%             else
+%                 error('太陽光発電: 年間日射量地域区分の選択肢が不正です')
+%             end
+%         else
+%             error('太陽光発電：年間日射量地域区分が空欄です')
+%         end
         
         % 備考
-        if isempty(PVDataCell{iUNIT,9})
+        if isempty(PVDataCell{iUNIT,8})
             PV_Info   = [PV_Info;'Null'];
         else
-            PV_Info   = [PV_Info;PVDataCell{iUNIT,9}];
+            PV_Info   = [PV_Info;PVDataCell{iUNIT,8}];
         end
         
     end
@@ -150,7 +150,7 @@ for iUNIT = 1:numOfUnit
     xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.Capacity    = PV_Capacity{iUNIT};
     xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.PanelDirection    = PV_PanelDirection{iUNIT};
     xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.PanelAngle    = PV_PanelAngle{iUNIT};
-    xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.SolorIrradiationRegion    = PV_SolorIrradiationRegion{iUNIT};
+%     xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.SolorIrradiationRegion    = PV_SolorIrradiationRegion{iUNIT};
     xmldata.PhotovoltaicGenerationSystems.PhotovoltaicGeneration(iUNIT).ATTRIBUTE.Info    = PV_Info{iUNIT};
     
 end
