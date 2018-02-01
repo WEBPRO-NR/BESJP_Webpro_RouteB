@@ -16,10 +16,9 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = 'model_Area6_Case07.xml';
+% inputfilename = 'model_routeB_sample01.xml';
 % addpath('./subfunction/')
-% OutputOption = 'OFF';
-
+% OutputOption = 'ON';
 
 %% 設定
 
@@ -137,6 +136,12 @@ end
 
 %% XMLファイルの読み込み
 
+CGSflag = 0;
+if isfield(model.CogenerationSystems,'CGUnit')
+    equipNameCGS = model.CogenerationSystems.CGUnit(1).ATTRIBUTE.HW;  % CGS系統
+    CGSflag = 1;
+end
+
 for iROOM = 1:length(model.HotwaterSystems.HotwaterRoom)
     
     % 階
@@ -168,7 +173,8 @@ for iEQP = 1:length(model.HotwaterSystems.Boiler)
     equipName{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Name;
     % 機器情報
     equipInfo{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Info;
-    
+    % 燃料種類（電気かそれ以外か）
+    equipFueltype{iEQP} = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.equipFueltype;
     % 加熱容量 [kW/台]
     equipPower(iEQP) = model.HotwaterSystems.Boiler(iEQP).ATTRIBUTE.Capacity;
     % 熱源効率 [-]
@@ -495,13 +501,35 @@ end
 
 % 時刻別の値 [MJ]
 Edesign_MWh_hour = zeros(8760,1);
+Edesign_MWh_Ele_hour = zeros(8760,1); % 電力のみ抽出
+Edesign_MWh_Ele_CGS_hour = zeros(8760,1); % CGS系統に行く電力のみ抽出
+Edesign_MJ_CGS_hour = zeros(8760,1);
+Q_eqp_CGS_hour = zeros(8760,1);
 Q_eqp_hour = zeros(8760,1);
+
 for iEQP = 1:length(equipName)
     for dd = 1:365
         for hh = 1:24
             num = 24*(dd-1) + hh;
             Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000; % エネルギー
             Q_eqp_hour(num,1)       = Q_eqp_hour(num,1)       + Q_eqp(dd,iEQP)/24/1000; % 給湯負荷
+            
+            if CGSflag == 1
+                % CGS用（電力のみ抜き出し）
+                if strcmp(equipFueltype{iEQP},'Electric')
+                    Edesign_MWh_Ele_hour(num,1) = Edesign_MWh_Ele_hour(num,1) + E_eqp(dd,iEQP)/24/1000/9760; % 電力のみ [MJ]→[MWh]
+                    if strcmp(equipName{iEQP},equipNameCGS)
+                        Edesign_MWh_Ele_CGS_hour(num,1) = Edesign_MWh_Ele_CGS_hour(num,1) + E_eqp(dd,iEQP)/24/1000/9760; % CGS系統の電力のみ [MJ]→[MWh]
+                    end
+                end
+                
+                % CGS用（排熱利用系統のみ抜き出し）
+                if strcmp(equipName{iEQP},equipNameCGS)
+                    Edesign_MJ_CGS_hour(num,1) = E_eqp(dd,iEQP)/24/1000; % エネルギー
+                    Q_eqp_CGS_hour(num,1)      = Q_eqp(dd,iEQP)/24/1000; % 給湯負荷
+                end
+            end
+            
         end
     end
 end
@@ -660,10 +688,10 @@ if OutputOptionVar == 1
         end
     end
     
-    RESALL = [ TimeLabel,Edesign_MWh_hour,Q_eqp_hour];
+    RESALL = [ TimeLabel,Edesign_MWh_hour,Q_eqp_hour,Edesign_MWh_Ele_hour,Edesign_MWh_Ele_CGS_hour,Edesign_MJ_CGS_hour,Q_eqp_CGS_hour];
     
     rfc = {};
-    rfc = [rfc;'月,日,時,給湯一次エネルギー消費量[MJ],給湯負荷[MJ]'];
+    rfc = [rfc;'月,日,時,給湯一次エネルギー消費量[MJ],給湯負荷[MJ],給湯電力消費量[MWh],給湯電力消費量（CGS系統）[MWh],給湯一次エネルギー消費量（CGS系統）[MJ],給湯負荷（CGS系統）[MJ]'];
     rfc = mytfunc_oneLinecCell(rfc,RESALL);
     
     fid = fopen(resfilenameH,'w+');

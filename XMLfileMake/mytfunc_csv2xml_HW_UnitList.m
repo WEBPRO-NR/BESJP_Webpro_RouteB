@@ -27,6 +27,7 @@ hwequipInfoCell = mytfunc_CSVfile2Cell(filename);
 
 equipInfo = {};
 equipName = {};
+equipFueltype = {};
 equipCapacity = {};
 equipEfficiency = {};
 equipInsulation = {};
@@ -43,6 +44,13 @@ for iUNIT = 11:size(hwequipInfoCell,1)
     
         % ã@äÌñºèÃ
         equipName = [equipName; hwequipInfoCell{iUNIT,1}];
+        
+        % îRóøéÌóﬁ
+        if strcmp(hwequipInfoCell{iUNIT,2},'ìdóÕ')
+            equipFueltype = [equipFueltype; 'Electric'];
+        else
+            equipFueltype = [equipFueltype; 'Others'];
+        end
         
         % â¡îMóeó 
         equipCapacity = [equipCapacity; hwequipInfoCell{iUNIT,3}];
@@ -102,6 +110,7 @@ for iUNIT = 1:size(equipName,1)
     
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Info        = equipInfo{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Name        = equipName{iUNIT};
+    xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.equipFueltype = equipFueltype{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Capacity    = equipCapacity{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Efficiency  = equipEfficiency{iUNIT};
     xmldata.HotwaterSystems.Boiler(iUNIT).ATTRIBUTE.Insulation  = equipInsulation{iUNIT};
