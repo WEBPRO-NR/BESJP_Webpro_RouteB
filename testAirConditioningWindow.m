@@ -1,9 +1,9 @@
 % AirConditioningWindowTest
 %--------------------------------------------------------------------------
-% 空調の総合テスト
+% 空調・開口部計算のテスト
 %--------------------------------------------------------------------------
 % 実行：
-%　results = runtests('testAirConditioningWindow.m');
+% results = runtests('testAirConditioningWindow.m');
 %--------------------------------------------------------------------------
 
 function tests = testAirConditioningWindow
@@ -207,3 +207,54 @@ verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
 
 end
 
+function testCase16(testCase)
+
+% 実行
+y = ECS_routeB_AC_run('./test/AirConditioningWindowTest/testmodel_Case16.xml','OFF','3','Read','0');
+
+actSolution = [y(1), y(17)];
+expSolution = [977.5252259,1173];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase17(testCase)
+
+% 実行
+y = ECS_routeB_AC_run('./test/AirConditioningWindowTest/testmodel_Case17.xml','OFF','3','Read','0');
+
+actSolution = [y(1), y(17)];
+expSolution = [979.6544314,1173];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase18(testCase)
+
+% 実行
+y = ECS_routeB_AC_run('./test/AirConditioningWindowTest/testmodel_Case18.xml','OFF','3','Read','0');
+
+actSolution = [y(1), y(17)];
+expSolution = [1003.899631,1173];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase19(testCase)
+
+% 実行
+y = ECS_routeB_AC_run('./test/AirConditioningWindowTest/testmodel_Case19.xml','OFF','3','Read','0');
+
+actSolution = [y(1), y(17)];
+expSolution = [1021.643862,1173];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end

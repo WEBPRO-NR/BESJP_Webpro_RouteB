@@ -3,7 +3,7 @@
 % 空調の総合テスト
 %--------------------------------------------------------------------------
 % 実行：
-%　results = runtests('test_mytfunc_calcK.m');
+% results = runtests('test_mytfunc_calcK.m');
 %--------------------------------------------------------------------------
 
 function tests = test_mytfunc_calcK
@@ -162,7 +162,7 @@ load ./test/AirConditioningWindowTest/perDB_WCON.mat
 load ./test/AirConditioningWindowTest/perDB_WIND.mat
 
 confW = {'OW1','W1','302','8'};
-confG = {'WIND1_0','complex_single','Null','0','5.23','0.831'};
+confG = {'WIND1_0','resin_aluminum_complex_single','Null','0','5.23','0.831'};
 WallUvalue = 1.0;
 WindowUvalue = NaN;
 WindowMvalue = NaN;
@@ -185,7 +185,7 @@ load ./test/AirConditioningWindowTest/perDB_WCON.mat
 load ./test/AirConditioningWindowTest/perDB_WIND.mat
 
 confW = {'OW1','W1','302','8'};
-confG = {'WIND1_0','complex_single','Null','1','5.23','0.831'};
+confG = {'WIND1_0','resin_aluminum_complex_single','Null','1','5.23','0.831'};
 WallUvalue = 1.0;
 WindowUvalue = NaN;
 WindowMvalue = NaN;
@@ -210,7 +210,7 @@ load ./test/AirConditioningWindowTest/perDB_WCON.mat
 load ./test/AirConditioningWindowTest/perDB_WIND.mat
 
 confW = {'OW1','W1','302','8'};
-confG = {'WIND1_0','complex_double','Null','0','5.23','0.831'};
+confG = {'WIND1_0','resin_aluminum_complex_double','Null','0','5.23','0.831'};
 WallUvalue = 1.0;
 WindowUvalue = NaN;
 WindowMvalue = NaN;
@@ -233,7 +233,7 @@ load ./test/AirConditioningWindowTest/perDB_WCON.mat
 load ./test/AirConditioningWindowTest/perDB_WIND.mat
 
 confW = {'OW1','W1','302','8'};
-confG = {'WIND1_0','complex_double','Null','1','5.23','0.831'};
+confG = {'WIND1_0','resin_aluminum_complex_double','Null','1','5.23','0.831'};
 WallUvalue = 1.0;
 WindowUvalue = NaN;
 WindowMvalue = NaN;
@@ -484,6 +484,196 @@ WindowMvalue = NaN;
 
 actSolution = [WindowUvalueList, WindowMyuList];
 expSolution = [5.00218401401843,  0.47546090472];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+
+function testCase16(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_single','Null','0','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [4.25636817204301, 0.59832];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase16BL(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_single','Null','1','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [3.83204340243534,  0.427914814248];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+
+function testCase17(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_double','Null','0','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [4.47555096774194, 0.59832];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase17BL(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_double','Null','1','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [4.00879571842358, 0.427914814248];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+
+
+function testCase18(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_aluminum_complex_single','Null','0','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [ 5.05717652136383, 0.6648];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase18BL(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_aluminum_complex_single','Null','1','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [4.46919198805488, 0.47546090472];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+
+
+function testCase19(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_aluminum_complex_double','Null','0','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [ 5.33063357790246,  0.6648];
+
+% 検証
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase19BL(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','wood_aluminum_complex_double','Null','1','5.23','0.831'};
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% 実行
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [4.68142312407016,  0.47546090472];
 
 % 検証
 verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)

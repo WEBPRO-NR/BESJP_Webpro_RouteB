@@ -178,19 +178,19 @@ for iWIND = 1:size(confG,1)
                 end
                 
                 % åWêî
-                if strcmp(confG(iWIND,2),'resin_single')
+                if strcmp(confG(iWIND,2),'resin_single') || strcmp(confG(iWIND,2),'wood_single')
                     kua = 1.531000/2.325000;
                     kub = 1.888926/2.325000;
                     kita = 0.72;
-                elseif strcmp(confG(iWIND,2),'resin_double') || strcmp(confG(iWIND,2),'resin') 
+                elseif strcmp(confG(iWIND,2),'resin_double') || strcmp(confG(iWIND,2),'wood_double') || strcmp(confG(iWIND,2),'resin') 
                     kua = 1.531000/2.325000;
                     kub = 2.398526/2.325000;
                     kita = 0.72;
-                elseif strcmp(confG(iWIND,2),'complex_single')
+                elseif strcmp(confG(iWIND,2),'wood_aluminum_complex_single') || strcmp(confG(iWIND,2),'resin_aluminum_complex_single')
                     kua = 1.853000/2.317000;
                     kub = 2.026288/2.317000;
                     kita = 0.80;
-                elseif strcmp(confG(iWIND,2),'complex_double') || strcmp(confG(iWIND,2),'complex')
+                elseif strcmp(confG(iWIND,2),'wood_aluminum_complex_double') || strcmp(confG(iWIND,2),'resin_aluminum_complex_double') ||strcmp(confG(iWIND,2),'complex')
                     kua = 1.853000/2.317000;
                     kub = 2.659888/2.317000;
                     kita = 0.80;

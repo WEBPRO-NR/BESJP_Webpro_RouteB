@@ -17,7 +17,7 @@
          <MaterialRef Info="Null" Layer="5" MaterialName="セメント・モルタル" MaterialNumber="47" WallThickness="25"/>
          <MaterialRef Info="Null" Layer="6" MaterialName="タイル" MaterialNumber="67" WallThickness="10"/>
       </WallConfigure>
-      <WindowConfigure Info="" Mvalue="Null" Name="WIND1" Uvalue="Null" frameType="resin_aluminum_complex_double" glassMvalue="0.831" glassTypeNumber="Null" glassUvalue="5.23"/>
+      <WindowConfigure Info="" Mvalue="Null" Name="WIND1" Uvalue="Null" frameType="wood_single" glassMvalue="0.831" glassTypeNumber="Null" glassUvalue="5.23"/>
       <Envelope ACZoneFloor="1F" ACZoneID="Z1" ACZoneName="事務室">
          <Wall Blind="False" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="40" WallConfigure="OW1" WindowArea="35" WindowType="WIND1"/>
          <Wall Blind="True" Direction="W" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="40" WallConfigure="OW1" WindowArea="35" WindowType="WIND1"/>
