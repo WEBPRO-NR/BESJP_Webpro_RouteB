@@ -14,7 +14,7 @@ filename_performanceCurve     = './database/REFCURVE_H28.csv';   % 熱源特性
 filename_flowControl          = './database/FLOWCONTROL.csv'; % 搬送系の効果係数
 filename_HeatThermalConductivity = './database/HeatThermalConductivity.csv';  % 建材物性値
 filename_WindowHeatTransferPerformance = './database/WindowHeatTransferPerformance_H28.csv';  % 窓の物性値
-
+filename_QROOM_coeffi         = './database/QROOM_COEFFI.csv';  % 負荷計算係数
 
 % データベースファイル読込み（地域）
 DB_climateArea = textread(filename_ClimateArea,'%s','delimiter','\n','whitespace','');
@@ -34,7 +34,8 @@ DB_flowControl = textread(filename_flowControl,'%s','delimiter','\n','whitespace
 DB_WCON = textread(filename_HeatThermalConductivity,'%s','delimiter','\n','whitespace','');
 % データベースファイル読込み（窓の物性値）
 DB_WIND = textread(filename_WindowHeatTransferPerformance,'%s','delimiter','\n','whitespace','');
-
+% データベースファイル読込み（負荷計算係数）
+DB_COEFFI = textread(filename_QROOM_coeffi,'%s','delimiter','\n','whitespace','');
 
 %----------------------------------
 % 地域ごとの季節区分の読み込み
@@ -184,3 +185,19 @@ for i=1:length(DB_WIND)
     end
 end
 
+
+%----------------------------------
+% 負荷計算係数の読み込み（変数 perDB_COEFFI）
+for i=1:length(DB_COEFFI)
+    conma = strfind(DB_COEFFI{i},',');
+    for j = 1:length(conma)
+        if j == 1
+            perDB_COEFFI{i,j} = DB_COEFFI{i}(1:conma(j)-1);
+        elseif j == length(conma)
+            perDB_COEFFI{i,j}   = DB_COEFFI{i}(conma(j-1)+1:conma(j)-1);
+            perDB_COEFFI{i,j+1} = DB_COEFFI{i}(conma(j)+1:end);
+        else
+            perDB_COEFFI{i,j} = DB_COEFFI{i}(conma(j-1)+1:conma(j)-1);
+        end
+    end
+end

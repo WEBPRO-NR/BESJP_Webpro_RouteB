@@ -4,27 +4,6 @@
 % 簡略負荷計算法
 %------------------------------------------------------------------
 
-
-%% データベース読み込み
-
-% 補正係数データベースの読み込み（行ごと）
-DB_COEFFI = textread('./database/QROOM_COEFFI.csv','%s','delimiter','\n','whitespace','');
-
-% CSVファイルのデータ読み込み（変数 perDB_COEFFI）
-for i=1:length(DB_COEFFI)
-    conma = strfind(DB_COEFFI{i},',');
-    for j = 1:length(conma)
-        if j == 1
-            perDB_COEFFI{i,j} = DB_COEFFI{i}(1:conma(j)-1);
-        elseif j == length(conma)
-            perDB_COEFFI{i,j}   = DB_COEFFI{i}(conma(j-1)+1:conma(j)-1);
-            perDB_COEFFI{i,j+1} = DB_COEFFI{i}(conma(j)+1:end);
-        else
-            perDB_COEFFI{i,j} = DB_COEFFI{i}(conma(j-1)+1:conma(j)-1);
-        end
-    end
-end
-
 % 該当地域のデータを切り出し(変数 C_sta2dyn)
 switch climateAREA
     case {'Ia','1'}
@@ -155,12 +134,10 @@ for iROOM = 1:numOfRoooms
 end
 
 
-% 気象データの読み込み（行ごと）
+%% 気象データの読み込み（行ごと）
 eval(['climatedatafile  = ''./weathdat/C1_',cell2mat(climateDatabase),''';'])
 [ToutALL,XouALL,IodALL,IosALL,InnALL] = mytfunc_climatedataRead(climatedatafile);
 [perDB_WEATHER,perDB_WEATHERita] = mytfunc_climatedataCalc(phi,longi,ToutALL,XouALL,IodALL,IosALL,InnALL);
-
-% perDB_WEATHER = perDB_WEATHERita;
 
 % 外気温 [℃]
 Toa_ave = perDB_WEATHER(:,4);
@@ -198,53 +175,6 @@ ISR_H   = perDB_WEATHER(:,20);  % 水平
 % 夜間放射[Wh/m2]
 NSR_V   = perDB_WEATHER(:,21);  % 鉛直
 NSR_H   = perDB_WEATHER(:,22);  % 水平
-
-
-% % 宮島さん作成ファイルを読み込む場合
-% DB_WEATHER = textread(cell2mat(strcat('./weathdat/',strrep(climateDatabase,'.has','_NM1D.csv'))),...
-%     '%s','delimiter','\n','whitespace','');
-% 
-% % CSVファイルのデータ読み込み（変数 perDB_WEATHER）
-% for i=1:length(DB_WEATHER)
-%     conma = strfind(DB_WEATHER{i},',');
-%     for j = 1:length(conma)
-%         if j == 1
-%             perDB_WEATHER{i,j} = DB_WEATHER{i}(1:conma(j)-1);
-%         elseif j == length(conma)
-%             perDB_WEATHER{i,j}   = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
-%             perDB_WEATHER{i,j+1} = DB_WEATHER{i}(conma(j)+1:end);
-%         else
-%             perDB_WEATHER{i,j} = DB_WEATHER{i}(conma(j-1)+1:conma(j)-1);
-%         end
-%     end
-% end
-% 
-% % 外気温 [℃]
-% Toa_ave = str2double(perDB_WEATHER(3:end,4));
-% Toa_day = str2double(perDB_WEATHER(3:end,5));
-% Toa_ngt = str2double(perDB_WEATHER(3:end,6));
-% % 湿度 [kg/kgDA]
-% Xoa_ave = str2double(perDB_WEATHER(3:end,7))./1000;
-% Xoa_day = str2double(perDB_WEATHER(3:end,8))./1000;
-% Xoa_ngt = str2double(perDB_WEATHER(3:end,9))./1000;
-% % 直達日射量[Wh/m2](ガラス入射角反映・0.89で除して基準化済み)
-% DSR_S   = str2double(perDB_WEATHER(3:end,10));
-% DSR_SW  = str2double(perDB_WEATHER(3:end,11));
-% DSR_W   = str2double(perDB_WEATHER(3:end,12));
-% DSR_NW  = str2double(perDB_WEATHER(3:end,13));
-% DSR_N   = str2double(perDB_WEATHER(3:end,14));
-% DSR_NE  = str2double(perDB_WEATHER(3:end,15));
-% DSR_E   = str2double(perDB_WEATHER(3:end,16));
-% DSR_SE  = str2double(perDB_WEATHER(3:end,17));
-% DSR_H   = str2double(perDB_WEATHER(3:end,18));
-% % 天空・反射日射量[Wh/m2](ガラス入射角反映ただし0.808は乗じていない)
-% ISR_V   = str2double(perDB_WEATHER(3:end,19));  % 鉛直
-% ISR_H   = str2double(perDB_WEATHER(3:end,20));  % 水平
-% % 夜間放射[Wh/m2]
-% NSR_V   = str2double(perDB_WEATHER(3:end,21));  % 鉛直
-% NSR_H   = str2double(perDB_WEATHER(3:end,22));  % 水平
-
-
 
 % 出力用(外気温、湿度、エンタルピー)
 OAdataAll = [Toa_ave,Xoa_ave,mytfunc_enthalpy(Toa_ave,Xoa_ave)];  % 終日平均
@@ -291,8 +221,8 @@ for iROOM = 1:numOfRoooms
         % 外壁・窓の情報を読み込む
         for iWALL = 1:numOfWalls(iENV)
             
-            % 方位係数＜冷房期＞（方位：Direction{iENV,iWALL}）
-            directionV = mytfunc_DirectionCoeffi(Direction{iENV,iWALL},climateAREA,'C');
+%             % 方位係数＜冷房期＞（方位：Direction{iENV,iWALL}）
+%             directionV = mytfunc_DirectionCoeffi(Direction{iENV,iWALL},climateAREA,'C');
             
             % 外壁があれば（外壁名称 WallConfigure で探査）
             if isempty(WallConfigure{iENV,iWALL}) == 0
@@ -300,12 +230,13 @@ for iROOM = 1:numOfRoooms
                 % 外壁構成リスト WallNameList の検索
                 for iDB = 1:length(WallNameList)
                     if strcmp(WallNameList{iDB},WallConfigure{iENV,iWALL})
+                        
                         % U値×外壁面積
                         WallUA = WallUvalueList(iDB)*(WallArea(iENV,iWALL) - WindowArea(iENV,iWALL));
                         
-                        % UA,MA保存
-                        UAlist(iROOM) = UAlist(iROOM) + WallUA;
-                        MAlist(iROOM) = MAlist(iROOM) + directionV*(0.8*0.04)*WallUA;
+%                         % UA,MA保存
+%                         UAlist(iROOM) = UAlist(iROOM) + WallUA;
+%                         MAlist(iROOM) = MAlist(iROOM) + directionV*(0.8*0.04)*WallUA;
                         
                         switch Direction{iENV,iWALL}
                             
@@ -382,9 +313,9 @@ for iROOM = 1:numOfRoooms
                             WindowEavesH = 0;
                         end
                         
-                        % UA,MA保存
-                        UAlist(iROOM) = UAlist(iROOM) + WindowUA;
-                        MAlist(iROOM) = MAlist(iROOM) + WindowEavesC * directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);
+%                         % UA,MA保存
+%                         UAlist(iROOM) = UAlist(iROOM) + WindowUA;
+%                         MAlist(iROOM) = MAlist(iROOM) + WindowEavesC * directionV * WindowMyuList(iDB)*WindowArea(iENV,iWALL);
                         
                         switch Direction{iENV,iWALL}
                             case 'Horizontal'
