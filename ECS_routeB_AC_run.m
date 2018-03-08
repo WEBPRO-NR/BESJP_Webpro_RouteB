@@ -35,17 +35,17 @@
 %    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード）
 %    4 : 簡略法による日別計算＋エネルギー時刻別計算
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
-
+% % function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+% 
 % コンパイル時には消す
-% clear
-% clc
-% addpath('./subfunction/')
-% INPUTFILENAME = 'model_routeB_case01.xml';
-% OutputOption = 'OFF';
-% varargin{1} = '3';
-% varargin{2} = 'Calc';
-% varargin{3} = '0';
+clear
+clc
+addpath('./subfunction/')
+INPUTFILENAME = 'model_routeB_sample01.xml';
+OutputOption = 'OFF';
+varargin{1} = '0';
+varargin{2} = 'Calc';
+varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -2281,13 +2281,13 @@ y(19) = sum(E_OAapp_1st)./roomAreaTotal;
 y(20) = roomAreaTotal;
 
 % 熱損失係数 [W/m2K]
-for iROOM = 1:numOfRoooms
-    UAlist(iROOM) = UAlist(iROOM) + 0.5*2.7*roomArea(iROOM)*(1.2*1.006/3600*1000);
-end
+% for iROOM = 1:numOfRoooms
+%     UAlist(iROOM) = UAlist(iROOM) + 0.5*2.7*roomArea(iROOM)*(1.2*1.006/3600*1000);
+% end
+y(21) = NaN; %sum(UAlist)/roomAreaTotal;
 
-y(21) = sum(UAlist)/roomAreaTotal;
 % 日射取得係数 [-]
-y(22) = sum(MAlist)/roomAreaTotal;
+y(22) = NaN; %sum(MAlist)/roomAreaTotal;
 
 
 % 熱源容量計算
