@@ -1340,12 +1340,10 @@ for iREF = 1:numOfRefs
         if isempty( tmprefset ) == 0
             
             % 冷却水変流量制御の有無
-            switch tmprefset
-                case {'AbcorptionChiller_CityGas_CTVWV','AbcorptionChiller_LPG_CTVWV',...
-                        'AbcorptionChiller_Oil_CTVWV','AbcorptionChiller_Kerosene_CTVWV'}
-                    checkCTVWV(iREF,iREFSUB) = 1;
-                otherwise
-                    checkCTVWV(iREF,iREFSUB) = 0;
+            if endsWith(tmprefset, '_CTVWV')
+                checkCTVWV(iREF,iREFSUB) = 1;
+            else
+                checkCTVWV(iREF,iREFSUB) = 0;
             end
             
             % 発電機能の有無
