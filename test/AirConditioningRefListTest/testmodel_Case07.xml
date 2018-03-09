@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BuildingType="Office" CreateTime="2011-12-15T13:45:15.3864975+09:00" Description="基準値計算用単室モデル" FileVer="1" Name="単室モデル" Region="6" Signature="Name=ibc_newhasp, Version=1.0.0.0, RuntimeVersion=v2.0.50727" TotalArea="100" UniqueId="18b76430-d783-48a1-8536-71373e03fc79">
+   <Rooms>
+      <Room BuildingType="Office" FloorHeight="4" ID="ROOM_1" Info="Null" RoomArea="100" RoomFloor="1F" RoomHeight="3" RoomName="事務室" RoomType="事務室" calcAC="True" calcHW="False" calcL="False" calcV="False"/>
+   </Rooms>
+   <AirConditioningSystem>
+      <AirConditioningZone ACZoneFloor="1F" ACZoneName="事務室" ID="Z1">
+         <AirHandlingUnitRef Load="Room" Name="ACP1"/>
+         <AirHandlingUnitRef Load="OutsideAir" Name="ACP1"/>
+         <RoomRef BuildingType="Office" FloorHeight="4" ID="ROOM_1" RoomArea="100" RoomFloor="1F" RoomHeight="3" RoomName="事務室" RoomType="事務室"/>
+      </AirConditioningZone>
+      <WallConfigure Name="OW1" Uvalue="0.5" WallType="Air">
+         <MaterialRef Info="Null" Layer="1" MaterialName="せっこうボード" MaterialNumber="62" WallThickness="8"/>
+         <MaterialRef Info="Null" Layer="2" MaterialName="非密閉中空層" MaterialNumber="302" WallThickness="0"/>
+         <MaterialRef Info="Null" Layer="3" MaterialName="押出法ポリスチレンフォーム 保温板 1種" MaterialNumber="181" WallThickness="25"/>
+         <MaterialRef Info="Null" Layer="4" MaterialName="コンクリート" MaterialNumber="41" WallThickness="150"/>
+         <MaterialRef Info="Null" Layer="5" MaterialName="セメント・モルタル" MaterialNumber="47" WallThickness="25"/>
+         <MaterialRef Info="Null" Layer="6" MaterialName="タイル" MaterialNumber="67" WallThickness="10"/>
+      </WallConfigure>
+      <WindowConfigure Info="" Mvalue="0.876" Name="WIND1" Uvalue="4.2" frameType="resin" glassMvalue="0.42" glassTypeNumber="Null" glassUvalue="5.23"/>
+      <Envelope ACZoneFloor="1F" ACZoneID="Z1" ACZoneName="事務室">
+         <Wall Blind="False" Direction="S" Eaves_Cooling="Null" Eaves_Heating="Null" WallArea="40" WallConfigure="OW1" WindowArea="10" WindowType="WIND1"/>
+      </Envelope>
+      <AirHandlingUnitSet Name="ACP1">
+         <AirHandlingUnit CoolingCapacity="16" Count="1" ExitFanPower="Null" FlowControl="Null" FreeCoolingControl="Null" HeatExchanger="Null" HeatExchangerBypass="Null" HeatExchangerEfficiency="Null" HeatExchangerPower="Null" HeatExchangerVolume="Null" HeatingCapacity="16" Info="Null" MinDamperOpening="Null" OutsideAirCutControl="Null" OutsideAirFanPower="Null" ReturnFanPower="Null" SupplyAirVolume="4000" SupplyFanPower="0.1" Type="UNIT"/>
+         <SecondaryPumpRef Cooling="Null" Heating="Null"/>
+         <HeatSourceSetRef Cooling="PC1" Heating="PH1"/>
+      </AirHandlingUnitSet>
+      <HeatSourceSet CHmode="False" Name="PC1" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="16" Capacity_Heating="Null" Count_Cooling="1" Count_Heating="Null" Info="Null" MainPower_Cooling="4" MainPower_Heating="Null" Order_Cooling="1" Order_Heating="Null" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="PackagedAirConditioner_AirSource"/>
+      </HeatSourceSet>
+      <HeatSourceSet CHmode="False" Name="PH1" QuantityControl="False" StorageMode="None" StorageSize="Null">
+         <HeatSource CTCapacity_Cooling="Null" CTFanPower_Cooling="Null" CTPumpPower_Cooling="Null" Capacity_Cooling="Null" Capacity_Heating="16" Count_Cooling="Null" Count_Heating="1" Info="Null" MainPower_Cooling="Null" MainPower_Heating="4" Order_Cooling="Null" Order_Heating="1" PrimaryPumpPower_Cooling="Null" PrimaryPumpPower_Heating="Null" SubPower_Cooling="Null" SubPower_Heating="Null" SupplyWaterTemp_Cooling="Null" SupplyWaterTemp_Heating="Null" Type="PackagedAirConditioner_AirSource"/>
+      </HeatSourceSet>
+   </AirConditioningSystem>
+   <LightingSystems/>
+   <HotwaterSystems/>
+   <VentilationSystems/>
+   <Elevators/>
+   <PhotovoltaicGenerationSystems/>
+   <CogenerationSystems/>
+</model>
