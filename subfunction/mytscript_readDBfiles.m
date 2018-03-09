@@ -13,7 +13,7 @@ filename_refList              = './database/REFLIST_H28.csv';    % ”MŒ¹‹@ŠíƒŠƒXƒ
 filename_performanceCurve     = './database/REFCURVE_H28.csv';   % ”MŒ¹“Á«
 filename_flowControl          = './database/FLOWCONTROL.csv'; % ”À‘—Œn‚ÌŒø‰ÊŒW”
 filename_HeatThermalConductivity = './database/HeatThermalConductivity.csv';  % ŒšŞ•¨«’l
-filename_WindowHeatTransferPerformance = './database/WindowHeatTransferPerformance_H28.csv';  % ‘‹‚Ì•¨«’l
+filename_WindowHeatTransferPerformance = './database/WindowHeatTransferPerformance_H30.csv';  % ‘‹‚Ì•¨«’l
 filename_QROOM_coeffi         = './database/QROOM_COEFFI.csv';  % •‰‰×ŒvZŒW”
 
 % ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹“Ç‚İi’nˆæj

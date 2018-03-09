@@ -33,32 +33,32 @@ tests = functiontests(localfunctions);
 
 end
 
-% % 2017”N“x
-% function testCase01(testCase)
-% 
-% global expSolutionALL
-% 
-% actSolution = [];
-% expSolution = [];
-% 
-% for caseNum = 1:42
-%     
-%     if caseNum < 10
-%         % ŽÀs
-%         eval(['y = ECS_routeB_AC_run(''./test/AirConditioningRefListTest/testmodel_Case0',int2str(caseNum),'.xml'',''OFF'',''3'',''Read'',''0'');'])
-%     else
-%         eval(['y = ECS_routeB_AC_run(''./test/AirConditioningRefListTest/testmodel_Case',int2str(caseNum),'.xml'',''OFF'',''3'',''Read'',''0'');'])
-%     end
-%     
-%     actSolution = [actSolution, y(1), y(17)];
-%     expSolution = [expSolution, expSolutionALL(caseNum,:)];
-%     
-% end
-% 
-% % ŒŸØ
-% verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
-% 
-% end
+% 2017”N“x
+function testCase01(testCase)
+
+global expSolutionALL
+
+actSolution = [];
+expSolution = [];
+
+for caseNum = 1:42
+    
+    if caseNum < 10
+        % ŽÀs
+        eval(['y = ECS_routeB_AC_run(''./test/AirConditioningRefListTest/testmodel_Case0',int2str(caseNum),'.xml'',''OFF'',''3'',''Read'',''0'');'])
+    else
+        eval(['y = ECS_routeB_AC_run(''./test/AirConditioningRefListTest/testmodel_Case',int2str(caseNum),'.xml'',''OFF'',''3'',''Read'',''0'');'])
+    end
+    
+    actSolution = [actSolution, y(1), y(17)];
+    expSolution = [expSolution, expSolutionALL(caseNum,:)];
+    
+end
+
+% ŒŸØ
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
 
 % ”r”M‹zŽûŽ®‚È‚Ç’Ç‰Á
 function testCase02(testCase)
