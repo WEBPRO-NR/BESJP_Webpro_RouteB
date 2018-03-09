@@ -28,7 +28,7 @@ WindowMvalue = NaN;
     = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
 
 actSolution = [WindowUvalueList, WindowMyuList];
-expSolution = [2.7000, 0.4300];
+expSolution = [2.6400, 0.4300];
 
 % åüèÿ
 verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
@@ -51,7 +51,7 @@ WindowMvalue = NaN;
     = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
 
 actSolution = [WindowUvalueList, WindowMyuList];
-expSolution = [2.1, 0.3300];
+expSolution = [2.09, 0.3300];
 
 % åüèÿ
 verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
@@ -674,6 +674,30 @@ WindowMvalue = NaN;
 
 actSolution = [WindowUvalueList, WindowMyuList];
 expSolution = [4.68142312407016,  0.47546090472];
+
+% åüèÿ
+verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
+
+end
+
+function testCase20(testCase)
+
+load ./test/AirConditioningWindowTest/perDB_WCON.mat
+load ./test/AirConditioningWindowTest/perDB_WIND.mat
+
+confW = {'OW1','W1','302','8'};
+confG = {'WIND1_0','complex_double','S','0','0','0'};
+
+WallUvalue = 1.0;
+WindowUvalue = NaN;
+WindowMvalue = NaN;
+    
+% é¿çs
+[~,~,~,WindowUvalueList,WindowMyuList,~,~]...
+    = mytfunc_calcK('Regulation',perDB_WCON,perDB_WIND,confW,confG,WallUvalue,WindowUvalue,WindowMvalue);
+
+actSolution = [WindowUvalueList, WindowMyuList];
+expSolution = [2.63,  0.0842];
 
 % åüèÿ
 verifyEqual(testCase,actSolution,expSolution,'RelTol',0.0001)
