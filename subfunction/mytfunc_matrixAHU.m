@@ -16,15 +16,19 @@
 %   Mxh : 負荷出現頻度マトリックス（温熱）
 %-----------------------------------------------------------------------------------------------------------
 
-function [Mxc,Mxh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUCHmode,WIN,MID,SUM,mxL)
+function [Mxc,Mxh,Tdc,Tdh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUCHmode,WIN,MID,SUM,mxL)
+
+% 日別運転時間（MODE=4）
+Tdc = zeros(365,1);
+Tdh = zeros(365,1);
 
 
 switch MODE
 
-    case {0,1,4}
+    case {0,1}
         
         switch MODE
-            case {0,4}
+            case {0}
                 % 時系列データ
                 Mxc = zeros(8760,1);
                 Mxh = zeros(8760,1);
@@ -46,7 +50,7 @@ switch MODE
                         ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
                         
                         switch MODE
-                            case {0,4}
+                            case {0}
                                 Mxc(num,1) = ix;
                             case {1}
                                 Mxc(1,ix) = Mxc(1,ix) + 1;
@@ -57,7 +61,7 @@ switch MODE
                         ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
                         
                         switch MODE
-                            case {0,4}
+                            case {0}
                                 Mxh(num,1) = ix;
                             case {1}
                                 Mxh(1,ix) = Mxh(1,ix) + 1;
@@ -66,6 +70,7 @@ switch MODE
                     end
                 end
             end
+            
             
         elseif AHUCHmode == 0   % 冷暖切替（季節ごと）
             
@@ -91,7 +96,7 @@ switch MODE
                             ix = mytfunc_countMX(Qa_c(num,1)/Qar_c,mxL);
                             
                             switch MODE
-                                case {0,4}
+                                case {0}
                                     Mxc(num,1) = ix;
                                 case {1}
                                     Mxc(1,ix) = Mxc(1,ix) + 1;
@@ -102,7 +107,7 @@ switch MODE
                             ix = mytfunc_countMX((-1)*Qa_c(num,1)/Qar_h,mxL);
                             
                             switch MODE
-                                case {0,4}
+                                case {0}
                                     Mxh(num,1) = ix;
                                 case {1}
                                     Mxh(1,ix) = Mxh(1,ix) + 1;
@@ -116,12 +121,18 @@ switch MODE
             error('二管式／四管式の設定が不正です')
         end
         
-
-    case {2,3}
         
-        % マトリックス
-        Mxc = zeros(1,length(mxL)); % 冷房マトリックス
-        Mxh = zeros(1,length(mxL)); % 暖房マトリックス
+    case {2,3,4}
+        
+        switch MODE
+            case {2,3}
+                Mxc = zeros(1,length(mxL)); % 冷房マトリックス
+                Mxh = zeros(1,length(mxL)); % 暖房マトリックス
+            case {4}
+                Mxc = zeros(365,1); % 日別データ
+                Mxh = zeros(365,1); % 日別データ
+        end
+        
         
         for ich = 1:2
             
@@ -160,11 +171,25 @@ switch MODE
                             
                             if La(dd,1) > 0 % 冷房負荷であれば
                                 ix = mytfunc_countMX(La(dd,1),mxL);
-                                Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
+                                
+                                switch MODE
+                                    case {2,3}
+                                        Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
+                                    case {4}
+                                        Mxc(dd,1) = ix;
+                                        Tdc(dd,1) = Tdc(dd,1) + Ta(dd,1);
+                                end
                                 
                             elseif La(dd,1) < 0 % 暖房負荷であれば
                                 ix = mytfunc_countMX((-1)*La(dd,1),mxL);
-                                Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
+                                
+                                switch MODE
+                                    case {2,3}
+                                        Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
+                                    case {4}
+                                        Mxh(dd,1) = ix;
+                                        Tdh(dd,1) = Tdh(dd,1) + Ta(dd,1);
+                                end
                                 
                             end
                         end
@@ -187,14 +212,29 @@ switch MODE
                             if isnan(La(dd,1)) == 0 % ゼロ割でNaNになっている値を飛ばす
                                 if La(dd,1) ~= 0  && (iSEASON == 2 || iSEASON == 3) % 冷房期間であれば
                                     ix = mytfunc_countMX(La(dd,1),mxL);
-                                    Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
+                                    
+                                    switch MODE
+                                        case {2,3}
+                                            Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
+                                        case {4}
+                                            Mxc(dd,1) = ix;
+                                            Tdc(dd,1) = Tdc(dd,1) + Ta(dd,1);
+                                    end
                                     
                                 elseif La(dd,1) ~= 0 && iSEASON == 1  % 暖房期間であれば
                                     ix = mytfunc_countMX((-1)*La(dd,1),mxL);
-                                    Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
+                                    
+                                    switch MODE
+                                        case {2,3}
+                                            Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
+                                        case {4}
+                                            Mxh(dd,1) = ix; 
+                                            Tdh(dd,1) = Tdh(dd,1) + Ta(dd,1);
+                                    end
                                 end
                             end
                         end
+                        
                     end
                     
                 end

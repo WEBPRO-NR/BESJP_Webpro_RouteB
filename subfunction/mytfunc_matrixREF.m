@@ -12,11 +12,13 @@
 %   Mx     : 負荷出現頻度マトリックス
 %-----------------------------------------------------------------------------------------------------------
 
-function [Mx] = mytfunc_matrixREF(MODE,Qref_c,Qrefr_c,Tref,OAdata,mxT,mxL)
+function [Mx,Tx] = mytfunc_matrixREF(MODE,Qref_c,Qrefr_c,Tref,OAdata,mxT,mxL)
+
+Tx = zeros(365,1);
 
 switch MODE
     
-    case {0,4}
+    case {0}
         
         % 時系列データ
         Mx = zeros(8760,2);  % 負荷率帯, 外気温帯
@@ -60,10 +62,15 @@ switch MODE
             end
         end
         
-    case {2,3}
+    case {2,3,4}
         
         % マトリックス
-        Mx = zeros(length(mxT),length(mxL)); % 外気温×負荷率
+        switch MODE
+            case {2,3}
+                Mx = zeros(length(mxT),length(mxL)); % 外気温×負荷率
+            case {4}
+                Mx = zeros(365,2);
+        end
         
         % 負荷率算出 [-]
         Lref = (Qref_c./Tref.*1000./3600)./Qrefr_c;
@@ -78,7 +85,15 @@ switch MODE
                 
                 noa = mytfunc_countMX(OAdata(dd,1),mxT);
                 ix  = mytfunc_countMX(Lref(dd,1),mxL);
-                Mx(noa,ix) = Mx(noa,ix) + Tref(dd,1);
+                
+                switch MODE
+                    case {2,3}
+                        Mx(noa,ix) = Mx(noa,ix) + Tref(dd,1);
+                    case {4}
+                        Mx(dd,1) = ix;
+                        Mx(dd,2) = noa;
+                        Tx(dd,1) = Tref(dd,1);
+                end
                 
             end
             

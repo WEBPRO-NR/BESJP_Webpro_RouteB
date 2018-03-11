@@ -12,12 +12,14 @@
 %   Mxc    : 負荷出現頻度マトリックス
 %-----------------------------------------------------------------------------------------------------------
 
-function [Mxc] = mytfunc_matrixPUMP(MODE,Qps,Qpsr,Tps,mxL)
+function [Mxc,Tdc] = mytfunc_matrixPUMP(MODE,Qps,Qpsr,Tps,mxL)
 
+% 日別運転時間（MODE=4）
+Tdc = zeros(365,1);
 
 switch MODE
     
-    case {0,4}
+    case {0}
         
         % 時系列データ
         Mxc = zeros(8760,1);
@@ -37,7 +39,7 @@ switch MODE
                 
             end
         end
-        
+                
     case {1}
         
         % マトリックス
@@ -58,12 +60,16 @@ switch MODE
             end
         end
         
-    case {2,3}
+    case {2,3,4}
         
-        % マトリックス
-        Mxc = zeros(1,length(mxL)); % 冷房マトリックス
+        switch MODE
+            case {2,3}
+                Mxc = zeros(1,length(mxL)); % マトリックス
+            case {4}
+                Mxc = zeros(365,1);
+        end
         
-        Lpump = (Qps./Tps.*1000./3600)./Qpsr;
+        Lpump = (Qps./Tps.*1000./3600)./Qpsr; % 負荷率帯
         Tpump = Tps;
         
         for dd = 1:365
@@ -71,10 +77,16 @@ switch MODE
                 if Lpump(dd,1) > 0
                     % 出現時間マトリックスを作成
                     ix = mytfunc_countMX(Lpump(dd,1),mxL);
-                    Mxc(1,ix) = Mxc(1,ix) + Tpump(dd,1);
+                    switch MODE
+                        case {2,3}
+                            Mxc(1,ix) = Mxc(1,ix) + Tpump(dd,1);
+                        case {4}
+                            Mxc(dd,1) = ix;
+                            Tdc(dd,1) = Tpump(dd,1);
+                    end
                 end
             end
         end
-        
+
 end
 
