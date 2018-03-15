@@ -35,17 +35,17 @@
 %    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード Ver.2.4）
 %    4 : 簡略法による日別計算＋エネルギー日別計算（省エネ基準モード Ver.2.5）
 %----------------------------------------------------------------------
-function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-% clear
-% clc
-% addpath('./subfunction/')
-% INPUTFILENAME = 'testmodel_Case05.xml';
-% OutputOption = 'OFF';
-% varargin{1} = '4';
-% varargin{2} = 'Calc';
-% varargin{3} = '0';
+clear
+clc
+addpath('./subfunction/')
+INPUTFILENAME = 'model_CGS_case00.xml';
+OutputOption = 'ON';
+varargin{1} = '4';
+varargin{2} = 'Calc';
+varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -2211,12 +2211,14 @@ switch MODE
         
         % 熱源主機のエネルギー消費量 [*] （各燃料の単位に戻す）
         E_ref_source_day = zeros(365,8);
+        E_ref_source_Ele_day = zeros(365,numOfRefs); % コジェネ計算用に熱源群単位で消費電力を集計する。
         
         for iREF = 1:numOfRefs
             for iREFSUB = 1:refsetRnum(iREF)
                 
                 if refInputType(iREF,iREFSUB) == 1
                     E_ref_source_day(:,refInputType(iREF,iREFSUB)) = E_ref_source_day(:,refInputType(iREF,iREFSUB)) + E_refsys_day(:,iREF,iREFSUB)./(9760);      % [MWh]
+                    E_ref_source_Ele_day(:,iREF) = E_ref_source_Ele_day(:,iREF) + E_refsys_day(:,iREF,iREFSUB)./(9760);      % [MWh]
                 elseif refInputType(iREF,iREFSUB) == 2
                     E_ref_source_day(:,refInputType(iREF,iREFSUB)) = E_ref_source_day(:,refInputType(iREF,iREFSUB)) + E_refsys_day(:,iREF,iREFSUB)./(45000/1000); % [m3/h]
                 elseif refInputType(iREF,iREFSUB) == 3
@@ -2234,6 +2236,7 @@ switch MODE
                 end
                 
             end
+            
         end
         
         E_ref = sum(E_ref_source_day);
@@ -2474,13 +2477,13 @@ if OutputOptionVar == 1
             
         case {4}
             % コージェネレーション用
-            if isfield(INPUT.CogenerationSystems,'CGUnit')
+            if isfield(INPUT.CogenerationSystemsDetail,'CogenerationUnit')
                 
                 % 様式7-3に記されている「熱源群」を探す
-                CGS_refName_C = INPUT.CogenerationSystems.CGUnit(1).ATTRIBUTE.RefCooling;
-                CGS_refName_H = INPUT.CogenerationSystems.CGUnit(1).ATTRIBUTE.RefHeating;
+                CGS_refName_C = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFc_name;
+                CGS_refName_H = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFh_name;
                 
-                mytscript_result2csv_hourly_for_CGS;
+                mytscript_result2csv_daily_for_CGS;
             end
     end
 end
