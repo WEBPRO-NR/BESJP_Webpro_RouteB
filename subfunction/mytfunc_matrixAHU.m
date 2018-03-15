@@ -19,8 +19,8 @@
 function [Mxc,Mxh,Tdc,Tdh] = mytfunc_matrixAHU(MODE,Qa_c,Qar_c,Ta_c,Qa_h,Qar_h,Ta_h,AHUCHmode,WIN,MID,SUM,mxL)
 
 % ì˙ï â^ì]éûä‘ÅiMODE=4Åj
-Tdc = zeros(365,1);
-Tdh = zeros(365,1);
+Tdc = zeros(365,2);
+Tdh = zeros(365,2);
 
 
 switch MODE
@@ -129,14 +129,14 @@ switch MODE
                 Mxc = zeros(1,length(mxL)); % ó‚ñ[É}ÉgÉäÉbÉNÉX
                 Mxh = zeros(1,length(mxL)); % ígñ[É}ÉgÉäÉbÉNÉX
             case {4}
-                Mxc = zeros(365,1); % ì˙ï ÉfÅ[É^
-                Mxh = zeros(365,1); % ì˙ï ÉfÅ[É^
+                Mxc = zeros(365,2); % ì˙ï ÉfÅ[É^
+                Mxh = zeros(365,2); % ì˙ï ÉfÅ[É^
         end
         
         
         for ich = 1:2
             
-            if ich == 1 % ó‚ñ[ä˙
+            if ich == 1 % é∫ì‡ïââ◊Ç™ó‚ñ[óvãÅÇÃèÍçá
                 
                 % 2013/06/06èCê≥(ó‚ñ[íËäiî\óÕÇ∆ígñ[íËäiî\óÕÇ≈èÍçáï™ÇØ)
                 for dd = 1:length(Qa_c)
@@ -148,7 +148,7 @@ switch MODE
                 end
                 Ta = Ta_c;
                 
-            elseif ich == 2 % ígñ[ä˙
+            elseif ich == 2 % é∫ì‡ïââ◊Ç™ígñ[óvãÅÇÃèÍçá
                 
                 % 2013/06/06èCê≥(ó‚ñ[íËäiî\óÕÇ∆ígñ[íËäiî\óÕÇ≈èÍçáï™ÇØ)
                 for dd = 1:length(Qa_h)
@@ -212,13 +212,18 @@ switch MODE
                             if isnan(La(dd,1)) == 0 % É[ÉçäÑÇ≈NaNÇ…Ç»Ç¡ÇƒÇ¢ÇÈílÇîÚÇŒÇ∑
                                 if La(dd,1) ~= 0  && (iSEASON == 2 || iSEASON == 3) % ó‚ñ[ä˙ä‘Ç≈Ç†ÇÍÇŒ
                                     ix = mytfunc_countMX(La(dd,1),mxL);
-                                    
+                                                                        
                                     switch MODE
                                         case {2,3}
                                             Mxc(1,ix) = Mxc(1,ix) + Ta(dd,1);
                                         case {4}
-                                            Mxc(dd,1) = ix;
-                                            Tdc(dd,1) = Tdc(dd,1) + Ta(dd,1);
+                                            if ich == 1
+                                                Mxc(dd,1) = ix;
+                                                Tdc(dd,1) = Tdc(dd,1) + Ta(dd,1);
+                                            elseif ich == 2
+                                                Mxc(dd,2) = ix;
+                                                Tdc(dd,2) = Tdc(dd,2) + Ta(dd,1);
+                                            end
                                     end
                                     
                                 elseif La(dd,1) ~= 0 && iSEASON == 1  % ígñ[ä˙ä‘Ç≈Ç†ÇÍÇŒ
@@ -228,8 +233,14 @@ switch MODE
                                         case {2,3}
                                             Mxh(1,ix) = Mxh(1,ix) + Ta(dd,1);
                                         case {4}
-                                            Mxh(dd,1) = ix; 
-                                            Tdh(dd,1) = Tdh(dd,1) + Ta(dd,1);
+                                            if ich == 1 
+                                                Mxh(dd,1) = ix;
+                                                Tdh(dd,1) = Tdh(dd,1) + Ta(dd,1);
+                                            elseif ich == 2
+                                                Mxh(dd,2) = ix;
+                                                Tdh(dd,2) = Tdh(dd,2) + Ta(dd,1);
+                                            end
+                                            
                                     end
                                 end
                             end
@@ -239,8 +250,10 @@ switch MODE
                     
                 end
                 
+                
             end
         end
+
 end
 
 

@@ -38,7 +38,7 @@ function testCase01(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case01.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case01.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(1,:);
@@ -53,7 +53,7 @@ function testCase02(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case02.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case02.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(2,:);
@@ -68,7 +68,7 @@ function testCase03(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case03.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case03.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(3,:);
@@ -83,7 +83,7 @@ function testCase04(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case04.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case04.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(4,:);
@@ -98,7 +98,7 @@ function testCase05(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case05.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case05.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(5,:);
@@ -113,7 +113,7 @@ function testCase06(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case06.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case06.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(6,:);
@@ -128,7 +128,7 @@ function testCase07(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case07.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case07.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(7,:);
@@ -143,7 +143,7 @@ function testCase08(testCase)
 global expSolutionALL
 
 % 実行
-y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case08.xml','OFF','3','Read','0');
+y = ECS_routeB_AC_run('./test/AirConditioningComprehensiveTest/testmodel_Case08.xml','OFF','4','Read','0');
 
 actSolution = [y(1), y(17)];
 expSolution = expSolutionALL(8,:);

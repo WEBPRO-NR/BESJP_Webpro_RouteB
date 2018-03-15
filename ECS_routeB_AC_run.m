@@ -32,20 +32,20 @@
 %    0 : newHASPによる時刻別計算＋エネルギー時刻別計算
 %    1 : newHASPによる時刻別計算＋マトリックス計算、
 %    2 : newHASPによる日別計算＋マトリックス計算
-%    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード）
-%    4 : 簡略法による日別計算＋エネルギー日別計算
+%    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード Ver.2.4）
+%    4 : 簡略法による日別計算＋エネルギー日別計算（省エネ基準モード Ver.2.5）
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'testmodel_Case04.xml';
-OutputOption = 'OFF';
-varargin{1} = '3';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = 'testmodel_Case05.xml';
+% OutputOption = 'OFF';
+% varargin{1} = '4';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -427,10 +427,12 @@ E_fan_h_hour  = zeros(8760,numOfAHUSET);  % AHUのエネルギー消費量（暖房）
 E_AHUaex_hour = zeros(8760,numOfAHUSET);  % 全熱交換器のエネルギー消費量
 
 % 日別計算用（MODE = 4）
-LdAHUc        = zeros(365,numOfAHUSET);  % AHUの冷房負荷率帯
-LdAHUh        = zeros(365,numOfAHUSET);  % AHUの暖房負荷率帯
-TdAHUc        = zeros(365,numOfAHUSET);  % AHUの冷房運転時間
-TdAHUh        = zeros(365,numOfAHUSET);  % AHUの暖房運転時間
+LdAHUc        = zeros(365,2,numOfAHUSET);  % AHUの冷房負荷率帯
+LdAHUh        = zeros(365,2,numOfAHUSET);  % AHUの暖房負荷率帯
+TdAHUc        = zeros(365,2,numOfAHUSET);  % AHUの冷房運転時間
+TdAHUh        = zeros(365,2,numOfAHUSET);  % AHUの暖房運転時間
+TdAHUc_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間 
+TdAHUh_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間 
 E_fan_day     = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量
 E_fan_c_day   = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量（冷房）
 E_fan_h_day   = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量（暖房）
@@ -457,7 +459,7 @@ for iAHU = 1:numOfAHUSET
             
         case {4}
             % 日別負荷で日別エネルギー計算の場合
-            [LdAHUc(:,iAHU),LdAHUh(:,iAHU),TdAHUc(:,iAHU),TdAHUh(:,iAHU)] = ...
+            [LdAHUc(:,:,iAHU),LdAHUh(:,:,iAHU),TdAHUc(:,:,iAHU),TdAHUh(:,:,iAHU)] = ...
                 mytfunc_matrixAHU(MODE,Qahu_c(:,iAHU),ahuQcmax(iAHU),Tahu_c(:,iAHU),...
                 Qahu_h(:,iAHU),ahuQhmax(iAHU),Tahu_h(:,iAHU),AHUCHmode(iAHU),WIN,MID,SUM,mxL);
             
@@ -514,23 +516,32 @@ for iAHU = 1:numOfAHUSET
             AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
             
         case {4}
-            
+
+            MxAHUkW(iAHU,:) = tmpEkW;  % 結果出力用[kW]
+                        
             for dd = 1:365
                 
                 % 空調機のエネルギー消費量（冷房） [MWh]
-                if TdAHUc(dd,iAHU) == 0
-                    E_fan_c_day(dd,iAHU) = 0;
-                else
-                    E_fan_c_day(dd,iAHU) = tmpEkW(LdAHUc(dd,iAHU))/1000.*TdAHUc(dd,iAHU);   % ファンエネルギー消費量　MWh
+                if LdAHUc(dd,1,iAHU) > 0
+                    E_fan_c_day(dd,iAHU) = E_fan_c_day(dd,iAHU) + tmpEkW(LdAHUc(dd,1,iAHU))/1000.*TdAHUc(dd,1,iAHU);   % ファンエネルギー消費量　MWh
+                    TdAHUc_total(dd,iAHU) = TdAHUc_total(dd,iAHU) + TdAHUc(dd,1,iAHU);
                 end
-                % 空調機のエネルギー消費量（暖房） [MWh]
-                if TdAHUh(dd,iAHU) == 0
-                    E_fan_h_day(dd,iAHU) = 0;
-                else
-                    E_fan_h_day(dd,iAHU) = tmpEkW(LdAHUh(dd,iAHU))/1000.*TdAHUh(dd,iAHU);   % ファンエネルギー消費量　MWh
+                if LdAHUc(dd,2,iAHU) > 0
+                    E_fan_c_day(dd,iAHU) = E_fan_c_day(dd,iAHU) + tmpEkW(LdAHUc(dd,2,iAHU))/1000.*TdAHUc(dd,2,iAHU);   % ファンエネルギー消費量　MWh
+                    TdAHUc_total(dd,iAHU) = TdAHUc_total(dd,iAHU) + TdAHUc(dd,2,iAHU);
                 end
                 
-                if TdAHUc(dd,iAHU) > 0 || TdAHUh(dd,iAHU) > 0
+                % 空調機のエネルギー消費量（暖房） [MWh]
+                if LdAHUh(dd,1,iAHU) > 0
+                    E_fan_h_day(dd,iAHU) = E_fan_h_day(dd,iAHU) + tmpEkW(LdAHUh(dd,1,iAHU))/1000.*TdAHUh(dd,1,iAHU);   % ファンエネルギー消費量　MWh
+                    TdAHUh_total(dd,iAHU) = TdAHUh_total(dd,iAHU) + TdAHUh(dd,1,iAHU);
+                end
+                if LdAHUh(dd,2,iAHU) > 0
+                    E_fan_h_day(dd,iAHU) = E_fan_h_day(dd,iAHU) + tmpEkW(LdAHUh(dd,2,iAHU))/1000.*TdAHUh(dd,2,iAHU);   % ファンエネルギー消費量　MWh
+                    TdAHUh_total(dd,iAHU) = TdAHUh_total(dd,iAHU) + TdAHUh(dd,2,iAHU);
+                end
+                
+                if TdAHUc(dd,1,iAHU) > 0 || TdAHUh(dd,1,iAHU) > 0 || TdAHUc(dd,2,iAHU) > 0 || TdAHUh(dd,2,iAHU) > 0
                     E_AHUaex_day(dd,iAHU) = ahuaexE(iAHU)/1000.*AHUsystemT(dd,iAHU);    % 全熱交換器エネルギー消費量　MWh
                 end
                 
@@ -559,11 +570,13 @@ switch MODE
     case {4}
         E_fan = sum(sum(E_fan_day));
         E_aex = sum(sum(E_AHUaex_day));
-        TcAHU = sum(TdAHUc,1)';  % ファン発熱の計算に使う
-        ThAHU = sum(TdAHUh,1)';  % ファン発熱の計算に使う
+        TcAHU = sum(TdAHUc_total,1)';  % ファン発熱の計算に使う
+        ThAHU = sum(TdAHUh_total,1)';  % ファン発熱の計算に使う
         MxAHUcE(:,1) = sum(E_fan_c_day,1)';  % ファン発熱の計算に使う
         MxAHUhE(:,1) = sum(E_fan_h_day,1)';  % ファン発熱の計算に使う
 end
+
+
 
 
 %------------------------------
@@ -2236,16 +2249,6 @@ switch MODE
                             
 end
 
-E_refsysr
-E_ref
-E_refac
-E_pumpP
-E_ctfan
-E_ctpump
-
-pause
-
-
 disp('熱源エネルギー計算完了')
 toc
 
@@ -2308,7 +2311,7 @@ switch MODE
             end
         end
         
-    case {2,3}
+    case {2,3,4}
         
         tmpQcpeak = zeros(365,1);
         tmpQhpeak = zeros(365,1);
@@ -2398,7 +2401,7 @@ switch MODE
         y(14) = nansum(Qcover)./roomAreaTotal;
         y(15) = nansum(Qhover)./roomAreaTotal;
         y(16) = y(1)./( ((sum(sum(Qahu_hour_CEC))))./roomAreaTotal -y(12) -y(13) );
-    case {2,3}
+    case {2,3,4}
         % 未処理負荷[MJ/m2]
         y(12) = nansum(sum(abs(Qahu_remainC)))./roomAreaTotal;
         y(13) = nansum(sum(abs(Qahu_remainH)))./roomAreaTotal;
@@ -2465,7 +2468,11 @@ if OutputOptionVar == 1
         case {0}
             mytscript_result2csv_hourly;
             mytscript_result_for_GHSP;
+                        
+        case {2,3}
+            mytscript_result2csv;
             
+        case {4}
             % コージェネレーション用
             if isfield(INPUT.CogenerationSystems,'CGUnit')
                 
@@ -2475,9 +2482,6 @@ if OutputOptionVar == 1
                 
                 mytscript_result2csv_hourly_for_CGS;
             end
-            
-        case {2,3}
-            mytscript_result2csv;
     end
 end
 
