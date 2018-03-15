@@ -1,4 +1,4 @@
-ID,機種,燃料種類,熱源種類,冷房／暖房,特性種類,下限,上限,特性ID,基整促係数,冷却水温度下限,冷却水温度上限
+名称,機種,燃料種類,熱源種類,冷房／暖房,特性種類,下限,上限,特性ID,基整促係数,冷却水温度下限,冷却水温度上限
 WaterChillingUnit_AirSource,ウォータチリングユニット(空冷式),電力,空気,Cooling,能力比,25,40,Cq_AS_A,0.95,,
 WaterChillingUnit_AirSource,ウォータチリングユニット(空冷式),電力,空気,Cooling,入力比,25,40,Cp_AS_A,1.2,,
 WaterChillingUnit_AirSource,ウォータチリングユニット(空冷式),電力,空気,Cooling,部分負荷特性,0.1,1,Cx_AS_A,1,,
