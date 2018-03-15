@@ -5,7 +5,7 @@
 % ディレクトリを一括して指定できるように変更
 % 
 % 実行例：
-% ECS_XMLfileMake_run('./InputFiles/20151120_総プロ試算/',6,'model.xml')
+% ECS_XMLfileMake_run('./InputFiles/1005_コジェネテスト/Case00/',6,'model_CGS_case00.xml')
 %--------------------------------------------------------------------
 function y = ECS_XMLfileMake_run(directry,Area,outputfilename)
 
@@ -53,6 +53,8 @@ for i = 1:length(L)
         CONFIG.PhotovoltaicGenerationSystems = strcat(directry,'/',L(i).name);
     elseif strfind(L(i).name,'様式7-2')
         CONFIG.CogenerationSystems = strcat(directry,'/',L(i).name);
+    elseif strfind(L(i).name,'様式7-3')
+        CONFIG.CogenerationSystemsDetail = strcat(directry,'/',L(i).name);
     end
     
 end
@@ -175,6 +177,15 @@ if isfield(CONFIG,'CogenerationSystems')
         xmldata = mytfunc_csv2xml_EFI_CGS(xmldata,CONFIG.CogenerationSystems);
     end
 end
+
+% コジェネレーションシステムのファイルを読み込み
+if isfield(CONFIG,'CogenerationSystemsDetail')
+    if isempty(CONFIG.CogenerationSystemsDetail) == 0
+        xmldata = mytfunc_csv2xml_EFI_CGSdetail(xmldata,CONFIG.CogenerationSystemsDetail);
+    end
+end
+
+
 
 % XMLファイル生成
 xml_write(outputfilename, xmldata, 'model');
