@@ -16,7 +16,7 @@
 function y = ECS_routeB_HW_run(inputfilename,OutputOption)
 
 % clear
-% inputfilename = 'model_routeB_sample01.xml';
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -136,11 +136,11 @@ end
 
 %% XMLファイルの読み込み
 
-CGSflag = 0;
-if isfield(model.CogenerationSystems,'CGUnit')
-    equipNameCGS = model.CogenerationSystems.CGUnit(1).ATTRIBUTE.HW;  % CGS系統
+if isfield(model.CogenerationSystemsDetail,'CogenerationUnit')
+    equipNameCGS = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.HW_name;  % CGS系統
     CGSflag = 1;
 end
+
 
 for iROOM = 1:length(model.HotwaterSystems.HotwaterRoom)
     
@@ -415,7 +415,7 @@ for iEQP = 1:length(equipName)
                 
                 % 節湯を考慮した日積算給湯量[L/day]　　給湯用途別に演算（2016/4/13）
                 if strcmp(roomWsave{iROOM}(iEQPLIST),'MixingTap')
-                
+                    
                     Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + ...
                         Qsr_daily_perUse(:,iROOM,1) .* 0.6 .* roomPowerRatio(iROOM,iEQPLIST) + ...
                         Qsr_daily_perUse(:,iROOM,2) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST) + ...
@@ -429,7 +429,7 @@ for iEQP = 1:length(equipName)
                         Qsr_daily_perUse(:,iROOM,2) .* 0.75 .* roomPowerRatio(iROOM,iEQPLIST) + ...
                         Qsr_daily_perUse(:,iROOM,3) .* 1.0  .* roomPowerRatio(iROOM,iEQPLIST) + ...
                         Qsr_daily_perUse(:,iROOM,4) .* 1.0  .* roomPowerRatio(iROOM,iEQPLIST);
-                
+                    
                 else
                     
                     Qs_eqp_daily(:,iEQP)  = Qs_eqp_daily(:,iEQP) + ...
@@ -439,7 +439,7 @@ for iEQP = 1:length(equipName)
                         Qsr_daily_perUse(:,iROOM,4) .* 1.0 .* roomPowerRatio(iROOM,iEQPLIST);
                     
                 end
-                                 
+                
                 % 室接続保存
                 tmpconnectName  = [tmpconnectName,roomName{iROOM}];
                 tmpconnectPower = [tmpconnectPower,num2str(roomPowerRatio(iROOM,iEQPLIST))];
@@ -510,22 +510,25 @@ Q_eqp_hour = zeros(8760,1);
 for iEQP = 1:length(equipName)
     for dd = 1:365
         for hh = 1:24
+            
             num = 24*(dd-1) + hh;
-            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000; % エネルギー
-            Q_eqp_hour(num,1)       = Q_eqp_hour(num,1)       + Q_eqp(dd,iEQP)/24/1000; % 給湯負荷
+            Edesign_MWh_hour(num,1) = Edesign_MWh_hour(num,1) + E_eqp(dd,iEQP)/24/1000; % 一次エネルギー消費量 [MJ/hour]
+            Q_eqp_hour(num,1)       = Q_eqp_hour(num,1)       + Q_eqp(dd,iEQP)/24/1000; % 給湯負荷 [MJ/hour]
             
             if CGSflag == 1
-                % CGS用（電力のみ抜き出し）
+                % CGS用（電力のみ抜き出し。コジェネ系統にある給湯設備は積算しない）
                 if strcmp(equipFueltype{iEQP},'Electric')
-                    Edesign_MWh_Ele_hour(num,1) = Edesign_MWh_Ele_hour(num,1) + E_eqp(dd,iEQP)/24/1000/9760; % 電力のみ [MJ]→[MWh]
                     if strcmp(equipName{iEQP},equipNameCGS)
                         Edesign_MWh_Ele_CGS_hour(num,1) = Edesign_MWh_Ele_CGS_hour(num,1) + E_eqp(dd,iEQP)/24/1000/9760; % CGS系統の電力のみ [MJ]→[MWh]
+                    else
+                        % コジェネ系統にない給湯設備の電力消費量を積算。
+                        Edesign_MWh_Ele_hour(num,1) = Edesign_MWh_Ele_hour(num,1) + E_eqp(dd,iEQP)/24/1000/9760; % 電力のみ [MJ]→[MWh]
                     end
                 end
                 
                 % CGS用（排熱利用系統のみ抜き出し）
                 if strcmp(equipName{iEQP},equipNameCGS)
-                    Edesign_MJ_CGS_hour(num,1) = E_eqp(dd,iEQP)/24/1000; % エネルギー
+                    Edesign_MJ_CGS_hour(num,1) = E_eqp(dd,iEQP)/24/1000; % 一次エネルギー消費量 [MJ/hour]
                     Q_eqp_CGS_hour(num,1)      = Q_eqp(dd,iEQP)/24/1000; % 給湯負荷
                 end
             end
@@ -665,6 +668,33 @@ if OutputOptionVar == 1
     
 end
 
+
+% 日別に積算する。
+Edesign_MWh_Ele_day = [];
+for dd = 1:365
+    Edesign_MWh_Ele_day(dd,1) = sum( Edesign_MWh_Ele_hour(24*(dd-1)+1:24*dd,1));
+end
+
+% 日別に積算する。
+Edesign_MWh_Ele_CGS_day = [];
+for dd = 1:365
+    Edesign_MWh_Ele_CGS_day(dd,1) = sum( Edesign_MWh_Ele_CGS_hour(24*(dd-1)+1:24*dd,1));
+end
+
+% 日別に積算する。
+Edesign_MJ_CGS_day = [];
+for dd = 1:365
+    Edesign_MJ_CGS_day(dd,1) = sum( Edesign_MJ_CGS_hour(24*(dd-1)+1:24*dd,1));
+end
+
+% 日別に積算する。
+Q_eqp_CGS_day = [];
+for dd = 1:365
+    Q_eqp_CGS_day(dd,1) = sum( Q_eqp_CGS_hour(24*(dd-1)+1:24*dd,1));
+end
+
+
+
 %% 時系列データの出力
 if OutputOptionVar == 1
     
@@ -700,6 +730,18 @@ if OutputOptionVar == 1
     end
     fclose(fid);
     
-    
 end
 
+
+%% コジェネ用の変数
+if exist('CGSmemory.mat','file') == 0
+    CGSmemory = [];
+else
+    load CGSmemory.mat
+end
+
+CGSmemory.RESALL(:,13) = Edesign_MWh_Ele_day;
+CGSmemory.RESALL(:,14) = Edesign_MJ_CGS_day;
+CGSmemory.RESALL(:,15) = Q_eqp_CGS_day;
+
+save CGSmemory.mat CGSmemory
