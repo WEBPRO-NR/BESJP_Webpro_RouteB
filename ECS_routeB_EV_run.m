@@ -22,8 +22,7 @@ function y = ECS_routeB_EV_run(inputfilename,OutputOption)
 % clear
 % clc
 % tic
-% 
-% inputfilename = 'ApartmentHouse.xml';
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
 % addpath('./subfunction/')
 % OutputOption = 'ON';
 
@@ -67,7 +66,7 @@ for iUNIT = 1:numofUnit
     RoomFloor{iUNIT}   = model.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomFloor;
     RoomName{iUNIT}    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomName;
     RoomType{iUNIT}    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.RoomType;
-
+    
     Count(iUNIT)       = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Count;
     LoadLimit(iUNIT)   = model.Elevators.Elevator(iUNIT).ATTRIBUTE.LoadLimit;
     Velocity(iUNIT)    = model.Elevators.Elevator(iUNIT).ATTRIBUTE.Velocity;
@@ -160,7 +159,7 @@ end
 Estandard_MWh = LoadLimit.* Velocity.* (1/40).* TransportCapacityFactor .* Count.* timeEV ./860 ./1000;
 Edesign_MJ   = 9760.* Edesign_MWh;
 Estandard_MJ = 9760.* Estandard_MWh;
- 
+
 y(1) = sum(Edesign_MWh);
 y(2) = NaN;
 y(3) = sum(Edesign_MJ);
@@ -194,7 +193,7 @@ if OutputOptionVar == 1
         tmp = strfind(inputfilename,'/');
         eval(['resfilenameD = ''calcRESdetail_EV_',inputfilename(tmp(end)+1:end-4),'_',datestr(now,30),'.csv'';'])
     end
-   
+    
     rfc = {};
     
     for iUNIT = 1:numofUnit
@@ -228,6 +227,13 @@ if OutputOptionVar == 1
     fclose(fid);
     
 end
+
+% 日別に積算する。
+Edesign_MWh_day = [];
+for dd = 1:365
+    Edesign_MWh_day(dd,1) = sum( Edesign_MWh_hour(24*(dd-1)+1:24*dd,1));
+end
+
 
 %% 時系列データの出力
 if OutputOptionVar == 1
@@ -264,5 +270,16 @@ if OutputOptionVar == 1
     end
     fclose(fid);
     
-    
 end
+
+
+%% コジェネ用の変数
+if exist('CGSmemory.mat','file') == 0
+    CGSmemory = [];
+else
+    load CGSmemory.mat
+end
+
+CGSmemory.RESALL(:,16) = Edesign_MWh_day;
+
+save CGSmemory.mat CGSmemory
