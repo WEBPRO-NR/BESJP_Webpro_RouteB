@@ -17,13 +17,13 @@
 %  y(8) : 基準値 [MJ/m2/年]
 %  y(9) : BEI (=評価値/基準値） [-]
 %----------------------------------------------------------------------
-% function y = ECS_routeB_L_run(inputfilename,OutputOption)
+function y = ECS_routeB_L_run(inputfilename,OutputOption)
 
-clear
-clc
-inputfilename = 'model_routeB_case01.xml';
-addpath('./subfunction/')
-OutputOption = 'ON';
+% clear
+% clc
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
+% addpath('./subfunction/')
+% OutputOption = 'ON';
 
 
 %% 設定
@@ -412,6 +412,14 @@ if OutputOptionVar == 1
     
 end
 
+
+% 日別に積算する。
+Edesign_MWh_day = [];
+for dd = 1:365
+    Edesign_MWh_day(dd,1) = sum( Edesign_MWh_hour(24*(dd-1)+1:24*dd,1));
+end
+
+
 %% 時系列データの出力
 if OutputOptionVar == 1
     
@@ -447,6 +455,18 @@ if OutputOptionVar == 1
     end
     fclose(fid);
     
-    
 end
+
+
+%% コジェネ用の変数
+if exist('CGSmemory.mat','file') == 0
+    CGSmemory = [];
+else
+    load CGSmemory.mat
+end
+
+CGSmemory.RESALL(:,12) = Edesign_MWh_day;
+
+save CGSmemory.mat CGSmemory
+
 
