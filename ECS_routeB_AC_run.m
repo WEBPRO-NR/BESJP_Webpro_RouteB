@@ -35,17 +35,17 @@
 %    3 : 簡略法による日別計算＋マトリックス計算（省エネ基準モード Ver.2.4）
 %    4 : 簡略法による日別計算＋エネルギー日別計算（省エネ基準モード Ver.2.5）
 %----------------------------------------------------------------------
-% function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
+function y = ECS_routeB_AC_run(INPUTFILENAME,OutputOption,varargin)
 
 % コンパイル時には消す
-clear
-clc
-addpath('./subfunction/')
-INPUTFILENAME = 'model_CGS_case00.xml';
-OutputOption = 'ON';
-varargin{1} = '4';
-varargin{2} = 'Calc';
-varargin{3} = '0';
+% clear
+% clc
+% addpath('./subfunction/')
+% INPUTFILENAME = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
+% OutputOption = 'ON';
+% varargin{1} = '4';
+% varargin{2} = 'Calc';
+% varargin{3} = '0';
 
 GSHPtype = 1;
 
@@ -431,8 +431,8 @@ LdAHUc        = zeros(365,2,numOfAHUSET);  % AHUの冷房負荷率帯
 LdAHUh        = zeros(365,2,numOfAHUSET);  % AHUの暖房負荷率帯
 TdAHUc        = zeros(365,2,numOfAHUSET);  % AHUの冷房運転時間
 TdAHUh        = zeros(365,2,numOfAHUSET);  % AHUの暖房運転時間
-TdAHUc_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間 
-TdAHUh_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間 
+TdAHUc_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間
+TdAHUh_total  = zeros(365,numOfAHUSET);  % AHUの冷房運転時間
 E_fan_day     = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量
 E_fan_c_day   = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量（冷房）
 E_fan_h_day   = zeros(365,numOfAHUSET);  % AHUのエネルギー消費量（暖房）
@@ -516,9 +516,9 @@ for iAHU = 1:numOfAHUSET
             AHUaex(iAHU) = ahuaexE(iAHU).*sum(AHUsystemT(:,iAHU))./1000;
             
         case {4}
-
+            
             MxAHUkW(iAHU,:) = tmpEkW;  % 結果出力用[kW]
-                        
+            
             for dd = 1:365
                 
                 % 空調機のエネルギー消費量（冷房） [MWh]
@@ -2249,7 +2249,7 @@ switch MODE
         E_ctfan = sum(sum(E_CTfan_day));
         % 冷却水ポンプ電力消費量 [MWh]
         E_ctpump = sum(sum(E_CTpump_day));
-                            
+        
 end
 
 disp('熱源エネルギー計算完了')
@@ -2465,26 +2465,30 @@ toc
 
 %% 出力
 
+switch MODE
+    case {4}
+        % コージェネレーション用
+        if isfield(INPUT.CogenerationSystemsDetail,'CogenerationUnit')
+            
+            % 様式7-3に記されている「熱源群」を探す
+            CGS_refName_C = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFc_name;
+            CGS_refName_H = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFh_name;
+            
+            mytscript_result2csv_daily_for_CGS;
+        end
+end
+
+
 % 詳細出力
 if OutputOptionVar == 1
     switch MODE
         case {0}
             mytscript_result2csv_hourly;
             mytscript_result_for_GHSP;
-                        
-        case {2,3}
+            
+        case {2,3,4}
             mytscript_result2csv;
             
-        case {4}
-            % コージェネレーション用
-            if isfield(INPUT.CogenerationSystemsDetail,'CogenerationUnit')
-                
-                % 様式7-3に記されている「熱源群」を探す
-                CGS_refName_C = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFc_name;
-                CGS_refName_H = INPUT.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.REFh_name;
-                
-                mytscript_result2csv_daily_for_CGS;
-            end
     end
 end
 
