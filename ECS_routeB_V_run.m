@@ -22,8 +22,8 @@ function y = ECS_routeB_V_run(inputfilename,OutputOption)
 % clear
 % clc
 % addpath('./subfunction')
-% inputfilename = 'model.xml';
-% OutputOption = 'ON';
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
+% OutputOption = 'OFF';
 
 
 %% 設定
@@ -192,7 +192,7 @@ for iROOM = 1:numOfRoom
                                 
                             end
                         end
-
+                        
                     end
                 end
             end
@@ -269,14 +269,14 @@ for iROOM = 1:numOfRoom
                 % 基準設定全圧損失 [Pa]
                 Proom(iROOM) = str2double(perDB_RoomType(iDB,29));
                 
-%                 % 負荷率
-%                 if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室')
-%                     xL(iROOM) = 0.6;
-%                 elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室')
-%                     xL(iROOM) = 0.6;
-%                 else
-%                     xL(iROOM) = 1;
-%                 end
+                %                 % 負荷率
+                %                 if strcmp(RoomType{iROOM},'電気・機械室（高発熱）') || strcmp(RoomType{iROOM},'機械室')
+                %                     xL(iROOM) = 0.6;
+                %                 elseif strcmp(RoomType{iROOM},'電気・機械室（標準）') || strcmp(RoomType{iROOM},'電気室')
+                %                     xL(iROOM) = 0.6;
+                %                 else
+                %                     xL(iROOM) = 1;
+                %                 end
                 
             end
         end
@@ -423,17 +423,17 @@ for iUNITx = 1:size(UnitNameAC,1)
                     if strcmp(UnitListAC(iUNITdb),UnitNameAC(iUNITx,iUNITy))
                         check = 1;
                     end
-                end            
+                end
             end
             
             if check == 0
                 
                 UnitListAC = [UnitListAC; UnitNameAC(iUNITx,iUNITy)];
-                               
+                
                 % ファンを分類
                 FanPowerAC_ac = 0;
                 FanPowerAC_fan = 0;
-                for iFanAC = 1:length(FanTypeAC(iUNITx,iUNITy,:))        
+                for iFanAC = 1:length(FanTypeAC(iUNITx,iUNITy,:))
                     if strcmp(FanTypeAC(iUNITx,iUNITy,iFanAC),'AC')
                         FanPowerAC_ac = FanPowerAC_ac + FanPowerAC(iUNITx,iUNITy,iFanAC) .* hoseiAC_ALL(iUNITx,iUNITy,iFanAC);
                     else
@@ -492,7 +492,7 @@ for iUNITx = 1:size(UnitNameAC,1)
                     + PumpPowerAC(iUNITx,iUNITy)/0.75 * Cac ...
                     + FanPowerAC_ac/0.75 * Cac ...
                     + FanPowerAC_fan/0.75 * Cfan;
-                    
+                
                 UnitListAC_Power = [UnitListAC_Power; tmp];
                 
             end
@@ -803,6 +803,12 @@ if OutputOptionVar == 1
     
 end
 
+% 日別に積算する。
+Edesign_MWh_day = [];
+for dd = 1:365
+    Edesign_MWh_day(dd,1) = sum( Edesign_MWh_hour(24*(dd-1)+1:24*dd,1));
+end
+
 
 %% 時系列データの出力
 if OutputOptionVar == 1
@@ -838,12 +844,19 @@ if OutputOptionVar == 1
         fprintf(fid,'%s\r\n',rfc{i});
     end
     fclose(fid);
-    
-    
+   
 end
 
 
 
+%% コジェネ用の変数
+if exist('CGSmemory.mat','file') == 0
+    CGSmemory = [];
+else
+    load CGSmemory.mat
+end
 
+CGSmemory.RESALL(:,11) = Edesign_MWh_day;
 
+save CGSmemory.mat CGSmemory
 
