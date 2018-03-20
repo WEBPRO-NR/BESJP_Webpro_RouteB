@@ -2,81 +2,93 @@
 %--------------------------------------------------------------------------
 % コジェネ（詳細版）の計算プログラム
 %--------------------------------------------------------------------------
-% % 日付dにおける空気調和設備の電力消費量	MWh/日
-% EAC_total_d = inputdata(:,1);
-% % 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての主機の一次エネルギー消費量	MJ/日
-% EAC_ref_c_d = inputdata(:,2);
-% % 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての負荷率 	無次元
-% mxLAC_ref_c_d = inputdata(:,3);
-% % 日付dにおけるCGSの排熱利用が可能な温熱源群の主機の一次エネルギー消費量	MJ/日
-% EAC_ref_h_hr_d = inputdata(:,4);
-% % 日付dにおけるCGSの排熱利用が可能な温熱源群の熱源負荷	MJ/日
-% qAC_ref_h_hr_d = inputdata(:,5);
-% % 日付dにおける機械換気設備の電力消費量	MWh/日
-% EV_total_d = inputdata(:,6);
-% % 日付dにおける照明設備の電力消費量	MWh/日
-% EL_total_d = inputdata(:,7);
-% % 日付dにおける給湯設備の電力消費量	MWh/日
-% EW_total_d = inputdata(:,8);
-% % 日付dにおけるCGSの排熱利用が可能な給湯機(系統)の一次エネルギー消費量	MJ/日
-% EW_hr_d = inputdata(:,9);
-% % 日付dにおけるCGSの排熱利用が可能な給湯機(系統)の給湯負荷	MJ/日
-% qW_hr_d = inputdata(:,10);
-% % 日付dにおける昇降機の電力消費量	MWh/日
-% EEV_total_d = inputdata(:,11);
-% % 日付dにおける効率化設備（太陽光発電）の発電量	MWh/日
-% EPV_total_d = inputdata(:,12);
-% % 日付dにおけるその他の電力消費量	MWh/日
-% EM_total_d = inputdata(:,13);
-% % 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の運転時間	h/日
-% TAC_c_d = inputdata(:,14);
-% % 日付dにおけるCGSの排熱利用が可能な温熱源群の運転時間	h/日
-% TAC_h_d = inputdata(:,15);
-%--------------------------------------------------------------------------
-% % % CGSの発電機容量	kW
-% Ecgs_rated = 370;
-% % CGS設置台数	台
-% Ncgs = 2;
-% % CGSの定格発電効率(低位発熱量基準)	無次元
-% fcgs_e_rated = 0.41;
-% % CGSの負荷率0.75時発電効率(低位発熱量基準)	無次元
-% fcgs_e_75 = 0.39;
-% % CGSの負荷率0.50時発電効率(低位発熱量基準)	無次元
-% fcgs_e_50 = 0.352;
-% % CGSの定格排熱効率(低位発熱量基準)	無次元
-% fcgs_hr_rated = 0.34;
-% % CGSの負荷率0.75時排熱効率(低位発熱量基準)	無次元
-% fcgs_hr_75 = 0.367;
-% % CGSの負荷率0.50時排熱効率(低位発熱量基準)	無次元
-% fcgs_hr_50 = 0.408;
-% % 排熱利用優先順位(冷熱源)　※1	無次元
-% npri_hr_c = 3;
-% % 排熱利用優先順位(温熱源) 　※1	無次元
-% npri_hr_h = 2;
-% % 排熱利用優先順位(給湯) 　※1	無次元
-% npri_hr_w = 1;
-% % CGS24時間運転の有無　※2	-
-% C24ope = 0;
-% % 排熱投入型吸収式冷温水機jの定格冷却能力	ｋW/台　（→行列にすべき？ 3.3参照）
-% qAC_link_c_j_rated = 1583;
-% % 排熱投入型吸収式冷温水機jの主機定格消費エネルギー	ｋW/台（→行列にすべき？ 3.3参照）
-% EAC_link_c_j_rated = 1217.5;
-% % CGSの排熱利用が可能な系統にある排熱投入型吸収式冷温水機の台数	台
-% NAC_ref_link = 2;
-% % 建物の運用時間帯と非運用時間帯の平均電力差	無次元
-% feopeHi = 10;
-%--------------------------------------------------------------------------
 
-function y = ECS_routeB_CGSdetail_run( EAC_total_d,EAC_ref_c_d,mxLAC_ref_c_d,...
-    EAC_ref_h_hr_d,qAC_ref_h_hr_d,EV_total_d,EL_total_d,EW_total_d,EW_hr_d,....
-    qW_hr_d,EEV_total_d,EPV_total_d,EM_total_d,TAC_c_d,TAC_h_d,...
-    Ecgs_rated,Ncgs,fcgs_e_rated,...
-    fcgs_e_75,fcgs_e_50,fcgs_hr_rated,fcgs_hr_75,fcgs_hr_50,...
-    npri_hr_c,npri_hr_h,npri_hr_w,C24ope,qAC_link_c_j_rated,...
-    EAC_link_c_j_rated,NAC_ref_link,feopeHi)
+function y = ECS_routeB_CGSdetail_run(inputfilename,OutputOption)
+
+% clear
+% clc
+% tic
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
+% OutputOption = 'ON';
+% addpath('./subfunction/')
+
 
 
 %% 2.	計算設定、事前処理
+
+% 建物モデル読み込み
+model = xml_read(inputfilename);
+
+% 他設備計算結果の読み込み
+load CGSmemory.mat
+
+% 2.1
+
+% CGSの発電機容量	kW
+Ecgs_rated = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.CGUCapacity;
+% CGS設置台数	台
+Ncgs = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.Count;
+% CGSの定格発電効率(低位発熱量基準)	無次元
+fcgs_e_rated = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.PowerGenerationEfficiency100;
+% CGSの負荷率0.75時発電効率(低位発熱量基準)	無次元
+fcgs_e_75 = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.PowerGenerationEfficiency075;
+% CGSの負荷率0.50時発電効率(低位発熱量基準)	無次元
+fcgs_e_50 = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.PowerGenerationEfficiency050;
+% CGSの定格排熱効率(低位発熱量基準)	無次元
+fcgs_hr_rated = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.HeatRecoveryEfficiency100;
+% CGSの負荷率0.75時排熱効率(低位発熱量基準)	無次元
+fcgs_hr_75 = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.HeatRecoveryEfficiency075;
+% CGSの負荷率0.50時排熱効率(低位発熱量基準)	無次元
+fcgs_hr_50 = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.HeatRecoveryEfficiency050;
+% 排熱利用優先順位(冷熱源)　※1	無次元
+npri_hr_c = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.Order_cooling;
+% 排熱利用優先順位(温熱源) 　※1	無次元
+npri_hr_h = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.Order_heating;
+% 排熱利用優先順位(給湯) 　※1	無次元
+npri_hr_w = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.Order_hotwater;
+% CGS24時間運転の有無　※2	-
+C24ope = model.CogenerationSystemsDetail.CogenerationUnit(1).ATTRIBUTE.Operation24H;
+
+
+
+% 排熱投入型吸収式冷温水機jの定格冷却能力	ｋW/台
+qAC_link_c_j_rated = CGSmemory.qAC_link_c_j_rated;
+% 排熱投入型吸収式冷温水機jの主機定格消費エネルギー	ｋW/台
+EAC_link_c_j_rated = CGSmemory.EAC_link_c_j_rated;
+
+% 2.2
+
+% 日付dにおける空気調和設備の電力消費量	MWh/日
+EAC_total_d = CGSmemory.RESALL(:,2);
+% 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての主機の一次エネルギー消費量	MJ/日
+EAC_ref_c_d = CGSmemory.RESALL(:,7);
+% 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての負荷率 	無次元
+mxLAC_ref_c_d = CGSmemory.RESALL(:,8);
+% 日付dにおけるCGSの排熱利用が可能な温熱源群の主機の一次エネルギー消費量	MJ/日
+EAC_ref_h_hr_d = CGSmemory.RESALL(:,9);
+% 日付dにおけるCGSの排熱利用が可能な温熱源群の熱源負荷	MJ/日
+qAC_ref_h_hr_d = CGSmemory.RESALL(:,10);
+% 日付dにおける機械換気設備の電力消費量	MWh/日
+EV_total_d = CGSmemory.RESALL(:,11);
+% 日付dにおける照明設備の電力消費量	MWh/日
+EL_total_d = CGSmemory.RESALL(:,12);
+% 日付dにおける給湯設備の電力消費量	MWh/日
+EW_total_d = CGSmemory.RESALL(:,13);
+% 日付dにおけるCGSの排熱利用が可能な給湯機(系統)の一次エネルギー消費量	MJ/日
+EW_hr_d = CGSmemory.RESALL(:,14);
+% 日付dにおけるCGSの排熱利用が可能な給湯機(系統)の給湯負荷	MJ/日
+qW_hr_d = CGSmemory.RESALL(:,15);
+% 日付dにおける昇降機の電力消費量	MWh/日
+EEV_total_d = CGSmemory.RESALL(:,16);
+% 日付dにおける効率化設備（太陽光発電）の発電量	MWh/日
+EPV_total_d = CGSmemory.RESALL(:,17);
+% 日付dにおけるその他の電力消費量	MWh/日
+EM_total_d = CGSmemory.RESALL(:,18);
+% 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の運転時間	h/日
+TAC_c_d = CGSmemory.RESALL(:,19);
+% 日付dにおけるCGSの排熱利用が可能な温熱源群の運転時間	h/日
+TAC_h_d = CGSmemory.RESALL(:,20);
+
 
 % 2.3 その他設定値
 
@@ -91,7 +103,7 @@ fesub_CGS_ac = 0.05; % 冷却塔がない場合
 flh	=0.90222;
 % 電気の一次エネルギー換算係数	MJ/kWh
 fprime_e = 9.76;
- % 排熱投入型吸収式冷温水機の排熱利用時のCOP	無次元
+% 排熱投入型吸収式冷温水機の排熱利用時のCOP	無次元
 fCOP_link_hr = 0.75;
 % CGSによる電力負荷の最大負担率	無次元
 felmax = 0.95;
@@ -102,11 +114,60 @@ fcgs_e_cor = 0.99;
 % 排熱の熱損失率の補正
 fhr_loss = 0.97;
 
+% 建物の運用時間帯と非運用時間帯の平均電力差 feopeHi の算出
+load CGSmemory.mat  % ECS_routeB_Others_run.m で算出
+
+ratio_AreaWeightedSchedule = CGSmemory.ratio_AreaWeightedSchedule;
+Ee_total_hour = zeros(8760,1);
+feopeHi = ones(365,1);
+
+for dd = 1:365
+    for hh = 1:24
+        
+        nn = 24*(dd-1)+hh;
+        
+        Ee_total_hour(nn,1) = EAC_total_d(dd,1) .* ratio_AreaWeightedSchedule(nn,1) ...
+            +  EV_total_d(dd,1)./24 ...
+            +  EL_total_d(dd,1) .* ratio_AreaWeightedSchedule(nn,2) ...
+            +  EW_total_d(dd,1)./24 ...
+            +  EEV_total_d(dd,1)./24 ...
+            +  EM_total_d(dd,1).* ratio_AreaWeightedSchedule(nn,3);
+        
+    end
+end
+
+for dd = 1:365
+    
+    % 運転時間 7時から20時までの14時間）
+    Eday   = sum(Ee_total_hour(24*(dd-1)+7:24*(dd-1)+20,1)) - EPV_total_d(dd);
+    Enight = sum(Ee_total_hour(24*(dd-1)+1:24*(dd-1)+6,1)) +  sum(Ee_total_hour(24*(dd-1)+21:24*(dd-1)+24,1));
+    
+    if Eday < 0
+        feopeHi(dd,1) = 1;
+    elseif Enight == 0
+        feopeHi(dd,1) = 100;
+    else
+        feopeHi(dd,1) = Eday ./ Enight;
+    end
+    
+    % 上限・下限
+    if feopeHi(dd,1) < 1
+        feopeHi(dd,1) = 1;
+    elseif feopeHi(dd,1) > 100
+        feopeHi(dd,1) = 100;
+    end
+end
+
+
+% 検証用
+% feopeHi = ones(365,1).*10;
+
+
 % 2.4 CGS特性式各係数
 [fe2,fe1,fe0,fhr2,fhr1,fhr0] = perfCURVE(fcgs_e_rated,fcgs_e_75,fcgs_e_50,fcgs_hr_rated,fcgs_hr_75,fcgs_hr_50);
 
 % 2.5 最大稼働時間
-if C24ope == 1
+if strcmp(C24ope,'True')
     T_ST = 24;
 else
     T_ST = Tstn;
@@ -154,7 +215,7 @@ end
 % qAC_ref_c_hr_d : 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての排熱負荷
 % EAC_ref_c_hr_d : 日付dにおけるCGSの排熱利用が可能な排熱投入型吸収式冷温水機(系統)の冷熱源としての主機の一次エネルギー消費量のうち排熱による削減可能量
 
-qAC_ref_c_hr_d = EAC_ref_c_d .* ( sum(qAC_link_c_j_rated) ./ sum(EAC_link_c_j_rated)) .* flink_d ./ fCOP_link_hr; 
+qAC_ref_c_hr_d = EAC_ref_c_d .* ( sum(qAC_link_c_j_rated) ./ sum(EAC_link_c_j_rated)) .* flink_d ./ fCOP_link_hr;
 EAC_ref_c_hr_d = EAC_ref_c_d .* flink_d;
 
 
@@ -198,17 +259,17 @@ if Ecgs_rated > 50
 else
     fesub_CGS = fesub_CGS_ac;  % 0.05
 end
-   
+
 for dd = 1:365
     
     % a*bで電力基準運転時間
     a = qhr_total_d(dd,1) ./ (Ecgs_rated .* 3.6 .* fhopeMn);
     b = fcgs_e_rated ./ fcgs_hr_rated;   %% 仕様書では fcgs,h,ratedとなっている。
-            
+    
     % c/dで排熱基準運転時間
-    c = Ee_total_d(dd,1) .* feope_R .* ( 1 + fesub_CGS );
+    c = Ee_total_d(dd,1) .* feope_R(dd,1) .* ( 1 + fesub_CGS );
     d = Ecgs_rated .* feopeMn;
-        
+    
     if TAC_c_d(dd,1) >= TAC_h_d(dd,1)
         
         if a*b >= T_ST && c/d >= T_ST
@@ -231,7 +292,7 @@ for dd = 1:365
             
             Tcgs_d(dd,1) = T_ST;
             
-        elseif a*b >= TAC_h_d(dd,1) && c/d >= TAC_h_d(dd,1) 
+        elseif a*b >= TAC_h_d(dd,1) && c/d >= TAC_h_d(dd,1)
             
             Tcgs_d(dd,1) = TAC_h_d(dd,1);
             
@@ -241,7 +302,7 @@ for dd = 1:365
             
         end
     end
-     
+    
 end
 
 
@@ -275,7 +336,7 @@ for dd = 1:365
         qAC_ref_h_hr_on_d(dd,1) = qAC_ref_h_hr_d(dd,1) .* Tcgs_d(dd,1)./TAC_h_d(dd,1);
     end
     
-
+    
     qtotal_hr_on_d(dd,1) = qAC_ref_c_hr_on_d(dd,1) + qAC_ref_h_hr_on_d(dd,1) + qW_hr_on_d(dd,1);
     
     
@@ -301,7 +362,7 @@ end
 
 %% 4. CGSの計算
 
-% 4.1 発電電力負荷　
+% 4.1 発電電力負荷
 % Ee_load_d : 日付dおけるCGSの発電電力負荷 [kWh/day]
 
 Ee_load_d = Ee_total_on_d .* felmax .* ( 1 + fesub_CGS );
@@ -334,7 +395,7 @@ for dd = 1:365
     
 end
 
-% 4.3 発電負荷率　
+% 4.3 発電負荷率
 % mxLcgs_d : 日付dにおけるCGSの負荷率 [-]
 mxLcgs_d = zeros(365,1);
 
@@ -499,7 +560,7 @@ for dd = 1:365
     elseif npri_hr_w == 3
         qW_ehr_d(dd,1) = qpri3_ehr_d(dd,1);
     end
-        
+    
 end
 
 
@@ -545,25 +606,27 @@ Etotal_cgs_red_d = EAC_ref_c_red_d + EAC_ref_h_red_d + EW_red_d + Ee_red_d - Es_
 
 
 y = zeros(1,15);
-y(1,1)  = sum(Tcgs_d.* Ncgs_on_d);
-y(1,2)  = sum(Ncgs_on_d.*mxLcgs_d)./sum(Ncgs_on_d);
-y(1,3)  = sum(Ee_cgs_d)/1000;
-y(1,4)  = sum(qhr_cgs_d)/1000;
-y(1,5)  = sum(Es_cgs_d)/1000;
-y(1,6)  = y(1,3)*3.6/y(1,5)*100;
-y(1,7)  = y(1,4)/y(1,5)*100;
-y(1,8)  = sum(Eee_cgs_d)/1000;
-y(1,9)  = sum(qehr_cgs_d)/1000;
-y(1,10) = (y(1,8)*3.6+y(1,9))/y(1,5)*100;
-y(1,11) = sum(Ee_red_d)/1000;
-y(1,12) = sum(EAC_ref_c_red_d)/1000;
-y(1,13) = sum(EAC_ref_h_red_d)/1000;
-y(1,14) = sum(EW_red_d)/1000;
-y(1,15) = sum(Etotal_cgs_red_d)/1000;
+y(1,1)  = sum(Tcgs_d.* Ncgs_on_d);    % 年間運転時間 [時間・台]
+y(1,2)  = sum(Ncgs_on_d.*mxLcgs_d)./sum(Ncgs_on_d);   % 年平均負荷率 [-]
+y(1,3)  = sum(Ee_cgs_d)/1000;         % 年間発電量 [MWh]
+y(1,4)  = sum(qhr_cgs_d)/1000;        % 年間排熱回収量 [GJ]
+y(1,5)  = sum(Es_cgs_d)/1000;         % 年間ガス消費量 [GJ]
+y(1,6)  = y(1,3)*3.6/y(1,5)*100;      % 年間発電効率 [%]
+y(1,7)  = y(1,4)/y(1,5)*100;          % 年間排熱回収効率 [%]
+y(1,8)  = sum(Eee_cgs_d)/1000;        % 年間有効発電量 [%]
+y(1,9)  = sum(qehr_cgs_d)/1000;       % 年間有効排熱回収量 [GJ]
+y(1,10) = (y(1,8)*3.6+y(1,9))/y(1,5)*100;   % 有効総合効率 [%]
+y(1,11) = sum(Ee_red_d)/1000;           % 年間一次エネルギー削減量(電力) [GJ]
+y(1,12) = sum(EAC_ref_c_red_d)/1000;    % 年間一次エネルギー削減量(冷房) [GJ]
+y(1,13) = sum(EAC_ref_h_red_d)/1000;    % 年間一次エネルギー削減量(暖房) [GJ]
+y(1,14) = sum(EW_red_d)/1000;           % 年間一次エネルギー削減量(給湯) [GJ]
+y(1,15) = sum(Etotal_cgs_red_d)/1000;   % 年間一次エネルギー削減量合計 [GJ]
 
+
+CGSmemory.feopeHi = feopeHi;
+save CGSmemory.mat CGSmemory
 
 end
-
 
 %% サブ関数
 
@@ -576,7 +639,7 @@ function [fe2,fe1,fe0,fhr2,fhr1,fhr0] = perfCURVE(fcgs_e_rated,fcgs_e_75,fcgs_e_
 % fcgs_hr_rated % CGSの定格排熱効率(低位発熱量基準)
 % fcgs_hr_75 % CGSの負荷率0.75時排熱効率(低位発熱量基準)
 % fcgs_hr_50% CGSの負荷率0.50時排熱効率(低位発熱量基準)
-% 
+%
 % Output
 % fe2	% CGSの発電効率特性式の2次式の係数項
 % fe1	% CGSの発電効率特性式の1次式の係数項
