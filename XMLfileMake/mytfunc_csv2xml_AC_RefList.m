@@ -196,17 +196,17 @@ for iREFSET = 1:length(RefListName)
                 elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(温水)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_HotWater';
                     
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、都市ガス)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、都市ガス)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、都市ガス)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_CityGas';
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、都市ガス)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、都市ガス)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、冷却水変流量、都市ガス)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_CityGas_CTVWV';
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、LPG)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、LPG)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、LPG)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_LPG';
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、LPG)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、LPG)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、冷却水変流量、LPG)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_LPG_CTVWV';
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、蒸気)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、蒸気)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、蒸気)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_Steam';
-                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、蒸気)')
+                elseif strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用型、冷却水変流量、蒸気)') || strcmp(refListDataCell(iDB,6),'吸収式冷凍機(一重二重併用形、冷却水変流量、蒸気)')
                     xmldata.AirConditioningSystem.HeatSourceSet(iREFSET).HeatSource(iCOUNT).ATTRIBUTE.Type = 'AbcorptionChiller_Combination_Steam_CTVWV';
                     
                 elseif strcmp(refListDataCell(iDB,6),'小型貫流ボイラ(都市ガス)')
