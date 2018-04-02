@@ -8,7 +8,7 @@ function y = ECS_routeB_CGSdetail_run(inputfilename,OutputOption)
 % clear
 % clc
 % tic
-% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case00.xml';
+% inputfilename = './InputFiles/1005_コジェネテスト/model_CGS_case_hotel_02.xml';
 % OutputOption = 'ON';
 % addpath('./subfunction/')
 
@@ -349,7 +349,10 @@ for dd = 1:365
     if Tcgs_d(dd,1)  == 0
         Ndash_cgs_on_max_d(dd,1) = 0;
     else
-        Ndash_cgs_on_max_d(dd,1) = qhr_total_d(dd,1) /( Ecgs_rated * fhopeMn) * fcgs_e_rated /(fcgs_hr_rated * Tcgs_d(dd,1));
+        
+        %         Ndash_cgs_on_max_d(dd,1) = qhr_total_d(dd,1) /( Ecgs_rated * fhopeMn) * fcgs_e_rated /(fcgs_hr_rated * Tcgs_d(dd,1));
+        Ndash_cgs_on_max_d(dd,1) = ceil(qhr_total_d(dd,1) /( Ecgs_rated * 3.6 * fhopeMn) * fcgs_e_rated /(fcgs_hr_rated * Tcgs_d(dd,1)));
+        
     end
     
     if (Ndash_cgs_on_max_d(dd,1) >= Ncgs)

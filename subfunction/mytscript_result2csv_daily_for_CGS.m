@@ -44,7 +44,7 @@ EAC_link_c_j_rated = 0;
 for iREF = 1:numOfRefs
     
     % CGS系統の「排熱利用する冷熱源」
-    if strcmp(refsetID{iREF}, strcat(CGS_refName_H,'_C'))
+    if strcmp(refsetID{iREF}, strcat(CGS_refName_C,'_C'))
         
         % CGS系統の「排熱利用する冷熱源」の「吸収式冷凍機（都市ガス）」の一次エネルギー消費量 [MJ]
         for iREFSUB = 1:refsetRnum(iREF)
