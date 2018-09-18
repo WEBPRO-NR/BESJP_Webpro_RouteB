@@ -33,14 +33,14 @@ tests = functiontests(localfunctions);
 
 end
 
-function testCase01to20(testCase)
+function testCase01to21(testCase)
 
 global expSolutionALL
 
 actSolution = [];
 expSolution = [];
 
-for caseNum = 1:20
+for caseNum = 1:21
     
     if caseNum < 10
         % ŽÀs
